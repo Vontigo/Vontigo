@@ -1,23 +1,21 @@
 <script>
-	// Your selected Skeleton theme:
-	import '@skeletonlabs/skeleton/themes/theme-skeleton.css';
-
-	// This contains the bulk of Skeletons required styles:
-	import '@skeletonlabs/skeleton/styles/all.css';
-
-	// Finally, your application's global stylesheet (sometimes labeled 'app.css')
-	// import '../../app.postcss';
+	import Footer from './_comp/Footer.svelte';
+	import Header from './_comp/Header.svelte';
+	import '$lib/themes/casper/assets/built/screen.css';
 </script>
 
-<div class="app">
-	<main>
+<!-- .viewport -->
+<div class="app viewport" style="display: contents">
+	<Header />
+	<main class="site-content">
+		<!-- All other templates get inserted here, index.hbs, post.hbs, etc -->
 		<slot />
 	</main>
 
-	<footer>
-		<p>visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to learn SvelteKit</p>
-	</footer>
+	<Footer />
 </div>
+
+<!-- /.viewport -->
 
 <style>
 </style>
