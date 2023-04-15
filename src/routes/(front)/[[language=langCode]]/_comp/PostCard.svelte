@@ -28,6 +28,7 @@ which templates loop over to generate a list of posts. -->
                     {img_url(imgOrigin, post.image, ENUM_IMAGE_SIZE.XL)} 2000w"
 				sizes="(max-width: 1000px) 400px, 800px"
 				src={img_url(imgOrigin, post.image, ENUM_IMAGE_SIZE.M)}
+				alt="{{#if feature_image_alt}}{{feature_image_alt}}{{else}}{{title}}{{/if}}"
 				loading="lazy"
 			/>
 
