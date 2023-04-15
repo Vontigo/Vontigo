@@ -17,7 +17,7 @@ into the {body} of the default.hbs template -->
 	{`#if @site.cover_image`}
 	<!-- This is a responsive image, it loads different sizes depending on device
             https://medium.freecodecamp.org/a-guide-to-responsive-images-with-ready-to-use-templates-c400bd65c433 -->
-	<img
+	<!-- <img
 		class="site-header-cover"
 		srcset="{`img_url @site.cover_image size="s"`} 300w,
                         {`img_url @site.cover_image size="m"`} 600w,
@@ -26,12 +26,12 @@ into the {body} of the default.hbs template -->
 		sizes="100vw"
 		src={`img_url @site.cover_image size="xl"`}
 		alt={`@site.title`}
-	/>
+	/> -->
 	{`/if`}
 	{`/if`}
 
 	{`#match @custom.header_style "!=" "Hidden"`}
-	<div class="site-header-inner inner">
+	<!-- <div class="site-header-inner inner">
 		{`#match @custom.navigation_layout "Logo on cover"`}
 		{`#if @site.logo`}
 		<img class="site-logo" src={`@site.logo`} alt={`@site.title`} />
@@ -42,7 +42,7 @@ into the {body} of the default.hbs template -->
 		{`#if @site.description`}
 		<p class="site-description">{`@site.description`}</p>
 		{`/if`}
-	</div>
+	</div> -->
 	{`/match`}
 </div>
 

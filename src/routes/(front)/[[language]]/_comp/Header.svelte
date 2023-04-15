@@ -1,4 +1,4 @@
-<header
+<!-- <header
 	id="gh-head"
 	class="gh-head outer{`#match @custom.header_style "Hidden"`} is-header-hidden{`/match`}"
 >
@@ -50,4 +50,4 @@
 			{`/unless`}
 		</div>
 	</div>
-</header>
+</header> -->
