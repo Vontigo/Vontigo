@@ -1,4 +1,4 @@
-import { ENUM_IMAGE_SIZE } from '$lib/core/conts';
+import { ENUM_IMAGE_SIZE } from '$lib/core/shared/conts';
 
 export function img_url(origin: string = '', image: string, size: string = ENUM_IMAGE_SIZE.M) {
 	let rtnImgUrl = origin + '/images/size/' + size + image;

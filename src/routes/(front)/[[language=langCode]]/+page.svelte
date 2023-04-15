@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { language, siteUrl, tenant } from '$lib/stores/site';
+	import { language, siteUrl, tenant } from '$lib/core/shared/stores/site';
 	import type { PageData } from './$types';
 	import PostCard from './_comp/PostCard.svelte';
 

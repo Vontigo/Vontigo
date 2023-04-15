@@ -1,7 +1,7 @@
 <script lang="ts">
-	import { ENUM_IMAGE_SIZE } from '$lib/core/conts';
+	import { ENUM_IMAGE_SIZE } from '$lib/core/shared/conts';
 	import { img_url } from '$lib/core/core/frontend/helpers/img_url';
-	import { language, siteUrl, tenant } from '$lib/stores/site';
+	import { language, siteUrl, tenant } from '$lib/core/shared/stores/site';
 
 	export let post: any;
 	let postUrl = $siteUrl + '/' + post.slug;

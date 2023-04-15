@@ -2,7 +2,7 @@
 	import Footer from './_comp/Footer.svelte';
 	import Header from './_comp/Header.svelte';
 	import '$lib/themes/casper/assets/built/screen.css';
-	import { tenant, language, siteUrl } from '$lib/stores/site';
+	import { tenant, language, siteUrl } from '$lib/core/shared/stores/site';
 	import { PUBLIC_DEFAULT_LANG } from '$env/static/public';
 	import { page } from '$app/stores';
 	tenant.set($page.url.host);
