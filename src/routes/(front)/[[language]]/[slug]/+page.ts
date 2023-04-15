@@ -4,7 +4,7 @@
 import { error } from '@sveltejs/kit';
 import type { PageLoad } from './$types';
 
-export const load = (({ url, params }) => {
+export const load = (async ({ url, params }) => {
 	// if (params.slug === 'hello-world') {
 	// 	return {
 	// 		title: 'Hello world!',
@@ -12,8 +12,9 @@ export const load = (({ url, params }) => {
 	// 	};
 	// }
 
-	const response = fetch(`http://localhost:5173/api/content/posts`);
+	const response = await fetch(`http://localhost:5173/api/content/posts/published/${params.slug}`);
+
 	return {
-		posts: response
+		post: response.json()
 	};
 }) satisfies PageLoad;
