@@ -1,5 +1,9 @@
-<script>
+<script lang="ts">
 	import { language, siteUrl, tenant } from '$lib/stores/site';
+	import type { PageData } from './$types';
+	import PostCard from './_comp/PostCard.svelte';
+
+	export let data: PageData;
 </script>
 
 <svelte:head>
@@ -51,14 +55,14 @@ into the {body} of the default.hbs template -->
 <main id="site-main" class="site-main outer">
 	<div class="inner posts">
 		<div class="post-feed">
-			{`#foreach posts`}
-			<!-- The tag below includes the markup for each post - partials/post-card.hbs -->
-			{`> "post-card"`}
-			{`/foreach`}
+			{@debug data}
+			{#each data?.posts as post}
+				<!-- <a href="{$siteUrl}/{post.slug}">{post.title}</a> -->
+				<!-- The tag below includes the markup for each post - partials/post-card.hbs -->
+				<PostCard {post} />
+			{/each}
 		</div>
 
 		{`pagination`}
 	</div>
 </main>
-
-<a href="{$siteUrl}/welcome-to-vontigo">welcome-to-vontigo</a>
