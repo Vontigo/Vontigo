@@ -59,3 +59,5 @@ into the {body} of the default.hbs template -->
 		{`pagination`}
 	</div>
 </main>
+
+<a href="/welcome-to-vontigo">welcome-to-vontigo</a>
