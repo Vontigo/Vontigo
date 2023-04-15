@@ -5,37 +5,57 @@
 // db.pragma('journal_mode = WAL');
 
 import { config } from '../../../../shared/config/env/config.json';
-import { Knex } from 'knex';
+import knex, { Knex } from 'knex';
 
-interface KnexConfig {
-	[key: string]: object;
-}
-
-const knexConfig: KnexConfig = {
-	local: {
-		client: 'sqlite3',
-		connection: {
-			filename: './src/lib/database/vontigo.db'
-		}
+export const knexInstance: Knex = knex({
+	client: 'sqlite3',
+	connection: {
+		filename: './src/lib/database/vontigo.db'
 	},
+	useNullAsDefault: true
+});
 
-	development: {
-		client: 'mysql',
-		connection: {
-			host: 'sg1-wss4.my-hosting-panel.com:3306',
-			user: 'vontigo',
-			password: 'vontigoP@ssw0rd',
-			database: 'vontigo'
-		}
-	},
+// let knex_conn: Knex;
+// export async function connect(connection: Record<string, string>) {
+// 	let conn = {
+// 		client: 'sqlite3',
+// 		connection: {
+// 			filename: './src/lib/database/vontigo.db'
+// 		}
+// 	};
+// 	knex_conn = knex(conn);
+// 	return knex_conn;
+// }
 
-	production: {
-		client: 'mysql',
-		connection: {
-			host: 'sg1-wss4.my-hosting-panel.com:3306',
-			user: 'vontigo',
-			password: 'vontigoP@ssw0rd',
-			database: 'vontigo'
-		}
-	}
-};
+// interface KnexConfig {
+// 	[key: string]: object;
+// }
+
+// export const knexConfig: KnexConfig = {
+// 	local: {
+// 		client: 'sqlite3',
+// 		connection: {
+// 			filename: './src/lib/database/vontigo.db'
+// 		}
+// 	},
+
+// 	development: {
+// 		client: 'mysql',
+// 		connection: {
+// 			host: 'sg1-wss4.my-hosting-panel.com:3306',
+// 			user: 'vontigo',
+// 			password: 'vontigoP@ssw0rd',
+// 			database: 'vontigo'
+// 		}
+// 	},
+
+// 	production: {
+// 		client: 'mysql',
+// 		connection: {
+// 			host: 'sg1-wss4.my-hosting-panel.com:3306',
+// 			user: 'vontigo',
+// 			password: 'vontigoP@ssw0rd',
+// 			database: 'vontigo'
+// 		}
+// 	}
+// };
