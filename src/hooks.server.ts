@@ -1,4 +1,4 @@
-import { tenant } from '$lib/stores/site';
+import { tenant } from '$lib/core/shared/stores/site';
 import type { Handle } from '@sveltejs/kit';
 
 export const handle = (async ({ event, resolve }) => {

@@ -1,5 +1,4 @@
 import { knexInstance } from '$lib/core/core/server/data/db/connection';
-import Database from 'better-sqlite3';
 
 /** @type {import('./$types').RequestHandler} */
 export async function GET({ url, params }) {

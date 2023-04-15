@@ -1,6 +1,6 @@
 import type { LayoutLoad } from './$types';
 import { PUBLIC_DEFAULT_LANG } from '$env/static/public';
-import { language, tenant } from '$lib/stores/site';
+import { language, tenant } from '$lib/core/shared/stores/site';
 
 export const load = ((url: any, params: any) => {
 	// console.log(params);
