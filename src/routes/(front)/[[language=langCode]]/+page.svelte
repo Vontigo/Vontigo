@@ -1,4 +1,5 @@
 <script>
+	import { language, siteUrl, tenant } from '$lib/stores/site';
 </script>
 
 <svelte:head>
@@ -60,4 +61,4 @@ into the {body} of the default.hbs template -->
 	</div>
 </main>
 
-<a href="/welcome-to-vontigo">welcome-to-vontigo</a>
+<a href="{$siteUrl}/welcome-to-vontigo">welcome-to-vontigo</a>
