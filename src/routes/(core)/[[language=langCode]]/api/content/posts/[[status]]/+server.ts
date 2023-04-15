@@ -8,13 +8,12 @@ export async function GET({ url }) {
 		.then((rows) => {
 			console.log(rows);
 			returnRows = rows;
-			// return new Response(JSON.stringify(rows));
 		})
 		.catch((error) => {
 			console.error(error);
 			returnRows = error;
 		});
-	return new Response(JSON.stringify(returnRows));
+	return new Response(JSON.stringify(returnRows), { status: 200 });
 }
 
 async function getAllRows(tableName: string): Promise<any[] | null> {
