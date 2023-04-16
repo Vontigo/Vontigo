@@ -3,7 +3,7 @@
 	import { img_url } from '$lib/core/core/frontend/helpers/img_url';
 	import { language, siteUrl, tenant } from '$lib/core/shared/stores/site';
 	import { ENUM_IMAGE_SIZE } from '$lib/core/shared/conts';
-	import Fire from '$lib/themes/casper/partials/icons/fire.svelte';
+	import Fire from './partials/icons/fire.svelte';
 
     export let post:any;
 	let postUrl = $siteUrl + '/' + post.slug;

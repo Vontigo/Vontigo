@@ -1,7 +1,7 @@
 <script lang="ts">
-	import Footer from '$lib/themes/casper/partials/Footer.svelte';
-	import Header from '$lib/themes/casper/partials/Header.svelte';
-	import '$lib/themes/casper/assets/built/screen.css';
+	import Footer from './partials/Footer.svelte';
+	import Header from './partials/Header.svelte';
+	import './assets/built/screen.css';
 	import { tenant, language, siteUrl } from '$lib/core/shared/stores/site';
 	import { PUBLIC_DEFAULT_LANG } from '$env/static/public';
 	import { page } from '$app/stores';
