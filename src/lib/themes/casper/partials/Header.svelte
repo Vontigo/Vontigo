@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { language, site, siteUrl, origin, custom, member } from '$lib/core/shared/stores/site';
+	import Navigation from './Navigation.svelte';
 	import IconSearch from './icons/IconSearch.svelte';
 </script>
 <header
@@ -22,7 +23,7 @@
 		</div>
 
 		<nav class="gh-head-menu">
-			{`navigation`}
+			<Navigation/>
 			{#if !$site.members_enabled}
 				{#if $custom.navigation_layout == "Stacked"}
 					<button class="gh-search gh-icon-btn" aria-label="Search this site" data-ghost-search
