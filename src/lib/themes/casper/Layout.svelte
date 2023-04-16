@@ -2,19 +2,12 @@
 	import Footer from './partials/Footer.svelte';
 	import Header from './partials/Header.svelte';
 	import './assets/built/screen.css';
-	import { tenant, language, siteUrl } from '$lib/core/shared/stores/site';
-	import { PUBLIC_DEFAULT_LANG } from '$env/static/public';
-	import { page } from '$app/stores';
-	tenant.set($page.url.host);
-	if ($page.params) {
-		language.set($page.params.language ? $page.params.language : PUBLIC_DEFAULT_LANG);
-		siteUrl.set($page.params.language ? '/' + $page.params.language : '');
-	}
+	import { origin, language, siteUrl } from '$lib/core/shared/stores/site';
 </script>
 
 <!-- .viewport -->
 <div class="app viewport" style="display: contents">
-	{$tenant} | {$language}
+	<!-- {$origin} | {$language} -->
 	<Header />
 	<main class="site-content">
 		<!-- All other templates get inserted here, index.hbs, post.hbs, etc -->

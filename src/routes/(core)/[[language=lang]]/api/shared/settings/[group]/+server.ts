@@ -2,9 +2,9 @@ import { knexInstance } from '$lib/core/core/server/data/db/connection';
 import { knex, Knex } from 'knex';
 
 /** @type {import('./$types').RequestHandler} */
-export async function GET({ url }) {
+export async function GET({ url, params }) {
 	let returnRows: any;
-	await getAllRows('posts')
+	await getAllRows('settings', params.group)
 		.then((rows) => {
 			// console.log(rows);
 			returnRows = rows;
@@ -16,11 +16,11 @@ export async function GET({ url }) {
 	return new Response(JSON.stringify(returnRows), { status: 200 });
 }
 
-async function getAllRows(tableName: string): Promise<any[] | null> {
+async function getAllRows(tableName: string, group: string): Promise<any[] | null> {
 	try {
 		const rows: any[] = await knexInstance(tableName)
-			.select('*')
-			.where('type', 'post');
+			.select('group', 'key', 'value', 'type', 'flags')
+			.where('group', group);
 		return rows;
 	} catch (error) {
 		console.error(error);

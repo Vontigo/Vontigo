@@ -1,13 +1,11 @@
 <script lang="ts">
 	import type { PageData } from './$types';
 	import { img_url } from '$lib/core/core/frontend/helpers/img_url';
-	import { language, siteUrl, tenant } from '$lib/core/shared/stores/site';
+	import { language, siteUrl, origin } from '$lib/core/shared/stores/site';
 	import { ENUM_IMAGE_SIZE } from '$lib/core/shared/conts';
-	import Fire from './partials/icons/fire.svelte';
+	import IconFire from './partials/icons/IconFire.svelte';
 
     export let post:any;
-	let postUrl = $siteUrl + '/' + post.slug;
-	let origin = '/content/' + $tenant.replace(':', '_') + '/' + $language;
 </script>
 
 <!-- Everything inside the #post block pulls data from the post -->
@@ -24,7 +22,7 @@
 					</span>
 					{`/primary_tag`}
 					{#if post.featured}
-						<span class="post-card-featured"><Fire /> Featured</span>
+						<span class="post-card-featured"><IconFire /> Featured</span>
 					{/if}
 				</div>
 
@@ -76,12 +74,12 @@
                 https://medium.freecodecamp.org/a-guide-to-responsive-images-with-ready-to-use-templates-c400bd65c433 -->
 
 						<img
-							srcset="{img_url(origin, post.feature_image, ENUM_IMAGE_SIZE.S)} 300w,
-                    {img_url(origin, post.feature_image, ENUM_IMAGE_SIZE.M)} 600w,
-                    {img_url(origin, post.feature_image, ENUM_IMAGE_SIZE.L)} 1000w,
-                    {img_url(origin, post.feature_image, ENUM_IMAGE_SIZE.XL)} 2000w"
+							srcset="{img_url($origin, post.feature_image, ENUM_IMAGE_SIZE.S)} 300w,
+                    {img_url($origin, post.feature_image, ENUM_IMAGE_SIZE.M)} 600w,
+                    {img_url($origin, post.feature_image, ENUM_IMAGE_SIZE.L)} 1000w,
+                    {img_url($origin, post.feature_image, ENUM_IMAGE_SIZE.XL)} 2000w"
 							sizes="(min-width: 1400px) 1400px, 92vw"
-							src={img_url(origin, post.feature_image, ENUM_IMAGE_SIZE.XL)}
+							src={img_url($origin, post.feature_image, ENUM_IMAGE_SIZE.XL)}
 							loading="lazy"
 						/>
 						{#if post.feature_image_caption}
@@ -124,9 +122,9 @@
 {/if}
 
 
-<!-- Read more links, just above the footer -->
+ Read more links, just above the footer -->
 	<!--{#if @custom.show_recent_posts_footer}
-    <!-- The {#get} helper below fetches some of the latest posts here
+     The {#get} helper below fetches some of the latest posts here
     so that people have something else to read when they finish this one.
 
     This query gets the latest 3 posts on the site, but adds a filter to

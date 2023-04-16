@@ -1,11 +1,10 @@
 <script lang="ts">
 	import { ENUM_IMAGE_SIZE } from '$lib/core/shared/conts';
 	import { img_url } from '$lib/core/core/frontend/helpers/img_url';
-	import { language, siteUrl, tenant } from '$lib/core/shared/stores/site';
+	import { language, siteUrl, origin } from '$lib/core/shared/stores/site';
 
 	export let post: any;
 	let postUrl = $siteUrl + '/' + post.slug;
-	let origin = '/content/' + $tenant.replace(':', '_') + '/' + $language;
 	// let postFeatureImage =
 	// 	'/content/' + $tenant.replace(':', '_') + '/' + $language + '/images' + post.feature_image;
 </script>
@@ -22,12 +21,12 @@ which templates loop over to generate a list of posts. -->
         https://medium.freecodecamp.org/a-guide-to-responsive-images-with-ready-to-use-templates-c400bd65c433 -->
 			<img
 				class="post-card-image"
-				srcset="{img_url(origin, post.feature_image, ENUM_IMAGE_SIZE.S)} 300w,
-                    {img_url(origin, post.feature_image, ENUM_IMAGE_SIZE.M)} 600w,
-                    {img_url(origin, post.feature_image, ENUM_IMAGE_SIZE.L)} 1000w,
-                    {img_url(origin, post.feature_image, ENUM_IMAGE_SIZE.XL)} 2000w"
+				srcset="{img_url($origin, post.feature_image, ENUM_IMAGE_SIZE.S)} 300w,
+                    {img_url($origin, post.feature_image, ENUM_IMAGE_SIZE.M)} 600w,
+                    {img_url($origin, post.feature_image, ENUM_IMAGE_SIZE.L)} 1000w,
+                    {img_url($origin, post.feature_image, ENUM_IMAGE_SIZE.XL)} 2000w"
 				sizes="(max-width: 1000px) 400px, 800px"
-				src={img_url(origin, post.feature_image, ENUM_IMAGE_SIZE.M)}
+				src={img_url($origin, post.feature_image, ENUM_IMAGE_SIZE.M)}
 				loading="lazy"
 			/>
 

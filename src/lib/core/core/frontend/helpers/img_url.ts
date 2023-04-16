@@ -1,6 +1,9 @@
 import { ENUM_IMAGE_SIZE } from '$lib/core/shared/conts';
 
 export function img_url(origin: string = '', image: string, size: string = ENUM_IMAGE_SIZE.M) {
+	if (image.indexOf('http') == 0) {
+		return image;
+	}
 	let rtnImgUrl = origin + '/images/size/' + size + image;
 
 	// switch (size) {
