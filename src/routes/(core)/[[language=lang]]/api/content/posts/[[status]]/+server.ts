@@ -18,7 +18,7 @@ export async function GET({ url }) {
 
 async function getAllRows(tableName: string): Promise<any[] | null> {
 	try {
-		const rows: any[] = await knexInstance(tableName).select();
+		const rows: any[] = await knexInstance(tableName).select('*').where('type', 'post');
 		return rows;
 	} catch (error) {
 		console.error(error);
