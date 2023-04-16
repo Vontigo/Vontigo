@@ -4,6 +4,8 @@ import { knex, Knex } from 'knex';
 
 /** @type {import('./$types').RequestHandler} */
 export async function GET({ url }) {
+	console.log('init db');
+
 	await down(knexInstance);
 	await up(knexInstance);
 	return new Response(JSON.stringify({ message: 'done' }), { status: 200 });
