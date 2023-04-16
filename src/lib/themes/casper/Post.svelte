@@ -3,21 +3,14 @@
 	import { img_url } from '$lib/core/core/frontend/helpers/img_url';
 	import { language, siteUrl, tenant } from '$lib/core/shared/stores/site';
 	import { ENUM_IMAGE_SIZE } from '$lib/core/shared/conts';
-	import Fire from '../_comp/icons/fire.svelte';
+	import Fire from '$lib/themes/casper/partials/icons/fire.svelte';
 
-	export let data: PageData;
-	let post = data.post;
+    export let post:any;
 	let postUrl = $siteUrl + '/' + post.slug;
 	let origin = '/content/' + $tenant.replace(':', '_') + '/' + $language;
 </script>
 
-<svelte:head>
-	<title>Home</title>
-	<meta name="description" content="Svelte demo app" />
-</svelte:head>
-
-{#if post}
-	<!-- Everything inside the #post block pulls data from the post -->
+<!-- Everything inside the #post block pulls data from the post -->
 
 	<main id="site-main" class="site-main">
 		<article
@@ -152,4 +145,3 @@
 
     {`/get`}
 {/if} -->
-{/if}

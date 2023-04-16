@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { language, siteUrl, tenant } from '$lib/core/shared/stores/site';
 	import type { PageData } from './$types';
-	import PostCard from './_comp/PostCard.svelte';
+	import PostCard from '$lib/themes/casper/partials/PostCard.svelte';
 
 	export let data: PageData;
 </script>

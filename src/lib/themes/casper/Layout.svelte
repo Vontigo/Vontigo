@@ -1,6 +1,6 @@
 <script lang="ts">
-	import Footer from './_comp/Footer.svelte';
-	import Header from './_comp/Header.svelte';
+	import Footer from '$lib/themes/casper/partials/Footer.svelte';
+	import Header from '$lib/themes/casper/partials/Header.svelte';
 	import '$lib/themes/casper/assets/built/screen.css';
 	import { tenant, language, siteUrl } from '$lib/core/shared/stores/site';
 	import { PUBLIC_DEFAULT_LANG } from '$env/static/public';
