@@ -26,7 +26,7 @@ export const load = (async ({ fetch, url, params }) => {
 	themeConfig.set(config);
 	custom.set(config.custom)
 
-	console.log('________________', get(site));
+	// console.log('________________', get(site));
 	// origin.set('/content/' + url.host.replace(':', '_') + '/' + params.language);
 
 
