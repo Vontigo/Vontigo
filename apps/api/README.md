@@ -1,3 +1,3 @@
-"Vontigo" is a made-up word, so it doesn't have a specific meaning. However, if you're looking for ways to create an association or narrative around the name, one idea could be to relate it to the concept of "adventure" or "exploration." For example, you could use "Vontigo" to evoke a sense of embarking on a journey, taking risks, and discovering new opportunities. This could tie in nicely with the idea of building an all-in-one CMS/CRM web app, which is essentially a tool that helps businesses navigate the digital landscape and unlock new possibilities for growth and success.
+# Admin
 
-Another possible interpretation of "Vontigo" could be to associate it with "vont," which means "will" in French. This could position your brand as a solution that empowers businesses to take control of their digital presence and achieve their goals with determination and purpose. In this context, "Vontigo" could represent the willpower or drive that fuels success in the digital age.
+This is for deploy the api to different domain.
