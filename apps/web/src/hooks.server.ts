@@ -3,6 +3,7 @@ import { config } from '$lib/themes/casper/config.json';
 import { language, site, origin, themeConfig, custom } from '$lib/core/shared/stores/site';
 import { get } from 'svelte/store';
 import { sequence } from '@sveltejs/kit/hooks';
+import { PUBLIC_DEFAULT_LANG } from '$env/static/public';
 
 const firstHandle = (async ({ event, resolve }) => {
 	// Do something
@@ -16,14 +17,23 @@ const secondHandle = (async ({ event, resolve }) => {
 	themeConfig.set(config);
 	custom.set(config.custom)
 
+	const myResponse = response.clone();
 	// Change html, body attributes based on the theme config
 	if (response.headers.get('content-type') === 'text/html') {
+		// console.log(event.url);
+		if (event.url.pathname === '/') {
+			// console.log(event.request);
+			language.set(PUBLIC_DEFAULT_LANG);
+		} else {
 
-		console.log(event.request);
+			const lang = event.url.pathname.split('/')[1];
+			language.set(lang);
+		}
+
 		const response = await resolve(event, {
 			transformPageChunk: ({ html }) =>
 				html.replace('%sveltekit.html.attributes%',
-					`lang=""`)
+					`lang="${get(language)}"`)
 					.replace('%sveltekit.body.attributes%',
 						``)
 		});
