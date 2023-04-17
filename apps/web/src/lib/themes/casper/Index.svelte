@@ -1,9 +1,12 @@
 <script lang="ts">
 	import { img_url } from '$lib/core/core/frontend/helpers/img_url';
 	import { ENUM_IMAGE_SIZE } from '$lib/core/shared/conts';
-	import { language, site, siteUrl, origin, custom } from '$lib/core/shared/stores/site';
+	import { language, site, siteUrl, origin, custom, templateType } from '$lib/core/shared/stores/site';
 	import type { PageData } from './$types';
 	import PostCard from './partials/PostCard.svelte';
+
+	
+	$templateType = 'home';
 
 	export let data: PageData;
 </script>

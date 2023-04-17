@@ -9,4 +9,6 @@ export const site = writable({});
 export const themeConfig = writable({});
 export const custom = writable({});
 
+export const templateType = writable('');
+
 export const member = writable(false);

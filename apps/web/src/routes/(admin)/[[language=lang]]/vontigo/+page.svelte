@@ -10,7 +10,9 @@
 
 <section>
 	<h1>Portal</h1>
-
+<a href="./dashboard">
+     <span class="flex-auto">Dashboard</span>
+</a>
 	<h2>
 		try editing <strong>src/routes/+page.svelte</strong>
 	</h2>
