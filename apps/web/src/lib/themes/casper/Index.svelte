@@ -18,9 +18,9 @@
 	into the {body} of the default.hbs template -->
 
 	<div
-		class="site-header-content outer{$custom.header_style=="Left aligned"?" left-aligned":""}{$custom.show_publication_cover==false?($custom.header_style == "Hidden"?" no-content":""):""}"
+		class="site-header-content outer{$custom.header_style.default=="Left aligned"?" left-aligned":""}{$custom.show_publication_cover.default==false?($custom.header_style.default == "Hidden"?" no-content":""):""}"
 	>
-		{#if $custom.show_publication_cover}
+		{#if $custom.show_publication_cover.default}
 			{#if $site.cover_image}
 				<!-- This is a responsive image, it loads different sizes depending on device
 						https://medium.freecodecamp.org/a-guide-to-responsive-images-with-ready-to-use-templates-c400bd65c433 -->
@@ -37,9 +37,9 @@
 			{/if}
 		{/if}
 
-		{#if $custom.header_style != "Hidden"}
+		{#if $custom.header_style.default != "Hidden"}
 			<div class="site-header-inner inner">
-				{#if $custom.navigation_layout == "Logo on cover"}
+				{#if $custom.navigation_layout.default == "Logo on cover"}
 					{#if $site.logo}
 						<img class="site-logo" src={$site.logo} alt={$site.title} />
 					{:else}

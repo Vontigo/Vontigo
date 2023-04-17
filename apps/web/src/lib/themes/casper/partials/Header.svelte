@@ -5,7 +5,7 @@
 </script>
 <header
 	id="gh-head"
-	class="gh-head outer{$custom.header_style=="Hidden"?"is-header-hidden":""}"
+	class="gh-head outer{$custom.header_style.default=="Hidden"?"is-header-hidden":""}"
 >
 	<div class="gh-head-inner inner">
 		<div class="gh-head-brand">
@@ -25,7 +25,7 @@
 		<nav class="gh-head-menu">
 			<Navigation/>
 			{#if !$site.members_enabled}
-				{#if $custom.navigation_layout == "Stacked"}
+				{#if $custom.navigation_layout.default == "Stacked"}
 					<button class="gh-search gh-icon-btn" aria-label="Search this site" data-ghost-search
 						><IconSearch/></button
 					>
@@ -35,7 +35,7 @@
 
 		<div class="gh-head-actions">
 			{#if !$site.members_enabled}
-				{#if $custom.navigation_layout != "Stacked"}
+				{#if $custom.navigation_layout.default != "Stacked"}
 					<button class="gh-search gh-icon-btn" data-ghost-search><IconSearch/></button>
 				{/if}
 			{:else}
