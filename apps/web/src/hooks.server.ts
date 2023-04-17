@@ -20,22 +20,61 @@ const secondHandle = (async ({ event, resolve }) => {
 	const myResponse = response.clone();
 	// Change html, body attributes based on the theme config
 	if (response.headers.get('content-type') === 'text/html') {
-		// console.log(event.url);
+
+		// Set html lang
 		if (event.url.pathname === '/') {
 			// console.log(event.request);
 			language.set(PUBLIC_DEFAULT_LANG);
 		} else {
-
 			const lang = event.url.pathname.split('/')[1];
 			language.set(lang);
 		}
 
+		// Set html custom theme
+		let htmlClass = '';
+		if (get(custom).color_scheme.default == "Dark") {
+			htmlClass = ' class="dark-mode"';
+		} else if (get(custom).color_scheme.default == "Auto") {
+			htmlClass = ' class="auto-color"';
+		}
+
+		// Set body custom theme
+		let bodyClass = ' class="';
+
+		if (event.url.pathname === '/') {
+			bodyClass += `home-template`;
+		} else if (event.url.pathname.split('/').length == 2) {
+			bodyClass += `home-template`;
+		}
+
+		if (get(custom).navigation_layout.default == "Logo on cover") {
+			bodyClass += ` is-head-left-logo`;
+		} else if (get(custom).navigation_layout.default == "Logo in the middle") {
+			bodyClass += ' is-head-middle-logo';
+		} else {
+			bodyClass += ' stacked';
+		}
+
+		if (get(custom).title_font.default == "Elegant serif") {
+			bodyClass += ` has-serif-title`;
+		}
+
+		if (get(custom).body_font.default == "Modern sans-serif") {
+			bodyClass += `  has-sans-body`;
+		}
+
+		if (get(custom).show_publication_cover.default) {
+			bodyClass += ` has-cover`;
+		}
+		bodyClass += '"';
+
+
 		const response = await resolve(event, {
 			transformPageChunk: ({ html }) =>
 				html.replace('%sveltekit.html.attributes%',
-					`lang="${get(language)}"`)
+					`lang="${get(language)}"${htmlClass}`)
 					.replace('%sveltekit.body.attributes%',
-						``)
+						`${bodyClass}`)
 		});
 		return response;
 	}
