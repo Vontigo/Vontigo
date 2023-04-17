@@ -15,12 +15,11 @@ const secondHandle = (async ({ event, resolve }) => {
 
 	// Get theme default config
 	themeConfig.set(config);
-	custom.set(config.custom)
+	custom.set(config.custom);
 
 	const myResponse = response.clone();
 	// Change html, body attributes based on the theme config
 	if (response.headers.get('content-type') === 'text/html') {
-
 		// Set html lang
 		if (event.url.pathname === '/') {
 			// console.log(event.request);
@@ -32,9 +31,9 @@ const secondHandle = (async ({ event, resolve }) => {
 
 		// Set html custom theme
 		let htmlClass = '';
-		if (get(custom).color_scheme.default == "Dark") {
+		if (get(custom).color_scheme.default == 'Dark') {
 			htmlClass = ' class="dark-mode"';
-		} else if (get(custom).color_scheme.default == "Auto") {
+		} else if (get(custom).color_scheme.default == 'Auto') {
 			htmlClass = ' class="auto-color"';
 		}
 
@@ -47,19 +46,19 @@ const secondHandle = (async ({ event, resolve }) => {
 			bodyClass += `home-template`;
 		}
 
-		if (get(custom).navigation_layout.default == "Logo on cover") {
+		if (get(custom).navigation_layout.default == 'Logo on cover') {
 			bodyClass += ` is-head-left-logo`;
-		} else if (get(custom).navigation_layout.default == "Logo in the middle") {
+		} else if (get(custom).navigation_layout.default == 'Logo in the middle') {
 			bodyClass += ' is-head-middle-logo';
 		} else {
 			bodyClass += ' stacked';
 		}
 
-		if (get(custom).title_font.default == "Elegant serif") {
+		if (get(custom).title_font.default == 'Elegant serif') {
 			bodyClass += ` has-serif-title`;
 		}
 
-		if (get(custom).body_font.default == "Modern sans-serif") {
+		if (get(custom).body_font.default == 'Modern sans-serif') {
 			bodyClass += `  has-sans-body`;
 		}
 
@@ -68,13 +67,11 @@ const secondHandle = (async ({ event, resolve }) => {
 		}
 		bodyClass += '"';
 
-
 		const response = await resolve(event, {
 			transformPageChunk: ({ html }) =>
-				html.replace('%sveltekit.html.attributes%',
-					`lang="${get(language)}"${htmlClass}`)
-					.replace('%sveltekit.body.attributes%',
-						`${bodyClass}`)
+				html
+					.replace('%sveltekit.html.attributes%', `lang="${get(language)}"${htmlClass}`)
+					.replace('%sveltekit.body.attributes%', `${bodyClass}`)
 		});
 		return response;
 	}
@@ -82,7 +79,6 @@ const secondHandle = (async ({ event, resolve }) => {
 	// tenant.set(event.url.origin);
 
 	//if (response.headers['content-type'] == 'text/plain;charset=UTF-8')
-
 
 	// if (response.headers['content-type'].indexOf('text/html; charset=utf-8') >= 0) {
 	// 	console.log(response.body);

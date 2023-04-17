@@ -1,5 +1,5 @@
 {
-	"name": "vontigo",
+	"name": "vontigo-admin",
 	"version": "0.0.1",
 	"scripts": {
 		"dev": "vite dev",

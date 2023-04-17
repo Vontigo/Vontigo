@@ -23,6 +23,6 @@ projectFilesBackup
 
 dist/
 
-config.json
+# config.json
 changelog.md
 changelog.md.bk

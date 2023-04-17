@@ -1,0 +1,81 @@
+{
+	"config": {
+		"posts_per_page": 25,
+		"image_sizes": {
+			"xxs": {
+				"width": 30
+			},
+			"xs": {
+				"width": 100
+			},
+			"s": {
+				"width": 300
+			},
+			"m": {
+				"width": 600
+			},
+			"l": {
+				"width": 1000
+			},
+			"xl": {
+				"width": 2000
+			}
+		},
+		"card_assets": true,
+		"custom": {
+			"navigation_layout": {
+				"type": "select",
+				"options": ["Logo on cover", "Logo in the middle", "Stacked"],
+				"default": "Logo on cover"
+			},
+			"title_font": {
+				"type": "select",
+				"options": ["Modern sans-serif", "Elegant serif"],
+				"default": "Modern sans-serif"
+			},
+			"body_font": {
+				"type": "select",
+				"options": ["Modern sans-serif", "Elegant serif"],
+				"default": "Elegant serif"
+			},
+			"show_publication_cover": {
+				"type": "boolean",
+				"default": true,
+				"group": "homepage"
+			},
+			"header_style": {
+				"type": "select",
+				"options": ["Center aligned", "Left aligned", "Hidden"],
+				"default": "Center aligned",
+				"group": "homepage"
+			},
+			"feed_layout": {
+				"type": "select",
+				"options": ["Classic", "Grid", "List"],
+				"default": "Classic",
+				"group": "homepage"
+			},
+			"color_scheme": {
+				"type": "select",
+				"options": ["Light", "Dark", "Auto"],
+				"default": "Light"
+			},
+			"post_image_style": {
+				"type": "select",
+				"options": ["Wide", "Full", "Small", "Hidden"],
+				"default": "Wide",
+				"group": "post"
+			},
+			"email_signup_text": {
+				"type": "text",
+				"default": "Sign up for more like this.",
+				"group": "post"
+			},
+			"show_recent_posts_footer": {
+				"type": "boolean",
+				"default": true,
+				"group": "post"
+			}
+		}
+	}
+}

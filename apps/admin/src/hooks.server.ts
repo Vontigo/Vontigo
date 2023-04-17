@@ -1,4 +1,4 @@
-import type { Handle } from '@sveltejs/kit';
+import { redirect, type Handle } from '@sveltejs/kit';
 import { config } from '$lib/themes/casper/config.json';
 import { language, site, origin, themeConfig, custom } from '$lib/core/shared/stores/site';
 import { get } from 'svelte/store';
@@ -6,6 +6,9 @@ import { sequence } from '@sveltejs/kit/hooks';
 
 const firstHandle = (async ({ event, resolve }) => {
 	// Do something
+	if (event.url.pathname === '/') {
+		throw redirect(302, '/vontigo');
+	}
 	return await resolve(event);
 }) satisfies Handle;
 
@@ -14,18 +17,16 @@ const secondHandle = (async ({ event, resolve }) => {
 
 	// Get theme default config
 	themeConfig.set(config);
-	custom.set(config.custom)
+	custom.set(config.custom);
 
 	// Change html, body attributes based on the theme config
 	if (response.headers.get('content-type') === 'text/html') {
-
 		console.log(event.request);
 		const response = await resolve(event, {
 			transformPageChunk: ({ html }) =>
-				html.replace('%sveltekit.html.attributes%',
-					`lang=""`)
-					.replace('%sveltekit.body.attributes%',
-						``)
+				html
+					.replace('%sveltekit.html.attributes%', `lang=""`)
+					.replace('%sveltekit.body.attributes%', ``)
 		});
 		return response;
 	}
@@ -33,7 +34,6 @@ const secondHandle = (async ({ event, resolve }) => {
 	// tenant.set(event.url.origin);
 
 	//if (response.headers['content-type'] == 'text/plain;charset=UTF-8')
-
 
 	// if (response.headers['content-type'].indexOf('text/html; charset=utf-8') >= 0) {
 	// 	console.log(response.body);
