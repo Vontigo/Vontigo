@@ -39,32 +39,6 @@ const secondHandle = (async ({ event, resolve }) => {
 
 		// Set body custom theme
 		let bodyClass = ' class="';
-
-		if (event.url.pathname === '/') {
-			bodyClass += `home-template`;
-		} else if (event.url.pathname.split('/').length == 2) {
-			bodyClass += `home-template`;
-		}
-
-		if (get(custom).navigation_layout.default == 'Logo on cover') {
-			bodyClass += ` is-head-left-logo`;
-		} else if (get(custom).navigation_layout.default == 'Logo in the middle') {
-			bodyClass += ' is-head-middle-logo';
-		} else {
-			bodyClass += ' stacked';
-		}
-
-		if (get(custom).title_font.default == 'Elegant serif') {
-			bodyClass += ` has-serif-title`;
-		}
-
-		if (get(custom).body_font.default == 'Modern sans-serif') {
-			bodyClass += `  has-sans-body`;
-		}
-
-		if (get(custom).show_publication_cover.default) {
-			bodyClass += ` has-cover`;
-		}
 		bodyClass += '"';
 
 		const response = await resolve(event, {
