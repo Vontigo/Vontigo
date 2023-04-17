@@ -6,7 +6,7 @@ import { config } from '$lib/themes/casper/config.json'
 
 const output: SiteGroup = {};
 
-export const load = (async (url: string, params: string) => {
+export const load = (async ({ fetch, url, params }) => {
 	// console.log(params);
 	// tenant.set(url.origin);
 	// if (params) language.set(params.language ? params.language : PUBLIC_DEFAULT_LANG);

@@ -4,7 +4,7 @@
 import { error } from '@sveltejs/kit';
 import type { PageLoad } from './$types';
 
-export const load = (async ({ url, params }) => {
+export const load = (async ({ fetch, url, params }) => {
 	// if (params.slug === 'hello-world') {
 	// 	return {
 	// 		title: 'Hello world!',

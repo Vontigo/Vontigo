@@ -1,15 +1,24 @@
 <!DOCTYPE html>
 <html lang="en" class="dark">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" href="%sveltekit.assets%/favicon.png" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-		<meta name="HandheldFriendly" content="True" />
-    
-		%sveltekit.head%
-	</head>
-	<body data-sveltekit-preload-data="hover">
+
+<head>
+	<meta charset="utf-8" />
+	<link rel="icon" href="%sveltekit.assets%/favicon.png" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="HandheldFriendly" content="True" />
+
+	%sveltekit.head%
+</head>
+
+<body data-sveltekit-preload-data="hover">
+	<!-- .viewport -->
+	<div class="app viewport" style="display: contents">
 		%sveltekit.body%
-	</body>
+	</div>
+
+	<!-- /.viewport -->
+
+</body>
+
 </html>
