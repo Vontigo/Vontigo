@@ -1,8 +1,8 @@
 import type { LayoutLoad } from './$types';
 import { PUBLIC_DEFAULT_LANG, PUBLIC_SITE_URL } from '$env/static/public';
 import { language, site, origin, themeConfig, custom } from '$lib/core/shared/stores/site';
-import { get } from 'svelte/store'
-import { config } from '$lib/themes/casper/config.json'
+import { get } from 'svelte/store';
+import { config } from '$lib/themes/casper/config.json';
 
 const output: SiteGroup = {};
 
