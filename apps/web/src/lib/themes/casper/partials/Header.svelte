@@ -12,7 +12,7 @@
 >
 	<div class="gh-head-inner inner">
 		<div class="gh-head-brand">
-			<a class="gh-head-logo{$site.logo == '' ? ' no-image' : ''}" href={$siteUrl}>
+			<a class="gh-head-logo{$site.logo == '' ? ' no-image' : ''}" href={$page.url.origin}>
 				{#if $site.logo}
 					<img src={$site.logo} alt={$site.title} />
 				{:else}

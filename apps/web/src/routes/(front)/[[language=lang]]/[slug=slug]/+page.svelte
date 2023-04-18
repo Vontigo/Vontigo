@@ -8,12 +8,12 @@
 	let post = data.post;
 </script>
 
-{#key $page.params.slug}
-	{#if post}
-		{#if (post.type = 'post')}
+{#if post}
+	{#key post.content.slug}
+		{#if post.content.type == 'post'}
 			<Post {post} />
-		{:else if (post.type = 'page')}
+		{:else if post.content.type == 'page'}
 			<Page {post} />
 		{/if}
-	{/if}
-{/key}
+	{/key}
+{/if}

@@ -1,9 +1,10 @@
 <script lang="ts">
 	import type { PageData } from './$types';
 	import { img_url } from '$lib/core/core/frontend/helpers/img_url';
-	import { language, siteUrl, origin, templateType } from '$lib/core/shared/stores/site';
+	import { language, siteUrl, origin, templateType, custom } from '$lib/core/shared/stores/site';
 	import { ENUM_IMAGE_SIZE } from '$lib/core/shared/enum';
 	import IconFire from './partials/icons/IconFire.svelte';
+	import IconAvatar from './partials/icons/IconAvatar.svelte';
 
 	$templateType = 'post';
 	export let post: any;
@@ -18,85 +19,91 @@
 		>
 			<header class="article-header gh-canvas">
 				<div class="article-tag post-card-tags">
-					{`#primary_tag`}
-					<span class="post-card-primary-tag">
-						<a href={`url`}>{`name`}</a>
-					</span>
-					{`/primary_tag`}
-					{#if post.featured}
+					{#if post.content.primary_tag}
+						<span class="post-card-primary-tag">
+							<a href={'tag' + '/' + post.content.primary_tag_slug}
+								>{post.content.primary_tag_name}</a
+							>
+						</span>
+					{/if}
+					{#if post.content.featured}
 						<span class="post-card-featured"><IconFire /> Featured</span>
 					{/if}
 				</div>
 
-				<h1 class="article-title">{post.title}</h1>
+				<h1 class="article-title">{post.content.title}</h1>
 
-				{#if post.custom_excerpt}
-					<p class="article-excerpt">{`custom_excerpt`}</p>
+				{#if post.content.custom_excerpt}
+					<p class="article-excerpt">{post.content.custom_excerpt}</p>
 				{/if}
 
 				<div class="article-byline">
 					<section class="article-byline-content">
 						<ul class="author-list">
-							{`#foreach authors`}
-							<li class="author-list-item">
-								{#if post.profile_image}
-									<a href={`url`} class="author-avatar">
-										<img
-											class="author-profile-image"
-											src={`img_url profile_image size="xs"`}
-											alt={`name`}
-										/>
-									</a>
-									{`else`}
-									<a href={`url`} class="author-avatar author-profile-image">{`> "icons/avatar"`}</a
-									>
-								{/if}
-							</li>
-							{`/foreach`}
+							{#each post.authors as author}
+								<li class="author-list-item">
+									{#if author.profile_image}
+										<a href={`/author/` + author.slug} class="author-avatar">
+											<img
+												class="author-profile-image"
+												src={author.profile_image}
+												alt={author.name}
+											/>
+										</a>
+									{:else}
+										<a href={`url`} class="author-avatar author-profile-image">
+											<IconAvatar />
+										</a>
+									{/if}
+								</li>
+							{/each}
 						</ul>
-
-						<div class="article-byline-meta">
-							<h4 class="author-name">{`authors`}</h4>
-							<div class="byline-meta-content">
-								<time class="byline-meta-date" datetime={`date format="YYYY-MM-DD"`}>{`date`}</time>
-								{#if post.reading_time}
-									<span class="byline-reading-time"
-										><span class="bull">&bull;</span> {`reading_time`}</span
+						{#if post.authors.length > 0}
+							<div class="article-byline-meta">
+								<h4 class="author-name">{post.authors[0].name}</h4>
+								<div class="byline-meta-content">
+									<time class="byline-meta-date" datetime={post.content.published_at}
+										>{post.content.published_at}</time
 									>
-								{/if}
+									{#if post.content.reading_time}
+										<span class="byline-reading-time"
+											><span class="bull">&bull;</span> {post.content.reading_time}</span
+										>
+									{/if}
+								</div>
 							</div>
-						</div>
+						{/if}
 					</section>
 				</div>
 
-				{`#match @custom.post_image_style "!=" "Hidden"`}
-				{#if post.feature_image}
-					<figure class="article-image">
-						<!-- This is a responsive image, it loads different sizes depending on device
+				{#if $custom.post_image_style != 'Hidden'}
+					{#if post.content.feature_image}
+						<figure class="article-image">
+							<!-- This is a responsive image, it loads different sizes depending on device
                 https://medium.freecodecamp.org/a-guide-to-responsive-images-with-ready-to-use-templates-c400bd65c433 -->
 
-						<img
-							srcset="{img_url($origin, post.feature_image, ENUM_IMAGE_SIZE.S)} 300w,
-                    {img_url($origin, post.feature_image, ENUM_IMAGE_SIZE.M)} 600w,
-                    {img_url($origin, post.feature_image, ENUM_IMAGE_SIZE.L)} 1000w,
-                    {img_url($origin, post.feature_image, ENUM_IMAGE_SIZE.XL)} 2000w"
-							sizes="(min-width: 1400px) 1400px, 92vw"
-							src={img_url($origin, post.feature_image, ENUM_IMAGE_SIZE.XL)}
-							loading="lazy"
-						/>
-						{#if post.feature_image_caption}
-							<figcaption>{post.feature_image_caption}</figcaption>
-						{/if}
-					</figure>
+							<img
+								srcset="{img_url($origin, post.content.feature_image, ENUM_IMAGE_SIZE.S)} 300w,
+                    {img_url($origin, post.content.feature_image, ENUM_IMAGE_SIZE.M)} 600w,
+                    {img_url($origin, post.content.feature_image, ENUM_IMAGE_SIZE.L)} 1000w,
+                    {img_url($origin, post.content.feature_image, ENUM_IMAGE_SIZE.XL)} 2000w"
+								sizes="(min-width: 1400px) 1400px, 92vw"
+								src={img_url($origin, post.content.feature_image, ENUM_IMAGE_SIZE.XL)}
+								loading="lazy"
+							/>
+							{#if post.content.feature_image_caption}
+								<figcaption>{post.content.feature_image_caption}</figcaption>
+							{/if}
+						</figure>
+					{/if}
 				{/if}
-				{`/match`}
 			</header>
 
 			<section class="gh-content gh-canvas">
-				{@html post.html}
+				{@html post.content.html}
 			</section>
 
-			{#if post.comments}
+			{#if post.content.comments}
 				<section class="article-comments gh-canvas">
 					{`comments`}
 				</section>

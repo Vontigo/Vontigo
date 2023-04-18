@@ -2,10 +2,11 @@ import { knexInstance } from '$lib/core/core/server/data/db/connection';
 
 /** @type {import('./$types').RequestHandler} */
 export async function GET({ url, params }) {
-	let returnRows: any;
+	let content: any;
+	let authors: any;
 	console.log(params);
 	try {
-		const rows: any[] = await knexInstance
+		const post: any[] = await knexInstance
 			.select(
 				'p.*',
 				't.id as primary_tag',
@@ -21,11 +22,31 @@ export async function GET({ url, params }) {
 				'p.slug': params.slug
 			})
 			.first();
-		returnRows = rows;
+
+		content = post;
+
+		const qAuthors: any[] = await knexInstance
+			.select('u.*')
+			.from('posts as p')
+			.leftJoin('posts_authors as pa', 'p.id', 'pa.post_id')
+			.leftJoin('users as u', 'u.id', 'pa.author_id')
+			.where({
+				'p.slug': params.slug
+			})
+			.orderBy('sort_order');
+
+		authors = qAuthors;
+		console.log(authors);
 	} catch (error) {
-		returnRows = error;
+		return new Response(JSON.stringify(error), { status: 300 });
 	}
-	return new Response(JSON.stringify(returnRows), { status: 200 });
+	return new Response(
+		JSON.stringify({
+			content: content,
+			authors: authors
+		}),
+		{ status: 200 }
+	);
 }
 
 async function getAllRows(tableName: string): Promise<any[] | null> {
