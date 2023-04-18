@@ -1,9 +1,9 @@
 <script lang="ts">
-	import CompMenuAuthors from '$lib/components/CompMenuAuthors.svelte';
-	import CompMenuMembersAccess from '$lib/components/CompMenuMembersAccess.svelte';
-	import CompMenuPosts from '$lib/components/CompMenuPosts.svelte';
-	import CompMenuSortBy from '$lib/components/CompMenuSortBy.svelte';
-	import CompMenuTags from '$lib/components/CompMenuTags.svelte';
+	import CompMenuAuthors from '$lib/core/core/frontend/components/admin/CompMenuAuthors.svelte';
+	import CompMenuMembersAccess from '$lib/core/core/frontend/components/admin/CompMenuMembersAccess.svelte';
+	import CompMenuPosts from '$lib/core/core/frontend/components/admin/CompMenuPosts.svelte';
+	import CompMenuSortBy from '$lib/core/core/frontend/components/admin/CompMenuSortBy.svelte';
+	import CompMenuTags from '$lib/core/core/frontend/components/admin/CompMenuTags.svelte';
 	import Icon3BottomLeft from '$lib/icons/Icon3BottomLeft.svelte';
 	import IconArrowDown from '$lib/icons/IconArrowDown.svelte';
 	import IconPlusSmall from '$lib/icons/IconPlusSmall.svelte';

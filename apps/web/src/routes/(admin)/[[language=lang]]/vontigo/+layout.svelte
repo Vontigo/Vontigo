@@ -47,7 +47,7 @@
 	<svelte:fragment slot="sidebarLeft">
 		<div
 			id=""
-			class="sidebar-left hidden lg:block text-lg drop-shadow-md border-e h-full min-w-[250px]"
+			class="sidebar-left hidden lg:block text-lg drop-shadow-md border-e border-gray-300 h-full min-w-[250px]"
 		>
 			<nav class="list-nav space-y-4 h-full flex flex-col">
 				<!-- (optionally you can provde a label here) -->
