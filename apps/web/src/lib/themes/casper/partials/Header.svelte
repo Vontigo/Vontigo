@@ -38,9 +38,9 @@
 		</nav>
 
 		<div class="gh-head-actions">
-			<li class="language-switch" style="width: 10rem; text-align: right;">
-				{$page.params.language ? $page.params.language : 'en-us'}
-			</li>
+			<!-- <li class="language-switch" style="width: 10rem; text-align: right;">
+				{($page.params.language ? $page.params.language : 'en-us').toUpperCase()}
+			</li> -->
 			{#if !$site.members_enabled}
 				{#if $custom.navigation_layout.default != 'Stacked'}
 					<button class="gh-search gh-icon-btn" data-ghost-search><IconSearch /></button>
