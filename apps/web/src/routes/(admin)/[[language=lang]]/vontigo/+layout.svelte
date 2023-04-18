@@ -42,15 +42,15 @@
 	</footer>
 </div> -->
 
-<AppShell regionPage="relative" slotPageHeader="sticky top-0 z-10">
+<AppShell regionPage="relative" slotPageHeader="sticky top-0 z-10 ">
 	<!-- <svelte:fragment slot="header">Header</svelte:fragment> -->
 	<svelte:fragment slot="sidebarLeft">
-		<div id="sidebar-left" class="hidden lg:block text-lg drop-shadow-md">
-			<nav class="list-nav space-y-4">
+		<div id="" class="sidebar-left hidden lg:block text-lg drop-shadow-md border-e h-full">
+			<nav class="list-nav space-y-4 h-full flex flex-col">
 				<!-- (optionally you can provde a label here) -->
 				<ul class="p-2 px-6 pt-4">
 					<li class="w-auto">
-						<span class="badge bg-primary-500 w-10 h-10">LOGO</span>
+						<span class="badge bg-primary-500 w-10 h-10 font-bold text-3xl">V</span>
 						<span class="flex-auto text-base">Vontigo</span>
 					</li>
 				</ul>
@@ -77,32 +77,34 @@
 							<Icon3BottomLeft />
 							<span class="flex-auto text-base">Posts</span>
 						</a>
-					</li>
-					<li class="w-auto">
-						<a
-							class={classesActive($adminSiteUrl + '/posts/drafts')}
-							href={$adminSiteUrl + '/posts/drafts'}
-						>
-							<span class="pl-10 flex-auto text-base">Drafts</span>
-						</a>
-					</li>
-					<li class="w-auto">
-						<a
-							class={classesActive($adminSiteUrl + '/posts/scheduled')}
-							href={$adminSiteUrl + '/posts/scheduled'}
-						>
-							<!-- <span class="badge bg-primary-500 w-10 h-10 bg-none">LOGO</span> -->
-							<span class="pl-10 flex-auto text-base">Scheduled</span>
-						</a>
-					</li>
-					<li class="w-auto">
-						<a
-							class={classesActive($adminSiteUrl + '/posts/published')}
-							href={$adminSiteUrl + '/posts/published'}
-						>
-							<!-- <span class="badge bg-primary-500 w-10 h-10 bg-none">LOGO</span> -->
-							<span class="pl-10 flex-auto text-base">Published</span>
-						</a>
+						<ul>
+							<li class="w-auto">
+								<a
+									class={classesActive($adminSiteUrl + '/posts/drafts')}
+									href={$adminSiteUrl + '/posts/drafts'}
+								>
+									<span class="pl-10 flex-auto text-base">Drafts</span>
+								</a>
+							</li>
+							<li class="w-auto">
+								<a
+									class={classesActive($adminSiteUrl + '/posts/scheduled')}
+									href={$adminSiteUrl + '/posts/scheduled'}
+								>
+									<!-- <span class="badge bg-primary-500 w-10 h-10 bg-none">LOGO</span> -->
+									<span class="pl-10 flex-auto text-base">Scheduled</span>
+								</a>
+							</li>
+							<li class="w-auto">
+								<a
+									class={classesActive($adminSiteUrl + '/posts/published')}
+									href={$adminSiteUrl + '/posts/published'}
+								>
+									<!-- <span class="badge bg-primary-500 w-10 h-10 bg-none">LOGO</span> -->
+									<span class="pl-10 flex-auto text-base">Published</span>
+								</a>
+							</li>
+						</ul>
 					</li>
 				</ul>
 				<ul class="p-2 px-6">
@@ -125,6 +127,7 @@
 						</a>
 					</li>
 				</ul>
+				<ul class="h-full" />
 				<ul class="p-2 px-6">
 					<li class="w-full text-end content-end">
 						<span class="flex-auto text-base"><LightSwitch /></span>

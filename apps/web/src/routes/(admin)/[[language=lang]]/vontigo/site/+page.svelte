@@ -1,10 +1,12 @@
 <script lang="ts">
-	import { siteUrl } from "$lib/core/shared/stores/site";
+	import { page } from '$app/stores';
+	import { siteUrl } from '$lib/core/shared/stores/site';
 
-    let frame;
-function onLoad() {
-    const head = frame.contentDocument.querySelector('head');
-    console.log(head);
-}
+	let frame;
+	function onLoad() {
+		const head = frame.contentDocument.querySelector('head');
+		console.log(head);
+	}
 </script>
-<iframe bind:this={frame} src={$siteUrl} title="preview" class="w-full h-full" />
+
+<iframe bind:this={frame} src={$page.url.origin} title="preview" class="w-full h-full" />

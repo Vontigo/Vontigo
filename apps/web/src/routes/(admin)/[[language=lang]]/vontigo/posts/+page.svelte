@@ -20,37 +20,41 @@
 	};
 </script>
 
-<AppBar class="sticky top-0 z-10 p-4">
-	<svelte:fragment slot="lead">
-		<Icon3BottomLeft />
-	</svelte:fragment>
-	<h2>Posts</h2>
-	<svelte:fragment slot="trail">
-		<CompMenuPosts />
-		<CompMenuMembersAccess />
-		<CompMenuAuthors />
-		<CompMenuTags />
-		<CompMenuSortBy />
-		<button
-			type="button"
-			class="btn variant-filled"
-			on:click={() => {
-				drawerStore.open(settings);
-			}}
-		>
-			<span><IconPlusSmall /></span>
-			<span>New post</span>
-		</button>
-	</svelte:fragment>
+<div class="max-w-screen-lg mx-auto">
+	<AppBar class="sticky top-0 z-10 p-4 bg-white">
+		<!-- <svelte:fragment slot="lead">
+			<Icon3BottomLeft />
+		</svelte:fragment> -->
+		<h3 class="font-bold">Posts</h3>
+		<svelte:fragment slot="trail">
+			<div class="w-full text-end">
+				<CompMenuPosts />
+				<CompMenuMembersAccess />
+				<CompMenuAuthors />
+				<CompMenuTags />
+				<CompMenuSortBy />
+				<button
+					type="button"
+					class="btn btn-sm variant-filled rounded"
+					on:click={() => {
+						drawerStore.open(settings);
+					}}
+				>
+					<!-- <span><IconPlusSmall /></span> -->
+					<span>New post</span>
+				</button>
+			</div>
+		</svelte:fragment>
 
-	<!-- <svelte:fragment slot="trail">(actions)</svelte:fragment> -->
-</AppBar>
-<Drawer>
-	<div class="p-4">
-		{#if $drawerStore.id === 'postEditorDrawer'}
-			Editor
-		{/if}
-	</div>
-</Drawer>
+		<!-- <svelte:fragment slot="trail">(actions)</svelte:fragment> -->
+	</AppBar>
+	<Drawer>
+		<div class="p-4">
+			{#if $drawerStore.id === 'postEditorDrawer'}
+				Editor
+			{/if}
+		</div>
+	</Drawer>
 
-All
+	All
+</div>

@@ -2,6 +2,8 @@
 	import { AppBar, AppShell } from '@skeletonlabs/skeleton';
 </script>
 
-<AppBar class="sticky top-0 z-10 p-4">
-	<h2>Dashboard</h2>
-</AppBar>
+<div class="max-w-screen-lg mx-auto">
+	<AppBar class="sticky top-0 z-10 p-4 bg-white">
+		<h3 class="font-bold">Dashboard</h3>
+	</AppBar>
+</div>

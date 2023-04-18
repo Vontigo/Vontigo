@@ -4,8 +4,8 @@
 	export let data;
 </script>
 
-<AppBar class="sticky top-0 z-10 p-4">
-	<h2>Posts</h2>
-</AppBar>
-
-{data.type}
+<div class="max-w-screen-lg mx-auto">
+	<AppBar class="sticky top-0 z-10 p-4">
+		<h3 class="font-bold">Posts | {data.type}</h3>
+	</AppBar>
+</div>

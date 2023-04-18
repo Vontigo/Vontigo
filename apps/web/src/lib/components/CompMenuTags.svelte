@@ -14,7 +14,7 @@
 	};
 </script>
 
-<button type="button" class="btn bg-none" use:popup={menuTags}>
+<button type="button" class="btn btn-sm bg-none" use:popup={menuTags}>
 	<span>{menuTagsValue ?? 'All tags'}</span>
 	<span><IconArrowDown /></span>
 </button>

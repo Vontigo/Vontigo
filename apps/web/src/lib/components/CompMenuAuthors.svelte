@@ -14,7 +14,7 @@
 	};
 </script>
 
-<button type="button" class="btn bg-none" use:popup={menuAuthors}>
+<button type="button" class="btn btn-sm bg-none" use:popup={menuAuthors}>
 	<span>{menuAuthorsValue ?? 'All authors'}</span>
 	<span><IconArrowDown /></span>
 </button>

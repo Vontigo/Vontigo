@@ -14,7 +14,7 @@
 	};
 </script>
 
-<button type="button" class="btn bg-none" use:popup={menuMembersAccess}>
+<button type="button" class="btn btn-sm bg-none" use:popup={menuMembersAccess}>
 	<span>{menuMembersAccessValue ?? 'All access'}</span>
 	<span><IconArrowDown /></span>
 </button>
