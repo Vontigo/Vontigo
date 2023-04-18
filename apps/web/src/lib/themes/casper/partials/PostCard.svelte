@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { ENUM_IMAGE_SIZE } from '$lib/core/shared/conts';
+	import { ENUM_IMAGE_SIZE } from '$lib/core/shared/enum';
 	import { img_url } from '$lib/core/core/frontend/helpers/img_url';
 	import { language, siteUrl, origin } from '$lib/core/shared/stores/site';
 

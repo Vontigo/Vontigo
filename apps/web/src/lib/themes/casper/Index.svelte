@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { img_url } from '$lib/core/core/frontend/helpers/img_url';
-	import { ENUM_IMAGE_SIZE } from '$lib/core/shared/conts';
+	import { ENUM_IMAGE_SIZE } from '$lib/core/shared/enum';
 	import { language, site, siteUrl, origin, custom, templateType } from '$lib/core/shared/stores/site';
 	import type { PageData } from './$types';
 	import PostCard from './partials/PostCard.svelte';
