@@ -15,7 +15,6 @@
     this will take care of caching and cache-busting automatically --*/
 	import './assets/css/screen.css';
 
-
 	let bodyClass = '';
 
 	if ($custom.navigation_layout.default == 'Logo on cover') {
@@ -40,8 +39,7 @@
 </script>
 
 <svelte:head>
-	{@html 
-	`<style>:root {
+	{@html `<style>:root {
 		--ghost-accent-color:${$site.accent_color};
 	}</style>`}
 </svelte:head>
@@ -76,5 +74,4 @@ $(document).ready(function () {
 </div>
 
 <style>
-
 </style>

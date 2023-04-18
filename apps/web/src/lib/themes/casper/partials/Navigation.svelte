@@ -12,16 +12,13 @@
 {#if navigation}
 	<ul class="nav">
 		{#each navigation as item}
-			<li class="nav-{item.label}"><a href={$siteUrl + '/' + item.url}>{item.label}</a></li>
+			<li class="nav-{item.label}">
+				{#if item.url == 'vontigo'}
+					<a data-sveltekit-reload href={$siteUrl + '/' + item.url}>{item.label}</a>
+				{:else}
+					<a href={$siteUrl + '/' + item.url}>{item.label}</a>
+				{/if}
+			</li>
 		{/each}
 	</ul>
 {/if}
-
-<style>
-	.nav {
-		width: 100%;
-	}
-	.nav-right {
-		flex-direction: row-reverse;
-	}
-</style>
