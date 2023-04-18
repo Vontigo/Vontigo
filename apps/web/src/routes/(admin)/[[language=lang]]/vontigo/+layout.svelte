@@ -45,12 +45,15 @@
 <AppShell regionPage="relative" slotPageHeader="sticky top-0 z-10 ">
 	<!-- <svelte:fragment slot="header">Header</svelte:fragment> -->
 	<svelte:fragment slot="sidebarLeft">
-		<div id="" class="sidebar-left hidden lg:block text-lg drop-shadow-md border-e h-full">
+		<div
+			id=""
+			class="sidebar-left hidden lg:block text-lg drop-shadow-md border-e h-full min-w-[250px]"
+		>
 			<nav class="list-nav space-y-4 h-full flex flex-col">
 				<!-- (optionally you can provde a label here) -->
-				<ul class="p-2 px-6 pt-4">
+				<ul class="p-2 pl-8 px-6 pt-4">
 					<li class="w-auto">
-						<span class="badge bg-primary-500 w-10 h-10 font-bold text-3xl">V</span>
+						<span class="badge bg-primary-500 w-10 h-10 font-bold text-xl">V</span>
 						<span class="flex-auto text-base">Vontigo</span>
 					</li>
 				</ul>

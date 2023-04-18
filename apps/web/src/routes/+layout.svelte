@@ -14,3 +14,6 @@
 </script>
 
 <slot />
+
+<style>
+</style>
