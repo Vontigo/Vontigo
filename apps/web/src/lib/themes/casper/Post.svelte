@@ -6,10 +6,11 @@
 	import IconFire from './partials/icons/IconFire.svelte';
 
 	$templateType = 'post';
-    export let post:any;
+	export let post: any;
 </script>
 
-<!-- Everything inside the #post block pulls data from the post -->
+{#if post}
+	<!-- Everything inside the #post block pulls data from the post -->
 
 	<main id="site-main" class="site-main">
 		<article
@@ -142,5 +143,5 @@
             </aside>
         {/if}
 
-    {`/get`}
-{/if} -->
+    {`/get`} -->
+{/if}
