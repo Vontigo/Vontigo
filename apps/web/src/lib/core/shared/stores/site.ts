@@ -7,9 +7,9 @@ export const adminSiteUrl = writable('');
 
 // Setting | site
 export const site = writable({});
+export const member = writable({});
+
 export const themeConfig = writable({});
 export const custom = writable({});
 
 export const templateType = writable('');
-
-export const member = writable(false);
