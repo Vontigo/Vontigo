@@ -482,7 +482,9 @@ production stylesheet in assets/built/screen.css
 }
 
 @media (min-width: 992px) {
-    /* body:not(.is-dropdown-loaded) .gh-head-menu .nav > li {
+
+    /* Vontigo
+    body:not(.is-dropdown-loaded) .gh-head-menu .nav > li {
         opacity: 0;
     } */
 }
@@ -2028,7 +2030,7 @@ iframe.instagram-media+script+ :not([id]) {
     padding-top: 48px;
     padding-bottom: 140px;
     color: #fff;
-    background: color-mod(var(--color-darkgrey) l(-5%));
+    background: var(--color-darkgrey);
 }
 
 .site-footer .inner {

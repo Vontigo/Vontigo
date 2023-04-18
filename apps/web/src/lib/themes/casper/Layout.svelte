@@ -13,7 +13,7 @@
 
 	/*-- Theme assets - use the {asset} helper to reference styles & scripts,
     this will take care of caching and cache-busting automatically --*/
-	import './assets/css/screen.postcss';
+	import './assets/css/screen.css';
 
 
 	let bodyClass = '';

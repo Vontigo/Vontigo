@@ -7,6 +7,8 @@ import { PUBLIC_DEFAULT_LANG } from '$env/static/public';
 
 const firstHandle = (async ({ event, resolve }) => {
 	// Do something
+	console.log(event.url);
+
 	return await resolve(event);
 }) satisfies Handle;
 

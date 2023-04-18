@@ -10,8 +10,17 @@
 	import { Accordion, AccordionItem, AppBar, AppShell } from '@skeletonlabs/skeleton';
 	import { LightSwitch } from '@skeletonlabs/skeleton';
 	import { page } from '$app/stores';
-	import { siteUrl } from '$lib/core/shared/stores/site';
+	import { PUBLIC_DEFAULT_LANG } from '$env/static/public';
+	import { language, origin, siteUrl } from '$lib/core/shared/stores/site';
 	let href: string;
+
+	origin.set($page.url.host);
+	
+	if ($page.params) {
+		language.set($page.params.language ? $page.params.language : PUBLIC_DEFAULT_LANG);
+		siteUrl.set($page.params.language ? '/' + $page.params.language + '/vontigo' : '/vontigo');
+	}
+
 	// $: classesActive = (href: string) => (href === $page.url.pathname ? '!bg-primary-500' : '');
 </script>
 
@@ -37,15 +46,15 @@
 						<span class="flex-auto">Vontigo</span>
 					</li>
 					<li class="w-auto content-end">
-						<a href="vontigo/dashboard">
+						<a href={ $siteUrl + '/dashboard'}>
 							<!-- <span class="badge bg-primary-500 w-10 h-10 bg-none">LOGO</span> -->
 							<span class="flex-auto">Dashboard</span>
 						</a>
 					</li>
 					<li class="w-auto content-end">
-						<a href="vontigo/sites">
+						<a href={ $siteUrl + '/site'}>
 							<!-- <span class="badge bg-primary-500 w-10 h-10 bg-none">LOGO</span> -->
-							<span class="flex-auto">View sites</span>
+							<span class="flex-auto">View site</span>
 						</a>
 					</li>
 					<li class="w-auto content-end">
@@ -56,19 +65,19 @@
 								<svelte:fragment slot="content">
 									<ul>
 										<li class="w-auto content-end">
-											<a href="vontigo/posts/drafts">
+											<a href={ $siteUrl + '/posts/drafts'}>
 												<!-- <span class="badge bg-primary-500 w-10 h-10 bg-none">LOGO</span> -->
 												<span class="flex-auto">Drafts</span>
 											</a>
 										</li>
 										<li class="w-auto content-end">
-											<a href="">
+											<a href={ $siteUrl + '/posts/scheduled'}>
 												<!-- <span class="badge bg-primary-500 w-10 h-10 bg-none">LOGO</span> -->
 												<span class="flex-auto">Scheduled</span>
 											</a>
 										</li>
 										<li class="w-auto content-end">
-											<a href="">
+											<a href={ $siteUrl + '/posts/published'}>
 												<!-- <span class="badge bg-primary-500 w-10 h-10 bg-none">LOGO</span> -->
 												<span class="flex-auto">Published</span>
 											</a>
@@ -81,19 +90,19 @@
 						</Accordion>
 					</li>
 					<li class="w-auto content-end">
-						<a href="">
+						<a href={ $siteUrl + '/pages'}>
 							<!-- <span class="badge bg-primary-500 w-10 h-10 bg-none">LOGO</span> -->
 							<span class="flex-auto">Pages</span>
 						</a>
 					</li>
 					<li class="w-auto content-end">
-						<a href="">
+						<a href={ $siteUrl + '/tags'}>
 							<!-- <span class="badge bg-primary-500 w-10 h-10 bg-none">LOGO</span> -->
 							<span class="flex-auto">Tags</span>
 						</a>
 					</li>
 					<li class="w-auto content-end">
-						<a href="">
+						<a href={ $siteUrl + '/members'}>
 							<!-- <span class="badge bg-primary-500 w-10 h-10 bg-none">LOGO</span> -->
 							<span class="flex-auto">Members</span>
 						</a>

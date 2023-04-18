@@ -59,6 +59,9 @@ importers:
       '@sveltejs/adapter-vercel':
         specifier: ^2.4.1
         version: 2.4.1(@sveltejs/kit@1.15.5)
+      bson-objectid:
+        specifier: ^2.0.4
+        version: 2.0.4
       knex:
         specifier: ^2.4.2
         version: 2.4.2(sqlite3@5.1.6)
@@ -1148,6 +1151,10 @@ packages:
       node-releases: 2.0.10
       update-browserslist-db: 1.0.11(browserslist@4.21.5)
     dev: true
+
+  /bson-objectid@2.0.4:
+    resolution: {integrity: sha512-vgnKAUzcDoa+AeyYwXCoHyF2q6u/8H46dxu5JN+4/TZeq/Dlinn0K6GvxsCLb3LHUJl0m/TLiEK31kUwtgocMQ==}
+    dev: false
 
   /buffer-crc32@0.2.13:
     resolution: {integrity: sha512-VO9Ht/+p3SN7SKWqcrgEzjGbRSJYTx+Q1pTQC0wrWqHx0vpJraQ6GtHx8tvcg1rlK1byhU5gccxgOgj7B0TDkQ==}
