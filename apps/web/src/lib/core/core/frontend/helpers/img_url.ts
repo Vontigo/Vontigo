@@ -1,4 +1,4 @@
-import { ENUM_IMAGE_SIZE } from '$lib/core/shared/conts';
+import { ENUM_IMAGE_SIZE } from '$lib/core/shared/enum';
 
 export function img_url(origin: string = '', image: string, size: string = ENUM_IMAGE_SIZE.M) {
 	if (image.indexOf('http') == 0) {

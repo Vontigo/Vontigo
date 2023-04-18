@@ -10,16 +10,16 @@
 	import { Accordion, AccordionItem, AppBar, AppShell } from '@skeletonlabs/skeleton';
 	import { LightSwitch } from '@skeletonlabs/skeleton';
 	import { page } from '$app/stores';
-	import { PUBLIC_DEFAULT_LANG } from '$env/static/public';
 	import { language, origin, siteUrl, adminSiteUrl } from '$lib/core/shared/stores/site';
 	import IconHome from '$lib/icons/IconHome.svelte';
+	import { CONST_DEFAULT_LANGUAGE } from '$lib/core/shared/const';
 
 	let href: string;
 
 	origin.set($page.url.host);
 
 	if ($page.params) {
-		language.set($page.params.language ? $page.params.language : PUBLIC_DEFAULT_LANG);
+		language.set($page.params.language ? $page.params.language : CONST_DEFAULT_LANGUAGE);
 		adminSiteUrl.set($page.params.language ? '/' + $page.params.language + '/vontigo' : '/vontigo');
 	}
 

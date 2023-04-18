@@ -3,7 +3,7 @@ import { config } from '$lib/themes/casper/config.json';
 import { language, site, origin, themeConfig, custom } from '$lib/core/shared/stores/site';
 import { get } from 'svelte/store';
 import { sequence } from '@sveltejs/kit/hooks';
-import { PUBLIC_DEFAULT_LANG } from '$env/static/public';
+import { CONST_DEFAULT_LANGUAGE } from '$lib/core/shared/const';
 
 const firstHandle = (async ({ event, resolve }) => {
 	// Do something
@@ -25,7 +25,7 @@ const secondHandle = (async ({ event, resolve }) => {
 		// Set html lang
 		if (event.url.pathname === '/') {
 			// console.log(event.request);
-			language.set(PUBLIC_DEFAULT_LANG);
+			language.set(CONST_DEFAULT_LANGUAGE);
 		} else {
 			const lang = event.url.pathname.split('/')[1];
 			language.set(lang);

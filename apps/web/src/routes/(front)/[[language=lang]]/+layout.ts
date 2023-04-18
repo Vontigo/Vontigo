@@ -1,6 +1,6 @@
 import type { LayoutLoad } from './$types';
-import { PUBLIC_DEFAULT_LANG, PUBLIC_SITE_URL } from '$env/static/public';
-import { language, site, origin, themeConfig, custom } from '$lib/core/shared/stores/site';
+import { PUBLIC_DEFAULT_LANG } from '$env/static/public';
+import { language, site, origin, themeConfig, custom, siteUrl } from '$lib/core/shared/stores/site';
 import { get } from 'svelte/store';
 import { config } from '$lib/themes/casper/config.json';
 
@@ -8,11 +8,10 @@ const output: SiteGroup = {};
 
 export const load = (async ({ fetch, url, params }) => {
 	// console.log(params);
-	// tenant.set(url.origin);
-	// if (params) language.set(params.language ? params.language : PUBLIC_DEFAULT_LANG);
 
-	const response = await fetch(`${PUBLIC_SITE_URL}/api/shared/settings/site`);
+	const response = await fetch(`/api/shared/settings/site`);
 	const settings = response.json();
+	// console.log('_______________', await settings);
 
 	for (const item of await settings) {
 		if (!output[item.group]) {
