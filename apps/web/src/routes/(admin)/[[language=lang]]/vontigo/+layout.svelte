@@ -12,10 +12,12 @@
 	import { page } from '$app/stores';
 	import { PUBLIC_DEFAULT_LANG } from '$env/static/public';
 	import { language, origin, siteUrl, adminSiteUrl } from '$lib/core/shared/stores/site';
+	import IconHome from '$lib/icons/IconHome.svelte';
+
 	let href: string;
 
 	origin.set($page.url.host);
-	
+
 	if ($page.params) {
 		language.set($page.params.language ? $page.params.language : PUBLIC_DEFAULT_LANG);
 		adminSiteUrl.set($page.params.language ? '/' + $page.params.language + '/vontigo' : '/vontigo');
@@ -41,45 +43,47 @@
 			<nav class="list-nav">
 				<!-- (optionally you can provde a label here) -->
 				<ul class="p-2 px-6">
-					<li class="w-auto content-end text-end">
+					<li class="w-auto">
 						<span class="badge bg-primary-500 w-10 h-10">LOGO</span>
-						<span class="flex-auto">Vontigo</span>
+						<span class="flex-auto text-base">Vontigo</span>
 					</li>
-					<li class="w-auto content-end">
-						<a href={ $adminSiteUrl + '/dashboard'}>
-							<!-- <span class="badge bg-primary-500 w-10 h-10 bg-none">LOGO</span> -->
-							<span class="flex-auto">Dashboard</span>
+					<li class="w-auto">
+						<a href={$adminSiteUrl + '/dashboard'}>
+							<span class="badge bg-primary-500 w-10 h-10 bg-none">
+								<IconHome />
+							</span>
+							<span class="flex-auto text-base">Dashboard</span>
 						</a>
 					</li>
-					<li class="w-auto content-end">
-						<a href={ $adminSiteUrl + '/site'}>
+					<li class="w-auto">
+						<a href={$adminSiteUrl + '/site'}>
 							<!-- <span class="badge bg-primary-500 w-10 h-10 bg-none">LOGO</span> -->
-							<span class="flex-auto">View site</span>
+							<span class="flex-auto text-base">View site</span>
 						</a>
 					</li>
-					<li class="w-auto content-end">
+					<li class="w-auto">
 						<Accordion>
 							<AccordionItem open>
 								<svelte:fragment slot="lead">(icon)</svelte:fragment>
 								<svelte:fragment slot="summary">Posts</svelte:fragment>
 								<svelte:fragment slot="content">
 									<ul>
-										<li class="w-auto content-end">
-											<a href={ $adminSiteUrl + '/posts/drafts'}>
+										<li class="w-auto">
+											<a href={$adminSiteUrl + '/posts/drafts'}>
 												<!-- <span class="badge bg-primary-500 w-10 h-10 bg-none">LOGO</span> -->
-												<span class="flex-auto">Drafts</span>
+												<span class="flex-auto text-base">Drafts</span>
 											</a>
 										</li>
-										<li class="w-auto content-end">
-											<a href={ $adminSiteUrl + '/posts/scheduled'}>
+										<li class="w-auto">
+											<a href={$adminSiteUrl + '/posts/scheduled'}>
 												<!-- <span class="badge bg-primary-500 w-10 h-10 bg-none">LOGO</span> -->
-												<span class="flex-auto">Scheduled</span>
+												<span class="flex-auto text-base">Scheduled</span>
 											</a>
 										</li>
-										<li class="w-auto content-end">
-											<a href={ $adminSiteUrl + '/posts/published'}>
+										<li class="w-auto">
+											<a href={$adminSiteUrl + '/posts/published'}>
 												<!-- <span class="badge bg-primary-500 w-10 h-10 bg-none">LOGO</span> -->
-												<span class="flex-auto">Published</span>
+												<span class="flex-auto text-base">Published</span>
 											</a>
 										</li>
 									</ul>
@@ -89,26 +93,26 @@
 							<!-- ... -->
 						</Accordion>
 					</li>
-					<li class="w-auto content-end">
-						<a href={ $adminSiteUrl + '/pages'}>
+					<li class="w-auto">
+						<a href={$adminSiteUrl + '/pages'}>
 							<!-- <span class="badge bg-primary-500 w-10 h-10 bg-none">LOGO</span> -->
-							<span class="flex-auto">Pages</span>
+							<span class="flex-auto text-base">Pages</span>
 						</a>
 					</li>
-					<li class="w-auto content-end">
-						<a href={ $adminSiteUrl + '/tags'}>
+					<li class="w-auto">
+						<a href={$adminSiteUrl + '/tags'}>
 							<!-- <span class="badge bg-primary-500 w-10 h-10 bg-none">LOGO</span> -->
-							<span class="flex-auto">Tags</span>
+							<span class="flex-auto text-base">Tags</span>
 						</a>
 					</li>
-					<li class="w-auto content-end">
-						<a href={ $adminSiteUrl + '/members'}>
+					<li class="w-auto">
+						<a href={$adminSiteUrl + '/members'}>
 							<!-- <span class="badge bg-primary-500 w-10 h-10 bg-none">LOGO</span> -->
-							<span class="flex-auto">Members</span>
+							<span class="flex-auto text-base">Members</span>
 						</a>
 					</li>
-					<li class="w-full content-end">
-						<span class="flex-auto"><LightSwitch /></span>
+					<li class="w-full">
+						<span class="flex-auto text-base"><LightSwitch /></span>
 					</li>
 					<!-- ... -->
 				</ul>
