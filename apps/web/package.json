@@ -44,6 +44,7 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"@floating-ui/dom": "^1.2.6",
 		"@sveltejs/adapter-node": "^1.2.3",
 		"@sveltejs/adapter-vercel": "^2.4.1",
 		"bson-objectid": "^2.0.4",
