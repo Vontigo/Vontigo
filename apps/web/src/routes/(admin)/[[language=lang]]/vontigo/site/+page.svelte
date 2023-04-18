@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { page } from '$app/stores';
-	import { siteUrl } from '$lib/core/shared/stores/site';
+	import { language, siteUrl } from '$lib/core/shared/stores/site';
 
 	let frame;
 	function onLoad() {
@@ -9,4 +9,9 @@
 	}
 </script>
 
-<iframe bind:this={frame} src={$page.url.origin} title="preview" class="w-full h-full" />
+<iframe
+	bind:this={frame}
+	src={$page.url.origin + '/' + ($page.params.language ? $page.params.language : 'en-us')}
+	title="preview"
+	class="w-full h-full"
+/>

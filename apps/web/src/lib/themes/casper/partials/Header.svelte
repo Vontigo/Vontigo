@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { page } from '$app/stores';
 	import { language, site, siteUrl, origin, custom, member } from '$lib/core/shared/stores/site';
 	import Navigation from './Navigation.svelte';
 	import IconSearch from './icons/IconSearch.svelte';
@@ -26,6 +27,7 @@
 
 		<nav class="gh-head-menu">
 			<Navigation />
+
 			{#if !$site.members_enabled}
 				{#if $custom.navigation_layout.default == 'Stacked'}
 					<button class="gh-search gh-icon-btn" aria-label="Search this site" data-ghost-search
@@ -36,6 +38,9 @@
 		</nav>
 
 		<div class="gh-head-actions">
+			<li class="language-switch" style="width: 10rem; text-align: right;">
+				{$page.params.language ? $page.params.language : 'en-us'}
+			</li>
 			{#if !$site.members_enabled}
 				{#if $custom.navigation_layout.default != 'Stacked'}
 					<button class="gh-search gh-icon-btn" data-ghost-search><IconSearch /></button>
@@ -58,3 +63,9 @@
 		</div>
 	</div>
 </header>
+
+<style>
+	.gh-head-menu {
+		width: 100%;
+	}
+</style>

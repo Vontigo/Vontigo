@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { page } from '$app/stores';
 	import { language, site, siteUrl, origin, custom, member } from '$lib/core/shared/stores/site';
 	import { get } from 'svelte/store';
 
@@ -15,3 +16,12 @@
 		{/each}
 	</ul>
 {/if}
+
+<style>
+	.nav {
+		width: 100%;
+	}
+	.nav-right {
+		flex-direction: row-reverse;
+	}
+</style>
