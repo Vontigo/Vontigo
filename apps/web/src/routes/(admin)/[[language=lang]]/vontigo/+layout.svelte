@@ -11,14 +11,14 @@
 	import { LightSwitch } from '@skeletonlabs/skeleton';
 	import { page } from '$app/stores';
 	import { PUBLIC_DEFAULT_LANG } from '$env/static/public';
-	import { language, origin, siteUrl } from '$lib/core/shared/stores/site';
+	import { language, origin, siteUrl, adminSiteUrl } from '$lib/core/shared/stores/site';
 	let href: string;
 
 	origin.set($page.url.host);
 	
 	if ($page.params) {
 		language.set($page.params.language ? $page.params.language : PUBLIC_DEFAULT_LANG);
-		siteUrl.set($page.params.language ? '/' + $page.params.language + '/vontigo' : '/vontigo');
+		adminSiteUrl.set($page.params.language ? '/' + $page.params.language + '/vontigo' : '/vontigo');
 	}
 
 	// $: classesActive = (href: string) => (href === $page.url.pathname ? '!bg-primary-500' : '');
@@ -46,13 +46,13 @@
 						<span class="flex-auto">Vontigo</span>
 					</li>
 					<li class="w-auto content-end">
-						<a href={ $siteUrl + '/dashboard'}>
+						<a href={ $adminSiteUrl + '/dashboard'}>
 							<!-- <span class="badge bg-primary-500 w-10 h-10 bg-none">LOGO</span> -->
 							<span class="flex-auto">Dashboard</span>
 						</a>
 					</li>
 					<li class="w-auto content-end">
-						<a href={ $siteUrl + '/site'}>
+						<a href={ $adminSiteUrl + '/site'}>
 							<!-- <span class="badge bg-primary-500 w-10 h-10 bg-none">LOGO</span> -->
 							<span class="flex-auto">View site</span>
 						</a>
@@ -65,19 +65,19 @@
 								<svelte:fragment slot="content">
 									<ul>
 										<li class="w-auto content-end">
-											<a href={ $siteUrl + '/posts/drafts'}>
+											<a href={ $adminSiteUrl + '/posts/drafts'}>
 												<!-- <span class="badge bg-primary-500 w-10 h-10 bg-none">LOGO</span> -->
 												<span class="flex-auto">Drafts</span>
 											</a>
 										</li>
 										<li class="w-auto content-end">
-											<a href={ $siteUrl + '/posts/scheduled'}>
+											<a href={ $adminSiteUrl + '/posts/scheduled'}>
 												<!-- <span class="badge bg-primary-500 w-10 h-10 bg-none">LOGO</span> -->
 												<span class="flex-auto">Scheduled</span>
 											</a>
 										</li>
 										<li class="w-auto content-end">
-											<a href={ $siteUrl + '/posts/published'}>
+											<a href={ $adminSiteUrl + '/posts/published'}>
 												<!-- <span class="badge bg-primary-500 w-10 h-10 bg-none">LOGO</span> -->
 												<span class="flex-auto">Published</span>
 											</a>
@@ -90,19 +90,19 @@
 						</Accordion>
 					</li>
 					<li class="w-auto content-end">
-						<a href={ $siteUrl + '/pages'}>
+						<a href={ $adminSiteUrl + '/pages'}>
 							<!-- <span class="badge bg-primary-500 w-10 h-10 bg-none">LOGO</span> -->
 							<span class="flex-auto">Pages</span>
 						</a>
 					</li>
 					<li class="w-auto content-end">
-						<a href={ $siteUrl + '/tags'}>
+						<a href={ $adminSiteUrl + '/tags'}>
 							<!-- <span class="badge bg-primary-500 w-10 h-10 bg-none">LOGO</span> -->
 							<span class="flex-auto">Tags</span>
 						</a>
 					</li>
 					<li class="w-auto content-end">
-						<a href={ $siteUrl + '/members'}>
+						<a href={ $adminSiteUrl + '/members'}>
 							<!-- <span class="badge bg-primary-500 w-10 h-10 bg-none">LOGO</span> -->
 							<span class="flex-auto">Members</span>
 						</a>
@@ -116,12 +116,12 @@
 		</div>
 	</svelte:fragment>
 	<!-- <svelte:fragment slot="sidebarRight">Sidebar Right</svelte:fragment> -->
-	<svelte:fragment slot="pageHeader">
+	<!-- <svelte:fragment slot="pageHeader">
 		<AppBar class="text-3xl font-bold">Dashboard</AppBar>
-	</svelte:fragment>
+	</svelte:fragment> -->
 	<!-- Router Slot -->
 	<slot />
 	<!-- ---- / ---- -->
-	<svelte:fragment slot="pageFooter">Page Footer</svelte:fragment>
+	<!-- <svelte:fragment slot="pageFooter">Page Footer</svelte:fragment> -->
 	<!-- <svelte:fragment slot="footer">Footer</svelte:fragment> -->
 </AppShell>
