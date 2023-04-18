@@ -9,11 +9,9 @@
 </script>
 
 {#if post}
-	{#key post.content.slug}
-		{#if post.content.type == 'post'}
-			<Post {post} />
-		{:else if post.content.type == 'page'}
-			<Page {post} />
-		{/if}
-	{/key}
+	{#if post.content.type == 'post'}
+		<Post {post} />
+	{:else if post.content.type == 'page'}
+		<Page {post} />
+	{/if}
 {/if}

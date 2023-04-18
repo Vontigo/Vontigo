@@ -14,6 +14,8 @@
 	}
 </script>
 
-<Layout>
-	<slot />
-</Layout>
+{#key $page.url}
+	<Layout>
+		<slot />
+	</Layout>
+{/key}
