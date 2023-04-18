@@ -1,5 +1,4 @@
 import { knexInstance } from '$lib/core/core/server/data/db/connection';
-import { knex, Knex } from 'knex';
 
 /** @type {import('./$types').RequestHandler} */
 export async function GET({ url, params }) {

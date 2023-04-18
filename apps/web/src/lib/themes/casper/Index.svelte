@@ -1,11 +1,17 @@
 <script lang="ts">
 	import { img_url } from '$lib/core/core/frontend/helpers/img_url';
 	import { ENUM_IMAGE_SIZE } from '$lib/core/shared/enum';
-	import { language, site, siteUrl, origin, custom, templateType } from '$lib/core/shared/stores/site';
+	import {
+		language,
+		site,
+		siteUrl,
+		origin,
+		custom,
+		templateType
+	} from '$lib/core/shared/stores/site';
 	import type { PageData } from './$types';
 	import PostCard from './partials/PostCard.svelte';
 
-	
 	$templateType = 'home';
 
 	export let data: PageData;
@@ -21,7 +27,13 @@
 	into the {body} of the default.hbs template -->
 
 	<div
-		class="site-header-content outer{$custom.header_style.default=="Left aligned"?" left-aligned":""}{$custom.show_publication_cover.default==false?($custom.header_style.default == "Hidden"?" no-content":""):""}"
+		class="site-header-content outer{$custom.header_style.default == 'Left aligned'
+			? ' left-aligned'
+			: ''}{$custom.show_publication_cover.default == false
+			? $custom.header_style.default == 'Hidden'
+				? ' no-content'
+				: ''
+			: ''}"
 	>
 		{#if $custom.show_publication_cover.default}
 			{#if $site.cover_image}
@@ -40,9 +52,9 @@
 			{/if}
 		{/if}
 
-		{#if $custom.header_style.default != "Hidden"}
+		{#if $custom.header_style.default != 'Hidden'}
 			<div class="site-header-inner inner">
-				{#if $custom.navigation_layout.default == "Logo on cover"}
+				{#if $custom.navigation_layout.default == 'Logo on cover'}
 					{#if $site.logo}
 						<img class="site-logo" src={$site.logo} alt={$site.title} />
 					{:else}
@@ -60,10 +72,14 @@
 	<main id="site-main" class="site-main outer">
 		<div class="inner posts">
 			<div class="post-feed">
-				{#each data?.posts as post}
-					<!-- The tag below includes the markup for each post - partials/post-card.hbs -->
-					<PostCard {post} />
-				{/each}
+				{#if data?.posts}
+					{#each data?.posts as post}
+						<!-- The tag below includes the markup for each post - partials/post-card.hbs -->
+						<PostCard {post} />
+					{/each}
+				{:else}
+					No posts found...
+				{/if}
 			</div>
 
 			{`pagination`}

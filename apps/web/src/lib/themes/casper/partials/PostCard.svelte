@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { ENUM_IMAGE_SIZE } from '$lib/core/shared/enum';
 	import { img_url } from '$lib/core/core/frontend/helpers/img_url';
-	import { language, siteUrl, origin } from '$lib/core/shared/stores/site';
+	import { language, siteUrl, origin, site } from '$lib/core/shared/stores/site';
 
 	export let post: any;
 	let postUrl = $siteUrl + '/' + post.slug;
@@ -49,9 +49,9 @@ which templates loop over to generate a list of posts. -->
 		<a class="post-card-content-link" href={postUrl}>
 			<header class="post-card-header">
 				<div class="post-card-tags">
-					{`#primary_tag`}
-					<span class="post-card-primary-tag">{`name`}</span>
-					{`/primary_tag`}
+					{#if post.primary_tag}
+						<span class="post-card-primary-tag">{post.primary_tag_name}</span>
+					{/if}
 					{#if post.featured}
 						<span class="post-card-featured">{`> "icons/fire"`} Featured</span>
 					{/if}
@@ -74,13 +74,13 @@ which templates loop over to generate a list of posts. -->
 		</a>
 
 		<footer class="post-card-meta">
-			<time class="post-card-meta-date" datetime={`date format="YYYY-MM-DD"`}>{`date`}</time>
+			<time class="post-card-meta-date" datetime={post.published_at}>{post.published_at}</time>
 			{#if post.reading_time}
 				<span class="post-card-meta-length">{`reading_time`}</span>
 			{/if}
-			<!-- {#if @site.comments_enabled}
-			{`comment_count`}
-			{/if} -->
+			{#if $site.comments_enabled}
+				{`comment_count`}
+			{/if}
 		</footer>
 	</div>
 </article>

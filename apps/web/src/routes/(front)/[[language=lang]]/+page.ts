@@ -12,7 +12,7 @@ export const load = (async ({ fetch, url, params }) => {
 	// 	};
 	// }
 
-	const response = await fetch(`http://localhost:5173/api/content/posts`);
+	const response = await fetch(`/api/content/posts`);
 	const posts = response.json();
 	return {
 		posts: posts
