@@ -5,7 +5,22 @@ export async function GET({ url, params }) {
 	let returnRows: any;
 	console.log(params);
 	try {
-		const rows: any[] = await knexInstance('posts').select('*').where('slug', params.slug).first();
+		const rows: any[] = await knexInstance
+			.select(
+				'p.*',
+				't.id as primary_tag',
+				't.name as primary_tag_name',
+				't.slug as primary_tag_slug'
+			)
+			.from('posts as p')
+			.leftJoin('posts_tags as pt', 'p.id', 'pt.post_id')
+			.leftJoin('tags as t', 't.id', 'pt.tag_id')
+			.where({
+				'p.status': 'published',
+				'p.visibility': 'public',
+				'p.slug': params.slug
+			})
+			.first();
 		returnRows = rows;
 	} catch (error) {
 		returnRows = error;
