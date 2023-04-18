@@ -44,6 +44,7 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"@sveltejs/adapter-node": "^1.2.3",
 		"@sveltejs/adapter-vercel": "^2.4.1",
 		"bson-objectid": "^2.0.4",
 		"knex": "^2.4.2",
