@@ -1,8 +1,8 @@
 <script lang="ts">
 	import type { PageData } from './$types';
-	import Index from '$lib/themes/casper/Index.svelte';
+	import Default from '$lib/themes/casper/Default.svelte';
 
 	export let data: PageData;
 </script>
 
-<Index {data} />
+<Default {data} />
