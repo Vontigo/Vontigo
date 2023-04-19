@@ -11,9 +11,7 @@
 </script>
 
 {#key $page.url}
-	<!-- <Layout></Layout> -->
-
-	<slot />
-
-	<!-- </Layout> -->
+	<Layout>
+		<slot />
+	</Layout>
 {/key}
