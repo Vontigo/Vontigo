@@ -85,34 +85,34 @@
 
 {#if editor}
 	<div>
-		<div class="">
+		<div class="p-3 bg-black">
 			<button
 				on:click={() => console.log && editor.chain().focus().toggleBold().run()}
 				disabled={!editor.can().chain().focus().toggleBold().run()}
-				class="btn p-1 rounded-md {editor.isActive('bold') ? 'is-active' : ''}"
+				class="btn px-2 py-1 rounded-md {editor.isActive('bold') ? 'is-active' : ''}"
 			>
-				<IconBold fillColor={editor.isActive('bold') ? 'white' : 'black'} />
+				<IconBold fillColor={editor.isActive('bold') ? 'white' : 'white'} />
 			</button>
 			<button
 				on:click={() => editor.chain().focus().toggleItalic().run()}
 				disabled={!editor.can().chain().focus().toggleItalic().run()}
-				class="btn p-1 rounded-md {editor.isActive('italic') ? 'is-active' : ''}"
+				class="btn px-2 py-1 rounded-md {editor.isActive('italic') ? 'is-active' : ''}"
 			>
-				<IconItalic fillColor={editor.isActive('italic') ? 'white' : 'black'} />
+				<IconItalic fillColor={editor.isActive('italic') ? 'white' : 'white'} />
 			</button>
 			<button
 				on:click={() => editor.chain().focus().toggleStrike().run()}
 				disabled={!editor.can().chain().focus().toggleStrike().run()}
 				class="btn px-2 py-1 rounded-md {editor.isActive('strike') ? 'is-active' : ''}"
 			>
-				<IconStrike fillColor={editor.isActive('strike') ? 'white' : 'black'} />
+				<IconStrike fillColor={editor.isActive('strike') ? 'white' : 'white'} />
 			</button>
 			<button
 				on:click={() => editor.chain().focus().toggleCode().run()}
 				disabled={!editor.can().chain().focus().toggleCode().run()}
 				class="btn px-2 py-1 rounded-md {editor.isActive('code') ? 'is-active' : ''}"
 			>
-				<IconCode fillColor={editor.isActive('code') ? 'white' : 'black'} />
+				<IconCode fillColor={editor.isActive('code') ? 'white' : 'white'} />
 			</button>
 			<!-- <button on:click={() => editor.chain().focus().unsetAllMarks().run()}> clear marks </button>
 			<button on:click={() => editor.chain().focus().clearNodes().run()}> clear nodes </button> -->
@@ -120,7 +120,7 @@
 				on:click={() => editor.chain().focus().setParagraph().run()}
 				class="btn px-2 py-1 rounded-md {editor.isActive('paragraph') ? 'is-active' : ''}"
 			>
-				<IconParagraph fillColor={editor.isActive('paragraph') ? 'white' : 'black'} />
+				<IconParagraph fillColor={editor.isActive('paragraph') ? 'white' : 'white'} />
 			</button>
 			<button
 				on:click={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
@@ -128,7 +128,7 @@
 					? 'is-active'
 					: ''}"
 			>
-				<IconH1 fillColor={editor.isActive('heading', { level: 1 }) ? 'white' : 'black'} />
+				<IconH1 fillColor={editor.isActive('heading', { level: 1 }) ? 'white' : 'white'} />
 			</button>
 			<button
 				on:click={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
@@ -136,7 +136,7 @@
 					? 'is-active'
 					: ''}"
 			>
-				<IconH2 fillColor={editor.isActive('heading', { level: 2 }) ? 'white' : 'black'} />
+				<IconH2 fillColor={editor.isActive('heading', { level: 2 }) ? 'white' : 'white'} />
 			</button>
 			<button
 				on:click={() => editor.chain().focus().toggleHeading({ level: 3 }).run()}
@@ -144,7 +144,7 @@
 					? 'is-active'
 					: ''}"
 			>
-				<IconH3 fillColor={editor.isActive('heading', { level: 3 }) ? 'white' : 'black'} />
+				<IconH3 fillColor={editor.isActive('heading', { level: 3 }) ? 'white' : 'white'} />
 			</button>
 			<button
 				on:click={() => editor.chain().focus().toggleHeading({ level: 4 }).run()}
@@ -152,7 +152,7 @@
 					? 'is-active'
 					: ''}"
 			>
-				<IconH4 fillColor={editor.isActive('heading', { level: 4 }) ? 'white' : 'black'} />
+				<IconH4 fillColor={editor.isActive('heading', { level: 4 }) ? 'white' : 'white'} />
 			</button>
 			<button
 				on:click={() => editor.chain().focus().toggleHeading({ level: 5 }).run()}
@@ -160,7 +160,7 @@
 					? 'is-active'
 					: ''}"
 			>
-				<IconH5 fillColor={editor.isActive('heading', { level: 5 }) ? 'white' : 'black'} />
+				<IconH5 fillColor={editor.isActive('heading', { level: 5 }) ? 'white' : 'white'} />
 			</button>
 			<button
 				on:click={() => editor.chain().focus().toggleHeading({ level: 6 }).run()}
@@ -168,31 +168,31 @@
 					? 'is-active'
 					: ''}"
 			>
-				<IconH6 fillColor={editor.isActive('heading', { level: 6 }) ? 'white' : 'black'} />
+				<IconH6 fillColor={editor.isActive('heading', { level: 6 }) ? 'white' : 'white'} />
 			</button>
 			<button
 				on:click={() => editor.chain().focus().toggleBulletList().run()}
 				class="btn px-2 py-1 rounded-md {editor.isActive('bulletList') ? 'is-active' : ''}"
 			>
-				<IconBulletList fillColor={editor.isActive('bulletList') ? 'white' : 'black'} />
+				<IconBulletList fillColor={editor.isActive('bulletList') ? 'white' : 'white'} />
 			</button>
 			<button
 				on:click={() => editor.chain().focus().toggleOrderedList().run()}
 				class="btn px-2 py-1 rounded-md {editor.isActive('orderedList') ? 'is-active' : ''}"
 			>
-				<IconOrderedList fillColor={editor.isActive('orderedList') ? 'white' : 'black'} />
+				<IconOrderedList fillColor={editor.isActive('orderedList') ? 'white' : 'white'} />
 			</button>
 			<button
 				on:click={() => editor.chain().focus().toggleCodeBlock().run()}
 				class="btn px-2 py-1 rounded-md {editor.isActive('codeBlock') ? 'is-active' : ''}"
 			>
-				<IconCodeBlock fillColor={editor.isActive('codeBlock') ? 'white' : 'black'} />
+				<IconCodeBlock fillColor={editor.isActive('codeBlock') ? 'white' : 'white'} />
 			</button>
 			<button
 				on:click={() => editor.chain().focus().toggleBlockquote().run()}
 				class="btn px-2 py-1 rounded-md {editor.isActive('blockquote') ? 'is-active' : ''}"
 			>
-				<IconQuotes fillColor={editor.isActive('blockquote') ? 'white' : 'black'} />
+				<IconQuotes fillColor={editor.isActive('blockquote') ? 'white' : 'white'} />
 			</button>
 			<button
 				on:click={() => editor.chain().focus().setHorizontalRule().run()}
@@ -224,4 +224,10 @@
 		</div>
 	</div>
 {/if}
-<div class="ProseMirror mt-2" bind:this={element} />
+<div class="ProseMirror mt-2 p-3" bind:this={element} />
+
+<style lang="postcss">
+	button.is-active {
+		@apply bg-slate-600;
+	}
+</style>

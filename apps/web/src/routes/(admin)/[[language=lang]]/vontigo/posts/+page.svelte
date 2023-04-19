@@ -50,7 +50,7 @@
 		<!-- <svelte:fragment slot="trail">(actions)</svelte:fragment> -->
 	</AppBar>
 	<Drawer>
-		<div class="p-4">
+		<div class="">
 			{#if $drawerStore.id === 'postEditorDrawer'}
 				<CompEditor />
 			{/if}
