@@ -85,142 +85,151 @@
 
 {#if editor}
 	<div>
-		<div class="p-3 bg-black">
-			<button
-				on:click={() => console.log && editor.chain().focus().toggleBold().run()}
-				disabled={!editor.can().chain().focus().toggleBold().run()}
-				class="btn px-2 py-1 rounded-md {editor.isActive('bold') ? 'is-active' : ''}"
-			>
-				<IconBold fillColor={editor.isActive('bold') ? 'white' : 'white'} />
-			</button>
-			<button
-				on:click={() => editor.chain().focus().toggleItalic().run()}
-				disabled={!editor.can().chain().focus().toggleItalic().run()}
-				class="btn px-2 py-1 rounded-md {editor.isActive('italic') ? 'is-active' : ''}"
-			>
-				<IconItalic fillColor={editor.isActive('italic') ? 'white' : 'white'} />
-			</button>
-			<button
-				on:click={() => editor.chain().focus().toggleStrike().run()}
-				disabled={!editor.can().chain().focus().toggleStrike().run()}
-				class="btn px-2 py-1 rounded-md {editor.isActive('strike') ? 'is-active' : ''}"
-			>
-				<IconStrike fillColor={editor.isActive('strike') ? 'white' : 'white'} />
-			</button>
-			<button
-				on:click={() => editor.chain().focus().toggleCode().run()}
-				disabled={!editor.can().chain().focus().toggleCode().run()}
-				class="btn px-2 py-1 rounded-md {editor.isActive('code') ? 'is-active' : ''}"
-			>
-				<IconCode fillColor={editor.isActive('code') ? 'white' : 'white'} />
-			</button>
+		<div class="flex flex-row p-2 bg-black">
+			<div class="flex flex-row">
+				<button
+					on:click={() => console.log && editor.chain().focus().toggleBold().run()}
+					disabled={!editor.can().chain().focus().toggleBold().run()}
+					class="btn px-2 py-1 rounded-md {editor.isActive('bold') ? 'is-active' : ''}"
+				>
+					<IconBold fillColor={editor.isActive('bold') ? 'white' : 'white'} />
+				</button>
+				<button
+					on:click={() => editor.chain().focus().toggleItalic().run()}
+					disabled={!editor.can().chain().focus().toggleItalic().run()}
+					class="btn px-2 py-1 rounded-md {editor.isActive('italic') ? 'is-active' : ''}"
+				>
+					<IconItalic fillColor={editor.isActive('italic') ? 'white' : 'white'} />
+				</button>
+				<button
+					on:click={() => editor.chain().focus().toggleStrike().run()}
+					disabled={!editor.can().chain().focus().toggleStrike().run()}
+					class="btn px-2 py-1 rounded-md {editor.isActive('strike') ? 'is-active' : ''}"
+				>
+					<IconStrike fillColor={editor.isActive('strike') ? 'white' : 'white'} />
+				</button>
+				<button
+					on:click={() => editor.chain().focus().toggleCode().run()}
+					disabled={!editor.can().chain().focus().toggleCode().run()}
+					class="btn px-2 py-1 rounded-md {editor.isActive('code') ? 'is-active' : ''}"
+				>
+					<IconCode fillColor={editor.isActive('code') ? 'white' : 'white'} />
+				</button>
+			</div>
+
+			<span class="divider-vertical w-fit mx-2" />
 			<!-- <button on:click={() => editor.chain().focus().unsetAllMarks().run()}> clear marks </button>
 			<button on:click={() => editor.chain().focus().clearNodes().run()}> clear nodes </button> -->
-			<button
-				on:click={() => editor.chain().focus().setParagraph().run()}
-				class="btn px-2 py-1 rounded-md {editor.isActive('paragraph') ? 'is-active' : ''}"
-			>
-				<IconParagraph fillColor={editor.isActive('paragraph') ? 'white' : 'white'} />
-			</button>
-			<button
-				on:click={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
-				class="btn px-2 py-1 rounded-md {editor.isActive('heading', { level: 1 })
-					? 'is-active'
-					: ''}"
-			>
-				<IconH1 fillColor={editor.isActive('heading', { level: 1 }) ? 'white' : 'white'} />
-			</button>
-			<button
-				on:click={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
-				class="btn px-2 py-1 rounded-md {editor.isActive('heading', { level: 2 })
-					? 'is-active'
-					: ''}"
-			>
-				<IconH2 fillColor={editor.isActive('heading', { level: 2 }) ? 'white' : 'white'} />
-			</button>
-			<button
-				on:click={() => editor.chain().focus().toggleHeading({ level: 3 }).run()}
-				class="btn px-2 py-1 rounded-md {editor.isActive('heading', { level: 3 })
-					? 'is-active'
-					: ''}"
-			>
-				<IconH3 fillColor={editor.isActive('heading', { level: 3 }) ? 'white' : 'white'} />
-			</button>
-			<button
-				on:click={() => editor.chain().focus().toggleHeading({ level: 4 }).run()}
-				class="btn px-2 py-1 rounded-md {editor.isActive('heading', { level: 4 })
-					? 'is-active'
-					: ''}"
-			>
-				<IconH4 fillColor={editor.isActive('heading', { level: 4 }) ? 'white' : 'white'} />
-			</button>
-			<button
-				on:click={() => editor.chain().focus().toggleHeading({ level: 5 }).run()}
-				class="btn px-2 py-1 rounded-md {editor.isActive('heading', { level: 5 })
-					? 'is-active'
-					: ''}"
-			>
-				<IconH5 fillColor={editor.isActive('heading', { level: 5 }) ? 'white' : 'white'} />
-			</button>
-			<button
-				on:click={() => editor.chain().focus().toggleHeading({ level: 6 }).run()}
-				class="btn px-2 py-1 rounded-md {editor.isActive('heading', { level: 6 })
-					? 'is-active'
-					: ''}"
-			>
-				<IconH6 fillColor={editor.isActive('heading', { level: 6 }) ? 'white' : 'white'} />
-			</button>
-			<button
-				on:click={() => editor.chain().focus().toggleBulletList().run()}
-				class="btn px-2 py-1 rounded-md {editor.isActive('bulletList') ? 'is-active' : ''}"
-			>
-				<IconBulletList fillColor={editor.isActive('bulletList') ? 'white' : 'white'} />
-			</button>
-			<button
-				on:click={() => editor.chain().focus().toggleOrderedList().run()}
-				class="btn px-2 py-1 rounded-md {editor.isActive('orderedList') ? 'is-active' : ''}"
-			>
-				<IconOrderedList fillColor={editor.isActive('orderedList') ? 'white' : 'white'} />
-			</button>
-			<button
-				on:click={() => editor.chain().focus().toggleCodeBlock().run()}
-				class="btn px-2 py-1 rounded-md {editor.isActive('codeBlock') ? 'is-active' : ''}"
-			>
-				<IconCodeBlock fillColor={editor.isActive('codeBlock') ? 'white' : 'white'} />
-			</button>
-			<button
-				on:click={() => editor.chain().focus().toggleBlockquote().run()}
-				class="btn px-2 py-1 rounded-md {editor.isActive('blockquote') ? 'is-active' : ''}"
-			>
-				<IconQuotes fillColor={editor.isActive('blockquote') ? 'white' : 'white'} />
-			</button>
-			<button
-				on:click={() => editor.chain().focus().setHorizontalRule().run()}
-				class="btn px-2 py-1 rounded-md"
-			>
-				<IconSeparator />
-			</button>
-			<!-- <button on:click={() => editor.chain().focus().setHardBreak().run()}> hard break </button> -->
-			<button on:click={() => addImage()} class="btn px-2 py-1 rounded-md">
-				<IconImage />
-			</button>
-			<button
-				on:click={() => editor.chain().focus().undo().run()}
-				disabled={!editor.can().chain().focus().undo().run()}
-				class="btn px-2 py-1 rounded-md"
-			>
-				<IconUndo />
-			</button>
-			<button
-				on:click={() => editor.chain().focus().redo().run()}
-				disabled={!editor.can().chain().focus().redo().run()}
-				class="btn px-2 py-1 rounded-md"
-			>
-				<IconRedo />
-			</button>
-			<button on:click={() => getOutput()} class="btn px-2 py-1 rounded-md">
-				<IconTerminal />
-			</button>
+			<div class="flex flex-row">
+				<button
+					on:click={() => editor.chain().focus().setParagraph().run()}
+					class="btn px-2 py-1 rounded-md {editor.isActive('paragraph') ? 'is-active' : ''}"
+				>
+					<IconParagraph fillColor={editor.isActive('paragraph') ? 'white' : 'white'} />
+				</button>
+				<button
+					on:click={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
+					class="btn px-2 py-1 rounded-md {editor.isActive('heading', { level: 1 })
+						? 'is-active'
+						: ''}"
+				>
+					<IconH1 fillColor={editor.isActive('heading', { level: 1 }) ? 'white' : 'white'} />
+				</button>
+				<button
+					on:click={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
+					class="btn px-2 py-1 rounded-md {editor.isActive('heading', { level: 2 })
+						? 'is-active'
+						: ''}"
+				>
+					<IconH2 fillColor={editor.isActive('heading', { level: 2 }) ? 'white' : 'white'} />
+				</button>
+				<button
+					on:click={() => editor.chain().focus().toggleHeading({ level: 3 }).run()}
+					class="btn px-2 py-1 rounded-md {editor.isActive('heading', { level: 3 })
+						? 'is-active'
+						: ''}"
+				>
+					<IconH3 fillColor={editor.isActive('heading', { level: 3 }) ? 'white' : 'white'} />
+				</button>
+				<button
+					on:click={() => editor.chain().focus().toggleHeading({ level: 4 }).run()}
+					class="btn px-2 py-1 rounded-md {editor.isActive('heading', { level: 4 })
+						? 'is-active'
+						: ''}"
+				>
+					<IconH4 fillColor={editor.isActive('heading', { level: 4 }) ? 'white' : 'white'} />
+				</button>
+				<button
+					on:click={() => editor.chain().focus().toggleHeading({ level: 5 }).run()}
+					class="btn px-2 py-1 rounded-md {editor.isActive('heading', { level: 5 })
+						? 'is-active'
+						: ''}"
+				>
+					<IconH5 fillColor={editor.isActive('heading', { level: 5 }) ? 'white' : 'white'} />
+				</button>
+				<button
+					on:click={() => editor.chain().focus().toggleHeading({ level: 6 }).run()}
+					class="btn px-2 py-1 rounded-md {editor.isActive('heading', { level: 6 })
+						? 'is-active'
+						: ''}"
+				>
+					<IconH6 fillColor={editor.isActive('heading', { level: 6 }) ? 'white' : 'white'} />
+				</button>
+			</div>
+			<span class="divider-vertical w-fit mx-2" />
+			<div class="flex flex-row">
+				<button
+					on:click={() => editor.chain().focus().toggleBulletList().run()}
+					class="btn px-2 py-1 rounded-md {editor.isActive('bulletList') ? 'is-active' : ''}"
+				>
+					<IconBulletList fillColor={editor.isActive('bulletList') ? 'white' : 'white'} />
+				</button>
+				<button
+					on:click={() => editor.chain().focus().toggleOrderedList().run()}
+					class="btn px-2 py-1 rounded-md {editor.isActive('orderedList') ? 'is-active' : ''}"
+				>
+					<IconOrderedList fillColor={editor.isActive('orderedList') ? 'white' : 'white'} />
+				</button>
+				<button
+					on:click={() => editor.chain().focus().toggleCodeBlock().run()}
+					class="btn px-2 py-1 rounded-md {editor.isActive('codeBlock') ? 'is-active' : ''}"
+				>
+					<IconCodeBlock fillColor={editor.isActive('codeBlock') ? 'white' : 'white'} />
+				</button>
+				<button
+					on:click={() => editor.chain().focus().toggleBlockquote().run()}
+					class="btn px-2 py-1 rounded-md {editor.isActive('blockquote') ? 'is-active' : ''}"
+				>
+					<IconQuotes fillColor={editor.isActive('blockquote') ? 'white' : 'white'} />
+				</button>
+				<button
+					on:click={() => editor.chain().focus().setHorizontalRule().run()}
+					class="btn px-2 py-1 rounded-md"
+				>
+					<IconSeparator fillColor="white" />
+				</button>
+				<!-- <button on:click={() => editor.chain().focus().setHardBreak().run()}> hard break </button> -->
+				<button on:click={() => addImage()} class="btn px-2 py-1 rounded-md">
+					<IconImage fillColor="white" />
+				</button>
+				<button
+					on:click={() => editor.chain().focus().undo().run()}
+					disabled={!editor.can().chain().focus().undo().run()}
+					class="btn px-2 py-1 rounded-md"
+				>
+					<IconUndo fillColor="white" />
+				</button>
+				<button
+					on:click={() => editor.chain().focus().redo().run()}
+					disabled={!editor.can().chain().focus().redo().run()}
+					class="btn px-2 py-1 rounded-md"
+				>
+					<IconRedo fillColor="white" />
+				</button>
+				<button on:click={() => getOutput()} class="btn px-2 py-1 rounded-md">
+					<IconTerminal fillColor="white" />
+				</button>
+			</div>
 		</div>
 	</div>
 {/if}
