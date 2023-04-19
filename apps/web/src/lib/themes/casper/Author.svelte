@@ -12,14 +12,11 @@
     
 	export let data: PageData;
     let author = data.author.content;
-    // console.log(data);
+    console.log(data.author.posts);
     
 </script>
 <!-- The tag above means - insert everything in this file into the {body} of the default.hbs template -->
-{#await data}
-    ...
-{:then data} 
-    
+{#if data}
 <main id="site-main" class="site-main outer">
 <div class="inner posts">
 
@@ -92,5 +89,4 @@
     
 </div>
 </main>
-
-{/await}
+{/if}
