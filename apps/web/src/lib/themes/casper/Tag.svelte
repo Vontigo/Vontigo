@@ -1,0 +1,73 @@
+<script lang="ts">
+	import type { PageData } from './$types';
+	import { img_url } from '$lib/core/core/frontend/helpers/img_url';
+	import { language, siteUrl, origin, templateType, custom } from '$lib/core/shared/stores/site';
+	import { ENUM_IMAGE_SIZE } from '$lib/core/shared/enum';
+	import IconFire from './partials/icons/IconFire.svelte';
+	import IconAvatar from './partials/icons/IconAvatar.svelte';
+	import Post from './Post.svelte';
+	import PostCard from './partials/PostCard.svelte';
+
+	$templateType = 'tag';
+    
+	export let data: PageData;
+    let tag = data.tag;
+    // console.log(data);
+    
+</script>
+
+<!-- The tag above means - insert everything in this file into the {body} of the default.hbs template -->
+
+<main id="site-main" class="site-main outer">
+<div class="inner posts">
+    <div class="post-feed">
+
+        {#if data}
+        <section class="post-card post-card-large">
+
+            {#if tag.content.feature_image}
+            <div class="post-card-image-link">
+                <!-- This is a responsive image, it loads different sizes depending on device
+                https://medium.freecodecamp.org/a-guide-to-responsive-images-with-ready-to-use-templates-c400bd65c433 -->
+                <!-- <img class="post-card-image"
+                    srcset="{`img_url feature_image size="s"`} 300w,
+                            {`img_url feature_image size="m"`} 600w,
+                            {`img_url feature_image size="l"`} 1000w,
+                            {`img_url feature_image size="xl"`} 2000w"
+                    sizes="(max-width: 1000px) 400px, 800px"
+                    src="{`img_url feature_image size="m"`}"
+                    alt="{`title`}"
+                /> -->
+            </div>
+            {/if}
+
+            <div class="post-card-content">
+            <div class="post-card-content-link">
+                <header class="post-card-header">
+                    <h2 class="post-card-title">{tag.content.name}</h2>
+                </header>
+                <div class="post-card-excerpt">
+                    {#if tag.content.description}
+                        {tag.content.description}
+                    {:else}
+                        A collection of {`plural ../pagination.total empty='zero posts' singular='% post' plural='% posts'`}
+                    {/if}
+                </div>
+            </div>
+            </div>
+
+        </section>
+        {/if}
+
+        {#each data.tag.posts as post}
+            
+            <!-- The tag below includes the markup for each post - partials/post-card.hbs -->
+           <PostCard {post}/>
+        {/each}
+
+    </div>
+
+    {`pagination`}
+    
+</div>
+</main>

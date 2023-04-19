@@ -4,6 +4,7 @@
 	import CompMenuPosts from '$lib/core/core/frontend/components/admin/CompMenu/CompMenuPosts.svelte';
 	import CompMenuSortBy from '$lib/core/core/frontend/components/admin/CompMenu/CompMenuSortBy.svelte';
 	import CompMenuTags from '$lib/core/core/frontend/components/admin/CompMenu/CompMenuTags.svelte';
+	import CompEditor from '$lib/core/core/frontend/components/admin/Editor/CompEditor.svelte';
 	import Icon3BottomLeft from '$lib/icons/Icon3BottomLeft.svelte';
 	import IconArrowDown from '$lib/icons/IconArrowDown.svelte';
 	import IconPlusSmall from '$lib/icons/IconPlusSmall.svelte';
@@ -51,7 +52,7 @@
 	<Drawer>
 		<div class="p-4">
 			{#if $drawerStore.id === 'postEditorDrawer'}
-				Editor
+				<CompEditor />
 			{/if}
 		</div>
 	</Drawer>

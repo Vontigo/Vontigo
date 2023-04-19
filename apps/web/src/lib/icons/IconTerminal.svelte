@@ -1,0 +1,9 @@
+<script lang="ts">
+	export let fillColor: string = 'black';
+</script>
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill={fillColor} class="w-4 h-4"
+	><path
+		d="M10.9999 11.9998L3.92886 19.0708L2.51465 17.6566L8.1715 11.9998L2.51465 6.34292L3.92886 4.92871L10.9999 11.9998ZM10.9999 18.9998H20.9999V20.9998H10.9999V18.9998Z"
+	/></svg
+>
