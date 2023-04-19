@@ -13,7 +13,7 @@
 	<ul class="nav">
 		{#each navigation as item}
 			<li class="nav-{item.label}">
-				{#if item.url == 'vontigo'}
+				{#if item.url == '/vontigo'}
 					<a data-sveltekit-reload href={$siteUrl + item.url}>{item.label}</a>
 				{:else}
 					<a href={$siteUrl + item.url}>{item.label}</a>
