@@ -1,18 +1,38 @@
-<!-- The tag above means - insert everything in this file into the {body} of the default.hbs template -->
+<script lang="ts">
+	import type { PageData } from './$types';
+	import { img_url } from '$lib/core/core/frontend/helpers/img_url';
+	import { language, siteUrl, origin, templateType, custom } from '$lib/core/shared/stores/site';
+	import { ENUM_IMAGE_SIZE } from '$lib/core/shared/enum';
+	import IconFire from './partials/icons/IconFire.svelte';
+	import IconAvatar from './partials/icons/IconAvatar.svelte';
+	import Post from './Post.svelte';
+	import PostCard from './partials/PostCard.svelte';
 
+	$templateType = 'tag';
+    
+	export let data: PageData;
+    let author = data.author.content;
+    // console.log(data);
+    
+</script>
+<!-- The tag above means - insert everything in this file into the {body} of the default.hbs template -->
+{#await data}
+    ...
+{:then data} 
+    
 <main id="site-main" class="site-main outer">
 <div class="inner posts">
 
     <div class="post-feed">
 
-        {`#author`}
+        {#if author}
         <section class="post-card post-card-large">
 
-            {`#if cover_image`}
+            {#if author.cover_image}
             <div class="post-card-image-link">
                 <!-- This is a responsive image, it loads different sizes depending on device
                 https://medium.freecodecamp.org/a-guide-to-responsive-images-with-ready-to-use-templates-c400bd65c433 -->
-                <img class="post-card-image"
+                <!-- <img class="post-card-image"
                     srcset="{`img_url cover_image size="s"`} 300w,
                             {`img_url cover_image size="m"`} 600w,
                             {`img_url cover_image size="l"`} 1000w,
@@ -20,19 +40,19 @@
                     sizes="(max-width: 1000px) 400px, 800px"
                     src="{`img_url cover_image size="m"`}"
                     alt="{`title`}"
-                />
+                /> -->
             </div>
-            {`/if`}
+            {/if}
 
             <div class="post-card-content">
             <div class="post-card-content-link">
 
-                {`#if profile_image`}
-                    <img class="author-profile-pic" src="{`profile_image`}" alt="{`name`}" />
-                {`/if`}
+                {#if author.profile_image}
+                    <img class="author-profile-pic" src="{author.profile_image}" alt="{author.name}" />
+                {/if}
 
                 <header class="post-card-header">
-                    <h2 class="post-card-title">{`name`}</h2>
+                    <h2 class="post-card-title">{author.name}</h2>
                 </header>
 
                 {`#if bio`}
@@ -60,12 +80,11 @@
             </div>
 
         </section>
-        {`/author`}
+        {/if}
 
-        {`#foreach posts`}
-            <!-- The tag below includes the markup for each post - partials/post-card.hbs -->
-            {`> "post-card"`}
-        {`/foreach`}
+        {#each data.author.posts as post}
+            <PostCard {post} />
+        {/each}
 
     </div>
 
@@ -73,3 +92,5 @@
     
 </div>
 </main>
+
+{/await}

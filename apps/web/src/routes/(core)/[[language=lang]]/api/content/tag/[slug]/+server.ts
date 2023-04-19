@@ -20,9 +20,15 @@ export async function GET({ url, params }) {
 
 
 		posts = await knexInstance
-			.select('p.*')
+			.select(
+				'p.*',
+				't.id as primary_tag',
+				't.name as primary_tag_name',
+				't.slug as primary_tag_slug'
+			)
 			.from('posts as p')
 			.leftJoin('posts_tags as pt', 'p.id', 'pt.post_id')
+			.leftJoin('tags as t', 't.id', 'pt.tag_id')
 			.where({
 				'pt.tag_id': content.id
 			});
@@ -33,8 +39,8 @@ export async function GET({ url, params }) {
 	}
 	return new Response(
 		JSON.stringify({
-			content: content,
-			authors: posts
+			content: await content,
+			posts: await posts
 		}),
 		{ status: 200 }
 	);

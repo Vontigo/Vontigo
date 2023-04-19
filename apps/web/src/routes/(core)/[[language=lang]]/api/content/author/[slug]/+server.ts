@@ -3,10 +3,23 @@ import { knexInstance } from '$lib/core/core/server/data/db/connection';
 /** @type {import('./$types').RequestHandler} */
 export async function GET({ url, params }) {
 	let content: any;
-	let authors: any;
-	console.log(params);
+	let posts: any[];
+	// console.log(params);
 	try {
-		const post: any[] = await knexInstance
+		content = await knexInstance
+			.select(
+				'a.*',
+			)
+			.from('users as a')
+			.where({
+				'a.slug': params.slug
+			})
+			.first();
+
+		// console.log(content);
+
+
+		posts = await knexInstance
 			.select(
 				'p.*',
 				't.id as primary_tag',
@@ -15,35 +28,21 @@ export async function GET({ url, params }) {
 			)
 			.from('posts as p')
 			.leftJoin('posts_tags as pt', 'p.id', 'pt.post_id')
+			.leftJoin('posts_authors as pa', 'p.id', 'pa.post_id')
 			.leftJoin('tags as t', 't.id', 'pt.tag_id')
 			.where({
-				'p.status': 'published',
-				'p.visibility': 'public',
-				'p.slug': params.slug
-			})
-			.first();
+				'pa.author_id': content.id,
+				'p.type': 'post', 'p.status': 'published', 'p.visibility': 'public'
+			});
 
-		content = post;
-
-		const qAuthors: any[] = await knexInstance
-			.select('u.*')
-			.from('posts as p')
-			.leftJoin('posts_authors as pa', 'p.id', 'pa.post_id')
-			.leftJoin('users as u', 'u.id', 'pa.author_id')
-			.where({
-				'p.slug': params.slug
-			})
-			.orderBy('sort_order');
-
-		authors = qAuthors;
-		console.log(authors);
+		console.log(await posts);
 	} catch (error) {
 		return new Response(JSON.stringify(error), { status: 300 });
 	}
 	return new Response(
 		JSON.stringify({
-			content: content,
-			authors: authors
+			content: await content,
+			posts: await posts
 		}),
 		{ status: 200 }
 	);

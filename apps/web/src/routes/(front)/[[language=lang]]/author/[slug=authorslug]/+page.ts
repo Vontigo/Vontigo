@@ -12,11 +12,11 @@ export const load = (async ({ fetch, url, params }) => {
 	// 	};
 	// }
 
-	const response = await fetch(`/api/content/tag/` + params.slug);
-	const tag = response.json();
+	const response = await fetch(`/api/content/author/` + params.slug);
+	const author = response.json();
 	// console.log(await tag);
 
 	return {
-		tag: tag
+		author: author
 	};
 }) satisfies PageLoad;
