@@ -19,6 +19,11 @@
 	import IconTag from '$lib/icons/IconTag.svelte';
 	import IconUsers from '$lib/icons/IconUsers.svelte';
 
+	import { computePosition, autoUpdate, flip, shift, offset, arrow } from '@floating-ui/dom';
+	import { storePopup, type PopupSettings } from '@skeletonlabs/skeleton';
+	storePopup.set({ computePosition, autoUpdate, flip, shift, offset, arrow });
+	origin.set($page.url.host);
+
 	let href: string;
 
 	origin.set($page.url.host);
@@ -76,11 +81,13 @@
 				</ul>
 				<ul class="p-2 px-6">
 					<li class="w-auto">
-						<a class={classesActive($adminSiteUrl + '/posts')} href={$adminSiteUrl + '/posts'}>
-							<Icon3BottomLeft />
-							<span class="flex-auto text-base">Posts</span>
-						</a>
 						<ul>
+							<li class="w-auto">
+								<a class={classesActive($adminSiteUrl + '/posts')} href={$adminSiteUrl + '/posts'}>
+									<Icon3BottomLeft />
+									<span class="flex-auto text-base">Posts</span>
+								</a>
+							</li>
 							<li class="w-auto">
 								<a
 									class={classesActive($adminSiteUrl + '/posts/drafts')}
@@ -144,7 +151,9 @@
 		<AppBar class="text-3xl font-bold">Dashboard</AppBar>
 	</svelte:fragment> -->
 	<!-- Router Slot -->
-	<slot />
+	<div class="max-w-screen-xl mx-auto">
+		<slot />
+	</div>
 	<!-- ---- / ---- -->
 	<!-- <svelte:fragment slot="pageFooter">Page Footer</svelte:fragment> -->
 	<!-- <svelte:fragment slot="footer">Footer</svelte:fragment> -->

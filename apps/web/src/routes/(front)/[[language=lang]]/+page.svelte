@@ -5,4 +5,4 @@
 	export let data: PageData;
 </script>
 
-<Index {data}/>
+<!-- <Index {data}/> -->

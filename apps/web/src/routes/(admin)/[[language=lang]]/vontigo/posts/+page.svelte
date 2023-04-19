@@ -20,7 +20,7 @@
 	};
 </script>
 
-<div class="max-w-screen-lg mx-auto">
+<div class="mx-auto">
 	<AppBar class="sticky top-0 z-10 p-4 bg-white">
 		<!-- <svelte:fragment slot="lead">
 			<Icon3BottomLeft />
