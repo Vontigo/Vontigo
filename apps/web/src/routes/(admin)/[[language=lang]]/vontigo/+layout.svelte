@@ -151,9 +151,7 @@
 		<AppBar class="text-3xl font-bold">Dashboard</AppBar>
 	</svelte:fragment> -->
 	<!-- Router Slot -->
-	<div class="max-w-screen-xl mx-auto">
 		<slot />
-	</div>
 	<!-- ---- / ---- -->
 	<!-- <svelte:fragment slot="pageFooter">Page Footer</svelte:fragment> -->
 	<!-- <svelte:fragment slot="footer">Footer</svelte:fragment> -->
