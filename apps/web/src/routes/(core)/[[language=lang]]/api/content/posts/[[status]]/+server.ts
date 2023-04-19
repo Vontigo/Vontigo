@@ -2,10 +2,12 @@ import { knexInstance } from '$lib/core/core/server/data/db/connection';
 
 /** @type {import('./$types').RequestHandler} */
 export async function GET({ url }) {
+	console.log(1);
+
 	let returnRows: any;
 	await getAllRows()
 		.then((rows) => {
-			console.log(rows);
+			// console.log(rows);
 			returnRows = rows;
 		})
 		.catch((error) => {
