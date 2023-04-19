@@ -5,8 +5,6 @@ import { error } from '@sveltejs/kit';
 import type { PageLoad } from './$types';
 
 export const load = (async ({ fetch, url, params }) => {
-	console.log(params);
-
 	// if (params.slug === 'hello-world') {
 	// 	return {
 	// 		title: 'Hello world!',
@@ -14,8 +12,10 @@ export const load = (async ({ fetch, url, params }) => {
 	// 	};
 	// }
 
-	const response = await fetch(`/api/content/posts`);
+	const response = await fetch(`/api/content/tag/` + params.slug);
 	const posts = response.json();
+	// console.log(await posts);
+
 	return {
 		posts: posts
 	};

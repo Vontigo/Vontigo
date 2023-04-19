@@ -11,7 +11,7 @@
             <div class="post-card-image-link">
                 <!-- This is a responsive image, it loads different sizes depending on device
                 https://medium.freecodecamp.org/a-guide-to-responsive-images-with-ready-to-use-templates-c400bd65c433 -->
-                <img class="post-card-image"
+                <!-- <img class="post-card-image"
                     srcset="{`img_url feature_image size="s"`} 300w,
                             {`img_url feature_image size="m"`} 600w,
                             {`img_url feature_image size="l"`} 1000w,
@@ -19,7 +19,7 @@
                     sizes="(max-width: 1000px) 400px, 800px"
                     src="{`img_url feature_image size="m"`}"
                     alt="{`title`}"
-                />
+                /> -->
             </div>
             {`/if`}
 
