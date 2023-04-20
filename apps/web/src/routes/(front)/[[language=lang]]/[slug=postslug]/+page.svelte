@@ -5,13 +5,14 @@
 	import { page } from '$app/stores';
 
 	export let data: PageData;
-	let post = data.post;
+	console.log(data);
+	
 </script>
 
-{#if post}
-	{#if post.content.type == 'post'}
-		<Post {post} />
-	{:else if post.content.type == 'page'}
-		<Page {post} />
+{#if data}
+	{#if data.post.content.type == 'post'}
+		<Post {data} />
+	{:else if data.post.content.type == 'page'}
+		<Page {data} />
 	{/if}
 {/if}
