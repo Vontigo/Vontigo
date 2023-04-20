@@ -2,6 +2,7 @@
 	import { ENUM_IMAGE_SIZE } from '$lib/core/shared/enum';
 	import { img_url } from '$lib/core/core/frontend/helpers/img_url';
 	import { language, siteUrl, origin, site } from '$lib/core/shared/stores/site';
+	import IconFire from './icons/IconFire.svelte';
 
 	export let post: any;
 	let postUrl = $siteUrl + '/' + post.slug;
@@ -53,7 +54,7 @@ which templates loop over to generate a list of posts. -->
 						<span class="post-card-primary-tag">{post.primary_tag_name}</span>
 					{/if}
 					{#if post.featured}
-						<span class="post-card-featured">{`> "icons/fire"`} Featured</span>
+						<span class="post-card-featured"><IconFire /> Featured</span>
 					{/if}
 				</div>
 				<h2 class="post-card-title">

@@ -1,5 +1,6 @@
 <script lang="ts">
-	import { img_url } from '$lib/core/core/frontend/helpers/img_url';
+	import Pagination from '$lib/core/core/frontend/helpers/components/Pagination.svelte';
+import { img_url } from '$lib/core/core/frontend/helpers/img_url';
 	import { ENUM_IMAGE_SIZE } from '$lib/core/shared/enum';
 	import {
 		language,
@@ -82,7 +83,7 @@
 				{/if}
 			</div>
 
-			{`pagination`}
+			<Pagination />
 		</div>
 	</main>
 {/if}
