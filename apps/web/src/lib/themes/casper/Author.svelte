@@ -7,6 +7,9 @@
 	import IconAvatar from './partials/icons/IconAvatar.svelte';
 	import Post from './Post.svelte';
 	import PostCard from './partials/PostCard.svelte';
+	import IconTwitter from './partials/icons/IconTwitter.svelte';
+	import IconFacebook from './partials/icons/IconFacebook.svelte';
+	import Pagination from '$lib/core/core/frontend/helpers/components/Pagination.svelte';
 
 	$templateType = 'tag';
     
@@ -29,15 +32,15 @@
             <div class="post-card-image-link">
                 <!-- This is a responsive image, it loads different sizes depending on device
                 https://medium.freecodecamp.org/a-guide-to-responsive-images-with-ready-to-use-templates-c400bd65c433 -->
-                <!-- <img class="post-card-image"
-                    srcset="{`img_url cover_image size="s"`} 300w,
-                            {`img_url cover_image size="m"`} 600w,
-                            {`img_url cover_image size="l"`} 1000w,
-                            {`img_url cover_image size="xl"`} 2000w"
+                <img
+                    srcset="{img_url($origin, author.cover_image, ENUM_IMAGE_SIZE.S)} 300w,
+            {img_url($origin, author.cover_image, ENUM_IMAGE_SIZE.M)} 600w,
+            {img_url($origin, author.cover_image, ENUM_IMAGE_SIZE.L)} 1000w,
+            {img_url($origin, author.cover_image, ENUM_IMAGE_SIZE.XL)} 2000w"
                     sizes="(max-width: 1000px) 400px, 800px"
-                    src="{`img_url cover_image size="m"`}"
-                    alt="{`title`}"
-                /> -->
+                    src={img_url($origin, author.cover_image, ENUM_IMAGE_SIZE.XL)}
+                    alt="{author.title}"
+                />
             </div>
             {/if}
 
@@ -52,24 +55,24 @@
                     <h2 class="post-card-title">{author.name}</h2>
                 </header>
 
-                {`#if bio`}
+                {#if author.bio}
                     <div class="post-card-excerpt">{`bio`}</div>
-                {`/if`}
+                {/if}
 
                 <footer class="author-profile-footer">
-                    {`#if location`}
-                        <div class="author-profile-location">{`location`}</div>
-                    {`/if`}
+                    {#if author.location}
+                        <div class="author-profile-location">{author.location}</div>
+                    {/if}
                     <div class="author-profile-meta">
-                        {`#if website`}
-                            <a class="author-profile-social-link" href="{`website`}" target="_blank" rel="noopener">{`website`}</a>
-                        {`/if`}
-                        {`#if twitter`}
-                            <a class="author-profile-social-link" href="{`twitter_url`}" target="_blank" rel="noopener">{`> "icons/twitter"`}</a>
-                        {`/if`}
-                        {`#if facebook`}
-                            <a class="author-profile-social-link" href="{`facebook_url`}" target="_blank" rel="noopener">{`> "icons/facebook"`}</a>
-                        {`/if`}
+                        {#if author.website}
+                            <a class="author-profile-social-link" href="{author.website}" target="_blank" rel="noopener">{author.website}</a>
+                        {/if}
+                        {#if author.twitter}
+                            <a class="author-profile-social-link" href="{author.twitter_url}" target="_blank" rel="noopener"><IconTwitter /></a>
+                        {/if}
+                        {#if author.facebook}
+                            <a class="author-profile-social-link" href="{author.facebook_url}" target="_blank" rel="noopener"><IconFacebook /></a>
+                        {/if}
                     </div>
                 </footer>
 
@@ -85,7 +88,7 @@
 
     </div>
 
-    {`pagination`}
+    <Pagination />
     
 </div>
 </main>
