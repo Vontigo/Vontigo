@@ -3,7 +3,7 @@
   "scripts": {
     "build": "turbo run build",
     "dev": "turbo run dev",
-    "web": "turbo run dev --filter=web",
+    "web": "turbo run dev --filter=vontigo",
     "lint": "turbo run lint",
     "format": "prettier --write ."
   },
