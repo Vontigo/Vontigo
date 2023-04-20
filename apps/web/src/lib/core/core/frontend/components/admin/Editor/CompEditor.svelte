@@ -11,6 +11,7 @@
 	import Image from '@tiptap/extension-image';
 	import CharacterCount from '@tiptap/extension-character-count';
 	import FloatingMenu from '@tiptap/extension-floating-menu';
+	import Placeholder from '@tiptap/extension-placeholder';
 	import './CompEditor.css';
 	// ICONS
 	import IconBold from '$lib/icons/IconBold.svelte';
@@ -69,9 +70,16 @@
 				}),
 				StarterKit,
 				Image,
-				CharacterCount
+				CharacterCount,
+				Placeholder.configure({
+					placeholder: ({ node }) => {
+						if (node.type.name === 'heading') {
+							return 'What’s the title?';
+						}
+					}
+				})
 			],
-			content: '',
+			content: `<h1 name="title"></h1>`,
 			onTransaction: () => {
 				// force re-render so `editor.isActive` works as expected
 				editor = editor;
@@ -81,22 +89,24 @@
 				// The editor is focused.
 				const el = editor.view.dom.children[editor.view.dom.children.length - 1];
 
-				if (editor.isActive('paragraph')) {
-					if (el.innerHTML.replaceAll(`<br class="ProseMirror-trailingBreak">`, '') === '') {
-						console.log('Show');
+				if (editor.isActive('paragraph') && el.classList.contains('is-empty')) {
+					// console.log(el.innerHTML.indexOf(`<br class="ProseMirror-trailingBreak">`));
 
-						computePosition(el, floatingMenuHTML, {
-							placement: 'left' // 'bottom' by default
-						}).then(({ x, y }) => {
-							Object.assign(floatingMenuHTML.style, {
-								left: `${x - 12}px`,
-								top: `${y + 60}px`
-							});
+					// console.log(el.innerHTML);
+
+					// console.log(el.innerHTML.replaceAll(`<br class="ProseMirror-trailingBreak">`, ''));
+
+					computePosition(el, floatingMenuHTML, {
+						placement: 'left' // 'bottom' by default
+					}).then(({ x, y }) => {
+						Object.assign(floatingMenuHTML.style, {
+							left: `${x - 12}px`,
+							top: `${y + 60}px`
 						});
-						floatingMenuShow = true;
-					} else {
-						floatingMenuShow = false;
-					}
+					});
+					floatingMenuShow = true;
+				} else {
+					floatingMenuShow = false;
 				}
 			}
 			// onUpdate({ editor }) {
@@ -375,8 +385,11 @@
 	</div>
 {/if}
 
-<style lang="postcss">
+<style lang="postcss" global>
 	button.is-active {
 		@apply bg-slate-600;
+	}
+	p.is-empty.is-editor-empty {
+		content: attr(data-placeholder);
 	}
 </style>
