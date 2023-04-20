@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { PageData } from './$types';
 	import { img_url } from '$lib/core/core/frontend/helpers/img_url';
-	import { language, siteUrl, origin, templateType, custom } from '$lib/core/shared/stores/site';
+	import { language, siteUrl, origin, templateType, custom, site } from '$lib/core/shared/stores/site';
 	import { ENUM_IMAGE_SIZE } from '$lib/core/shared/enum';
 	import IconFire from './partials/icons/IconFire.svelte';
 	import IconAvatar from './partials/icons/IconAvatar.svelte';
@@ -109,15 +109,15 @@
 
 			{#if post.comments}
 				<section class="article-comments gh-canvas">
-					{`comments`}
+					{post.comments}
 				</section>
 			{/if}
 		</article>
 	</main>
 
 	<!-- A signup call to action is displayed here, unless viewed as a logged-in member -->
-	<!-- {#if @site.members_enabled}
-{`#unless @member`}
+{#if $site.members_enabled}
+<!-- {`#unless @member`}
 {`#unless @site.comments_enabled`}
 {#if access}
     <section class="footer-cta outer">
@@ -131,11 +131,11 @@
     </section>
 {/if}
 {`/unless`}
-{`/unless`}
+{`/unless`} -->
 {/if}
 
 
- Read more links, just above the footer -->
+ <!-- Read more links, just above the footer -->
 	<!--{#if @custom.show_recent_posts_footer}
      The {#get} helper below fetches some of the latest posts here
     so that people have something else to read when they finish this one.
