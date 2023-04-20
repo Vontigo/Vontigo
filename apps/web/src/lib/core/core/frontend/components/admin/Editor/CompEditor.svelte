@@ -1,10 +1,18 @@
 <script lang="ts">
-	import './CompEditor.css';
-
+	// SKELETON
+	import { popup, storePopup } from '@skeletonlabs/skeleton';
+	import type { PopupSettings } from '@skeletonlabs/skeleton';
+	import { computePosition } from '@floating-ui/dom';
+	// SVELTE
+	import { onMount } from 'svelte';
+	// TIPTAP
+	import { Editor } from '@tiptap/core';
 	import StarterKit from '@tiptap/starter-kit';
 	import Image from '@tiptap/extension-image';
-	import { Editor } from '@tiptap/core';
-	import { onMount } from 'svelte';
+	import CharacterCount from '@tiptap/extension-character-count';
+	import FloatingMenu from '@tiptap/extension-floating-menu';
+	import './CompEditor.css';
+	// ICONS
 	import IconBold from '$lib/icons/IconBold.svelte';
 	import IconItalic from '$lib/icons/IconItalic.svelte';
 	import IconStrike from '$lib/icons/IconStrike.svelte';
@@ -25,48 +33,91 @@
 	import IconUndo from '$lib/icons/IconUndo.svelte';
 	import IconRedo from '$lib/icons/IconRedo.svelte';
 	import IconTerminal from '$lib/icons/IconTerminal.svelte';
-
+	import Author from '$lib/themes/casper/Author.svelte';
+	// VARIABLE DEFINE
 	let element: HTMLDivElement;
+	let floatingMenuHTML: HTMLDivElement;
 	let editor: Editor;
-
+	let popupSettings: PopupSettings = {
+		// Set the event as: click | hover | hover-click | focus | focus-click
+		event: 'click',
+		// Provide a matching 'data-popup' value.
+		target: 'imagePopup'
+	};
+	let menuPopupSettings: PopupSettings = {
+		// Set the event as: click | hover | hover-click | focus | focus-click
+		event: 'click',
+		// Provide a matching 'data-popup' value.
+		target: 'menuPopup'
+	};
+	let focusPopup: PopupSettings = {
+		event: 'focus',
+		target: 'floatingMenu'
+	};
+	let floatingMenuShow = false;
 	onMount(() => {
 		editor = new Editor({
 			element: element,
-			extensions: [StarterKit, Image],
-			content: `
-			  <h2>
-				Hi there,
-			  </h2>
-			  <p>
-				this is a <em>basic</em> example of <strong>tiptap</strong>. Sure, there are all kind of basic text styles you’d probably expect from a text editor. But wait until you see the lists:
-			  </p>
-			  <ul>
-				<li>
-				  That’s a bullet list with one …
-				</li>
-				<li>
-				  … or two list items.
-				</li>
-			  </ul>
-			  <p>
-				Isn’t that great? And all of that is editable. But wait, there’s more. Let’s try a code block:
-			  </p>
-			  <pre><code class="language-css">body {
-		  display: none;
-		}</code></pre>
-			  <p>
-				I know, I know, this is impressive. It’s only the tip of the iceberg though. Give it a try and click a little bit around. Don’t forget to check the other examples too.
-			  </p>
-			  <blockquote>
-				Wow, that’s amazing. Good work, boy! 👏
-				<br />
-				— Mom
-			  </blockquote>
-			`,
+			extensions: [
+				FloatingMenu.configure({
+					element: floatingMenuHTML,
+					tippyOptions: { duration: 100 },
+					shouldShow: ({ editor, view, state, oldState }) => {
+						// show the floating within any paragraph
+						return editor.isActive('paragraph');
+					}
+				}),
+				StarterKit,
+				Image,
+				CharacterCount
+			],
+			content: '',
 			onTransaction: () => {
 				// force re-render so `editor.isActive` works as expected
 				editor = editor;
+			},
+			autofocus: true,
+			onUpdate({ editor }) {
+				// The editor is focused.
+				const el = editor.view.dom.children[editor.view.dom.children.length - 1];
+
+				if (editor.isActive('paragraph')) {
+					if (el.innerHTML.replaceAll(`<br class="ProseMirror-trailingBreak">`, '') === '') {
+						console.log('Show');
+
+						computePosition(el, floatingMenuHTML, {
+							placement: 'left' // 'bottom' by default
+						}).then(({ x, y }) => {
+							Object.assign(floatingMenuHTML.style, {
+								left: `${x - 12}px`,
+								top: `${y + 60}px`
+							});
+						});
+						floatingMenuShow = true;
+					} else {
+						floatingMenuShow = false;
+					}
+				}
 			}
+			// onUpdate({ editor }) {
+			// 	// The editor is focused.
+			// 	const el = editor.view.dom.children[editor.view.dom.children.length - 1];
+			// 	if (editor.isActive('paragraph')) {
+			// 		if (el.innerHTML.replaceAll(`<br class="ProseMirror-trailingBreak">`, '') === '') {
+			// 			floatingMenuShow = true;
+			// 			computePosition(el, floatingMenuHTML, {
+			// 				placement: 'left' // 'bottom' by default
+			// 			}).then(({ x, y }) => {
+			// 				Object.assign(floatingMenuHTML.style, {
+			// 					left: `${x - 12}px`,
+			// 					top: `${y}px`
+			// 				});
+			// 			});
+			// 		} else {
+			// 			floatingMenuShow = false;
+			// 		}
+			// 	}
+			// }
 		});
 	});
 	const addImage = () => {
@@ -88,7 +139,7 @@
 		<div class="flex flex-row p-2 bg-black">
 			<div class="flex flex-row">
 				<button
-					on:click={() => console.log && editor.chain().focus().toggleBold().run()}
+					on:click={() => editor.chain().focus().toggleBold().run()}
 					disabled={!editor.can().chain().focus().toggleBold().run()}
 					class="btn px-2 py-1 rounded-md {editor.isActive('bold') ? 'is-active' : ''}"
 				>
@@ -209,7 +260,7 @@
 					<IconSeparator fillColor="white" />
 				</button>
 				<!-- <button on:click={() => editor.chain().focus().setHardBreak().run()}> hard break </button> -->
-				<button on:click={() => addImage()} class="btn px-2 py-1 rounded-md">
+				<button use:popup={popupSettings} class="btn px-2 py-1 rounded-md">
 					<IconImage fillColor="white" />
 				</button>
 				<button
@@ -234,6 +285,95 @@
 	</div>
 {/if}
 <div class="ProseMirror mt-2 p-3" bind:this={element} />
+
+{#if editor}
+	<div class="character-count p-3">
+		{editor.storage.characterCount.characters()} characters -
+		{editor.storage.characterCount.words()} words
+	</div>
+
+	<!-- <FloatingMenu {editor} tippyOptions={{ duration: 100 }}>
+		<button
+			on:click={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
+			class={editor.isActive('heading', { level: 1 }) ? 'is-active' : ''}
+		>
+			h1
+		</button>
+		<button
+			on:click={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
+			class={editor.isActive('heading', { level: 2 }) ? 'is-active' : ''}
+		>
+			h2
+		</button>
+		<button
+			on:click={() => editor.chain().focus().toggleBulletList().run()}
+			class={editor.isActive('bulletList') ? 'is-active' : ''}
+		>
+			bullet list
+		</button>
+	</FloatingMenu> -->
+	<div
+		id="tooltip"
+		style="position: fixed;"
+		class="p-2 drop-shadow-md bg-primary-400"
+		class:hidden={!floatingMenuShow}
+		bind:this={floatingMenuHTML}
+	>
+		<div class="flex flex-col justify-start">
+			<button
+				on:click={() => editor.chain().focus().toggleBulletList().run()}
+				class="flex-auto w-auto btn border-none hover:bg-surface-500 px-2 py-1 rounded-md justify-start {editor.isActive(
+					'bulletList'
+				)
+					? 'is-active'
+					: ''}"
+			>
+				<span>
+					<IconBulletList fillColor={editor.isActive('bulletList') ? 'white' : 'black'} />
+				</span>
+				<span>Bullet List</span>
+			</button>
+			<button
+				on:click={() => editor.chain().focus().toggleOrderedList().run()}
+				class="flex-auto w-auto btn border-none hover:bg-surface-500 px-2 py-1 rounded-md justify-start {editor.isActive(
+					'orderedList'
+				)
+					? 'is-active'
+					: ''}"
+			>
+				<span
+					><IconOrderedList fillColor={editor.isActive('orderedList') ? 'white' : 'black'} /></span
+				>
+				<span>Ordered List</span>
+			</button>
+			<button
+				on:click={() => editor.chain().focus().toggleCodeBlock().run()}
+				class="flex-auto w-auto btn border-none hover:bg-surface-500 px-2 py-1 rounded-md justify-start {editor.isActive(
+					'codeBlock'
+				)
+					? 'is-active'
+					: ''}"
+			>
+				<span><IconCodeBlock fillColor={editor.isActive('codeBlock') ? 'white' : 'black'} /></span>
+				<span>Code Block</span>
+			</button>
+			<button
+				class="flex-auto w-auto btn border-none hover:bg-surface-500 px-2 py-1 rounded-md justify-start"
+				on:click={() => editor.chain().focus().setHorizontalRule().run()}
+			>
+				<span><IconSeparator fillColor="black" /></span>
+				<span>Seperator</span>
+			</button>
+			<button
+				on:click={() => editor.chain().focus().toggleBlockquote().run()}
+				class="flex-auto w-auto btn border-none hover:bg-surface-500 px-2 py-1 rounded-md justify-start"
+			>
+				<span><IconQuotes fillColor="black" /></span>
+				<span class="">Quotes</span>
+			</button>
+		</div>
+	</div>
+{/if}
 
 <style lang="postcss">
 	button.is-active {
