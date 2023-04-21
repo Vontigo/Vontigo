@@ -5,7 +5,7 @@
 	// This contains the bulk of Skeletons required styles:
 	import '@skeletonlabs/skeleton/styles/all.css';
 	// Finally, your application's global stylesheet (sometimes labeled 'app.css')
-	import '../../../../app.postcss';
+	import './app.postcss';
 
 	import { Accordion, AccordionItem, AppBar, AppShell } from '@skeletonlabs/skeleton';
 	import { LightSwitch } from '@skeletonlabs/skeleton';
@@ -151,7 +151,7 @@
 		<AppBar class="text-3xl font-bold">Dashboard</AppBar>
 	</svelte:fragment> -->
 	<!-- Router Slot -->
-		<slot />
+	<slot />
 	<!-- ---- / ---- -->
 	<!-- <svelte:fragment slot="pageFooter">Page Footer</svelte:fragment> -->
 	<!-- <svelte:fragment slot="footer">Footer</svelte:fragment> -->

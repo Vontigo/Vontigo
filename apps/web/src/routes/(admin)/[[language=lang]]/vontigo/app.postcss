@@ -1,0 +1,66 @@
+/* Write your global styles here, in PostCSS syntax */
+/* @tailwind base;
+@tailwind components;
+@tailwind utilities; */
+/* body {
+	@apply bg-surface-50-900-token;
+} */
+html,
+body {
+	@apply h-full overflow-hidden;
+	background-color: #fafafb;
+}
+
+#page-content .app-bar-row-main {
+	gap: 0;
+}
+#page-content .app-bar-row-main .btn {
+	border: 0;
+}
+
+#page-content .app-bar {
+	background-color: #fafafb;
+}
+
+.table {
+	border-radius: 0;
+}
+
+.table thead {
+	background-color: #fafafb;
+}
+.table tbody tr {
+	background-color: #fafafb;
+}
+.table tbody tr:nth-child(even) {
+	background-color: #fafafb;
+}
+.table-hover tbody tr:hover {
+	background-color: #eee;
+}
+.table-hover tbody tr:hover:nth-child(even) {
+	background-color: #eee;
+}
+
+.dark #page-content .app-bar {
+	background-color: rgb(var(--color-surface-900));
+}
+.dark .sidebar-left {
+	border-color: rgb(var(--color-surface-500));
+}
+
+.dark .table thead {
+	background-color: rgb(var(--color-surface-900));
+}
+.dark .table tbody tr {
+	background-color: rgb(var(--color-surface-900));
+}
+.dark .table tbody tr:nth-child(even) {
+	background-color: rgb(var(--color-surface-900));
+}
+.dark .table-hover tbody tr:hover {
+	background-color: #111;
+}
+.dark .table-hover tbody tr:hover:nth-child(even) {
+	background-color: #111;
+}

@@ -29,7 +29,7 @@
 	};
 </script>
 
-<div class="max-w-screen-xl mx-auto">
+<div class="max-w-screen-xl mx-auto px-10">
 	<AppBar class="sticky top-0 z-10 p-4 bg-white">
 		<!-- <svelte:fragment slot="lead">
 			<Icon3BottomLeft />
@@ -37,23 +37,25 @@
 		<h3 class="font-bold">Posts</h3>
 		<svelte:fragment slot="trail">
 			<!-- <div class="w-full "> -->
-			<div class="flex flex-row-reverse w-full items-center">
-				<button
-					type="button"
-					class="btn btn-sm variant-filled rounded"
-					on:click={() => {
-						drawerStore.open(settings);
-					}}
-				>
-					<span><IconPlusSmall /></span>
-					<span>New post</span>
-				</button>
+
+			<div class="flex flex-row-reverse w-full items-center gap-2">
 				<span><CompMenuPosts /></span>
 				<span><CompMenuMembersAccess /></span>
 				<span><CompMenuAuthors /></span>
 				<span><CompMenuTags /></span>
 				<span><CompMenuSortBy /></span>
 			</div>
+
+			<button
+				type="button"
+				class="btn btn-sm variant-filled rounded ml-4"
+				on:click={() => {
+					drawerStore.open(settings);
+				}}
+			>
+				<span><IconPlusSmall /></span>
+				<span>New post </span>
+			</button>
 			<!-- </div> -->
 		</svelte:fragment>
 
@@ -78,7 +80,7 @@
 							{/each}
 						{/if} -->
 						<th>Title</th>
-						<th>Status</th>
+						<th class="w-1">Status</th>
 						<!-- <th>Symbol</th>
 						<th>Weight</th> -->
 					</tr>
@@ -101,8 +103,10 @@
 									drawerStore.open(settings);
 								}}
 							>
-								<p class="font-bold">{row.title}</p>
-								<p><span>By {row.created_by}</span> • <span>{row.updated_at}</span></p>
+								<p class="font-semibold">{row.title}</p>
+								<p class="unstyled text-xs mt-1 text-slate-500">
+									<span>By {row.created_by}</span> • <span>{row.updated_at}</span>
+								</p>
 							</td>
 							<td>
 								<span

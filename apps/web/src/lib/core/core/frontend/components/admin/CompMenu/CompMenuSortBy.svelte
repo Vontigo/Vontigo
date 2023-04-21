@@ -14,7 +14,7 @@
 	};
 </script>
 
-<button type="button" class="btn btn-sm bg-none" use:popup={menuSortBy}>
+<button type="button" class="btn btn-sm variant-soft" use:popup={menuSortBy}>
 	<span>Sort by: {menuSortByValue ?? 'None'}</span>
 	<span><IconArrowDown /></span>
 </button>
