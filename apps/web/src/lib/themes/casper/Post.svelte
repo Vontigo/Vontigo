@@ -5,6 +5,7 @@
 	import { ENUM_IMAGE_SIZE } from '$lib/core/shared/enum';
 	import IconFire from './partials/icons/IconFire.svelte';
 	import IconAvatar from './partials/icons/IconAvatar.svelte';
+	import { post_class } from '$lib/core/core/frontend/helpers/post_class';
 
 	$templateType = 'post';
 	export let data: PageData;
@@ -19,7 +20,7 @@
 
 	<main id="site-main" class="site-main">
 		<article
-			class="article {`post_class`} {`#match @custom.post_image_style "Full"`}image-full{`else match @custom.post_image_style "=" "Small"`}image-small{`/match`}"
+			class="article {post_class(post)} {`#match @custom.post_image_style "Full"`}image-full{`else match @custom.post_image_style "=" "Small"`}image-small{`/match`}"
 		>
 			<header class="article-header gh-canvas">
 				<div class="article-tag post-card-tags">
