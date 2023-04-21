@@ -4,3 +4,6 @@ export enum ENUM_IMAGE_SIZE {
 	L = 'l',
 	XL = 'xl'
 }
+export enum ENUM_DATABASE_TABLE {
+	posts = 'posts'
+}

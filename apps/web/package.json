@@ -61,6 +61,7 @@
 		"bson-objectid": "^2.0.4",
 		"knex": "^2.4.2",
 		"pnpm": "^8.2.0",
-		"sqlite3": "^5.1.6"
+		"sqlite3": "^5.1.6",
+		"transliteration": "^2.3.5"
 	}
 }
