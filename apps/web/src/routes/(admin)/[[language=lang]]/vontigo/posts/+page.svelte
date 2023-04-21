@@ -15,9 +15,10 @@
 	const settings: DrawerSettings = {
 		id: 'postEditorDrawer',
 		position: 'right',
-		width: 'w-[80%]',
+		width: 'w-full lg:w-[80%]',
 		padding: 'p-4',
-		rounded: 'rounded-xl'
+		rounded: 'rounded-xl',
+		shadow: 'shadow-md'
 	};
 </script>
 
@@ -28,12 +29,8 @@
 		</svelte:fragment> -->
 		<h3 class="font-bold">Posts</h3>
 		<svelte:fragment slot="trail">
-			<div class="w-full text-end">
-				<CompMenuPosts />
-				<CompMenuMembersAccess />
-				<CompMenuAuthors />
-				<CompMenuTags />
-				<CompMenuSortBy />
+			<!-- <div class="w-full "> -->
+			<div class="flex flex-row-reverse w-full items-center">
 				<button
 					type="button"
 					class="btn btn-sm variant-filled rounded"
@@ -41,10 +38,16 @@
 						drawerStore.open(settings);
 					}}
 				>
-					<!-- <span><IconPlusSmall /></span> -->
+					<span><IconPlusSmall /></span>
 					<span>New post</span>
 				</button>
+				<span><CompMenuPosts /></span>
+				<span><CompMenuMembersAccess /></span>
+				<span><CompMenuAuthors /></span>
+				<span><CompMenuTags /></span>
+				<span><CompMenuSortBy /></span>
 			</div>
+			<!-- </div> -->
 		</svelte:fragment>
 
 		<!-- <svelte:fragment slot="trail">(actions)</svelte:fragment> -->
