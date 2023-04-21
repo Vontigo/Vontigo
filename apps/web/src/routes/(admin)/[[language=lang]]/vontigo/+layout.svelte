@@ -52,11 +52,11 @@
 	<svelte:fragment slot="sidebarLeft">
 		<div
 			id=""
-			class="sidebar-left hidden lg:block text-lg drop-shadow-md border-e border-gray-300 h-full min-w-[250px]"
+			class="sidebar-left hidden lg:block text-lg drop-shadow-md border-e border-gray-300 h-full min-w-[300px]"
 		>
 			<nav class="list-nav space-y-4 h-full flex flex-col">
 				<!-- (optionally you can provde a label here) -->
-				<ul class="p-2 pl-8 px-6 pt-4">
+				<ul class="p-2 pl-8 px-6 pt-6">
 					<li class="w-auto">
 						<span class="badge bg-primary-500 w-10 h-10 font-bold text-xl">V</span>
 						<span class="flex-auto text-base">Vontigo</span>
@@ -138,7 +138,7 @@
 					</li>
 				</ul>
 				<ul class="h-full" />
-				<ul class="p-4 px-6">
+				<ul class="p-6">
 					<li class="w-full text-end content-end">
 						<span class="flex-auto text-base"><LightSwitch /></span>
 					</li>
