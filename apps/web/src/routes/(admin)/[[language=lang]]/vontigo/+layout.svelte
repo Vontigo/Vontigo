@@ -138,7 +138,7 @@
 					</li>
 				</ul>
 				<ul class="h-full" />
-				<ul class="p-2 px-6">
+				<ul class="p-4 px-6">
 					<li class="w-full text-end content-end">
 						<span class="flex-auto text-base"><LightSwitch /></span>
 					</li>

@@ -43,7 +43,7 @@
 		<h3 class="font-bold">Posts</h3>
 		<svelte:fragment slot="trail">
 			<!-- <div class="w-full "> -->
-			<div class="hidden md:flex md:flex-row-reverse w-full items-center">
+			<div class="hidden md:flex md:flex-row-reverse w-full items-center gap-2">
 				<button
 					type="button"
 					class="btn btn-sm variant-filled rounded"
@@ -85,7 +85,7 @@
 		{/if}
 	</Drawer>
 
-	<div class="postsList p-4">
+	<div class="postsList">
 		<!-- Responsive Container (recommended) -->
 		<div class="table-container rounded-none w-full">
 			<!-- Native Table Element -->
