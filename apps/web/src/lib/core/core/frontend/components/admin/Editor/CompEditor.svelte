@@ -152,16 +152,6 @@
 									top: `${y}px`
 								});
 							});
-						} else {
-							computePosition(focusNode, floatingMenuHTML, {
-								placement: 'left' // 'bottom' by default
-							}).then(({ x, y }) => {
-								Object.assign(floatingMenuHTML.style, {
-									left: 'unset',
-									right: `${20}px`,
-									top: `${y}px`
-								});
-							});
 						}
 						// console.log(el.innerHTML);
 
@@ -176,6 +166,8 @@
 						// 	});
 						// });
 						floatingMenuShow = true;
+					} else {
+						floatingMenuShow = false;
 					}
 				} else {
 					floatingMenuShow = false;
