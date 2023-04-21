@@ -5,6 +5,7 @@ export const language = writable('');
 export const siteUrl = writable('');
 export const adminSiteUrl = writable('');
 
+export const isEditorOpen = writable(false);
 // Setting | site
 export const site = writable({});
 export const member = writable({});

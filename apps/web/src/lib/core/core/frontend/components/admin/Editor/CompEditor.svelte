@@ -15,6 +15,7 @@
 	import FloatingMenu from '@tiptap/extension-floating-menu';
 	import Placeholder from '@tiptap/extension-placeholder';
 	import TextAlign from '@tiptap/extension-text-align';
+	import { generateHTML } from '@tiptap/html';
 	import './CompEditor.css';
 	// ICONS
 	import IconBold from '$lib/icons/IconBold.svelte';
@@ -43,11 +44,13 @@
 	import CompAlignCenter from '$lib/icons/IconAlignCenter.svelte';
 	import CompAlignJustify from '$lib/icons/IconAlignJustify.svelte';
 	import IconFloatingMenuAdd from '$lib/icons/IconFloatingMenuAdd.svelte';
+	import IconSave from '$lib/icons/IconSave.svelte';
 	// VARIABLE DEFINE
 	export let postData: any;
 	let element: HTMLDivElement;
 	let floatingMenuHTML: HTMLDivElement;
 	let editor: Editor;
+	let title: string;
 	let imagePopupSettings: PopupSettings = {
 		// Set the event as: click | hover | hover-click | focus | focus-click
 		event: 'click',
@@ -73,8 +76,14 @@
 	};
 
 	let floatingMenuShow = false;
+	let enteringTitle = false;
 	onMount(() => {
-		const content = postData ? postData.html : '<h1 name="title" id="postTitle"></h1>';
+		// console.log(postData.mobiledoc);
+
+		const content = postData
+			? generateHTML(JSON.parse(postData.mobiledoc), [StarterKit, Image])
+			: '<h1 name="title" id="postTitle"></h1>';
+		title = postData ? postData.title : '';
 		// console.log(content);
 
 		editor = new Editor({
@@ -93,6 +102,8 @@
 				CharacterCount,
 				Placeholder.configure({
 					placeholder: ({ node }) => {
+						// console.log(node.type);
+
 						if (node.type.name === 'heading') {
 							return 'What’s the title?';
 						}
@@ -110,6 +121,7 @@
 				editor = editor;
 
 				if (editor.isEmpty) {
+					// editor.commands.insertContent('<h1 name="title" id="postTitle"></h1>');
 					editor.commands.insertContent('<h1 name="title" id="postTitle"></h1>');
 				}
 				const focusNode = editor.view.domObserver.currentSelection.focusNode;
@@ -119,7 +131,13 @@
 					// 	editor.view.domObserver.currentSelection.focusNode.classList.contains('is-empty')
 					// );
 					// const el = editor.view.dom.children[editor.view.dom.children.length - 1];
-
+					// console.log(editor.view.domObserver.currentSelection);
+					if (editor.isActive('heading') && focusNode.localName == 'h1') {
+						enteringTitle = true;
+						console.log('Entering Title');
+					} else {
+						enteringTitle = false;
+					}
 					if (editor.isActive('paragraph')) {
 						// console.log(el.innerHTML.indexOf(`<br class="ProseMirror-trailingBreak">`));
 
@@ -233,145 +251,153 @@
 	};
 	const getOutput = () => {
 		console.log('__OUTPUT: JSON ', editor.getJSON());
-		console.log('__OUTPUT: HTML ', editor.getHTML());
-		console.log('__OUTPUT: Text ', editor.getText());
+		// console.log('__OUTPUT: HTML ', editor.getHTML());
+		// console.log('__OUTPUT: Text ', editor.getText());
 	};
 	let editorHeight;
 </script>
 
-<div class="">
-	{#if editor}
-		<div class=" h-full sticky top-0 overflow-hidden z-10">
-			<div class="flex flex-row flex-wrap p-2 bg-black opacity-100 h-full w-full">
-				<!-- <div class="flex flex-row"> -->
-				<button
-					on:click={() => editor.chain().focus().toggleBold().run()}
-					disabled={!editor.can().chain().focus().toggleBold().run()}
-					class="btn px-2 py-1 rounded-md {editor.isActive('bold') ? 'is-active' : ''}"
-				>
-					<IconBold fillColor={editor.isActive('bold') ? 'white' : 'white'} />
-				</button>
-				<button
-					on:click={() => editor.chain().focus().toggleItalic().run()}
-					disabled={!editor.can().chain().focus().toggleItalic().run()}
-					class="btn px-2 py-1 rounded-md {editor.isActive('italic') ? 'is-active' : ''}"
-				>
-					<IconItalic fillColor={editor.isActive('italic') ? 'white' : 'white'} />
-				</button>
-				<button
-					on:click={() => editor.chain().focus().toggleStrike().run()}
-					disabled={!editor.can().chain().focus().toggleStrike().run()}
-					class="btn px-2 py-1 rounded-md {editor.isActive('strike') ? 'is-active' : ''}"
-				>
-					<IconStrike fillColor={editor.isActive('strike') ? 'white' : 'white'} />
-				</button>
-				<button
-					on:click={() => editor.chain().focus().toggleCode().run()}
-					disabled={!editor.can().chain().focus().toggleCode().run()}
-					class="btn px-2 py-1 rounded-md {editor.isActive('code') ? 'is-active' : ''}"
-				>
-					<IconCode fillColor={editor.isActive('code') ? 'white' : 'white'} />
-				</button>
-				<!-- </div> -->
+{#if editor}
+	<div class="sticky top-0 overflow-hidden z-10">
+		<div class="flex flex-row flex-wrap p-2 bg-black opacity-100 w-full">
+			<!-- <div class="flex flex-row"> -->
+			<button
+				on:click={() => editor.chain().focus().toggleBold().run()}
+				disabled={!editor.can().chain().focus().toggleBold().run() || enteringTitle}
+				class="btn px-2 py-1 rounded-md {editor.isActive('bold') ? 'is-active' : ''}"
+			>
+				<IconBold fillColor={editor.isActive('bold') ? 'white' : 'white'} />
+			</button>
+			<button
+				on:click={() => editor.chain().focus().toggleItalic().run()}
+				disabled={!editor.can().chain().focus().toggleItalic().run() || enteringTitle}
+				class="btn px-2 py-1 rounded-md {editor.isActive('italic') ? 'is-active' : ''}"
+			>
+				<IconItalic fillColor={editor.isActive('italic') ? 'white' : 'white'} />
+			</button>
+			<button
+				on:click={() => editor.chain().focus().toggleStrike().run()}
+				disabled={!editor.can().chain().focus().toggleStrike().run() || enteringTitle}
+				class="btn px-2 py-1 rounded-md {editor.isActive('strike') ? 'is-active' : ''}"
+			>
+				<IconStrike fillColor={editor.isActive('strike') ? 'white' : 'white'} />
+			</button>
+			<button
+				on:click={() => editor.chain().focus().toggleCode().run()}
+				disabled={!editor.can().chain().focus().toggleCode().run() || enteringTitle}
+				class="btn px-2 py-1 rounded-md {editor.isActive('code') ? 'is-active' : ''}"
+			>
+				<IconCode fillColor={editor.isActive('code') ? 'white' : 'white'} />
+			</button>
+			<!-- </div> -->
 
-				<span class="divider-vertical mx-2 hidden md:block" />
-				<!-- <button on:click={() => editor.chain().focus().unsetAllMarks().run()}> clear marks </button>
+			<span class="divider-vertical mx-2 hidden md:block" />
+			<!-- <button on:click={() => editor.chain().focus().unsetAllMarks().run()}> clear marks </button>
 			<button on:click={() => editor.chain().focus().clearNodes().run()}> clear nodes </button> -->
-				<!-- <div class="flex flex-row"> -->
-				<button
-					on:click={() => editor.chain().focus().setParagraph().run()}
-					class="btn px-2 py-1 rounded-md {editor.isActive('paragraph') ? 'is-active' : ''}"
-				>
-					<IconParagraph fillColor={editor.isActive('paragraph') ? 'white' : 'white'} />
-				</button>
-				<button
-					on:click={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
-					class="btn px-2 py-1 rounded-md {editor.isActive('heading', { level: 1 })
-						? 'is-active'
-						: ''}"
-				>
-					<IconH1 fillColor={editor.isActive('heading', { level: 1 }) ? 'white' : 'white'} />
-				</button>
-				<button
-					on:click={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
-					class="btn px-2 py-1 rounded-md {editor.isActive('heading', { level: 2 })
-						? 'is-active'
-						: ''}"
-				>
-					<IconH2 fillColor={editor.isActive('heading', { level: 2 }) ? 'white' : 'white'} />
-				</button>
-				<button
-					on:click={() => editor.chain().focus().toggleHeading({ level: 3 }).run()}
-					class="btn px-2 py-1 rounded-md {editor.isActive('heading', { level: 3 })
-						? 'is-active'
-						: ''}"
-				>
-					<IconH3 fillColor={editor.isActive('heading', { level: 3 }) ? 'white' : 'white'} />
-				</button>
-				<button
-					on:click={() => editor.chain().focus().toggleHeading({ level: 4 }).run()}
-					class="btn px-2 py-1 rounded-md {editor.isActive('heading', { level: 4 })
-						? 'is-active'
-						: ''}"
-				>
-					<IconH4 fillColor={editor.isActive('heading', { level: 4 }) ? 'white' : 'white'} />
-				</button>
-				<button
-					on:click={() => editor.chain().focus().toggleHeading({ level: 5 }).run()}
-					class="btn px-2 py-1 rounded-md {editor.isActive('heading', { level: 5 })
-						? 'is-active'
-						: ''}"
-				>
-					<IconH5 fillColor={editor.isActive('heading', { level: 5 }) ? 'white' : 'white'} />
-				</button>
-				<button
-					on:click={() => editor.chain().focus().toggleHeading({ level: 6 }).run()}
-					class="btn px-2 py-1 rounded-md {editor.isActive('heading', { level: 6 })
-						? 'is-active'
-						: ''}"
-				>
-					<IconH6 fillColor={editor.isActive('heading', { level: 6 }) ? 'white' : 'white'} />
-				</button>
-				<!-- </div> -->
-				<span class="divider-vertical mx-2 hidden md:block" />
-				<!-- <div class="flex flex-row"> -->
-				<button
-					on:click={() => editor.chain().focus().setTextAlign('left').run()}
-					class="btn px-2 py-1 rounded-md text-white {editor.isActive({ textAlign: 'left' })
-						? 'is-active'
-						: ''}"
-				>
-					<CompAlignLeft fillColor={editor.isActive({ textAlign: 'left' }) ? 'white' : 'white'} />
-				</button>
-				<button
-					on:click={() => editor.chain().focus().setTextAlign('center').run()}
-					class="btn px-2 py-1 rounded-md text-white {editor.isActive({ textAlign: 'center' })
-						? 'is-active'
-						: ''}"
-				>
-					<CompAlignCenter
-						fillColor={editor.isActive({ textAlign: 'center' }) ? 'white' : 'white'}
-					/>
-				</button>
-				<button
-					on:click={() => editor.chain().focus().setTextAlign('right').run()}
-					class="btn px-2 py-1 rounded-md text-white {editor.isActive({ textAlign: 'right' })
-						? 'is-active'
-						: ''}"
-				>
-					<CompAlignRight fillColor={editor.isActive({ textAlign: 'right' }) ? 'white' : 'white'} />
-				</button>
-				<button
-					on:click={() => editor.chain().focus().setTextAlign('justify').run()}
-					class="btn px-2 py-1 rounded-md text-white {editor.isActive({ textAlign: 'justify' })
-						? 'is-active'
-						: ''}"
-				>
-					<CompAlignJustify
-						fillColor={editor.isActive({ textAlign: 'justify' }) ? 'white' : 'white'}
-					/>
-				</button>
-				<!-- <button
+			<!-- <div class="flex flex-row"> -->
+			<button
+				on:click={() => editor.chain().focus().setParagraph().run()}
+				disabled={enteringTitle}
+				class="btn px-2 py-1 rounded-md {editor.isActive('paragraph') ? 'is-active' : ''}"
+			>
+				<IconParagraph fillColor={editor.isActive('paragraph') ? 'white' : 'white'} />
+			</button>
+			<button
+				on:click={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
+				disabled={enteringTitle}
+				class="btn px-2 py-1 rounded-md {editor.isActive('heading', { level: 1 })
+					? 'is-active'
+					: ''}"
+			>
+				<IconH1 fillColor={editor.isActive('heading', { level: 1 }) ? 'white' : 'white'} />
+			</button>
+			<button
+				on:click={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
+				disabled={enteringTitle}
+				class="btn px-2 py-1 rounded-md {editor.isActive('heading', { level: 2 })
+					? 'is-active'
+					: ''}"
+			>
+				<IconH2 fillColor={editor.isActive('heading', { level: 2 }) ? 'white' : 'white'} />
+			</button>
+			<button
+				on:click={() => editor.chain().focus().toggleHeading({ level: 3 }).run()}
+				disabled={enteringTitle}
+				class="btn px-2 py-1 rounded-md {editor.isActive('heading', { level: 3 })
+					? 'is-active'
+					: ''}"
+			>
+				<IconH3 fillColor={editor.isActive('heading', { level: 3 }) ? 'white' : 'white'} />
+			</button>
+			<button
+				on:click={() => editor.chain().focus().toggleHeading({ level: 4 }).run()}
+				disabled={enteringTitle}
+				class="btn px-2 py-1 rounded-md {editor.isActive('heading', { level: 4 })
+					? 'is-active'
+					: ''}"
+			>
+				<IconH4 fillColor={editor.isActive('heading', { level: 4 }) ? 'white' : 'white'} />
+			</button>
+			<button
+				on:click={() => editor.chain().focus().toggleHeading({ level: 5 }).run()}
+				disabled={enteringTitle}
+				class="btn px-2 py-1 rounded-md {editor.isActive('heading', { level: 5 })
+					? 'is-active'
+					: ''}"
+			>
+				<IconH5 fillColor={editor.isActive('heading', { level: 5 }) ? 'white' : 'white'} />
+			</button>
+			<button
+				on:click={() => editor.chain().focus().toggleHeading({ level: 6 }).run()}
+				disabled={enteringTitle}
+				class="btn px-2 py-1 rounded-md {editor.isActive('heading', { level: 6 })
+					? 'is-active'
+					: ''}"
+			>
+				<IconH6 fillColor={editor.isActive('heading', { level: 6 }) ? 'white' : 'white'} />
+			</button>
+			<!-- </div> -->
+			<span class="divider-vertical mx-2 hidden md:block" />
+			<!-- <div class="flex flex-row"> -->
+			<button
+				on:click={() => editor.chain().focus().setTextAlign('left').run()}
+				disabled={enteringTitle}
+				class="btn px-2 py-1 rounded-md text-white {editor.isActive({ textAlign: 'left' })
+					? 'is-active'
+					: ''}"
+			>
+				<CompAlignLeft fillColor={editor.isActive({ textAlign: 'left' }) ? 'white' : 'white'} />
+			</button>
+			<button
+				on:click={() => editor.chain().focus().setTextAlign('center').run()}
+				disabled={enteringTitle}
+				class="btn px-2 py-1 rounded-md text-white {editor.isActive({ textAlign: 'center' })
+					? 'is-active'
+					: ''}"
+			>
+				<CompAlignCenter fillColor={editor.isActive({ textAlign: 'center' }) ? 'white' : 'white'} />
+			</button>
+			<button
+				on:click={() => editor.chain().focus().setTextAlign('right').run()}
+				disabled={enteringTitle}
+				class="btn px-2 py-1 rounded-md text-white {editor.isActive({ textAlign: 'right' })
+					? 'is-active'
+					: ''}"
+			>
+				<CompAlignRight fillColor={editor.isActive({ textAlign: 'right' }) ? 'white' : 'white'} />
+			</button>
+			<button
+				on:click={() => editor.chain().focus().setTextAlign('justify').run()}
+				disabled={enteringTitle}
+				class="btn px-2 py-1 rounded-md text-white {editor.isActive({ textAlign: 'justify' })
+					? 'is-active'
+					: ''}"
+			>
+				<CompAlignJustify
+					fillColor={editor.isActive({ textAlign: 'justify' }) ? 'white' : 'white'}
+				/>
+			</button>
+			<!-- <button
 					on:click={() => editor.chain().focus().toggleBulletList().run()}
 					class="btn px-2 py-1 rounded-md {editor.isActive('bulletList') ? 'is-active' : ''}"
 				>
@@ -404,91 +430,102 @@
 				<button use:popup={imagePopupSettings} class="btn px-2 py-1 rounded-md">
 					<IconImage fillColor="white" />
 				</button> -->
-				<button
-					on:click={() => editor.chain().focus().undo().run()}
-					disabled={!editor.can().chain().focus().undo().run()}
-					class="btn px-2 py-1 rounded-md"
-				>
-					<IconUndo fillColor="white" />
-				</button>
-				<button
-					on:click={() => editor.chain().focus().redo().run()}
-					disabled={!editor.can().chain().focus().redo().run()}
-					class="btn px-2 py-1 rounded-md"
-				>
-					<IconRedo fillColor="white" />
-				</button>
-				<button on:click={() => getOutput()} class="btn px-2 py-1 rounded-md">
-					<IconTerminal fillColor="white" />
-				</button>
-				<!-- </div> -->
-			</div>
+			<button
+				on:click={() => editor.chain().focus().undo().run()}
+				disabled={!editor.can().chain().focus().undo().run() || enteringTitle}
+				class="btn px-2 py-1 rounded-md"
+			>
+				<IconUndo fillColor="white" />
+			</button>
+			<button
+				on:click={() => editor.chain().focus().redo().run()}
+				disabled={!editor.can().chain().focus().redo().run() || enteringTitle}
+				class="btn px-2 py-1 rounded-md"
+			>
+				<IconRedo fillColor="white" />
+			</button>
+			<button on:click={() => getOutput()} class="btn px-2 py-1 rounded-md">
+				<IconTerminal fillColor="white" />
+			</button>
+			<button
+				on:click={() => console.log('Save')}
+				class="btn px-2 py-1 bg-primary-500 rounded-md text-white"
+			>
+				<span><IconSave fillColor="white" /></span>
+				<span>Save</span>
+			</button>
+			<!-- </div> -->
 		</div>
-	{/if}
-	<div class="overflow-y-auto">
-		<div class=" p-3 h-auto" bind:clientHeight={editorHeight} bind:this={element} />
 	</div>
-	{#if editor}
-		<div
-			id="tooltip"
-			style="position: absolute;"
-			class="p-2 z-10"
-			class:hidden={!floatingMenuShow}
-			bind:this={floatingMenuHTML}
-		>
-			<div class="flex flex-row justify-start">
-				<button
-					on:click={() => {
-						// console.log(editor);
+{/if}
+<!-- <input
+	type="text"
+	placeholder="What's the title?"
+	name=""
+	id=""
+	class="input border-none bg-none bg-transparent p-3 text-lg focus-visible:outline-none"
+	bind:value={title}
+/> -->
+<div class="p-3 h-full overflow-x-hidden overflow-y-auto pb-20" bind:this={element} />
 
-						editor.chain().focus().toggleBulletList().run();
-					}}
-					class="flex-auto w-auto btn hover:bg-surface-500 px-2 py-1 rounded-md justify-start {editor.isActive(
-						'bulletList'
-					)
-						? 'is-active'
-						: ''}"
+{#if editor}
+	<div
+		id="tooltip"
+		style="position: absolute;"
+		class="p-2 z-10 h-4"
+		class:hidden={!floatingMenuShow}
+		bind:this={floatingMenuHTML}
+	>
+		<div class="flex flex-row justify-start">
+			<button
+				on:click={() => {
+					// console.log(editor);
+
+					editor.chain().focus().toggleBulletList().run();
+				}}
+				class="flex-auto w-auto btn hover:bg-surface-500 px-2 py-1 rounded-md justify-start {editor.isActive(
+					'bulletList'
+				)
+					? 'is-active'
+					: ''}"
+			>
+				<span>
+					<IconBulletList fillColor={editor.isActive('bulletList') ? 'white' : 'black'} />
+				</span>
+				<!-- <span>Bullet List</span> -->
+			</button>
+			<button
+				on:click={() => editor.chain().focus().toggleOrderedList().run()}
+				class="flex-auto w-auto btn hover:bg-surface-500 px-2 py-1 rounded-md justify-start {editor.isActive(
+					'orderedList'
+				)
+					? 'is-active'
+					: ''}"
+			>
+				<span
+					><IconOrderedList fillColor={editor.isActive('orderedList') ? 'white' : 'black'} /></span
 				>
-					<span>
-						<IconBulletList fillColor={editor.isActive('bulletList') ? 'white' : 'black'} />
-					</span>
-					<!-- <span>Bullet List</span> -->
-				</button>
-				<button
-					on:click={() => editor.chain().focus().toggleOrderedList().run()}
-					class="flex-auto w-auto btn hover:bg-surface-500 px-2 py-1 rounded-md justify-start {editor.isActive(
-						'orderedList'
-					)
-						? 'is-active'
-						: ''}"
-				>
-					<span
-						><IconOrderedList
-							fillColor={editor.isActive('orderedList') ? 'white' : 'black'}
-						/></span
-					>
-					<!-- <span>Ordered List</span> -->
-				</button>
-				<button
-					on:click={() => editor.chain().focus().toggleCodeBlock().run()}
-					class="flex-auto w-auto btn hover:bg-surface-500 px-2 py-1 rounded-md justify-start {editor.isActive(
-						'codeBlock'
-					)
-						? 'is-active'
-						: ''}"
-				>
-					<span><IconCodeBlock fillColor={editor.isActive('codeBlock') ? 'white' : 'black'} /></span
-					>
-					<!-- <span>Code Block</span> -->
-				</button>
-				<button
-					on:click={() => editor.chain().focus().toggleBlockquote().run()}
-					class="flex-auto w-auto btn hover:bg-surface-500 px-2 py-1 rounded-md justify-start"
-				>
-					<span><IconQuotes fillColor="black" /></span>
-					<!-- <span class="">Quotes</span> -->
-				</button>
-				<!-- <button
+				<!-- <span>Ordered List</span> -->
+			</button>
+			<button
+				on:click={() => editor.chain().focus().toggleCodeBlock().run()}
+				class="flex-auto w-auto btn hover:bg-surface-500 px-2 py-1 rounded-md justify-start {editor.isActive(
+					'codeBlock'
+				)
+					? 'is-active'
+					: ''}"
+			>
+				<span><IconCodeBlock fillColor={editor.isActive('codeBlock') ? 'white' : 'black'} /></span>
+				<!-- <span>Code Block</span> -->
+			</button>
+			<button
+				on:click={() => editor.chain().focus().toggleBlockquote().run()}
+				class="flex-auto w-auto btn hover:bg-surface-500 px-2 py-1 rounded-md justify-start"
+			>
+				<span><IconQuotes fillColor="black" /></span>
+				<!-- <span class="">Quotes</span> -->
+			</button>
+			<!-- <button
 					class="flex-auto w-auto btn hover:bg-surface-500 px-2 py-1 rounded-md justify-start"
 					on:click={() => editor.chain().focus().setHorizontalRule().run()}
 				>
@@ -496,27 +533,27 @@
 					<span>Seperator</span>
 				</button> -->
 
-				<button
-					on:click={() => {
-						modalStore.trigger(prompt);
-					}}
-					class="flex-auto w-auto btn hover:bg-surface-500 px-2 py-1 rounded-md justify-start"
-				>
-					<span><IconImage fillColor="black" /></span>
-					<!-- <span class="">Image</span> -->
-					<div class="card variant-filled-secondary p-4" data-popup="imagePopup">
-						Some text goes here.
-						<div class="arrow variant-filled-secondary" />
-					</div>
-				</button>
-			</div>
+			<button
+				on:click={() => {
+					modalStore.trigger(prompt);
+				}}
+				class="flex-auto w-auto btn hover:bg-surface-500 px-2 py-1 rounded-md justify-start"
+			>
+				<span><IconImage fillColor="black" /></span>
+				<!-- <span class="">Image</span> -->
+				<div class="card variant-filled-secondary p-4" data-popup="imagePopup">
+					Some text goes here.
+					<div class="arrow variant-filled-secondary" />
+				</div>
+			</button>
 		</div>
-		<!-- <div class="character-count p-3 absolute bottom-0">
+	</div>
+	<!-- <div class="character-count p-3 absolute bottom-0">
 			{editor.storage.characterCount.characters()} characters -
 			{editor.storage.characterCount.words()} words
 		</div> -->
 
-		<!-- <FloatingMenu {editor} tippyOptions={{ duration: 100 }}>
+	<!-- <FloatingMenu {editor} tippyOptions={{ duration: 100 }}>
 		<button
 			on:click={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
 			class={editor.isActive('heading', { level: 1 }) ? 'is-active' : ''}
@@ -536,8 +573,8 @@
 			bullet list
 		</button>
 	</FloatingMenu> -->
-	{/if}
-</div>
+{/if}
+
 <Modal />
 
 <style lang="postcss" global>
@@ -546,8 +583,5 @@
 	}
 	p.is-empty.is-editor-empty {
 		content: attr(data-placeholder);
-	}
-	.ProseMirror {
-		/* height: var(--editorHeight); */
 	}
 </style>

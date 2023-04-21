@@ -12,9 +12,11 @@
 	import { Drawer, drawerStore } from '@skeletonlabs/skeleton';
 	import type { DrawerSettings } from '@skeletonlabs/skeleton';
 	import type { PageData } from './$types';
+	import { isEditorOpen } from '$lib/core/shared/stores/site';
 	export let data: PageData;
-	let selectdPost: any;
+	let selectedPost: any;
 	let keysJson: string[];
+
 	if (data && data.posts) keysJson = Object.keys(data.posts[0]);
 
 	const settings: DrawerSettings = {
@@ -24,9 +26,13 @@
 		height: 'h-full',
 		padding: 'p-4',
 		rounded: 'rounded-xl',
-		shadow: 'shadow-md'
-		// regionDrawer: 'overflow-y-hidden'
+		shadow: 'shadow-md',
+		regionDrawer: 'overflow-y-hidden'
 	};
+
+	$: if (selectedPost) {
+		selectedPost = selectedPost;
+	}
 </script>
 
 <div class="max-w-screen-xl mx-auto px-10">
@@ -37,41 +43,53 @@
 		<h3 class="font-bold">Posts</h3>
 		<svelte:fragment slot="trail">
 			<!-- <div class="w-full "> -->
+			<div class="hidden md:flex md:flex-row-reverse w-full items-center">
+				<button
+					type="button"
+					class="btn btn-sm variant-filled rounded"
+					on:click={() => {
+						selectedPost = null;
+						drawerStore.open(settings);
+					}}
+				>
+					<span><IconPlusSmall /></span>
+					<span>New post</span>
+				</button>
 
-			<div class="flex flex-row-reverse w-full items-center gap-2">
 				<span><CompMenuPosts /></span>
 				<span><CompMenuMembersAccess /></span>
 				<span><CompMenuAuthors /></span>
 				<span><CompMenuTags /></span>
 				<span><CompMenuSortBy /></span>
 			</div>
-
 			<button
 				type="button"
-				class="btn btn-sm variant-filled rounded ml-4"
+				class="md:hidden btn btn-sm variant-filled rounded"
 				on:click={() => {
+					selectedPost = {};
 					drawerStore.open(settings);
 				}}
 			>
 				<span><IconPlusSmall /></span>
-				<span>New post </span>
+				<span>New post</span>
 			</button>
 			<!-- </div> -->
 		</svelte:fragment>
 
 		<!-- <svelte:fragment slot="trail">(actions)</svelte:fragment> -->
 	</AppBar>
+
 	<Drawer>
 		{#if $drawerStore.id === 'postEditorDrawer'}
-			<CompEditor postData={selectdPost} />
+			<CompEditor postData={selectedPost} />
 		{/if}
 	</Drawer>
 
 	<div class="postsList p-4">
 		<!-- Responsive Container (recommended) -->
-		<div class="table-container rounded-none">
+		<div class="table-container rounded-none w-full">
 			<!-- Native Table Element -->
-			<table class="table table-hover">
+			<table class="table table-hover table-compact">
 				<thead>
 					<tr>
 						<!-- {#if keysJson}
@@ -99,7 +117,7 @@
 							<td
 								class="cursor-pointer"
 								on:click={() => {
-									selectdPost = row;
+									selectedPost = row;
 									drawerStore.open(settings);
 								}}
 							>
