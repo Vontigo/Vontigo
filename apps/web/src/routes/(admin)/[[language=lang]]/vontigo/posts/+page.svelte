@@ -11,6 +11,11 @@
 	import { AppBar, AppShell } from '@skeletonlabs/skeleton';
 	import { Drawer, drawerStore } from '@skeletonlabs/skeleton';
 	import type { DrawerSettings } from '@skeletonlabs/skeleton';
+	import type { PageData } from './$types';
+	export let data: PageData;
+
+	let keysJson: string[];
+	if (data && data.posts) keysJson = Object.keys(data.posts[0]);
 
 	const settings: DrawerSettings = {
 		id: 'postEditorDrawer',
@@ -60,5 +65,55 @@
 		</div>
 	</Drawer>
 
-	All
+	<div class="postsList p-4">
+		<!-- Responsive Container (recommended) -->
+		<div class="table-container rounded-none">
+			<!-- Native Table Element -->
+			<table class="table table-hover">
+				<thead>
+					<tr>
+						<!-- {#if keysJson}
+							{#each keysJson as column}
+								<th class="table-cell-fit">{column}</th>
+							{/each}
+						{/if} -->
+						<th>Title</th>
+						<th>Status</th>
+						<!-- <th>Symbol</th>
+						<th>Weight</th> -->
+					</tr>
+				</thead>
+				<tbody>
+					{#each data.posts as row, i}
+						<!-- <tr>
+							{#if keysJson}
+								{#each keysJson as column}
+									<td>{row[column]}</td>
+								{/each}
+							{/if}</tr
+						> -->
+						<tr>
+							<td>
+								<p class="font-bold">{row.title}</p>
+								<p><span>By {row.created_by}</span> • <span>{row.updated_at}</span></p>
+							</td>
+							<td>
+								<span
+									class="badge uppercase {row.status == 'published'
+										? 'variant-filled-success'
+										: 'variant-filled-surface'}">{row.status}</span
+								>
+							</td>
+						</tr>
+					{/each}
+				</tbody>
+				<!-- <tfoot>
+					<tr>
+						<th colspan="2">Calculated Total Weight</th>
+						<td>{data.posts.length}</td>
+					</tr>
+				</tfoot> -->
+			</table>
+		</div>
+	</div>
 </div>
