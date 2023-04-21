@@ -47,10 +47,10 @@
 <div class="{$templateType}-template {bodyClass}">
 	<!-- {$origin} | {$language} -->
 	<Header />
-	<main class="site-content">
+	<div class="site-content">
 		<!-- All other templates get inserted here, index.hbs, post.hbs, etc -->
 		<slot />
-	</main>
+	</div>
 
 	<!-- Scripts - handle member signups, responsive videos, infinite scroll, floating headers, and galleries -->
 	<!-- <script
