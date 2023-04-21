@@ -1,43 +1,51 @@
 import { knexInstance } from '$lib/core/core/server/data/db/connection';
-import { ENUM_DATABASE_TABLE } from '$lib/core/shared/enum.js';
+import { ENUM_DATABASE_TABLE, ENUM_POSTS_STATUS } from '$lib/core/shared/enum.js';
+import type { RequestHandler } from './$types';
+import ObjectID from 'bson-objectid';
+import { v4 as uuidv4 } from 'uuid';
 
 // CREATE POST
 
-/** @type {import('./$types').RequestHandler} */
-export async function POST({ url, params }) {
-
+export const POST = (async ({ request, params }) => {
+    const reqJsonData = await request.json();
     let returnRows: any;
 
     knexInstance(ENUM_DATABASE_TABLE.posts).insert({
-        id: '',
-        uuid: '',
-        title: '',
-        slug: '',
-        mobiledoc: '',
-        lexical: '',
-        html: '',
-        comment_id: '',
-        plaintext: '',
-        feature_image: '',
+        id: new ObjectID(),
+        uuid: uuidv4(),
+        title: reqJsonData.title,
+        slug: reqJsonData.slug,
+        mobiledoc: reqJsonData.mobiledoc,
+        lexical: reqJsonData.lexical,
+        html: reqJsonData.html,
+        comment_id: new ObjectID(),
+        plaintext: reqJsonData.plaintext,
+        feature_image: reqJsonData.feature_image,
         featured: '0',
         type: params.type,
-        status: 'draft',
-        locale: '',
+        status: ENUM_POSTS_STATUS.draft,
+        locale: params.language,
         visibility: 'public',
-        email_recipient_filter: '',
-        created_at: '',
-        created_by: '',
-        updated_at: '',
-        updated_by: '',
-        published_at: '',
-        published_by: '',
-        custom_excerpt: '',
-        codeinjection_head: '',
-        codeinjection_foot: '',
-        custom_template: '',
-        canonical_url: '',
-        newsletter_id: ''
+        email_recipient_filter: 'all',
+        created_at: new Date(reqJsonData.created_at),
+        created_by: reqJsonData.created_by,
+        updated_at: new Date(reqJsonData.updated_at),
+        updated_by: reqJsonData.updated_by,
+        published_at: new Date(reqJsonData.published_at),
+        published_by: reqJsonData.published_by,
+        custom_excerpt: reqJsonData.custom_excerpt,
+        codeinjection_head: reqJsonData.codeinjection_head,
+        codeinjection_foot: reqJsonData.codeinjection_foot,
+        custom_template: reqJsonData.custom_template,
+        canonical_url: reqJsonData.canonical_url,
+        newsletter_id: reqJsonData.newsletter_id
+    }).then(result => {
+        console.log('Inserted:', result);
+        return new Response(JSON.stringify(result), { status: 200 });
+    }).catch(error => {
+        console.error(error);
+        return new Response(JSON.stringify(error), { status: 500 });
     });
 
     return new Response(JSON.stringify(returnRows), { status: 200 });
-}
+}) satisfies RequestHandler;
