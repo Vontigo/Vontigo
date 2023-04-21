@@ -44,6 +44,7 @@
 	import CompAlignJustify from '$lib/icons/IconAlignJustify.svelte';
 	import IconFloatingMenuAdd from '$lib/icons/IconFloatingMenuAdd.svelte';
 	// VARIABLE DEFINE
+	export let postData: any;
 	let element: HTMLDivElement;
 	let floatingMenuHTML: HTMLDivElement;
 	let editor: Editor;
@@ -53,6 +54,7 @@
 		// Provide a matching 'data-popup' value.
 		target: 'imagePopup'
 	};
+	let mounted = false;
 	const prompt: ModalSettings = {
 		type: 'prompt',
 		// Data
@@ -72,6 +74,9 @@
 
 	let floatingMenuShow = false;
 	onMount(() => {
+		const content = postData ? postData.html : '<h1 name="title" id="postTitle"></h1>';
+		// console.log(content);
+
 		editor = new Editor({
 			element: element,
 			extensions: [
@@ -97,7 +102,7 @@
 					types: ['heading', 'paragraph']
 				})
 			],
-			content: `<h1 name="title" id="postTitle"></h1>`,
+			content: content,
 			onTransaction: () => {
 				// force re-render so `editor.isActive` works as expected
 				// console.log('Transaction');
@@ -127,7 +132,7 @@
 								placement: 'left' // 'bottom' by default
 							}).then(({ x, y }) => {
 								Object.assign(floatingMenuHTML.style, {
-									left: `${20}px`,
+									left: `${x + floatingMenuHTML.clientWidth}px`,
 									right: 'unset',
 									top: `${y}px`
 								});
@@ -148,7 +153,7 @@
 							}).then(({ x, y }) => {
 								Object.assign(floatingMenuHTML.style, {
 									left: 'unset',
-									right: `${20}px`,
+									right: `${30}px`,
 									top: `${y}px`
 								});
 							});
@@ -218,6 +223,7 @@
 			// }
 		});
 	});
+
 	const addImage = () => {
 		const url = window.prompt('URL');
 
@@ -230,12 +236,13 @@
 		console.log('__OUTPUT: HTML ', editor.getHTML());
 		console.log('__OUTPUT: Text ', editor.getText());
 	};
+	let editorHeight;
 </script>
 
-<div class="relative">
+<div class="">
 	{#if editor}
-		<div class="h-full">
-			<div class="flex flex-row flex-wrap p-2 bg-black h-full w-full">
+		<div class=" h-full sticky top-0 overflow-hidden z-10">
+			<div class="flex flex-row flex-wrap p-2 bg-black opacity-100 h-full w-full">
 				<!-- <div class="flex flex-row"> -->
 				<button
 					on:click={() => editor.chain().focus().toggleBold().run()}
@@ -418,8 +425,9 @@
 			</div>
 		</div>
 	{/if}
-	<div class="ProseMirror mt-2 p-3 h-full" bind:this={element} />
-
+	<div class="overflow-y-auto">
+		<div class=" p-3 h-auto" bind:clientHeight={editorHeight} bind:this={element} />
+	</div>
 	{#if editor}
 		<div
 			id="tooltip"
@@ -538,5 +546,8 @@
 	}
 	p.is-empty.is-editor-empty {
 		content: attr(data-placeholder);
+	}
+	.ProseMirror {
+		/* height: var(--editorHeight); */
 	}
 </style>

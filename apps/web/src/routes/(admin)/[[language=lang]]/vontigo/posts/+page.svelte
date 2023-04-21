@@ -13,7 +13,7 @@
 	import type { DrawerSettings } from '@skeletonlabs/skeleton';
 	import type { PageData } from './$types';
 	export let data: PageData;
-
+	let selectdPost: any;
 	let keysJson: string[];
 	if (data && data.posts) keysJson = Object.keys(data.posts[0]);
 
@@ -21,9 +21,11 @@
 		id: 'postEditorDrawer',
 		position: 'right',
 		width: 'w-full lg:w-[80%]',
+		height: 'h-full',
 		padding: 'p-4',
 		rounded: 'rounded-xl',
 		shadow: 'shadow-md'
+		// regionDrawer: 'overflow-y-hidden'
 	};
 </script>
 
@@ -58,11 +60,9 @@
 		<!-- <svelte:fragment slot="trail">(actions)</svelte:fragment> -->
 	</AppBar>
 	<Drawer>
-		<div class="">
-			{#if $drawerStore.id === 'postEditorDrawer'}
-				<CompEditor />
-			{/if}
-		</div>
+		{#if $drawerStore.id === 'postEditorDrawer'}
+			<CompEditor postData={selectdPost} />
+		{/if}
 	</Drawer>
 
 	<div class="postsList p-4">
@@ -93,7 +93,14 @@
 							{/if}</tr
 						> -->
 						<tr>
-							<td>
+							<!-- svelte-ignore a11y-click-events-have-key-events -->
+							<td
+								class="cursor-pointer"
+								on:click={() => {
+									selectdPost = row;
+									drawerStore.open(settings);
+								}}
+							>
 								<p class="font-bold">{row.title}</p>
 								<p><span>By {row.created_by}</span> • <span>{row.updated_at}</span></p>
 							</td>
