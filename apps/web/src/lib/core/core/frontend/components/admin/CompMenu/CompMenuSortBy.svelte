@@ -18,7 +18,7 @@
 	<span>Sort by: {menuSortByValue ?? 'None'}</span>
 	<span><IconArrowDown /></span>
 </button>
-<div class="card w-48 shadow-xl py-2" data-popup="menuSortBy">
+<div class="card w-48 shadow-sm py-2" data-popup="menuSortBy">
 	<!-- Listbox -->
 	<ListBox rounded="rounded-none">
 		<ListBoxItem bind:group={menuSortByValue} name="medium" value="All">Newest</ListBoxItem>

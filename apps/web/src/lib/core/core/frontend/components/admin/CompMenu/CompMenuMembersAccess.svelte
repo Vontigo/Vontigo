@@ -18,7 +18,7 @@
 	<span>{menuMembersAccessValue ?? 'All access'}</span>
 	<span><IconArrowDown /></span>
 </button>
-<div class="card w-48 shadow-xl py-2" data-popup="menuMembersAccess">
+<div class="card w-48 shadow-sm py-2" data-popup="menuMembersAccess">
 	<!-- Listbox -->
 	<ListBox rounded="rounded-none">
 		<ListBoxItem bind:group={menuMembersAccessValue} name="medium" value="All"

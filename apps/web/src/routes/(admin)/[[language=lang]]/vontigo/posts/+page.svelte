@@ -43,7 +43,7 @@
 		<h3 class="font-bold">Posts</h3>
 		<svelte:fragment slot="trail">
 			<!-- <div class="w-full "> -->
-			<div class="hidden md:flex md:flex-row-reverse w-full items-center gap-2">
+			<div class="hidden md:flex md:flex-row-reverse w-full items-center gap-6">
 				<button
 					type="button"
 					class="btn btn-sm variant-filled rounded"
@@ -55,7 +55,7 @@
 					<span><IconPlusSmall /></span>
 					<span>New post</span>
 				</button>
-				<div class="filter-bar">
+				<div class="filter-bar flex gap-4">
 					<span><CompMenuPosts /></span>
 					<span><CompMenuMembersAccess /></span>
 					<span><CompMenuAuthors /></span>

@@ -23,6 +23,11 @@ body {
 	.filter-bar {
 		button {
 			background: transparent;
+			padding: 0;
+			font-size: 0.8rem;
+			&:focus {
+				border: 0;
+			}
 		}
 	}
 }
@@ -31,23 +36,25 @@ body {
 	border-radius: 0;
 	thead {
 		background-color: #fafafb;
+		th {
+			font-weight: 500;
+			font-size: 0.8rem;
+		}
 	}
-}
-.table thead th {
-	font-weight: 500;
-	font-size: 0.8rem;
-}
-.table tbody tr {
-	background-color: #fafafb;
-}
-.table tbody tr:nth-child(even) {
-	background-color: #fafafb;
-}
-.table-hover tbody tr:hover {
-	background-color: #eee;
-}
-.table-hover tbody tr:hover:nth-child(even) {
-	background-color: #eee;
+	tbody {
+		tr {
+			background-color: #fafafb;
+			&:nth-child(even) {
+				background-color: #fafafb;
+			}
+			&:hover {
+				background-color: #eee;
+			}
+			&:hover:nth-child(even) {
+				background-color: #eee;
+			}
+		}
+	}
 }
 
 .dark #page-content .app-bar {

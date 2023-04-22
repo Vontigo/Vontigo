@@ -18,7 +18,7 @@
 	<span>{menuTagsValue ?? 'All tags'}</span>
 	<span><IconArrowDown /></span>
 </button>
-<div class="card w-48 shadow-xl py-2" data-popup="menuTags">
+<div class="card w-48 shadow-sm py-2" data-popup="menuTags">
 	<!-- Listbox -->
 	<ListBox rounded="rounded-none">
 		<ListBoxItem bind:group={menuTagsValue} name="medium" value="All">All tags</ListBoxItem>

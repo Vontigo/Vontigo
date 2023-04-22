@@ -18,7 +18,7 @@
 	<span>{menuPostsValue ?? 'All posts'}</span>
 	<span><IconArrowDown /></span>
 </button>
-<div class="card w-48 shadow-xl py-2" data-popup="menuPosts">
+<div class="card w-48 shadow-sm py-2" data-popup="menuPosts">
 	<!-- Listbox -->
 	<ListBox rounded="rounded-none">
 		<ListBoxItem bind:group={menuPostsValue} name="medium" value="All">All posts</ListBoxItem>
