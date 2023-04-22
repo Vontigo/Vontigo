@@ -10,7 +10,7 @@ import knex, { Knex } from 'knex';
 export const knexInstance: Knex = knex({
 	client: 'sqlite3',
 	connection: {
-		filename: './src/lib/database/vontigo.db'
+		filename: './database/vontigo.db'
 	},
 	useNullAsDefault: true
 });
