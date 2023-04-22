@@ -55,12 +55,13 @@
 					<span><IconPlusSmall /></span>
 					<span>New post</span>
 				</button>
-
-				<span><CompMenuPosts /></span>
-				<span><CompMenuMembersAccess /></span>
-				<span><CompMenuAuthors /></span>
-				<span><CompMenuTags /></span>
-				<span><CompMenuSortBy /></span>
+				<div class="filter-bar">
+					<span><CompMenuPosts /></span>
+					<span><CompMenuMembersAccess /></span>
+					<span><CompMenuAuthors /></span>
+					<span><CompMenuTags /></span>
+					<span><CompMenuSortBy /></span>
+				</div>
 			</div>
 			<button
 				type="button"
@@ -97,8 +98,8 @@
 								<th class="table-cell-fit">{column}</th>
 							{/each}
 						{/if} -->
-						<th>Title</th>
-						<th class="w-1">Status</th>
+						<th class="uppercase">Title</th>
+						<th class="w-1 uppercase text-right">Status</th>
 						<!-- <th>Symbol</th>
 						<th>Weight</th> -->
 					</tr>
@@ -128,7 +129,7 @@
 							</td>
 							<td>
 								<span
-									class="badge uppercase {row.status == 'published'
+									class="badge uppercase text-xs font-light pb-0 px-3 {row.status == 'published'
 										? 'variant-filled-success'
 										: 'variant-filled-surface'}">{row.status}</span
 								>
