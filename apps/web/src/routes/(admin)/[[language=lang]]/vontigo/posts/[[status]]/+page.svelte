@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { page } from '$app/stores';
 	import CompMenuAuthors from '$lib/core/core/frontend/components/admin/CompMenu/CompMenuAuthors.svelte';
 	import CompMenuMembersAccess from '$lib/core/core/frontend/components/admin/CompMenu/CompMenuMembersAccess.svelte';
 	import CompMenuPosts from '$lib/core/core/frontend/components/admin/CompMenu/CompMenuPosts.svelte';
@@ -17,7 +18,7 @@
 	let selectedPost: any;
 	let keysJson: string[];
 
-	if (data && data.posts) keysJson = Object.keys(data.posts[0]);
+	// if (data && data.posts) keysJson = Object.keys(data.posts[0]);
 
 	const settings: DrawerSettings = {
 		id: 'postEditorDrawer',
@@ -41,6 +42,7 @@
 			<Icon3BottomLeft />
 		</svelte:fragment> -->
 		<h2 class="text-xl font-bold">Posts</h2>
+		<span>{$page.params.status || ''}</span>
 		<svelte:fragment slot="trail">
 			<!-- <div class="w-full "> -->
 			<div class="hidden md:flex md:flex-row-reverse w-full items-center gap-6">

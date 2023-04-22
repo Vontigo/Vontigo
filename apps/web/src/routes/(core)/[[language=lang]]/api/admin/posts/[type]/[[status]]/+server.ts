@@ -4,6 +4,57 @@ import type { RequestHandler } from './$types';
 import ObjectID from 'bson-objectid';
 import { v4 as uuidv4 } from 'uuid';
 
+/** @type {import('./$types').RequestHandler} */
+export async function GET({ url, params }) {
+	let returnRows: any;
+	await getAllRows(params)
+		.then((rows) => {
+			// console.log(rows);
+			returnRows = rows;
+		})
+		.catch((error) => {
+			console.error(error);
+			returnRows = error;
+		});
+	return new Response(JSON.stringify(returnRows), { status: 200 });
+}
+
+async function getAllRows(params: any): Promise<any[] | null> {
+	//const status = params.status || '*';
+	console.log(params.status == 'undefined');
+
+	try {
+		const rows: any[] = await knexInstance
+			.select(
+				'p.*',
+				// 'p.uuid',
+				// 'p.title',
+				// 'p.status',
+
+				// 'p.created_at',
+				// 'p.created_by',
+				// 'p.updated_at',
+				// 'p.updated_by',
+
+				't.id as primary_tag',
+				't.name as primary_tag_name',
+				't.slug as primary_tag_slug'
+			)
+			.from('posts as p')
+			.leftJoin('posts_tags as pt', 'p.id', 'pt.post_id')
+			.leftJoin('tags as t', 't.id', 'pt.tag_id')
+			.where({
+				'p.type': 'post',
+				'p.visibility': 'public'
+			})
+			.where('p.status', params.status != 'undefined' ? '=' : '<>', params.status);
+		return rows;
+	} catch (error) {
+		console.error(error);
+		return null;
+	}
+}
+
 // CREATE POST
 
 export const POST = (async ({ request, params }) => {
