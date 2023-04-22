@@ -59,14 +59,15 @@
 	<svelte:fragment slot="sidebarLeft">
 		<div
 			id=""
-			class="sidebar-left hidden lg:block text-lg drop-shadow-md border-e border-gray-300 h-full min-w-[300px]"
+			class="sidebar-left hidden lg:block text-lg border-e border-gray-300 h-full min-w-[300px]"
 		>
 			<nav class="list-nav space-y-4 h-full flex flex-col">
 				<!-- (optionally you can provde a label here) -->
 				<ul class="p-2 pl-8 px-6 pt-6">
 					<li class="w-auto">
-						<span class="badge bg-primary-500 w-10 h-10 font-bold text-xl">V</span>
-						<span class="flex-auto text-base">Vontigo</span>
+						<span class="unstyled flex-auto font-semibold"
+							><span class="font-bold text-3xl text-primary-500">V</span>ontigo</span
+						>
 					</li>
 				</ul>
 				<ul class="p-2 px-6 pt-0">
@@ -83,6 +84,23 @@
 						<a class=" {classesActive($adminSiteUrl + '/site')}" href={$adminSiteUrl + '/site'}>
 							<IconWindow />
 							<span class="flex-auto text-base">View site</span>
+
+							<a data-sveltekit-reload class="" href="/" style="padding:0;" target="_blank">
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									fill="none"
+									viewBox="0 0 24 24"
+									stroke-width="1.5"
+									stroke="currentColor"
+									class="w-5 h-5"
+								>
+									<path
+										stroke-linecap="round"
+										stroke-linejoin="round"
+										d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"
+									/>
+								</svg>
+							</a>
 						</a>
 					</li>
 				</ul>
@@ -151,7 +169,7 @@
 							src="https://i.pravatar.cc/"
 							action={filter}
 							actionParams="#Apollo"
-							width="w-8"
+							width="w-10"
 						/>
 					</li>
 					<li class="w-full" />
