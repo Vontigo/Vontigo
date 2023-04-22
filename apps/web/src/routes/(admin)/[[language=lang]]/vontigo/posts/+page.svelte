@@ -23,7 +23,7 @@
 		id: 'postEditorDrawer',
 		position: 'right',
 		width: 'w-full lg:w-[80%]',
-		height: 'h-full',
+		// height: 'h-full',
 		padding: 'p-4',
 		rounded: 'rounded-xl',
 		shadow: 'shadow-md',
@@ -146,3 +146,9 @@
 		</div>
 	</div>
 </div>
+
+<style global>
+	.drawer-backdrop .drawer {
+		height: calc(100vh - 2rem);
+	}
+</style>

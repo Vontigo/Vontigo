@@ -46,16 +46,3 @@ async function getAllRows(): Promise<any[] | null> {
 	}
 }
 
-// import { db } from '$lib/core/core/server/data/db/connection';
-// import Database from 'better-sqlite3';
-
-// /** @type {import('./$types').RequestHandler} */
-// export function GET({ url }) {
-// 	const sql = `
-//     select * from posts;
-//     `;
-// 	const stmnt = db.prepare(sql);
-// 	const rows = stmnt.all({ limit: 50 });
-
-// 	return new Response(JSON.stringify(rows));
-// }

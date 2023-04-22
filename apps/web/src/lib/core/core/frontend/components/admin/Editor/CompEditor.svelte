@@ -255,10 +255,11 @@
 		// console.log('__OUTPUT: Text ', editor.getText());
 	};
 	let editorHeight;
+	let stickyEditorHeight;
 </script>
 
 {#if editor}
-	<div class="sticky top-0 overflow-hidden z-10">
+	<div class="sticky top-0 overflow-hidden z-10" bind:clientHeight={stickyEditorHeight}>
 		<div class="flex flex-row flex-wrap p-2 bg-black opacity-100 w-full">
 			<!-- <div class="flex flex-row"> -->
 			<button
@@ -466,7 +467,11 @@
 	class="input border-none bg-none bg-transparent p-3 text-lg focus-visible:outline-none"
 	bind:value={title}
 /> -->
-<div class="p-3 h-full overflow-x-hidden overflow-y-auto pb-20" bind:this={element} />
+<div
+	class="p-3 pr-0 overflow-x-hidden overflow-y-auto"
+	style="height: calc(100vh - {stickyEditorHeight}px - 2rem);"
+	bind:this={element}
+/>
 
 {#if editor}
 	<div
