@@ -40,7 +40,7 @@
 		<!-- <svelte:fragment slot="lead">
 			<Icon3BottomLeft />
 		</svelte:fragment> -->
-		<h3 class="font-bold">Posts</h3>
+		<h2 class="text-xl font-bold">Posts</h2>
 		<svelte:fragment slot="trail">
 			<!-- <div class="w-full "> -->
 			<div class="hidden md:flex md:flex-row-reverse w-full items-center gap-6">
@@ -122,14 +122,15 @@
 									drawerStore.open(settings);
 								}}
 							>
-								<p class="font-semibold">{row.title}</p>
+								<p class="unstyled text-sm font-medium antialiased tracking-wide">{row.title}</p>
 								<p class="unstyled text-xs mt-1 text-slate-500">
 									<span>By {row.created_by}</span> • <span>{row.updated_at}</span>
 								</p>
 							</td>
 							<td>
 								<span
-									class="badge uppercase text-xs font-light pb-0 px-3 {row.status == 'published'
+									class="badge uppercase text-xs font-light pb-[1px] pt-[2px] px-3 {row.status ==
+									'published'
 										? 'variant-filled-success'
 										: 'variant-filled-surface'}">{row.status}</span
 								>
