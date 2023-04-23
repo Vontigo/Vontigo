@@ -9,8 +9,7 @@
 	export let data: PageData;
 	let post = data.post.content;
 	let authors = data.post.authors;
-	console.log(authors);
-	
+	//console.log(authors);
 </script>
 
 <!-- The tag above means: insert everything in this file

@@ -1,11 +1,16 @@
 // since there's no dynamic data here, we can prerender
 // it so that it gets served as a static asset in production
 // export const prerender = true;
-import { error } from '@sveltejs/kit';
+import { error, redirect } from '@sveltejs/kit';
 import type { PageLoad } from './$types';
 
-export const load = (async ({ fetch, url, params }) => {
+export const load = (async ({ fetch, parent, url, params }) => {
 	//console.log(params);
+	const _parent = await parent();
+
+	// if (!session?.user) {
+	// 	throw redirect(302, '/');
+	// }
 
 	// if (params.slug === 'hello-world') {
 	// 	return {

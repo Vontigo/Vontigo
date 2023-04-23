@@ -1,9 +1,10 @@
 <script lang="ts">
 	import type { PageData } from './$types';
+	import { page } from '$app/stores';
 	import Default from '$lib/themes/casper/Default.svelte';
 
 	export let data: PageData;
-	//console.log('______________________', data.session);
 </script>
 
+{$page.data.session}
 <Default {data} />

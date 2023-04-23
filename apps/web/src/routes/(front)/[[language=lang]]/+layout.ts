@@ -6,7 +6,7 @@ import { config } from '$lib/themes/casper/config.json';
 
 const output: SiteGroup = {};
 
-export const load = (async ({ fetch, url, params }) => {
+export const load = (async ({ fetch, parent, url, params }) => {
 	// console.log(params);
 
 	const response = await fetch(`/api/shared/settings/site`);
@@ -23,14 +23,12 @@ export const load = (async ({ fetch, url, params }) => {
 
 	site.set(output.site);
 	themeConfig.set(config);
-	custom.set(config.custom)
+	custom.set(config.custom);
 
 	// console.log('________________', get(site));
 	// origin.set('/content/' + url.host.replace(':', '_') + '/' + params.language);
 
-
 	return {
 		settings: output
 	};
-
 }) satisfies LayoutLoad;

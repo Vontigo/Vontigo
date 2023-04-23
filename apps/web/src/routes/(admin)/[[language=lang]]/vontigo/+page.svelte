@@ -1,4 +1,5 @@
-<script>
+<script lang="ts">
+	import { page } from '$app/stores';
 </script>
 
 <svelte:head>
@@ -8,6 +9,7 @@
 
 <section>
 	<p>Dashboard page</p>
+	{$page.data.session}
 	<!-- <h1>Portal</h1>
 
 	<h2>
