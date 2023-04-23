@@ -9,7 +9,7 @@
 	import Icon3BottomLeft from '$lib/icons/Icon3BottomLeft.svelte';
 	import IconArrowDown from '$lib/icons/IconArrowDown.svelte';
 	import IconPlusSmall from '$lib/icons/IconPlusSmall.svelte';
-	import { AppBar, AppShell } from '@skeletonlabs/skeleton';
+	import { AppBar, AppShell, RadioGroup, RadioItem } from '@skeletonlabs/skeleton';
 	import { Drawer, drawerStore } from '@skeletonlabs/skeleton';
 	import type { DrawerSettings } from '@skeletonlabs/skeleton';
 	import type { PageData } from './$types';
@@ -17,6 +17,8 @@
 	export let data: PageData;
 	let selectedPost: any;
 	let keysJson: string[];
+	let colorValue;
+	// let previousSubGroup = '';
 
 	// if (data && data.posts) keysJson = Object.keys(data.posts[0]);
 
@@ -31,9 +33,10 @@
 		regionDrawer: 'overflow-y-hidden'
 	};
 
-	$: if (selectedPost) {
-		selectedPost = selectedPost;
-	}
+	// function assignPreviousSubGroup(subGroup: string) {
+	// 	previousSubGroup = subGroup;
+	// 	return '';
+	// }
 </script>
 
 <div class="max-w-screen-xl mx-auto px-10 py-2">
@@ -67,14 +70,7 @@
 					<span><CompMenuSortBy /></span>
 				</div> -->
 			</div>
-			<button
-				type="button"
-				class="md:hidden btn btn-sm variant-filled rounded"
-				on:click={() => {
-					selectedPost = {};
-					drawerStore.open(settings);
-				}}
-			>
+			<button type="button" class="md:hidden btn btn-sm variant-filled rounded">
 				<span><IconPlusSmall /></span>
 				<span>New post</span>
 			</button>
@@ -89,74 +85,99 @@
 			<CompEditor postData={selectedPost} />
 		{/if}
 	</Drawer>
-
-	<div class="postsList">
-		<!-- Responsive Container (recommended) -->
-		<div class="table-container rounded-none w-full">
-			<!-- Native Table Element -->
-			<table class="table table-hover table-compact">
-				<thead>
-					<tr>
-						<!-- {#if keysJson}
+	{#if data.settings.length > 0}
+		<div class="postsList">
+			<!-- Responsive Container (recommended) -->
+			<div class="table-container rounded-none w-full">
+				<!-- Native Table Element -->
+				<table class="table table-hover table-compact">
+					<thead>
+						<tr>
+							<!-- {#if keysJson}
 							{#each keysJson as column}
 								<th class="table-cell-fit">{column}</th>
 							{/each}
 						{/if} -->
-						<th class="w-1 uppercase">Key</th>
-						<th class="">Value</th>
-						<th class="w-1 uppercase text-right">Type</th>
-						<!-- <th>Symbol</th>
+							<th class="w-1 uppercase">Key</th>
+							<th class="">Value</th>
+							<th class="w-1 uppercase text-right">Type</th>
+							<!-- <th>Symbol</th>
 						<th>Weight</th> -->
-					</tr>
-				</thead>
-				<tbody>
-					{#each data.settings as row, i}
-						<!-- <tr>
+						</tr>
+					</thead>
+					<tbody>
+						{#each data.settings as row, i}
+							<!-- <tr>
 							{#if keysJson}
 								{#each keysJson as column}
 									<td>{row[column]}</td>
 								{/each}
 							{/if}</tr
 						> -->
-						<tr>
-							<!-- svelte-ignore a11y-click-events-have-key-events -->
-							<td class="cursor-pointer">
-								<p class="unstyled text-sm font-medium antialiased tracking-wide uppercase">
-									{row.key}
-								</p>
-								<!-- <p class="unstyled text-xs mt-1 text-slate-500">
+							<tr>
+								<!-- svelte-ignore a11y-click-events-have-key-events -->
+								<td class="cursor-pointer">
+									<p class="unstyled text-sm font-medium antialiased tracking-wide uppercase">
+										{row.key}
+									</p>
+									<!-- <p class="unstyled text-xs mt-1 text-slate-500">
 									<span>{row.group}</span>
 								</p> -->
-							</td>
-							<td>
-								{#if row.type != 'array'}
-									<input class="p-1" type="text" value={row.value} />
-								{:else}
-									<textarea class="textarea" rows="4" placeholder="Enter some long form content.">
-										{row.value}
-									</textarea>
-								{/if}
-							</td>
-							<td>
-								<span
-									class="badge uppercase text-xs font-light pb-[1px] pt-[2px] px-3 {row.type ==
-									'published'
-										? 'variant-filled-success'
-										: 'variant-filled-surface'}">{row.type}</span
-								>
-							</td>
-						</tr>
-					{/each}
-				</tbody>
-				<!-- <tfoot>
+								</td>
+								<td>
+									{#if row.type == 'string'}
+										{#if row.key.indexOf('color') >= 0}
+											<div class="grid grid-cols-[auto_1fr] gap-2">
+												<input class="input" type="color" bind:value={row.value} />
+												<input
+													class="input w-1/3 p-2"
+													type="text"
+													bind:value={row.value}
+													readonly
+													tabindex="-1"
+												/>
+											</div>
+										{:else if row.key.indexOf('image') >= 0}
+											<input class="input w-full" type="file" value={row.value} />
+										{:else}
+											<input class="input p-2 w-full" type="text" value={row.value} />
+										{/if}
+									{:else if row.type == 'array'}
+										<textarea
+											class="textarea w-full rounded-xl p-2"
+											rows="6"
+											placeholder="Enter some long form content."
+											>{JSON.stringify(JSON.parse(row.value), undefined, 4)}</textarea
+										>
+									{:else if row.type == 'boolean'}
+										<RadioGroup active="variant-filled-primary" hover="hover:variant-soft-primary">
+											<RadioItem bind:group={row.value} name={row.key} value={'true'}
+												>TRUE</RadioItem
+											>
+											<RadioItem bind:group={row.value} name={row.key} value={'false'}
+												>FALSE</RadioItem
+											>
+										</RadioGroup>
+									{:else}{/if}
+								</td>
+								<td>
+									{row.type}
+								</td>
+							</tr>
+
+							<!-- {assignPreviousSubGroup(row.key.split('_')[0])} -->
+						{/each}
+					</tbody>
+					<!-- <tfoot>
 					<tr>
 						<th colspan="2">Calculated Total Weight</th>
 						<td>{data.posts.length}</td>
 					</tr>
 				</tfoot> -->
-			</table>
+				</table>
+			</div>
 		</div>
-	</div>
+	{/if}
 </div>
 
 <style global>
