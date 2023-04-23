@@ -44,7 +44,7 @@ async function getAllRows(params: any): Promise<any[] | null> {
 			.leftJoin('posts_tags as pt', 'p.id', 'pt.post_id')
 			.leftJoin('tags as t', 't.id', 'pt.tag_id')
 			.where({
-				'p.type': 'post',
+				'p.type': params.type,
 				'p.visibility': 'public'
 			})
 			.where('p.status', params.status != 'undefined' ? '=' : '<>', params.status);
