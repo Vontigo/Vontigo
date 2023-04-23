@@ -29,15 +29,15 @@
 		regionDrawer: 'overflow-y-hidden'
 	};
 
-	async function updateField(id: string, field: string, value: string) {
+	async function updateField(id: string, field: string, value: string, key: string) {
 		const resData = await fetch(
 			`/api/database/settings/put/${id}/${field}/${encodeURIComponent(value)}`
 		);
 		const resDataJson = await resData.json();
 		if (resDataJson.row) {
 			const t: ToastSettings = {
-				message: 'Setting value saved!',
-				timeout: 1000
+				message: `New value for [ ${key} ] key setting saved!`,
+				timeout: 2000
 			};
 			toastStore.trigger(t);
 		}
@@ -139,7 +139,7 @@
 													name={row.key}
 													bind:value={row.value}
 													on:change={() => {
-														updateField(row.id, 'value', row.value);
+														updateField(row.id, 'value', row.value, row.key);
 													}}
 												/>
 												<input
@@ -156,7 +156,7 @@
 												type="file"
 												bind:value={row.value}
 												on:blur={() => {
-													updateField(row.id, 'value', row.value);
+													updateField(row.id, 'value', row.value, row.key);
 												}}
 											/>
 										{:else}
@@ -166,7 +166,7 @@
 												name={row.key}
 												bind:value={row.value}
 												on:blur={() => {
-													updateField(row.id, 'value', row.value);
+													updateField(row.id, 'value', row.value, row.key);
 												}}
 											/>
 										{/if}
@@ -178,16 +178,26 @@
 											name={row.key}
 											bind:value={row.value}
 											on:blur={() => {
-												updateField(row.id, 'value', row.value);
+												updateField(row.id, 'value', row.value, row.key);
 											}}
 										/>
 									{:else if row.type == 'boolean'}
 										<RadioGroup active="variant-filled-primary" hover="hover:variant-soft-primary">
-											<RadioItem bind:group={row.value} name={row.key} value={'true'}
-												>TRUE</RadioItem
+											<RadioItem
+												bind:group={row.value}
+												name={row.key}
+												value={'true'}
+												on:change={() => {
+													updateField(row.id, 'value', row.value, row.key);
+												}}>TRUE</RadioItem
 											>
-											<RadioItem bind:group={row.value} name={row.key} value={'false'}
-												>FALSE</RadioItem
+											<RadioItem
+												bind:group={row.value}
+												name={row.key}
+												value={'false'}
+												on:change={() => {
+													updateField(row.id, 'value', row.value, row.key);
+												}}>FALSE</RadioItem
 											>
 										</RadioGroup>
 									{:else}
