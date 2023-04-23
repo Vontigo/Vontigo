@@ -9,7 +9,7 @@
 	import Icon3BottomLeft from '$lib/icons/Icon3BottomLeft.svelte';
 	import IconArrowDown from '$lib/icons/IconArrowDown.svelte';
 	import IconPlusSmall from '$lib/icons/IconPlusSmall.svelte';
-	import { AppBar, AppShell } from '@skeletonlabs/skeleton';
+	import { AppBar, AppShell, Avatar, filter } from '@skeletonlabs/skeleton';
 	import { Drawer, drawerStore } from '@skeletonlabs/skeleton';
 	import type { DrawerSettings } from '@skeletonlabs/skeleton';
 	import type { PageData } from './$types';
@@ -95,11 +95,6 @@
 				<table class="table table-hover table-compact">
 					<thead>
 						<tr>
-							<!-- {#if keysJson}
-							{#each keysJson as column}
-								<th class="table-cell-fit">{column}</th>
-							{/each}
-						{/if} -->
 							<th class="uppercase">Member</th>
 							<th class="w-1 uppercase text-right">Status</th>
 							<!-- <th>Symbol</th>
@@ -124,10 +119,24 @@
 										drawerStore.open(settings);
 									}}
 								>
-									<p class="unstyled text-sm font-medium antialiased tracking-wide">{row.name}</p>
-									<p class="unstyled text-xs mt-1 text-slate-500">
-										<span>{row.email}</span>
-									</p>
+									<div class="flex gap-4">
+										<div>
+											<Avatar
+												src="https://i.pravatar.cc/"
+												action={filter}
+												actionParams="#Apollo"
+												width="w-10"
+											/>
+										</div>
+										<div>
+											<p class="unstyled text-sm font-medium antialiased tracking-wide">
+												{row.name}
+											</p>
+											<p class="unstyled text-xs mt-1 text-slate-500">
+												<span>{row.email}</span>
+											</p>
+										</div>
+									</div>
 								</td>
 								<td class="capitalize">
 									{row.status}
