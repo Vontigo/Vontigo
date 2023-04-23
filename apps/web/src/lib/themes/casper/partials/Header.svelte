@@ -41,16 +41,26 @@
 		<div class="gh-head-actions">
 			{#if $page.data.session}
 				{#if $page.data.session.user?.image}
-					<span style="background-image: url('{$page.data.session.user.image}')" class="avatar" />
+					<!-- <div class=" relative inline-block">
+						<span class="badge-icon variant-filled-success absolute -top-0 -right-0 z-10 w-3 h-3" />
+						<img src={$page.data.session.user.image} />
+					</div> -->
+					<div
+						class="gh-user-avatar relative"
+						style="background-image: url({$page.data.session.user
+							.image}); width:40px; height:40px; background-size: 40px; border-radius: 9999px;"
+					>
+						<span class="absolute dib ba b--white br-100 gh-whats-new-badge-account" />
+					</div>
 				{/if}
 				<span class="signedInText">
 					<small>Signed in as</small><br />
 					<strong>{$page.data.session.user?.name ?? 'User'}</strong>
 				</span>
-				<button on:click={() => signOut()} class="button">Sign out</button>
+				<a href="#signout" on:click={() => signOut()} class="gh-head-link">Sign out</a>
 			{:else}
 				<!-- <span class="notSignedInText">You are not signed in</span> -->
-				<button class="gh-head-link" on:click={() => signIn('google')}>Sign In</button>
+				<a href="#signin" class="gh-head-link" on:click={() => signIn('google')}>Sign In</a>
 			{/if}
 			<!-- <li class="language-switch" style="width: 10rem; text-align: right;">
 				{($page.params.language ? $page.params.language : 'en-us').toUpperCase()}

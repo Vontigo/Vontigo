@@ -173,7 +173,7 @@
 								class="badge-icon variant-filled-success absolute -top-0 -right-0 z-10 w-3 h-3"
 							/>
 							<Avatar
-								src="https://i.pravatar.cc/"
+								src={$page.data.session.user?.image}
 								action={filter}
 								actionParams="#Apollo"
 								width="w-10"
