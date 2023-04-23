@@ -6,5 +6,4 @@
 	export let data: PageData;
 </script>
 
-{$page.data.session}
 <Default {data} />
