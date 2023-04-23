@@ -110,6 +110,9 @@ importers:
       '@tiptap/starter-kit':
         specifier: ^2.0.3
         version: 2.0.3(@tiptap/pm@2.0.3)
+      '@vitejs/plugin-basic-ssl':
+        specifier: ^1.0.1
+        version: 1.0.1(vite@4.2.1)
       bson-objectid:
         specifier: ^2.0.4
         version: 2.0.4
@@ -1557,6 +1560,15 @@ packages:
     transitivePeerDependencies:
       - encoding
       - supports-color
+    dev: false
+
+  /@vitejs/plugin-basic-ssl@1.0.1(vite@4.2.1):
+    resolution: {integrity: sha512-pcub+YbFtFhaGRTo1832FQHQSHvMrlb43974e2eS8EKleR3p1cDdkJFPci1UhwkEf1J9Bz+wKBSzqpKp7nNj2A==}
+    engines: {node: '>=14.6.0'}
+    peerDependencies:
+      vite: ^3.0.0 || ^4.0.0
+    dependencies:
+      vite: 4.2.1(@types/node@18.15.11)
     dev: false
 
   /abbrev@1.1.1:
