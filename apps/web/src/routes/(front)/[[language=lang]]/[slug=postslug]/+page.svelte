@@ -5,8 +5,7 @@
 	import { page } from '$app/stores';
 
 	export let data: PageData;
-	console.log(data);
-	
+	//console.log(data);
 </script>
 
 {#if data}

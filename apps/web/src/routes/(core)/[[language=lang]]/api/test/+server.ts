@@ -5,7 +5,7 @@ import ObjectID from 'bson-objectid';
 export async function GET({ url }) {
 	const title = 'My Blog Post Title';
 	const postId = new ObjectID();
-	console.log(postId); // prints a 64-character hexadecimal string
+	//console.log(postId); // prints a 64-character hexadecimal string
 	return new Response(JSON.stringify({ message: postId }), { status: 200 });
 }
 

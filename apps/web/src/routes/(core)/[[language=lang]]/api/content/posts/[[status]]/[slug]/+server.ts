@@ -36,7 +36,7 @@ export async function GET({ url, params }) {
 			.orderBy('sort_order');
 
 		authors = qAuthors;
-		console.log(authors);
+		//console.log(authors);
 	} catch (error) {
 		return new Response(JSON.stringify(error), { status: 300 });
 	}

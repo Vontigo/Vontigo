@@ -5,7 +5,7 @@ import { error } from '@sveltejs/kit';
 import type { PageLoad } from './$types';
 
 export const load = (async ({ fetch, url, params }) => {
-	console.log(params);
+	//console.log(params);
 
 	// if (params.slug === 'hello-world') {
 	// 	return {

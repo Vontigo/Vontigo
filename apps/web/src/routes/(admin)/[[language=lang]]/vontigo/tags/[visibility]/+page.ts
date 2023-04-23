@@ -15,7 +15,7 @@ export const load = (async ({ fetch, url, params }) => {
 	const response = await fetch(`/api/admin/tags/${params.visibility}`);
 	const data = await response.json();
 	// console.log(data);
-	if (data) console.log(data);
+	//if (data) console.log(data);
 
 	return {
 		tags: data

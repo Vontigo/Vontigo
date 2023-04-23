@@ -3,7 +3,7 @@ import type { RequestHandler } from './$types';
 import { knexInstance } from '$lib/core/core/server/data/db/connection';
 
 export const GET = (async ({ url, params }) => {
-	console.log(params.field);
+	//console.log(params.field);
 
 	const id = params.id;
 	const field = params.field;

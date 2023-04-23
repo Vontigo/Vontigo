@@ -5,7 +5,7 @@
 	let frame;
 	function onLoad() {
 		const head = frame.contentDocument.querySelector('head');
-		console.log(head);
+		//console.log(head);
 	}
 </script>
 
