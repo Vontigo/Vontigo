@@ -1,10 +1,6 @@
 <script lang="ts">
 	import { page } from '$app/stores';
-	import CompMenuAuthors from '$lib/core/core/frontend/components/admin/CompMenu/CompMenuAuthors.svelte';
-	import CompMenuMembersAccess from '$lib/core/core/frontend/components/admin/CompMenu/CompMenuMembersAccess.svelte';
-	import CompMenuPosts from '$lib/core/core/frontend/components/admin/CompMenu/CompMenuPosts.svelte';
-	import CompMenuSortBy from '$lib/core/core/frontend/components/admin/CompMenu/CompMenuSortBy.svelte';
-	import CompMenuTags from '$lib/core/core/frontend/components/admin/CompMenu/CompMenuTags.svelte';
+	import { toastStore, type ToastSettings, Toast } from '@skeletonlabs/skeleton';
 	import CompEditor from '$lib/core/core/frontend/components/admin/Editor/CompEditor.svelte';
 	import Icon3BottomLeft from '$lib/icons/Icon3BottomLeft.svelte';
 	import IconArrowDown from '$lib/icons/IconArrowDown.svelte';
@@ -33,10 +29,19 @@
 		regionDrawer: 'overflow-y-hidden'
 	};
 
-	// function assignPreviousSubGroup(subGroup: string) {
-	// 	previousSubGroup = subGroup;
-	// 	return '';
-	// }
+	async function updateField(id: string, field: string, value: string) {
+		const resData = await fetch(
+			`/api/database/settings/put/${id}/${field}/${encodeURIComponent(value)}`
+		);
+		const resDataJson = await resData.json();
+		if (resDataJson.row) {
+			const t: ToastSettings = {
+				message: 'Setting value saved!',
+				timeout: 1000
+			};
+			toastStore.trigger(t);
+		}
+	}
 </script>
 
 <div class="max-w-screen-xl mx-auto px-10 py-2">
@@ -128,7 +133,15 @@
 									{#if row.type == 'string'}
 										{#if row.key.indexOf('color') >= 0}
 											<div class="grid grid-cols-[auto_1fr] gap-2">
-												<input class="input" type="color" bind:value={row.value} />
+												<input
+													class="input"
+													type="color"
+													name={row.key}
+													bind:value={row.value}
+													on:change={() => {
+														updateField(row.id, 'value', row.value);
+													}}
+												/>
 												<input
 													class="input w-1/3 p-2"
 													type="text"
@@ -138,17 +151,36 @@
 												/>
 											</div>
 										{:else if row.key.indexOf('image') >= 0}
-											<input class="input w-full" type="file" value={row.value} />
+											<input
+												class="input w-full"
+												type="file"
+												bind:value={row.value}
+												on:blur={() => {
+													updateField(row.id, 'value', row.value);
+												}}
+											/>
 										{:else}
-											<input class="input p-2 w-full" type="text" value={row.value} />
+											<input
+												class="input p-2 w-full"
+												type="text"
+												name={row.key}
+												bind:value={row.value}
+												on:blur={() => {
+													updateField(row.id, 'value', row.value);
+												}}
+											/>
 										{/if}
 									{:else if row.type == 'array'}
 										<textarea
 											class="textarea w-full rounded-xl p-2"
 											rows="6"
 											placeholder="Enter some long form content."
-											>{JSON.stringify(JSON.parse(row.value), undefined, 4)}</textarea
-										>
+											name={row.key}
+											bind:value={row.value}
+											on:blur={() => {
+												updateField(row.id, 'value', row.value);
+											}}
+										/>
 									{:else if row.type == 'boolean'}
 										<RadioGroup active="variant-filled-primary" hover="hover:variant-soft-primary">
 											<RadioItem bind:group={row.value} name={row.key} value={'true'}
@@ -158,7 +190,9 @@
 												>FALSE</RadioItem
 											>
 										</RadioGroup>
-									{:else}{/if}
+									{:else}
+										Unknow type...
+									{/if}
 								</td>
 								<td>
 									{row.type}
@@ -178,6 +212,7 @@
 			</div>
 		</div>
 	{/if}
+	<Toast />
 </div>
 
 <style global>
