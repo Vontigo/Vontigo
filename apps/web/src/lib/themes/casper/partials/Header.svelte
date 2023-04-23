@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { page } from '$app/stores';
+	import { signIn, signOut } from '@auth/sveltekit/client';
 	import { language, site, siteUrl, origin, custom, member } from '$lib/core/shared/stores/site';
 	import Navigation from './Navigation.svelte';
 	import IconSearch from './icons/IconSearch.svelte';
@@ -38,6 +39,19 @@
 		</nav>
 
 		<div class="gh-head-actions">
+			{#if $page.data.session}
+				{#if $page.data.session.user?.image}
+					<span style="background-image: url('{$page.data.session.user.image}')" class="avatar" />
+				{/if}
+				<span class="signedInText">
+					<small>Signed in as</small><br />
+					<strong>{$page.data.session.user?.name ?? 'User'}</strong>
+				</span>
+				<button on:click={() => signOut()} class="button">Sign out</button>
+			{:else}
+				<!-- <span class="notSignedInText">You are not signed in</span> -->
+				<button class="gh-head-link" on:click={() => signIn('google')}>Sign In</button>
+			{/if}
 			<!-- <li class="language-switch" style="width: 10rem; text-align: right;">
 				{($page.params.language ? $page.params.language : 'en-us').toUpperCase()}
 			</li> -->

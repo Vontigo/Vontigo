@@ -1,9 +1,16 @@
-// import type { Handle } from '@sveltejs/kit';
-// import { config } from '$lib/themes/casper/config.json';
-// import { language, site, origin, themeConfig, custom } from '$lib/core/shared/stores/site';
-// import { get } from 'svelte/store';
-// import { sequence } from '@sveltejs/kit/hooks';
-// import { CONST_DEFAULT_LANGUAGE } from '$lib/core/shared/const';
+import type { Handle } from '@sveltejs/kit';
+import { config } from '$lib/themes/casper/config.json';
+import { language, site, origin, themeConfig, custom } from '$lib/core/shared/stores/site';
+import { get } from 'svelte/store';
+import { sequence } from '@sveltejs/kit/hooks';
+import { CONST_DEFAULT_LANGUAGE } from '$lib/core/shared/const';
+import { SvelteKitAuth } from '@auth/sveltekit';
+import Google from '@auth/core/providers/google';
+import { GOOGLE_ID, GOOGLE_SECRET } from '$env/static/private';
+
+const handle = SvelteKitAuth({
+	providers: [Google({ clientId: GOOGLE_ID, clientSecret: GOOGLE_SECRET })]
+});
 
 // const firstHandle = (async ({ event, resolve }) => {
 // 	// Do something
