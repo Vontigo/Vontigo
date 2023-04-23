@@ -42,7 +42,7 @@
 			<Icon3BottomLeft />
 		</svelte:fragment> -->
 		<h2 class="text-xl font-bold">Posts</h2>
-		<span>{$page.params.status || ''}</span>
+		<span>{$page.params.status || ' '}</span>
 		<svelte:fragment slot="trail">
 			<!-- <div class="w-full "> -->
 			<div class="hidden md:flex md:flex-row-reverse w-full items-center gap-6">

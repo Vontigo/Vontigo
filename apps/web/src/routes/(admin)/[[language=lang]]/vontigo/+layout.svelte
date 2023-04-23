@@ -163,14 +163,19 @@
 					</li>
 				</ul>
 				<ul class="h-full" />
-				<ul class="sidebar-left__bottom p-6 flex flex-row">
-					<li class="w-full text-end content-end">
-						<Avatar
-							src="https://i.pravatar.cc/"
-							action={filter}
-							actionParams="#Apollo"
-							width="w-10"
-						/>
+				<ul class="sidebar-left__bottom pb-2 px-6 flex flex-row">
+					<li class="w-full pt-1">
+						<div class=" relative inline-block">
+							<span
+								class="badge-icon variant-filled-success absolute -top-0 -right-0 z-10 w-3 h-3"
+							/>
+							<Avatar
+								src="https://i.pravatar.cc/"
+								action={filter}
+								actionParams="#Apollo"
+								width="w-10"
+							/>
+						</div>
 					</li>
 					<li class="w-full" />
 					<li class="w-auto text-end content-end settings">
