@@ -31,3 +31,4 @@ yarn-error.log*
 
 
 pnpm-lock.yaml
+apps/web/.env
