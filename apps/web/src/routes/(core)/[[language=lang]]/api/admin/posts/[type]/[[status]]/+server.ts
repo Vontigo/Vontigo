@@ -20,9 +20,6 @@ export async function GET({ url, params }) {
 }
 
 async function getAllRows(params: any): Promise<any[] | null> {
-	//const status = params.status || '*';
-	console.log(params.status == 'undefined');
-
 	try {
 		const rows: any[] = await knexInstance
 			.select(

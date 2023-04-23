@@ -150,7 +150,10 @@
 						</a>
 					</li>
 					<li class="w-auto">
-						<a class={classesActive($adminSiteUrl + '/tags')} href={$adminSiteUrl + '/tags'}>
+						<a
+							class={classesActive($adminSiteUrl + '/tags/public')}
+							href={$adminSiteUrl + '/tags/public'}
+						>
 							<IconTag />
 							<span class="flex-auto text-base">Tags</span>
 						</a>

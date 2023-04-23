@@ -21,7 +21,9 @@ export async function GET({ url, params }) {
 
 async function getAllRows(params: any): Promise<any[] | null> {
 	try {
-		const rows: any[] = await knexInstance.select('m.*').from('members as m');
+		const rows: any[] = await knexInstance.select('t.*').from('tags as t').where({
+			't.visibility': params.visibility
+		});
 		return rows;
 	} catch (error) {
 		console.error(error);

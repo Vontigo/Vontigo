@@ -13,7 +13,7 @@
 	import { Drawer, drawerStore } from '@skeletonlabs/skeleton';
 	import type { DrawerSettings } from '@skeletonlabs/skeleton';
 	import type { PageData } from './$types';
-	import { isEditorOpen } from '$lib/core/shared/stores/site';
+	import { adminSiteUrl, isEditorOpen } from '$lib/core/shared/stores/site';
 	export let data: PageData;
 	let selectedPost: any;
 	let keysJson: string[];
@@ -42,7 +42,7 @@
 			<Icon3BottomLeft />
 		</svelte:fragment> -->
 		<h2 class="text-xl font-bold">Posts</h2>
-		<span>{$page.params.status || ' '}</span>
+		<span class="text-xs uppercase font-semibold">{$page.params.status || 'all status'}</span>
 		<svelte:fragment slot="trail">
 			<!-- <div class="w-full "> -->
 			<div class="hidden md:flex md:flex-row-reverse w-full items-center gap-6">
@@ -87,68 +87,76 @@
 			<CompEditor postData={selectedPost} />
 		{/if}
 	</Drawer>
-
-	<div class="postsList">
-		<!-- Responsive Container (recommended) -->
-		<div class="table-container rounded-none w-full">
-			<!-- Native Table Element -->
-			<table class="table table-hover table-compact">
-				<thead>
-					<tr>
-						<!-- {#if keysJson}
+	{#if data.posts.length > 0}
+		<div class="postsList">
+			<!-- Responsive Container (recommended) -->
+			<div class="table-container rounded-none w-full">
+				<!-- Native Table Element -->
+				<table class="table table-hover table-compact">
+					<thead>
+						<tr>
+							<!-- {#if keysJson}
 							{#each keysJson as column}
 								<th class="table-cell-fit">{column}</th>
 							{/each}
 						{/if} -->
-						<th class="uppercase">Title</th>
-						<th class="w-1 uppercase text-right">Status</th>
-						<!-- <th>Symbol</th>
+							<th class="uppercase">Title</th>
+							<th class="w-1 uppercase text-right">Status</th>
+							<!-- <th>Symbol</th>
 						<th>Weight</th> -->
-					</tr>
-				</thead>
-				<tbody>
-					{#each data.posts as row, i}
-						<!-- <tr>
+						</tr>
+					</thead>
+					<tbody>
+						{#each data.posts as row, i}
+							<!-- <tr>
 							{#if keysJson}
 								{#each keysJson as column}
 									<td>{row[column]}</td>
 								{/each}
 							{/if}</tr
 						> -->
-						<tr>
-							<!-- svelte-ignore a11y-click-events-have-key-events -->
-							<td
-								class="cursor-pointer"
-								on:click={() => {
-									selectedPost = row;
-									drawerStore.open(settings);
-								}}
-							>
-								<p class="unstyled text-sm font-medium antialiased tracking-wide">{row.title}</p>
-								<p class="unstyled text-xs mt-1 text-slate-500">
-									<span>By {row.created_by}</span> • <span>{row.updated_at}</span>
-								</p>
-							</td>
-							<td>
-								<span
-									class="badge uppercase text-xs font-light pb-[1px] pt-[2px] px-3 {row.status ==
-									'published'
-										? 'variant-filled-success'
-										: 'variant-filled-surface'}">{row.status}</span
+							<tr>
+								<!-- svelte-ignore a11y-click-events-have-key-events -->
+								<td
+									class="cursor-pointer"
+									on:click={() => {
+										selectedPost = row;
+										drawerStore.open(settings);
+									}}
 								>
-							</td>
-						</tr>
-					{/each}
-				</tbody>
-				<!-- <tfoot>
+									<p class="unstyled text-sm font-medium antialiased tracking-wide">{row.title}</p>
+									<p class="unstyled text-xs mt-1 text-slate-500">
+										<span>By {row.created_by}</span> • <span>{row.updated_at}</span>
+									</p>
+								</td>
+								<td>
+									<span
+										class="badge uppercase text-xs font-light pb-[1px] pt-[2px] px-3 {row.status ==
+										'published'
+											? 'variant-filled-success'
+											: 'variant-filled-surface'}">{row.status}</span
+									>
+								</td>
+							</tr>
+						{/each}
+					</tbody>
+					<!-- <tfoot>
 					<tr>
 						<th colspan="2">Calculated Total Weight</th>
 						<td>{data.posts.length}</td>
 					</tr>
 				</tfoot> -->
-			</table>
+				</table>
+			</div>
 		</div>
-	</div>
+	{:else}
+		<div class="w-full justify-center">
+			<div class="flex flex-col w-2/4 m-auto">
+				<div class="w-full h-full m-auto text-center">No posts match the current filter</div>
+				<a href={$adminSiteUrl + '/posts'} class="btn">Show all posts</a>
+			</div>
+		</div>
+	{/if}
 </div>
 
 <style global>

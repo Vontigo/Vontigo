@@ -12,7 +12,7 @@
 	import { AppBar, AppShell } from '@skeletonlabs/skeleton';
 	import { Drawer, drawerStore } from '@skeletonlabs/skeleton';
 	import type { DrawerSettings } from '@skeletonlabs/skeleton';
-	import type { PageData } from './$types';
+	import type { PageData } from '../[type]/[slug]/$types';
 	import { adminSiteUrl, isEditorOpen } from '$lib/core/shared/stores/site';
 	export let data: PageData;
 	let selectedPost: any;
@@ -41,7 +41,7 @@
 		<!-- <svelte:fragment slot="lead">
 			<Icon3BottomLeft />
 		</svelte:fragment> -->
-		<h2 class="text-xl font-bold">Members</h2>
+		<h2 class="text-xl font-bold">Tags</h2>
 		<!-- <span class="text-xs uppercase font-semibold">{$page.params.status || 'all status'}</span> -->
 		<svelte:fragment slot="trail">
 			<!-- <div class="w-full "> -->
@@ -55,15 +55,9 @@
 					}}
 				>
 					<span><IconPlusSmall /></span>
-					<span>New member</span>
+					<span>New tag</span>
 				</button>
-				<!-- <div class="filter-bar flex gap-4">
-					<span><CompMenuPosts /></span>
-					<span><CompMenuMembersAccess /></span>
-					<span><CompMenuAuthors /></span>
-					<span><CompMenuTags /></span>
-					<span><CompMenuSortBy /></span>
-				</div> -->
+				<div class="filter-bar flex gap-4" />
 			</div>
 			<button
 				type="button"
@@ -74,7 +68,7 @@
 				}}
 			>
 				<span><IconPlusSmall /></span>
-				<span>New member</span>
+				<span>New tag</span>
 			</button>
 			<!-- </div> -->
 		</svelte:fragment>
@@ -87,7 +81,7 @@
 			<CompEditor postData={selectedPost} />
 		{/if}
 	</Drawer>
-	{#if data.members.length > 0}
+	{#if data.tags.length > 0}
 		<div class="postsList">
 			<!-- Responsive Container (recommended) -->
 			<div class="table-container rounded-none w-full">
@@ -100,14 +94,14 @@
 								<th class="table-cell-fit">{column}</th>
 							{/each}
 						{/if} -->
-							<th class="uppercase">Member</th>
-							<th class="w-1 uppercase text-right">Status</th>
+							<th class="uppercase">Title</th>
+							<th class="w-40 uppercase text-right">No. Of Posts</th>
 							<!-- <th>Symbol</th>
 						<th>Weight</th> -->
 						</tr>
 					</thead>
 					<tbody>
-						{#each data.members as row, i}
+						{#each data.tags as row, i}
 							<!-- <tr>
 							{#if keysJson}
 								{#each keysJson as column}
@@ -125,13 +119,8 @@
 									}}
 								>
 									<p class="unstyled text-sm font-medium antialiased tracking-wide">{row.name}</p>
-									<p class="unstyled text-xs mt-1 text-slate-500">
-										<span>{row.email}</span>
-									</p>
 								</td>
-								<td class="capitalize">
-									{row.status}
-								</td>
+								<td class="text-end"> # </td>
 							</tr>
 						{/each}
 					</tbody>
@@ -147,8 +136,7 @@
 	{:else}
 		<div class="w-full justify-center">
 			<div class="flex flex-col w-2/4 m-auto">
-				<div class="w-full h-full m-auto text-center">No posts match the current filter</div>
-				<a href={$adminSiteUrl + '/posts'} class="btn">Show all posts</a>
+				<div class="w-full h-full m-auto text-center">No slugs found</div>
 			</div>
 		</div>
 	{/if}
