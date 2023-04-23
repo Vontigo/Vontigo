@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { page } from '$app/stores';
-	import { goto } from '$app/navigation';
 	import CompMenuAuthors from '$lib/core/core/frontend/components/admin/CompMenu/CompMenuAuthors.svelte';
 	import CompMenuMembersAccess from '$lib/core/core/frontend/components/admin/CompMenu/CompMenuMembersAccess.svelte';
 	import CompMenuPosts from '$lib/core/core/frontend/components/admin/CompMenu/CompMenuPosts.svelte';
@@ -43,11 +42,13 @@
 			<Icon3BottomLeft />
 		</svelte:fragment> -->
 		<h2 class="text-xl font-bold">Settings</h2>
-		<span>{$page.params.status || ''}</span>
+		<span class="uppercase text-sm font-semibold"
+			><a href={$adminSiteUrl + `/settings`}>All</a> > {$page.params.group || ''}</span
+		>
 		<svelte:fragment slot="trail">
 			<!-- <div class="w-full "> -->
 			<div class="hidden md:flex md:flex-row-reverse w-full items-center gap-6">
-				<!--<button
+				<!-- <button
 					type="button"
 					class="btn btn-sm variant-filled rounded"
 					on:click={() => {
@@ -58,7 +59,7 @@
 					<span><IconPlusSmall /></span>
 					<span>New post</span>
 				</button>
-				 <div class="filter-bar flex gap-4">
+				<div class="filter-bar flex gap-4">
 					<span><CompMenuPosts /></span>
 					<span><CompMenuMembersAccess /></span>
 					<span><CompMenuAuthors /></span>
@@ -101,8 +102,9 @@
 								<th class="table-cell-fit">{column}</th>
 							{/each}
 						{/if} -->
-						<th class="uppercase">Group</th>
-						<th class="w-1 uppercase text-right">Status</th>
+						<th class="w-1 uppercase">Key</th>
+						<th class="">Value</th>
+						<th class="w-1 uppercase text-right">Type</th>
 						<!-- <th>Symbol</th>
 						<th>Weight</th> -->
 					</tr>
@@ -118,25 +120,29 @@
 						> -->
 						<tr>
 							<!-- svelte-ignore a11y-click-events-have-key-events -->
-							<td
-								class="cursor-pointer"
-								on:click={() => {
-									goto($adminSiteUrl + `/settings/${row.group}`);
-								}}
-							>
+							<td class="cursor-pointer">
 								<p class="unstyled text-sm font-medium antialiased tracking-wide uppercase">
-									{row.group}
+									{row.key}
 								</p>
 								<!-- <p class="unstyled text-xs mt-1 text-slate-500">
-									<span>By {row.created_by}</span> • <span>{row.updated_at}</span>
+									<span>{row.group}</span>
 								</p> -->
 							</td>
 							<td>
+								{#if row.type != 'array'}
+									<input class="p-1" type="text" value={row.value} />
+								{:else}
+									<textarea class="textarea" rows="4" placeholder="Enter some long form content.">
+										{row.value}
+									</textarea>
+								{/if}
+							</td>
+							<td>
 								<span
-									class="badge uppercase text-xs font-light pb-[1px] pt-[2px] px-3 {row.status ==
+									class="badge uppercase text-xs font-light pb-[1px] pt-[2px] px-3 {row.type ==
 									'published'
 										? 'variant-filled-success'
-										: 'variant-filled-surface'}">{row.status}</span
+										: 'variant-filled-surface'}">{row.type}</span
 								>
 							</td>
 						</tr>

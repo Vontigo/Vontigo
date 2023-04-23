@@ -20,12 +20,9 @@ export async function GET({ url, params }) {
 }
 
 async function getAllRows(params: any): Promise<any[] | null> {
+	let group = params.group;
 	try {
-		const rows: any[] = await knexInstance
-			.select('s.group')
-			.from('settings as s')
-			.groupBy('s.group')
-			.orderBy('s.group');
+		const rows: any[] = await knexInstance.select('s.*').from('settings as s').where({ group });
 		return rows;
 	} catch (error) {
 		console.error(error);
