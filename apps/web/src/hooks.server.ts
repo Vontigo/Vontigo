@@ -6,11 +6,14 @@ import { sequence } from '@sveltejs/kit/hooks';
 import { CONST_DEFAULT_LANGUAGE } from '$lib/core/shared/const';
 import { SvelteKitAuth } from '@auth/sveltekit';
 import Google from '@auth/core/providers/google';
-import { GOOGLE_ID, GOOGLE_SECRET } from '$env/static/private';
+import { AUTH_SECRET, GOOGLE_ID, GOOGLE_SECRET } from '$env/static/private';
 
-const handle = SvelteKitAuth({
-	providers: [Google({ clientId: GOOGLE_ID, clientSecret: GOOGLE_SECRET })]
+const auth = SvelteKitAuth({
+	providers: [Google({ clientId: GOOGLE_ID, clientSecret: GOOGLE_SECRET })],
+	secret: AUTH_SECRET
 });
+
+export const handle = sequence(auth);
 
 // const firstHandle = (async ({ event, resolve }) => {
 // 	// Do something
