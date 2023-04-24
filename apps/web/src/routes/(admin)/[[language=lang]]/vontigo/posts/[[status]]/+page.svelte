@@ -28,7 +28,8 @@
 		padding: 'p-4',
 		rounded: 'rounded-xl',
 		shadow: 'shadow-md',
-		regionDrawer: 'overflow-y-hidden'
+		regionDrawer: 'overflow-y-hidden',
+		bgDrawer: 'bg-white'
 	};
 
 	$: if (selectedPost) {

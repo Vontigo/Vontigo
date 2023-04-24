@@ -2,19 +2,21 @@ import { error } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
 import { knexInstance } from '$lib/core/core/server/data/db/connection';
 
-export const GET = (async ({ url, params }) => {
-	//console.log(params.field);
-
+export const PUT = (async ({ url, params, request }) => {
+	// console.log(params.field);
+	const response = await request.json();
 	const id = params.id;
 	const field = params.field;
-	const value = params.value;
+	const value = JSON.stringify(response);
 	const { table } = params;
+	// console.log(value);
 
 	// Check if the table exists in the database
 	const tableExists = await knexInstance.schema.hasTable(table);
 	if (!tableExists) {
 		return { status: 404, body: `Table ${table} not found` };
 	}
+	console.log(value);
 
 	const count = await knexInstance(table)
 		.where({ id })

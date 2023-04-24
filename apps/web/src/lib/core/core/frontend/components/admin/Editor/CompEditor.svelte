@@ -1,6 +1,6 @@
 <script lang="ts">
 	// SKELETON
-	import { popup, storePopup } from '@skeletonlabs/skeleton';
+	import { popup, storePopup, toastStore, type ToastSettings, Toast } from '@skeletonlabs/skeleton';
 	import type { PopupSettings } from '@skeletonlabs/skeleton';
 	import { computePosition } from '@floating-ui/dom';
 	import { Modal, modalStore } from '@skeletonlabs/skeleton';
@@ -77,9 +77,15 @@
 
 	let floatingMenuShow = false;
 	let enteringTitle = false;
-	onMount(() => {
+	onMount(async () => {
 		// console.log(postData.mobiledoc);
-
+		if (postData.id) {
+			const resData = await fetch(`/api/database/posts/read/${postData.id}`);
+			const resDataJson = await resData.json();
+			if (resDataJson.row) {
+				postData = resDataJson.row;
+			}
+		}
 		const content = postData
 			? generateHTML(JSON.parse(postData.mobiledoc), [StarterKit, Image])
 			: '<h1 name="title" id="postTitle"></h1>';
@@ -150,7 +156,7 @@
 								placement: 'left' // 'bottom' by default
 							}).then(({ x, y }) => {
 								Object.assign(floatingMenuHTML.style, {
-									left: `${x + floatingMenuHTML.clientWidth}px`,
+									left: `${x + 10 + floatingMenuHTML.clientWidth}px`,
 									right: 'unset',
 									top: `${y}px`
 								});
@@ -241,7 +247,56 @@
 			// }
 		});
 	});
+	// async function updateField(id: string, field: string, value: any) {
+	// 	// console.log(encodeURIComponent(value));
+	// 	// console.log(value);
 
+	// 	const resData = await fetch(`/api/database/posts/put/${id}/${field}/${value}`, {
+	// 		method: 'PUT',
+	// 		body: JSON.stringify(value)
+	// 	});
+	// 	const resDataJson = await resData.json();
+	// 	if (resDataJson.row) {
+	// 		const t: ToastSettings = {
+	// 			message: `Post saved!`,
+	// 			timeout: 2000
+	// 		};
+	// 		toastStore.trigger(t);
+	// 	}
+	// }
+	async function updateAllFields(id: string, body: any) {
+		const title = editor.getJSON().content[0];
+		// let title;
+		// if(editorJson) title = editorJson.content[0];
+
+		console.log(title);
+
+		if (title.type == 'heading' && title.attrs.level && title.attrs.level == 1) {
+			// console.log('OK');
+			body.title = title.content[0].text;
+			const requestOptions = {
+				method: 'PUT',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify(body)
+			};
+
+			const resData = await fetch(`/api/database/posts/update/${id}`, requestOptions);
+			const resDataJson = await resData.json();
+			if (resDataJson.row) {
+				const t: ToastSettings = {
+					message: `Post saved!`,
+					timeout: 2000
+				};
+				toastStore.trigger(t);
+			}
+		} else {
+			const t: ToastSettings = {
+				message: `First heading must be H1.`,
+				timeout: 2000
+			};
+			toastStore.trigger(t);
+		}
+	}
 	const addImage = () => {
 		const url = window.prompt('URL');
 
@@ -251,6 +306,7 @@
 	};
 	const getOutput = () => {
 		console.log('__OUTPUT: JSON ', editor.getJSON());
+		// console.log(encodeURIComponent(editor.getJSON().toString()));
 		// console.log('__OUTPUT: HTML ', editor.getHTML());
 		// console.log('__OUTPUT: Text ', editor.getText());
 	};
@@ -449,7 +505,14 @@
 				<IconTerminal fillColor="white" />
 			</button>
 			<button
-				on:click={() => console.log('Save')}
+				on:click={() => {
+					// updateField(postData.id, 'mobiledoc', editor.getJSON());
+					updateAllFields(postData.id, {
+						mobiledoc: JSON.stringify(editor.getJSON()),
+						html: editor.getHTML(),
+						plaintext: editor.getText()
+					});
+				}}
 				class="btn px-2 py-1 bg-primary-500 rounded-md text-white"
 			>
 				<span><IconSave fillColor="white" /></span>
@@ -477,7 +540,7 @@
 	<div
 		id="tooltip"
 		style="position: absolute;"
-		class="p-2 z-10 h-4"
+		class=""
 		class:hidden={!floatingMenuShow}
 		bind:this={floatingMenuHTML}
 	>
@@ -581,6 +644,7 @@
 {/if}
 
 <Modal />
+<Toast />
 
 <style lang="postcss" global>
 	button.is-active {

@@ -27,7 +27,8 @@
 		padding: 'p-4',
 		rounded: 'rounded-xl',
 		shadow: 'shadow-md',
-		regionDrawer: 'overflow-y-hidden'
+		bgDrawer: 'bg-white',
+		regionDrawer: 'overflow-y-hidden bg-white'
 	};
 
 	async function updateField(id: string, field: string, value: string) {
@@ -43,17 +44,14 @@
 			toastStore.trigger(t);
 		}
 	}
-	async function updateAllFields(id: string, body:string) {
-        const requestOptions = {
-            method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(body)
-        };
-        
-		const resData = await fetch(
-			`/api/database/posts/update/${id}`,
-            requestOptions
-		);
+	async function updateAllFields(id: string, body: string) {
+		const requestOptions = {
+			method: 'PUT',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify(body)
+		};
+
+		const resData = await fetch(`/api/database/posts/update/${id}`, requestOptions);
 		const resDataJson = await resData.json();
 		if (resDataJson.row) {
 			const t: ToastSettings = {
@@ -71,9 +69,7 @@
 			<Icon3BottomLeft />
 		</svelte:fragment> -->
 		<h2 class="text-xl font-bold">Editor</h2>
-		<span class="uppercase text-sm font-semibold"
-			>{$page.params.slug || ''}</span
-		>
+		<span class="uppercase text-sm font-semibold">{$page.params.slug || ''}</span>
 		<svelte:fragment slot="trail">
 			<!-- <div class="w-full "> -->
 			<div class="hidden md:flex md:flex-row-reverse w-full items-center gap-6">
@@ -115,18 +111,22 @@
 		<div class="postsList">
 			<!-- Responsive Container (recommended) -->
 			<div class="table-container rounded-none w-full">
-                <input type="text" bind:value={data.post.title} name={data.post.id} class="input p-2"/>
-                <textarea bind:value={data.post.html} rows="20" class="input p-2"></textarea>
-                <button type="button" on:click={()=>{
-                    updateField(data.post.id,'html',data.post.html);
-                }}>Save body</button><button type="button" on:click={()=>{
-                    updateAllFields(data.post.id,
-                        {
-                            title:data.post.title,
-                            html:data.post.html
-                        }
-                    );
-                }}>Save all</button>
+				<input type="text" bind:value={data.post.title} name={data.post.id} class="input p-2" />
+				<textarea bind:value={data.post.html} rows="20" class="input p-2" />
+				<button
+					type="button"
+					on:click={() => {
+						updateField(data.post.id, 'html', data.post.html);
+					}}>Save body</button
+				><button
+					type="button"
+					on:click={() => {
+						updateAllFields(data.post.id, {
+							title: data.post.title,
+							html: data.post.html
+						});
+					}}>Save all</button
+				>
 			</div>
 		</div>
 	{/if}
