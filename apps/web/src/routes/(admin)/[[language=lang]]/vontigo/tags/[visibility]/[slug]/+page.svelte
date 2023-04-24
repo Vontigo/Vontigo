@@ -15,6 +15,11 @@
 	let selectedPost: any;
 	let keysJson: string[];
 	let colorValue;
+	
+	let tagId = data.tag.find(obj => obj.key === 'id').value;
+
+	console.log('_____',tagId);
+	
 	// let previousSubGroup = '';
 
 	// if (data && data.posts) keysJson = Object.keys(data.posts[0]);
@@ -32,7 +37,7 @@
 
 	async function updateField(id: string, field: string, value: string, key: string) {
 		const resData = await fetch(
-			`/api/database/settings/put/${id}/${field}/${encodeURIComponent(value)}`
+			`/api/database/tags/put/${id}/${field}/${encodeURIComponent(value)}`
 		);
 		const resDataJson = await resData.json();
 		if (resDataJson.row) {
@@ -153,7 +158,47 @@
 											{rec.row.name}
 										{/await}
 									{:else}
-										{row.value}
+										{#if row.type == 'varchar'}
+											{#if row.key.indexOf('color') >= 0}
+												<div class="grid grid-cols-[auto_1fr] gap-2">
+													<input
+														class="input"
+														type="color"
+														name={row.key}
+														bind:value={row.value}
+														on:change={() => {
+															updateField(tagId, row.key, row.value, row.key);
+														}}
+													/>
+													<input
+														class="input w-1/3 p-2"
+														type="text"
+														bind:value={row.value}
+														readonly
+														tabindex="-1"
+													/>
+												</div>
+											{:else if row.key.indexOf('image') >= 0}
+												<input
+													class="input w-full"
+													type="file"
+													bind:value={row.value}
+													on:blur={() => {
+														updateField(tagId, row.key, row.value, row.key);
+													}}
+												/>
+											{:else}
+												<input
+													class="input p-2 w-full"
+													type="text"
+													name={row.key}
+													bind:value={row.value}
+													on:blur={() => {
+														updateField(tagId, row.key, row.value, row.key);
+													}}
+												/>
+											{/if}
+										{/if}
 									{/if}
 								</td>
 								<td>

@@ -10,6 +10,7 @@
 	import type { DrawerSettings } from '@skeletonlabs/skeleton';
 	import type { PageData } from './$types';
 	import { adminSiteUrl, isEditorOpen } from '$lib/core/shared/stores/site';
+	import type { Readable } from 'svelte/store';
 	export let data: PageData;
 	let selectedPost: any;
 	let keysJson: string[];
@@ -42,6 +43,7 @@
 			toastStore.trigger(t);
 		}
 	}
+
 </script>
 
 <div class="max-w-screen-xl mx-auto px-10 py-2">
