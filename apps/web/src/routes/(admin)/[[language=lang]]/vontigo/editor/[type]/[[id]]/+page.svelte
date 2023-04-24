@@ -43,6 +43,26 @@
 			toastStore.trigger(t);
 		}
 	}
+	async function updateAllFields(id: string, body:string) {
+        const requestOptions = {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(body)
+        };
+        
+		const resData = await fetch(
+			`/api/database/posts/update/${id}`,
+            requestOptions
+		);
+		const resDataJson = await resData.json();
+		if (resDataJson.row) {
+			const t: ToastSettings = {
+				message: `Post saved!`,
+				timeout: 2000
+			};
+			toastStore.trigger(t);
+		}
+	}
 </script>
 
 <div class="max-w-screen-xl mx-auto px-10 py-2">
@@ -99,7 +119,14 @@
                 <textarea bind:value={data.post.html} rows="20" class="input p-2"></textarea>
                 <button type="button" on:click={()=>{
                     updateField(data.post.id,'html',data.post.html);
-                }}>Save</button>
+                }}>Save body</button><button type="button" on:click={()=>{
+                    updateAllFields(data.post.id,
+                        {
+                            title:data.post.title,
+                            html:data.post.html
+                        }
+                    );
+                }}>Save all</button>
 			</div>
 		</div>
 	{/if}
