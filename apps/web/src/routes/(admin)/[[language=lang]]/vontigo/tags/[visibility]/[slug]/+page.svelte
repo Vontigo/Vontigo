@@ -1,23 +1,21 @@
 <script lang="ts">
 	import { page } from '$app/stores';
-	import CompMenuAuthors from '$lib/core/core/frontend/components/admin/CompMenu/CompMenuAuthors.svelte';
-	import CompMenuMembersAccess from '$lib/core/core/frontend/components/admin/CompMenu/CompMenuMembersAccess.svelte';
-	import CompMenuPosts from '$lib/core/core/frontend/components/admin/CompMenu/CompMenuPosts.svelte';
-	import CompMenuSortBy from '$lib/core/core/frontend/components/admin/CompMenu/CompMenuSortBy.svelte';
-	import CompMenuTags from '$lib/core/core/frontend/components/admin/CompMenu/CompMenuTags.svelte';
+	import { toastStore, type ToastSettings, Toast } from '@skeletonlabs/skeleton';
 	import CompEditor from '$lib/core/core/frontend/components/admin/Editor/CompEditor.svelte';
 	import Icon3BottomLeft from '$lib/icons/Icon3BottomLeft.svelte';
 	import IconArrowDown from '$lib/icons/IconArrowDown.svelte';
 	import IconPlusSmall from '$lib/icons/IconPlusSmall.svelte';
-	import { AppBar, AppShell } from '@skeletonlabs/skeleton';
+	import { AppBar, AppShell, RadioGroup, RadioItem } from '@skeletonlabs/skeleton';
 	import { Drawer, drawerStore } from '@skeletonlabs/skeleton';
 	import type { DrawerSettings } from '@skeletonlabs/skeleton';
-	import type { PageData } from '../[type]/[slug]/$types';
+	import type { PageData } from './$types';
 	import { adminSiteUrl, isEditorOpen } from '$lib/core/shared/stores/site';
-	import { goto } from '$app/navigation';
+	import type { ReferenceStructure, TableStructure } from '$lib/core/shared/types';
 	export let data: PageData;
 	let selectedPost: any;
 	let keysJson: string[];
+	let colorValue;
+	// let previousSubGroup = '';
 
 	// if (data && data.posts) keysJson = Object.keys(data.posts[0]);
 
@@ -32,8 +30,28 @@
 		regionDrawer: 'overflow-y-hidden'
 	};
 
-	$: if (selectedPost) {
-		selectedPost = selectedPost;
+	async function updateField(id: string, field: string, value: string, key: string) {
+		const resData = await fetch(
+			`/api/database/settings/put/${id}/${field}/${encodeURIComponent(value)}`
+		);
+		const resDataJson = await resData.json();
+		if (resDataJson.row) {
+			const t: ToastSettings = {
+				message: `New value for [ ${key} ] key setting saved!`,
+				timeout: 2000
+			};
+			toastStore.trigger(t);
+		}
+	}
+	async function getReferenceValue(rec:TableStructure){
+		console.log(rec);
+
+		const resData = await fetch(
+			`/api/database/${rec.reference.table}/read/${rec.value}`
+		);
+		// console.log(await resData.json());
+		
+		return await resData.json();
 	}
 </script>
 
@@ -42,12 +60,14 @@
 		<!-- <svelte:fragment slot="lead">
 			<Icon3BottomLeft />
 		</svelte:fragment> -->
-		<h2 class="text-xl font-bold">Tags</h2>
-		<!-- <span class="text-xs uppercase font-semibold">{$page.params.status || 'all status'}</span> -->
+		<h2 class="text-xl font-bold">Tag</h2>
+		<span class="uppercase text-sm font-semibold"
+			><a href={$adminSiteUrl + `/tags/${$page.params.visibility}`}>All tags</a> > {$page.params.slug || ''}</span
+		>
 		<svelte:fragment slot="trail">
 			<!-- <div class="w-full "> -->
 			<div class="hidden md:flex md:flex-row-reverse w-full items-center gap-6">
-				<button
+				<!-- <button
 					type="button"
 					class="btn btn-sm variant-filled rounded"
 					on:click={() => {
@@ -56,20 +76,19 @@
 					}}
 				>
 					<span><IconPlusSmall /></span>
-					<span>New tag</span>
+					<span>New post</span>
 				</button>
-				<div class="filter-bar flex gap-4" />
+				<div class="filter-bar flex gap-4">
+					<span><CompMenuPosts /></span>
+					<span><CompMenuMembersAccess /></span>
+					<span><CompMenuAuthors /></span>
+					<span><CompMenuTags /></span>
+					<span><CompMenuSortBy /></span>
+				</div> -->
 			</div>
-			<button
-				type="button"
-				class="md:hidden btn btn-sm variant-filled rounded"
-				on:click={() => {
-					selectedPost = {};
-					drawerStore.open(settings);
-				}}
-			>
+			<button type="button" class="md:hidden btn btn-sm variant-filled rounded">
 				<span><IconPlusSmall /></span>
-				<span>New tag</span>
+				<span>New post</span>
 			</button>
 			<!-- </div> -->
 		</svelte:fragment>
@@ -82,7 +101,7 @@
 			<CompEditor postData={selectedPost} />
 		{/if}
 	</Drawer>
-	{#if data.tags.length > 0}
+	{#if data.tag}
 		<div class="postsList">
 			<!-- Responsive Container (recommended) -->
 			<div class="table-container rounded-none w-full">
@@ -95,14 +114,15 @@
 								<th class="table-cell-fit">{column}</th>
 							{/each}
 						{/if} -->
-							<th class="uppercase">Title</th>
-							<th class="w-40 uppercase text-right">No. Of Posts</th>
+							<th class="w-1 uppercase">Key</th>
+							<th class="">Value</th>
+							<th class="w-1 uppercase text-right">Type</th>
 							<!-- <th>Symbol</th>
 						<th>Weight</th> -->
 						</tr>
 					</thead>
 					<tbody>
-						{#each data.tags as row, i}
+						{#each data.tag as row, i}
 							<!-- <tr>
 							{#if keysJson}
 								{#each keysJson as column}
@@ -112,16 +132,31 @@
 						> -->
 							<tr>
 								<!-- svelte-ignore a11y-click-events-have-key-events -->
-								<td
-									class="cursor-pointer"
-									on:click={() => {
-										goto($adminSiteUrl + `/tags/${$page.params.visibility}/${row.slug}`);
-									}}
-								>
-									<p class="unstyled text-sm font-medium antialiased tracking-wide">{row.name}</p>
+								<td class="cursor-pointer">
+									<p class="unstyled text-sm font-medium antialiased tracking-wide uppercase">
+										{row.key}
+									</p>
+									<!-- <p class="unstyled text-xs mt-1 text-slate-500">
+									<span>{row.group}</span>
+								</p> -->
 								</td>
-								<td class="text-end"> # </td>
+								<td>
+									{#if row.reference}
+										{#await getReferenceValue(row)}
+											loading...
+										{:then rec} 
+											{rec.row.name}
+										{/await}
+									{:else}
+										{row.value}
+									{/if}
+								</td>
+								<td>
+									{row.type}
+								</td>
 							</tr>
+
+							<!-- {assignPreviousSubGroup(row.key.split('_')[0])} -->
 						{/each}
 					</tbody>
 					<!-- <tfoot>
@@ -133,13 +168,8 @@
 				</table>
 			</div>
 		</div>
-	{:else}
-		<div class="w-full justify-center">
-			<div class="flex flex-col w-2/4 m-auto">
-				<div class="w-full h-full m-auto text-center">No slugs found</div>
-			</div>
-		</div>
 	{/if}
+	<Toast />
 </div>
 
 <style global>
