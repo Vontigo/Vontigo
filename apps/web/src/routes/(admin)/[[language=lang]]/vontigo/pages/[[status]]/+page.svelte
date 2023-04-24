@@ -13,7 +13,8 @@
 	import { Drawer, drawerStore } from '@skeletonlabs/skeleton';
 	import type { DrawerSettings } from '@skeletonlabs/skeleton';
 	import type { PageData } from './$types';
-	import { isEditorOpen } from '$lib/core/shared/stores/site';
+	import { adminSiteUrl, isEditorOpen } from '$lib/core/shared/stores/site';
+	import { goto } from '$app/navigation';
 	export let data: PageData;
 	let selectedPost: any;
 	let keysJson: string[];
@@ -120,9 +121,8 @@
 							<td
 								class="cursor-pointer"
 								on:click={() => {
-									selectedPost = row;
-									drawerStore.open(settings);
-								}}
+										goto($adminSiteUrl + `/editor/${row.type}/${row.slug}`);
+									}}
 							>
 								<p class="unstyled text-sm font-medium antialiased tracking-wide">{row.title}</p>
 								<p class="unstyled text-xs mt-1 text-slate-500">

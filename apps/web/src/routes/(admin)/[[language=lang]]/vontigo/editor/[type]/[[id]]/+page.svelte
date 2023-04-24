@@ -1,0 +1,113 @@
+<script lang="ts">
+	import { page } from '$app/stores';
+	import { toastStore, type ToastSettings, Toast, ProgressRadial } from '@skeletonlabs/skeleton';
+	import CompEditor from '$lib/core/core/frontend/components/admin/Editor/CompEditor.svelte';
+	import Icon3BottomLeft from '$lib/icons/Icon3BottomLeft.svelte';
+	import IconArrowDown from '$lib/icons/IconArrowDown.svelte';
+	import IconPlusSmall from '$lib/icons/IconPlusSmall.svelte';
+	import { AppBar, AppShell, RadioGroup, RadioItem } from '@skeletonlabs/skeleton';
+	import { Drawer, drawerStore } from '@skeletonlabs/skeleton';
+	import type { DrawerSettings } from '@skeletonlabs/skeleton';
+	import type { PageData } from './$types';
+	import { adminSiteUrl, isEditorOpen } from '$lib/core/shared/stores/site';
+	import type { ReferenceStructure, TableStructure } from '$lib/core/shared/types';
+	export let data: PageData;
+	let selectedPost: any;
+	let keysJson: string[];
+	let colorValue;
+	// let previousSubGroup = '';
+
+	// if (data && data.posts) keysJson = Object.keys(data.posts[0]);
+
+	const settings: DrawerSettings = {
+		id: 'postEditorDrawer',
+		position: 'right',
+		width: 'w-full lg:w-[80%]',
+		// height: 'h-full',
+		padding: 'p-4',
+		rounded: 'rounded-xl',
+		shadow: 'shadow-md',
+		regionDrawer: 'overflow-y-hidden'
+	};
+
+	async function updateField(id: string, field: string, value: string) {
+		const resData = await fetch(
+			`/api/database/posts/put/${id}/${field}/${encodeURIComponent(value)}`
+		);
+		const resDataJson = await resData.json();
+		if (resDataJson.row) {
+			const t: ToastSettings = {
+				message: `Post saved!`,
+				timeout: 2000
+			};
+			toastStore.trigger(t);
+		}
+	}
+</script>
+
+<div class="max-w-screen-xl mx-auto px-10 py-2">
+	<AppBar class="sticky top-0 z-10 p-4 bg-white">
+		<!-- <svelte:fragment slot="lead">
+			<Icon3BottomLeft />
+		</svelte:fragment> -->
+		<h2 class="text-xl font-bold">Editor</h2>
+		<span class="uppercase text-sm font-semibold"
+			>{$page.params.slug || ''}</span
+		>
+		<svelte:fragment slot="trail">
+			<!-- <div class="w-full "> -->
+			<div class="hidden md:flex md:flex-row-reverse w-full items-center gap-6">
+				<!-- <button
+					type="button"
+					class="btn btn-sm variant-filled rounded"
+					on:click={() => {
+						selectedPost = null;
+						drawerStore.open(settings);
+					}}
+				>
+					<span><IconPlusSmall /></span>
+					<span>New post</span>
+				</button>
+				<div class="filter-bar flex gap-4">
+					<span><CompMenuPosts /></span>
+					<span><CompMenuMembersAccess /></span>
+					<span><CompMenuAuthors /></span>
+					<span><CompMenuTags /></span>
+					<span><CompMenuSortBy /></span>
+				</div> -->
+			</div>
+			<button type="button" class="md:hidden btn btn-sm variant-filled rounded">
+				<span><IconPlusSmall /></span>
+				<span>New post</span>
+			</button>
+			<!-- </div> -->
+		</svelte:fragment>
+
+		<!-- <svelte:fragment slot="trail">(actions)</svelte:fragment> -->
+	</AppBar>
+
+	<Drawer>
+		{#if $drawerStore.id === 'postEditorDrawer'}
+			<CompEditor postData={selectedPost} />
+		{/if}
+	</Drawer>
+	{#if data.post}
+		<div class="postsList">
+			<!-- Responsive Container (recommended) -->
+			<div class="table-container rounded-none w-full">
+                <input type="text" bind:value={data.post.title} name={data.post.id} class="input p-2"/>
+                <textarea bind:value={data.post.html} rows="20" class="input p-2"></textarea>
+                <button type="button" on:click={()=>{
+                    updateField(data.post.id,'html',data.post.html);
+                }}>Save</button>
+			</div>
+		</div>
+	{/if}
+	<Toast />
+</div>
+
+<style global>
+	.drawer-backdrop .drawer {
+		height: calc(100vh - 2rem);
+	}
+</style>
