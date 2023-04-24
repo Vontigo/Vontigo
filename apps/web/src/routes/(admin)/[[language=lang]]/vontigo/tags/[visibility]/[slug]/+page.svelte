@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { page } from '$app/stores';
-	import { toastStore, type ToastSettings, Toast } from '@skeletonlabs/skeleton';
+	import { toastStore, type ToastSettings, Toast, ProgressRadial } from '@skeletonlabs/skeleton';
 	import CompEditor from '$lib/core/core/frontend/components/admin/Editor/CompEditor.svelte';
 	import Icon3BottomLeft from '$lib/icons/Icon3BottomLeft.svelte';
 	import IconArrowDown from '$lib/icons/IconArrowDown.svelte';
@@ -132,9 +132,14 @@
 						> -->
 							<tr>
 								<!-- svelte-ignore a11y-click-events-have-key-events -->
-								<td class="cursor-pointer">
-									<p class="unstyled text-sm font-medium antialiased tracking-wide uppercase">
-										{row.key}
+								<td class="">
+									<p class="unstyled text-sm font-medium antialiased tracking-wide uppercase flex gap-2">
+										{row.key} {#if row.reference}
+										<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244" />
+</svg>
+
+										{/if}
 									</p>
 									<!-- <p class="unstyled text-xs mt-1 text-slate-500">
 									<span>{row.group}</span>
@@ -143,7 +148,7 @@
 								<td>
 									{#if row.reference}
 										{#await getReferenceValue(row)}
-											loading...
+											<ProgressRadial width="w-6" />
 										{:then rec} 
 											{rec.row.name}
 										{/await}
