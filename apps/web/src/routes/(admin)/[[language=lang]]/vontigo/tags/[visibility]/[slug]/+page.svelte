@@ -11,15 +11,23 @@
 	import type { PageData } from './$types';
 	import { adminSiteUrl, isEditorOpen } from '$lib/core/shared/stores/site';
 	import type { ReferenceStructure, TableStructure } from '$lib/core/shared/types';
+	import { onMount } from 'svelte';
 	export let data: PageData;
 	let selectedPost: any;
 	let keysJson: string[];
 	let colorValue;
-	
-	let tagId = data.tag.find(obj => obj.key === 'id').value;
+	const initialFileValues: { [key: string]: string } = {};
 
-	console.log('_____',tagId);
-	
+	let tagId = data.tag.find((obj) => obj.key === 'id').value;
+
+	onMount(async () => {
+		const fileInputs = document.querySelectorAll('.prevFileHidden');
+		fileInputs.forEach((fileInput) => {
+			initialFileValues[fileInput.id] = fileInput.value;
+		});
+		console.log(initialFileValues);
+	});
+
 	// let previousSubGroup = '';
 
 	// if (data && data.posts) keysJson = Object.keys(data.posts[0]);
@@ -34,18 +42,19 @@
 		shadow: 'shadow-md',
 		regionDrawer: 'overflow-y-hidden'
 	};
-	const onFileSelected = (e, key:string)=>{
+	const onFileSelected = (e, key: string) => {
 		console.log(key);
-		
+
 		//let imgSrc;
-		let imgElement = document.getElementById(key+`-img`);
-		let imgBase64Element = document.getElementById(key+`-base64`);
+		let imgElement = document.getElementById(key + `-img`);
+		let imgBase64Element = document.getElementById(key + `-base64`);
+
 		let image = e.target.files[0];
 		let reader = new FileReader();
 		reader.readAsDataURL(image);
-		reader.onload = async (e )=> {
+		reader.onload = async (e) => {
 			console.log(e);
-			
+
 			//imgSrc = e.target.result;
 			imgElement.src = e.target.result;
 			imgBase64Element.value = e.target.result;
@@ -53,24 +62,33 @@
 			const reqUpFile = await uploadFile(key);
 
 			console.log(reqUpFile);
-			if(reqUpFile.filePath){
-				const serverPath = reqUpFile.filePath.replace('static\\','/').replace('\\','/');
-				updateField(tagId, key, serverPath);
+			if (reqUpFile.filePath) {
+				const serverPath = reqUpFile.filePath.replace('static\\', '/').replace(/\\/g, '/');
+				//console.log(serverPath);
+				await updateField(tagId, key, serverPath);
+				if (serverPath != initialFileValues[key]) await deletePrevFile(key);
 			}
 		};
-	}
+	};
+	async function deletePrevFile(key: string) {
+		// console.log('deletePrevFile ', initialFileValues);
 
-	async function updateField(id: string, field: string, value: string) {
-		
 		const requestOptions = {
 			method: 'PUT',
 			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify({body:value})
+			body: JSON.stringify({ body: initialFileValues[key] })
 		};
-		const resData = await fetch(
-			`/api/database/tags/put/${id}/${field}`,
-			requestOptions
-		);
+		const resData = await fetch(`/api/admin/file/delete`, requestOptions);
+		const resDataJson = await resData.json();
+	}
+
+	async function updateField(id: string, field: string, value: string) {
+		const requestOptions = {
+			method: 'PUT',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({ body: value })
+		};
+		const resData = await fetch(`/api/database/tags/put/${id}/${field}`, requestOptions);
 		const resDataJson = await resData.json();
 		if (resDataJson.row) {
 			const t: ToastSettings = {
@@ -80,36 +98,32 @@
 			toastStore.trigger(t);
 		}
 	}
-	async function uploadFile(key: string){
-		let imgInputElement = document.getElementById(key+`-input`);
-		let imgElement = document.getElementById(key+`-img`);
-		let imgBase64Element = document.getElementById(key+`-base64`);
+	async function uploadFile(key: string) {
+		let imgInputElement = document.getElementById(key + `-input`);
+		let imgElement = document.getElementById(key + `-img`);
+		let imgBase64Element = document.getElementById(key + `-base64`);
 
-		var file = imgInputElement.value.split("\\");
-		var fileName = file[file.length-1];
+		var file = imgInputElement.value.split('\\');
+		var fileName = file[file.length - 1];
 
 		const requestOptions = {
 			method: 'PUT',
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify({
-				fileName:fileName,
-				fileBase64:imgBase64Element.value
+				fileName: fileName,
+				fileBase64: imgBase64Element.value
 			})
 		};
 
-		const resData = await fetch(
-			`/api/admin/file`, requestOptions
-		);
+		const resData = await fetch(`/api/admin/file`, requestOptions);
 		return resData.json();
 	}
-	async function getReferenceValue(rec:TableStructure){
+	async function getReferenceValue(rec: TableStructure) {
 		console.log(rec);
 
-		const resData = await fetch(
-			`/api/database/${rec.reference.table}/read/${rec.value}`
-		);
+		const resData = await fetch(`/api/database/${rec.reference.table}/read/${rec.value}`);
 		// console.log(await resData.json());
-		
+
 		return await resData.json();
 	}
 </script>
@@ -121,7 +135,8 @@
 		</svelte:fragment> -->
 		<h2 class="text-xl font-bold">Tag</h2>
 		<span class="uppercase text-sm font-semibold"
-			><a href={$adminSiteUrl + `/tags/${$page.params.visibility}`}>All tags</a> > {$page.params.slug || ''}</span
+			><a href={$adminSiteUrl + `/tags/${$page.params.visibility}`}>All tags</a> > {$page.params
+				.slug || ''}</span
 		>
 		<svelte:fragment slot="trail">
 			<!-- <div class="w-full "> -->
@@ -192,67 +207,94 @@
 							<tr>
 								<!-- svelte-ignore a11y-click-events-have-key-events -->
 								<td class="">
-									<p class="unstyled text-sm font-medium antialiased tracking-wide uppercase flex gap-2">
-										{row.key} {#if row.reference}
-										<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-  <path stroke-linecap="round" stroke-linejoin="round" d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244" />
-</svg>
-
+									<p
+										class="unstyled text-sm font-medium antialiased tracking-wide uppercase flex gap-2"
+									>
+										{row.key}
+										{#if row.reference}
+											<svg
+												xmlns="http://www.w3.org/2000/svg"
+												fill="none"
+												viewBox="0 0 24 24"
+												stroke-width="1.5"
+												stroke="currentColor"
+												class="w-6 h-6"
+											>
+												<path
+													stroke-linecap="round"
+													stroke-linejoin="round"
+													d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244"
+												/>
+											</svg>
 										{/if}
 									</p>
 									<!-- <p class="unstyled text-xs mt-1 text-slate-500">
 									<span>{row.group}</span>
 								</p> -->
 								</td>
-								<td>
+								<td class="flex flex-col gap-2">
 									{#if row.reference}
 										{#await getReferenceValue(row)}
 											<ProgressRadial width="w-6" />
-										{:then rec} 
+										{:then rec}
 											{rec.row.name}
 										{/await}
-									{:else}
-										{#if row.type == 'varchar'}
-											{#if row.key.indexOf('color') >= 0}
-												<div class="grid grid-cols-[auto_1fr] gap-2">
-													<input
-														class="input"
-														type="color"
-														name={row.key}
-														bind:value={row.value}
-														on:change={() => {
-															updateField(tagId, row.key, row.value);
-														}}
-													/>
-													<input
-														class="input w-1/3 p-2"
-														type="text"
-														bind:value={row.value}
-														readonly
-														tabindex="-1"
-													/>
-												</div>
-											{:else if row.key.indexOf('image') >= 0}
-													<input
-														id={row.key+`-input`}
-														class="input w-full"
-														type="file"
-														bind:value={row.value}
-														on:change={(e)=>onFileSelected(e, row.key)}
-													/>
-													<input id={row.key+`-base64`} name={row.key+`-base64`} type="hidden"/>
-													<img id={row.key+`-img`} name={row.key+`-img`} src={row.value} style="max-width: 50ch;" alt="" />
-											{:else}
+									{:else if row.type == 'varchar'}
+										{#if row.key.indexOf('color') >= 0}
+											<div class="grid grid-cols-[auto_1fr] gap-2">
 												<input
-													class="input p-2 w-full"
-													type="text"
+													class="input"
+													type="color"
 													name={row.key}
 													bind:value={row.value}
-													on:blur={() => {
+													on:change={() => {
 														updateField(tagId, row.key, row.value);
 													}}
 												/>
-											{/if}
+												<input
+													class="input w-1/3 p-2"
+													type="text"
+													bind:value={row.value}
+													readonly
+													tabindex="-1"
+												/>
+											</div>
+										{:else if row.key.indexOf('image') >= 0}
+											<input
+												id={row.key}
+												class="prevFileHidden"
+												type="hidden"
+												bind:value={row.value}
+											/>
+											<input
+												id={row.key + `-input`}
+												class="input w-full"
+												type="file"
+												bind:value={row.value}
+												on:change={(e) => onFileSelected(e, row.key)}
+											/>
+											<em
+												>Warning: Old file will be deleted from the server whenever new file has
+												been uploaded.</em
+											>
+											<input id={row.key + `-base64`} name={row.key + `-base64`} type="hidden" />
+											<img
+												id={row.key + `-img`}
+												name={row.key + `-img`}
+												src={row.value}
+												style="max-width: 50ch;"
+												alt=""
+											/>
+										{:else}
+											<input
+												class="input p-2 w-full"
+												type="text"
+												name={row.key}
+												bind:value={row.value}
+												on:blur={() => {
+													updateField(tagId, row.key, row.value);
+												}}
+											/>
 										{/if}
 									{/if}
 								</td>
