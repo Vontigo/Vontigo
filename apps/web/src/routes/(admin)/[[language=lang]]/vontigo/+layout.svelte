@@ -28,6 +28,7 @@
 
 	import { computePosition, autoUpdate, flip, shift, offset, arrow } from '@floating-ui/dom';
 	import { storePopup, type PopupSettings } from '@skeletonlabs/skeleton';
+	import IconDatabase from '$lib/icons/IconDatabase.svelte';
 	storePopup.set({ computePosition, autoUpdate, flip, shift, offset, arrow });
 	origin.set($page.url.host);
 
@@ -63,10 +64,10 @@
 		>
 			<nav class="list-nav space-y-4 h-full flex flex-col">
 				<!-- (optionally you can provde a label here) -->
-				<ul class="p-2 pl-8 px-6 pt-6">
+				<ul class="p-2 pl-11 px-6 pt-6">
 					<li class="w-auto">
-						<span class="unstyled flex-auto font-semibold"
-							><span class="font-bold text-3xl text-primary-500">V</span>ontigo</span
+						<span class="unstyled flex-auto font-bold"
+							><span class="font-bold text-4xl text-primary-500">V</span>ontigo</span
 						>
 					</li>
 				</ul>
@@ -164,6 +165,12 @@
 							<span class="flex-auto text-base">Members</span>
 						</a>
 					</li>
+					<!-- <li class="w-auto">
+						<a class={classesActive($adminSiteUrl + '/base')} href={$adminSiteUrl + '/base'}>
+							<IconDatabase />
+							<span class="flex-auto text-base">Vontigobase</span>
+						</a>
+					</li> -->
 				</ul>
 				<ul class="h-full" />
 				<ul class="sidebar-left__bottom pb-2 px-6 flex flex-row">

@@ -115,7 +115,7 @@
 			})
 		};
 
-		const resData = await fetch(`/api/admin/file`, requestOptions);
+		const resData = await fetch(`/api/admin/file/create`, requestOptions);
 		return resData.json();
 	}
 	async function getReferenceValue(rec: TableStructure) {
