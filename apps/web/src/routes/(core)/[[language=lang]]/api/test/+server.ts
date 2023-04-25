@@ -1,12 +1,13 @@
 import crypto from 'crypto';
 import ObjectID from 'bson-objectid';
+import { v4 as uuidv4 } from 'uuid';
 
 /** @type {import('./$types').RequestHandler} */
 export async function GET({ url }) {
 	const title = 'My Blog Post Title';
 	const postId = new ObjectID();
 	//console.log(postId); // prints a 64-character hexadecimal string
-	return new Response(JSON.stringify({ message: postId }), { status: 200 });
+	return new Response(JSON.stringify({ message: uuidv4() }), { status: 200 });
 }
 
 function generatePostId(title: string): string {
