@@ -1,10 +1,15 @@
 import { ENUM_IMAGE_SIZE } from '$lib/core/shared/enum';
 
-export function img_url(origin: string = '', image: string, size: string = ENUM_IMAGE_SIZE.M) {
-	if (image.indexOf('http') == 0) {
-		return image;
-	}
-	let rtnImgUrl = origin + '/images/size/' + size + image;
+import { config } from '$lib/themes/casper/config.json';
+
+export function img_url(origin: string = '', image: string, sizeKey: string = ENUM_IMAGE_SIZE.M) {
+	const imageSizes = config.image_sizes;
+	const filePath = image.replace('_raw', `w${imageSizes[sizeKey].width}`);
+
+	// if (image.indexOf('http') == 0) {
+	// 	return image;
+	// }
+	// let rtnImgUrl = origin + '/images/size/' + size + image;
 
 	// switch (size) {
 	// 	case ENUM_IMAGE_SIZE.S:
@@ -12,5 +17,5 @@ export function img_url(origin: string = '', image: string, size: string = ENUM_
 	// 		break;
 	// }
 
-	return rtnImgUrl;
+	return filePath;
 }

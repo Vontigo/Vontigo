@@ -18,9 +18,10 @@
 	let colorValue;
 	const initialFileValues: { [key: string]: string } = {};
 
-	let tagId = data.tag.find((obj) => obj.key === 'id').value;
+	let recordId = data.tag.find((obj) => obj.key === 'id').value;
 
 	onMount(async () => {
+		// Backup all of previous files to delete incase upload new files
 		const fileInputs = document.querySelectorAll('.prevFileHidden');
 		fileInputs.forEach((fileInput) => {
 			initialFileValues[fileInput.id] = fileInput.value;
@@ -42,6 +43,7 @@
 		shadow: 'shadow-md',
 		regionDrawer: 'overflow-y-hidden'
 	};
+
 	const onFileSelected = (e, key: string) => {
 		console.log(key);
 
@@ -65,11 +67,12 @@
 			if (reqUpFile.filePath) {
 				const serverPath = reqUpFile.filePath.replace('static\\', '/').replace(/\\/g, '/');
 				//console.log(serverPath);
-				await updateField(tagId, key, serverPath);
+				await updateField(recordId, key, serverPath);
 				if (serverPath != initialFileValues[key]) await deletePrevFile(key);
 			}
 		};
 	};
+
 	async function deletePrevFile(key: string) {
 		// console.log('deletePrevFile ', initialFileValues);
 
@@ -98,13 +101,14 @@
 			toastStore.trigger(t);
 		}
 	}
+
 	async function uploadFile(key: string) {
 		let imgInputElement = document.getElementById(key + `-input`);
 		let imgElement = document.getElementById(key + `-img`);
 		let imgBase64Element = document.getElementById(key + `-base64`);
 
 		var file = imgInputElement.value.split('\\');
-		var fileName = file[file.length - 1];
+		var fileName = recordId + '_' + file[file.length - 1];
 
 		const requestOptions = {
 			method: 'PUT',
@@ -188,7 +192,7 @@
 								<th class="table-cell-fit">{column}</th>
 							{/each}
 						{/if} -->
-							<th class="w-1 uppercase">Key</th>
+							<th class="w-1/4 uppercase">Key</th>
 							<th class="">Value</th>
 							<th class="w-1 uppercase text-right">Type</th>
 							<!-- <th>Symbol</th>
@@ -210,7 +214,7 @@
 									<p
 										class="unstyled text-sm font-medium antialiased tracking-wide uppercase flex gap-2"
 									>
-										{row.key}
+										{row.key.replace('_', ' ')}
 										{#if row.reference}
 											<svg
 												xmlns="http://www.w3.org/2000/svg"
@@ -247,7 +251,7 @@
 											name={row.key}
 											bind:value={row.value}
 											on:change={() => {
-												updateField(tagId, row.key, row.value);
+												updateField(recordId, row.key, row.value);
 											}}
 										/>
 									{:else if row.type == 'datetime'}
@@ -257,7 +261,7 @@
 											name={row.key}
 											bind:value={row.value}
 											on:change={() => {
-												updateField(tagId, row.key, row.value);
+												updateField(recordId, row.key, row.value);
 											}}
 										/>
 									{:else if row.type == 'varchar'}
@@ -269,7 +273,7 @@
 													name={row.key}
 													bind:value={row.value}
 													on:change={() => {
-														updateField(tagId, row.key, row.value);
+														updateField(recordId, row.key, row.value);
 													}}
 												/>
 												<input
@@ -315,7 +319,7 @@
 												name={row.key}
 												bind:value={row.value}
 												on:change={() => {
-													updateField(tagId, row.key, row.value);
+													updateField(recordId, row.key, row.value);
 												}}
 												readonly={row.key == 'id' ? 'readonly' : ''}
 											/>

@@ -1,4 +1,27 @@
+// "image_sizes": {
+// 	"xxs": {
+// 		"width": 30
+// 	},
+// 	"xs": {
+// 		"width": 100
+// 	},
+// 	"s": {
+// 		"width": 300
+// 	},
+// 	"m": {
+// 		"width": 600
+// 	},
+// 	"l": {
+// 		"width": 1000
+// 	},
+// 	"xl": {
+// 		"width": 2000
+// 	}
+// }
+
 export enum ENUM_IMAGE_SIZE {
+	XXS = 'xxs',
+	XS = 'xs',
 	S = 's',
 	M = 'm',
 	L = 'l',

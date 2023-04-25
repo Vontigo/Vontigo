@@ -11,13 +11,22 @@
 	import type { PageData } from './$types';
 	import { adminSiteUrl, isEditorOpen } from '$lib/core/shared/stores/site';
 	import type { Readable } from 'svelte/store';
+	import { onMount } from 'svelte';
 	export let data: PageData;
 	let selectedPost: any;
 	let keysJson: string[];
 	let colorValue;
-	// let previousSubGroup = '';
+	const initialFileValues: { [key: string]: string } = {};
+	// let recordId = data.settings.find((obj) => obj.key === 'id').value;
 
-	// if (data && data.posts) keysJson = Object.keys(data.posts[0]);
+	onMount(async () => {
+		// Backup all of previous files to delete incase upload new files
+		const fileInputs = document.querySelectorAll('.prevFileHidden');
+		fileInputs.forEach((fileInput) => {
+			initialFileValues[fileInput.id] = fileInput.value;
+		});
+		console.log(initialFileValues);
+	});
 
 	const settings: DrawerSettings = {
 		id: 'postEditorDrawer',
@@ -30,17 +39,54 @@
 		regionDrawer: 'overflow-y-hidden'
 	};
 
-	async function updateField(id: string, field: string, value: string, key: string) {
-		
+	const onFileSelected = (e, key: string, id: string) => {
+		console.log(key);
+
+		//let imgSrc;
+		let imgElement = document.getElementById(key + `-img`);
+		let imgBase64Element = document.getElementById(key + `-base64`);
+
+		let image = e.target.files[0];
+		let reader = new FileReader();
+		reader.readAsDataURL(image);
+		reader.onload = async (e) => {
+			console.log(e);
+
+			//imgSrc = e.target.result;
+			imgElement.src = e.target.result;
+			imgBase64Element.value = e.target.result;
+
+			const reqUpFile = await uploadFile(key, id);
+
+			console.log(reqUpFile);
+			if (reqUpFile.filePath) {
+				const serverPath = reqUpFile.filePath.replace('static\\', '/').replace(/\\/g, '/');
+				//console.log(serverPath);
+				await updateField(id, 'value', serverPath, key);
+				if (serverPath != initialFileValues[key]) await deletePrevFile(key);
+			}
+		};
+	};
+
+	async function deletePrevFile(key: string) {
+		// console.log('deletePrevFile ', initialFileValues);
+
 		const requestOptions = {
 			method: 'PUT',
 			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify({body:value})
+			body: JSON.stringify({ body: initialFileValues[key] })
 		};
-		const resData = await fetch(
-			`/api/database/settings/put/${id}/${field}`,
-			requestOptions
-		);
+		const resData = await fetch(`/api/admin/file/delete`, requestOptions);
+		const resDataJson = await resData.json();
+	}
+
+	async function updateField(id: string, field: string, value: string, key: string) {
+		const requestOptions = {
+			method: 'PUT',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({ body: value })
+		};
+		const resData = await fetch(`/api/database/settings/put/${id}/${field}`, requestOptions);
 		const resDataJson = await resData.json();
 		if (resDataJson.row) {
 			const t: ToastSettings = {
@@ -51,6 +97,26 @@
 		}
 	}
 
+	async function uploadFile(key: string, id: string) {
+		let imgInputElement = document.getElementById(key + `-input`);
+		let imgElement = document.getElementById(key + `-img`);
+		let imgBase64Element = document.getElementById(key + `-base64`);
+
+		var file = imgInputElement.value.split('\\');
+		var fileName = id + '_' + file[file.length - 1];
+
+		const requestOptions = {
+			method: 'PUT',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({
+				fileName: fileName,
+				fileBase64: imgBase64Element.value
+			})
+		};
+
+		const resData = await fetch(`/api/admin/file/create`, requestOptions);
+		return resData.json();
+	}
 </script>
 
 <div class="max-w-screen-xl mx-auto px-10 py-2">
@@ -160,13 +226,41 @@
 												/>
 											</div>
 										{:else if row.key.indexOf('image') >= 0}
-											<input
+											<!-- <input
 												class="input w-full"
 												type="file"
 												bind:value={row.value}
 												on:blur={() => {
 													updateField(row.id, 'value', row.value, row.key);
 												}}
+											/> -->
+
+											<input
+												id={row.key}
+												class="prevFileHidden"
+												type="hidden"
+												bind:value={row.value}
+											/>
+											<input
+												id={row.key + `-input`}
+												class="input w-full"
+												type="file"
+												bind:value={row.value}
+												on:change={(e) => onFileSelected(e, row.key, row.id)}
+											/>
+											{#if row.value}
+												<em>
+													⚠️ Warning: Old file will be deleted from the server whenever new file has
+													been uploaded.</em
+												>
+											{/if}
+											<input id={row.key + `-base64`} name={row.key + `-base64`} type="hidden" />
+											<img
+												id={row.key + `-img`}
+												name={row.key + `-img`}
+												src={row.value}
+												style="max-width: 50ch;"
+												alt=""
 											/>
 										{:else}
 											<input
@@ -174,7 +268,7 @@
 												type="text"
 												name={row.key}
 												bind:value={row.value}
-												on:blur={() => {
+												on:change={() => {
 													updateField(row.id, 'value', row.value, row.key);
 												}}
 											/>
@@ -186,7 +280,7 @@
 											placeholder="Enter some long form content."
 											name={row.key}
 											bind:value={row.value}
-											on:blur={() => {
+											on:change={() => {
 												updateField(row.id, 'value', row.value, row.key);
 											}}
 										/>
