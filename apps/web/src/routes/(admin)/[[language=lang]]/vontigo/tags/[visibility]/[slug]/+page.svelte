@@ -239,6 +239,27 @@
 										{:then rec}
 											{rec.row.name}
 										{/await}
+									{:else if row.type == 'text'}
+										<textarea
+											class="textarea w-full rounded-xl p-2"
+											rows="6"
+											placeholder="Enter some long form content."
+											name={row.key}
+											bind:value={row.value}
+											on:change={() => {
+												updateField(tagId, row.key, row.value);
+											}}
+										/>
+									{:else if row.type == 'datetime'}
+										<input
+											class="input p-2 w-full"
+											type="datetime-local"
+											name={row.key}
+											bind:value={row.value}
+											on:change={() => {
+												updateField(tagId, row.key, row.value);
+											}}
+										/>
 									{:else if row.type == 'varchar'}
 										{#if row.key.indexOf('color') >= 0}
 											<div class="grid grid-cols-[auto_1fr] gap-2">
@@ -273,10 +294,12 @@
 												bind:value={row.value}
 												on:change={(e) => onFileSelected(e, row.key)}
 											/>
-											<em
-												>Warning: Old file will be deleted from the server whenever new file has
-												been uploaded.</em
-											>
+											{#if row.value}
+												<em>
+													⚠️ Warning: Old file will be deleted from the server whenever new file has
+													been uploaded.</em
+												>
+											{/if}
 											<input id={row.key + `-base64`} name={row.key + `-base64`} type="hidden" />
 											<img
 												id={row.key + `-img`}
@@ -291,9 +314,10 @@
 												type="text"
 												name={row.key}
 												bind:value={row.value}
-												on:blur={() => {
+												on:change={() => {
 													updateField(tagId, row.key, row.value);
 												}}
+												readonly={row.key == 'id' ? 'readonly' : ''}
 											/>
 										{/if}
 									{/if}
