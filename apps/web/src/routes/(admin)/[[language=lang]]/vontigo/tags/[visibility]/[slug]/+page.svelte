@@ -34,6 +34,25 @@
 		shadow: 'shadow-md',
 		regionDrawer: 'overflow-y-hidden'
 	};
+	const onFileSelected =(e, key:string)=>{
+		console.log(key);
+		
+		//let imgSrc;
+		let imgElement = document.getElementById(key+`-img`);
+		let imgBase64Element = document.getElementById(key+`-base64`);
+		let image = e.target.files[0];
+		let reader = new FileReader();
+		reader.readAsDataURL(image);
+		reader.onload = e => {
+			console.log(e);
+			
+			//imgSrc = e.target.result;
+			imgElement.src = e.target.result;
+			imgBase64Element.value = e.target.result;
+
+			uploadFile(key);
+		};
+	}
 
 	async function updateField(id: string, field: string, value: string, key: string) {
 		const resData = await fetch(
@@ -47,6 +66,27 @@
 			};
 			toastStore.trigger(t);
 		}
+	}
+	async function uploadFile(key: string){
+		let imgInputElement = document.getElementById(key+`-input`);
+		let imgElement = document.getElementById(key+`-img`);
+		let imgBase64Element = document.getElementById(key+`-base64`);
+
+		var file = imgInputElement.value.split("\\");
+		var fileName = file[file.length-1];
+
+		const requestOptions = {
+			method: 'PUT',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({
+				fileName:fileName,
+				fileBase64:imgBase64Element.value
+			})
+		};
+
+		const resData = await fetch(
+			`/api/file`, requestOptions
+		);
 	}
 	async function getReferenceValue(rec:TableStructure){
 		console.log(rec);
@@ -179,14 +219,15 @@
 													/>
 												</div>
 											{:else if row.key.indexOf('image') >= 0}
-												<input
-													class="input w-full"
-													type="file"
-													bind:value={row.value}
-													on:blur={() => {
-														updateField(tagId, row.key, row.value, row.key);
-													}}
-												/>
+													<input
+														id={row.key+`-input`}
+														class="input w-full"
+														type="file"
+														bind:value={row.value}
+														on:change={(e)=>onFileSelected(e, row.key)}
+													/>
+													<input id={row.key+`-base64`} name={row.key+`-base64`} type="hidden"/>
+													<img id={row.key+`-img`} name={row.key+`-img`} src={row.value} style="max-width: 50ch;" alt="" />
 											{:else}
 												<input
 													class="input p-2 w-full"
