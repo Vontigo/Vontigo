@@ -1,13 +1,13 @@
 import { error } from '@sveltejs/kit';
-import type { RequestHandler } from './$types';
+import type { RequestHandler } from './[value]/$types';
 import { knexInstance } from '$lib/core/core/server/data/db/connection';
 
 export const PUT = (async ({ url, params, request }) => {
-	// console.log(params.field);
-	const response = await request.json();
+	const resJson = await request.json();
+	console.log(resJson);
 	const id = params.id;
 	const field = params.field;
-	const value = JSON.stringify(response);
+	const value = resJson.body;
 	const { table } = params;
 	// console.log(value);
 

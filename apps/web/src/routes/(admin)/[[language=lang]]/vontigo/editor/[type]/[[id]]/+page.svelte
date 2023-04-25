@@ -32,8 +32,14 @@
 	};
 
 	async function updateField(id: string, field: string, value: string) {
+		const requestOptions = {
+			method: 'PUT',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({body:value})
+		};
 		const resData = await fetch(
-			`/api/database/posts/put/${id}/${field}/${encodeURIComponent(value)}`
+			`/api/database/posts/put/${id}/${field}`,
+			requestOptions
 		);
 		const resDataJson = await resData.json();
 		if (resDataJson.row) {
