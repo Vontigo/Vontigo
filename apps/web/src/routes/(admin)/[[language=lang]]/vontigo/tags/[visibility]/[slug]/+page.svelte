@@ -34,7 +34,7 @@
 		shadow: 'shadow-md',
 		regionDrawer: 'overflow-y-hidden'
 	};
-	const onFileSelected =(e, key:string)=>{
+	const onFileSelected = (e, key:string)=>{
 		console.log(key);
 		
 		//let imgSrc;
@@ -43,18 +43,24 @@
 		let image = e.target.files[0];
 		let reader = new FileReader();
 		reader.readAsDataURL(image);
-		reader.onload = e => {
+		reader.onload = async (e )=> {
 			console.log(e);
 			
 			//imgSrc = e.target.result;
 			imgElement.src = e.target.result;
 			imgBase64Element.value = e.target.result;
 
-			uploadFile(key);
+			const reqUpFile = await uploadFile(key);
+
+			console.log(reqUpFile);
+			if(reqUpFile.filePath){
+				const serverPath = reqUpFile.filePath.replace('static\\','/').replace('\\','/');
+				updateField(tagId, key, serverPath);
+			}
 		};
 	}
 
-	async function updateField(id: string, field: string, value: string, key: string) {
+	async function updateField(id: string, field: string, value: string) {
 		
 		const requestOptions = {
 			method: 'PUT',
@@ -68,7 +74,7 @@
 		const resDataJson = await resData.json();
 		if (resDataJson.row) {
 			const t: ToastSettings = {
-				message: `New value for [ ${key} ] key setting saved!`,
+				message: `New value for [ ${field} ] key setting saved!`,
 				timeout: 2000
 			};
 			toastStore.trigger(t);
@@ -92,8 +98,9 @@
 		};
 
 		const resData = await fetch(
-			`/api/file`, requestOptions
+			`/api/admin/file`, requestOptions
 		);
+		return resData.json();
 	}
 	async function getReferenceValue(rec:TableStructure){
 		console.log(rec);
@@ -214,7 +221,7 @@
 														name={row.key}
 														bind:value={row.value}
 														on:change={() => {
-															updateField(tagId, row.key, row.value, row.key);
+															updateField(tagId, row.key, row.value);
 														}}
 													/>
 													<input
@@ -242,7 +249,7 @@
 													name={row.key}
 													bind:value={row.value}
 													on:blur={() => {
-														updateField(tagId, row.key, row.value, row.key);
+														updateField(tagId, row.key, row.value);
 													}}
 												/>
 											{/if}
