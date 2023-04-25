@@ -22,11 +22,11 @@
 
 	const settings: DrawerSettings = {
 		id: 'postEditorDrawer',
-		position: 'right',
-		width: 'w-full lg:w-[80%]',
+		position: 'bottom',
+		width: 'w-full lg:w-[740px]',
 		// height: 'h-full',
-		padding: 'p-4',
-		rounded: 'rounded-xl',
+		padding: 'p-4 justify-center',
+		rounded: 'rounded-2xl',
 		shadow: 'shadow-md',
 		regionDrawer: 'overflow-y-hidden',
 		bgDrawer: 'bg-white'
