@@ -60,7 +60,7 @@
 				</button>
 				<div class="filter-bar flex gap-4">
 					<span><CompMenuPosts /></span>
-					<span><CompMenuMembersAccess /></span>
+					<!-- <span><CompMenuMembersAccess /></span> -->
 					<span><CompMenuAuthors /></span>
 					<span><CompMenuTags /></span>
 					<span><CompMenuSortBy /></span>
@@ -127,7 +127,7 @@
 								>
 									<p class="unstyled text-sm font-medium antialiased tracking-wide">{row.title}</p>
 									<p class="unstyled text-xs mt-1 text-slate-500">
-										<span>By {row.created_by}</span> • <span>{row.updated_at}</span>
+										By <span class="font-semibold">{row.author_name}</span> • <span>{row.updated_at}</span>
 									</p>
 								</td>
 								<td>

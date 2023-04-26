@@ -35,16 +35,19 @@ async function getAllRows(params: any): Promise<any[] | null> {
 
 				't.id as primary_tag',
 				't.name as primary_tag_name',
-				't.slug as primary_tag_slug'
+				't.slug as primary_tag_slug',
+				'u.name as author_name'
 			)
 			.from('posts as p')
 			.leftJoin('posts_tags as pt', 'p.id', 'pt.post_id')
 			.leftJoin('tags as t', 't.id', 'pt.tag_id')
+			.leftJoin('users as u', 'p.created_by', 'u.id')
 			.where({
 				'p.type': params.type,
 				'p.visibility': 'public'
 			})
-			.where('p.status', params.status != 'undefined' ? '=' : '<>', params.status);
+			.where('p.status', params.status != 'undefined' ? '=' : '<>', params.status)
+			.orderBy('updated_at', 'desc');
 		return rows;
 	} catch (error) {
 		console.error(error);
