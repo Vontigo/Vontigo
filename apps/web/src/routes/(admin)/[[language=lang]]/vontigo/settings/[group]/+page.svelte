@@ -178,7 +178,7 @@
 								<th class="table-cell-fit">{column}</th>
 							{/each}
 						{/if} -->
-							<th class="w-1 uppercase">Key</th>
+							<th class="w-1/4 uppercase">Key</th>
 							<th class="">Value</th>
 							<th class="w-1 uppercase text-right">Type</th>
 							<!-- <th>Symbol</th>
@@ -198,7 +198,7 @@
 								<!-- svelte-ignore a11y-click-events-have-key-events -->
 								<td class="cursor-pointer">
 									<p class="unstyled text-sm font-medium antialiased tracking-wide uppercase">
-										{row.key}
+										{row.key.replace(/_/g, ' ')}
 									</p>
 									<!-- <p class="unstyled text-xs mt-1 text-slate-500">
 									<span>{row.group}</span>
@@ -225,7 +225,7 @@
 													tabindex="-1"
 												/>
 											</div>
-										{:else if row.key.indexOf('image') >= 0}
+										{:else if row.key.indexOf('image') >= 0 || row.key.indexOf('logo') >= 0 || row.key.indexOf('icon') >= 0}
 											<!-- <input
 												class="input w-full"
 												type="file"
@@ -235,33 +235,35 @@
 												}}
 											/> -->
 
-											<input
-												id={row.key}
-												class="prevFileHidden"
-												type="hidden"
-												bind:value={row.value}
-											/>
-											<input
-												id={row.key + `-input`}
-												class="input w-full"
-												type="file"
-												bind:value={row.value}
-												on:change={(e) => onFileSelected(e, row.key, row.id)}
-											/>
-											{#if row.value}
-												<em>
-													⚠️ Warning: Old file will be deleted from the server whenever new file has
-													been uploaded.</em
-												>
-											{/if}
-											<input id={row.key + `-base64`} name={row.key + `-base64`} type="hidden" />
-											<img
-												id={row.key + `-img`}
-												name={row.key + `-img`}
-												src={row.value}
-												style="max-width: 50ch;"
-												alt=""
-											/>
+											<div class="flex flex-col gap-2">
+												<input
+													id={row.key}
+													class="prevFileHidden"
+													type="hidden"
+													bind:value={row.value}
+												/>
+												<input
+													id={row.key + `-input`}
+													class="input w-full"
+													type="file"
+													bind:value={row.value}
+													on:change={(e) => onFileSelected(e, row.key, row.id)}
+												/>
+												{#if row.value}
+													<em>
+														⚠️ Warning: Old file will be deleted from the server whenever new file
+														has been uploaded.</em
+													>
+												{/if}
+												<input id={row.key + `-base64`} name={row.key + `-base64`} type="hidden" />
+												<img
+													id={row.key + `-img`}
+													name={row.key + `-img`}
+													src={row.value}
+													style="max-width: 50ch;"
+													alt=""
+												/>
+											</div>
 										{:else}
 											<input
 												class="input p-2 w-full"

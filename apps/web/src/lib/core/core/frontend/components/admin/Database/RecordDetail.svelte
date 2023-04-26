@@ -210,8 +210,18 @@
 									/>
 								{:else if row.type == 'datetime'}
 									<input
-										class="input p-2 w-full"
+										class="input p-2 w-1/3"
 										type="datetime-local"
+										name={row.key}
+										bind:value={row.value}
+										on:change={() => {
+											updateField(recordId, row.key, row.value);
+										}}
+									/>
+								{:else if row.type == 'integer'}
+									<input
+										class="input p-2 w-1/3"
+										type="number"
 										name={row.key}
 										bind:value={row.value}
 										on:change={() => {
@@ -257,7 +267,7 @@
 												tabindex="-1"
 											/>
 										</div>
-									{:else if row.key.indexOf('image') >= 0}
+									{:else if row.key.indexOf('image') >= 0 || row.key.indexOf('logo') >= 0 || row.key.indexOf('icon') >= 0}
 										<div class="flex flex-col gap-2">
 											<input
 												id={row.key}
@@ -306,6 +316,28 @@
 												}}>FALSE</RadioItem
 											>
 										</RadioGroup>
+									{:else if row.key == 'id' || row.key == 'uuid'}
+										<input
+											class="input p-2 w-full"
+											type="text"
+											name={row.key}
+											bind:value={row.value}
+											on:change={() => {
+												updateField(recordId, row.key, row.value);
+											}}
+											readonly='readonly'
+										/>
+                                    {:else if row.key.indexOf('description') >= 0}
+                                        <textarea
+                                            class="textarea w-full rounded-xl p-2"
+                                            rows="3"
+                                            placeholder="Enter some long form content."
+                                            name={row.key}
+                                            bind:value={row.value}
+                                            on:change={() => {
+                                                updateField(row.id, row.key, row.value);
+                                            }}
+                                        />
 									{:else}
 										<input
 											class="input p-2 w-full"
@@ -315,7 +347,6 @@
 											on:change={() => {
 												updateField(recordId, row.key, row.value);
 											}}
-											readonly={row.key == 'id' ? 'readonly' : ''}
 										/>
 									{/if}
 								{/if}
