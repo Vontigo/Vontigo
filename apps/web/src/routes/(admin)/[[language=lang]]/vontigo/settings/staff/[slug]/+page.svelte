@@ -91,7 +91,7 @@
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify({ body: value })
 		};
-		const resData = await fetch(`/api/database/tags/put/${id}/${field}`, requestOptions);
+		const resData = await fetch(`/api/database/users/put/${id}/${field}`, requestOptions);
 		const resDataJson = await resData.json();
 		if (resDataJson.row) {
 			const t: ToastSettings = {
@@ -233,7 +233,7 @@
 									<span>{row.group}</span>
 								</p> -->
 								</td>
-								<td class="flex flex-col gap-2">
+								<td>
 									{#if row.reference}
 										{#await getReferenceValue(row)}
 											<ProgressRadial width="w-6" />
@@ -261,6 +261,25 @@
 												updateField(recordId, row.key, row.value);
 											}}
 										/>
+									{:else if row.type == 'boolean'}
+										<RadioGroup active="variant-filled-primary" hover="hover:variant-soft-primary">
+											<RadioItem
+												bind:group={row.value}
+												name={row.key}
+												value={'true'}
+												on:change={() => {
+													updateField(row.id, 'value', row.value, row.key);
+												}}>TRUE</RadioItem
+											>
+											<RadioItem
+												bind:group={row.value}
+												name={row.key}
+												value={'false'}
+												on:change={() => {
+													updateField(row.id, 'value', row.value, row.key);
+												}}>FALSE</RadioItem
+											>
+										</RadioGroup>
 									{:else if row.type == 'varchar'}
 										{#if row.key.indexOf('color') >= 0}
 											<div class="grid grid-cols-[auto_1fr] gap-2">
@@ -282,33 +301,35 @@
 												/>
 											</div>
 										{:else if row.key.indexOf('image') >= 0}
-											<input
-												id={row.key}
-												class="prevFileHidden"
-												type="hidden"
-												bind:value={row.value}
-											/>
-											<input
-												id={row.key + `-input`}
-												class="input w-full"
-												type="file"
-												bind:value={row.value}
-												on:change={(e) => onFileSelected(e, row.key)}
-											/>
-											{#if row.value}
-												<em>
-													⚠️ Warning: Old file will be deleted from the server whenever new file has
-													been uploaded.</em
-												>
-											{/if}
-											<input id={row.key + `-base64`} name={row.key + `-base64`} type="hidden" />
-											<img
-												id={row.key + `-img`}
-												name={row.key + `-img`}
-												src={row.value}
-												style="max-width: 50ch;"
-												alt=""
-											/>
+											<div class="flex flex-col gap-2">
+												<input
+													id={row.key}
+													class="prevFileHidden"
+													type="hidden"
+													bind:value={row.value}
+												/>
+												<input
+													id={row.key + `-input`}
+													class="input w-full"
+													type="file"
+													bind:value={row.value}
+													on:change={(e) => onFileSelected(e, row.key)}
+												/>
+												{#if row.value}
+													<em>
+														⚠️ Warning: Old file will be deleted from the server whenever new file
+														has been uploaded.</em
+													>
+												{/if}
+												<input id={row.key + `-base64`} name={row.key + `-base64`} type="hidden" />
+												<img
+													id={row.key + `-img`}
+													name={row.key + `-img`}
+													src={row.value}
+													style="max-width: 50ch;"
+													alt=""
+												/>
+											</div>
 										{:else}
 											<input
 												class="input p-2 w-full"

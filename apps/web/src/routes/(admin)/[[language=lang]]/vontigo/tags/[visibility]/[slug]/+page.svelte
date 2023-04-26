@@ -236,7 +236,7 @@
 									<span>{row.group}</span>
 								</p> -->
 								</td>
-								<td class="flex flex-col gap-2">
+								<td>
 									{#if row.reference}
 										{#await getReferenceValue(row)}
 											<ProgressRadial width="w-6" />
@@ -285,33 +285,57 @@
 												/>
 											</div>
 										{:else if row.key.indexOf('image') >= 0}
-											<input
-												id={row.key}
-												class="prevFileHidden"
-												type="hidden"
-												bind:value={row.value}
-											/>
-											<input
-												id={row.key + `-input`}
-												class="input w-full"
-												type="file"
-												bind:value={row.value}
-												on:change={(e) => onFileSelected(e, row.key)}
-											/>
-											{#if row.value}
-												<em>
-													⚠️ Warning: Old file will be deleted from the server whenever new file has
-													been uploaded.</em
+											<div class="flex flex-col gap-2">
+												<input
+													id={row.key}
+													class="prevFileHidden"
+													type="hidden"
+													bind:value={row.value}
+												/>
+												<input
+													id={row.key + `-input`}
+													class="input w-full"
+													type="file"
+													bind:value={row.value}
+													on:change={(e) => onFileSelected(e, row.key)}
+												/>
+												{#if row.value}
+													<em>
+														⚠️ Warning: Old file will be deleted from the server whenever new file
+														has been uploaded.</em
+													>
+												{/if}
+												<input id={row.key + `-base64`} name={row.key + `-base64`} type="hidden" />
+												<img
+													id={row.key + `-img`}
+													name={row.key + `-img`}
+													src={row.value}
+													style="max-width: 50ch;"
+													alt=""
+												/>
+											</div>
+										{:else if row.type == 'boolean'}
+											<RadioGroup
+												active="variant-filled-primary"
+												hover="hover:variant-soft-primary"
+											>
+												<RadioItem
+													bind:group={row.value}
+													name={row.key}
+													value={'true'}
+													on:change={() => {
+														updateField(row.id, 'value', row.value, row.key);
+													}}>TRUE</RadioItem
 												>
-											{/if}
-											<input id={row.key + `-base64`} name={row.key + `-base64`} type="hidden" />
-											<img
-												id={row.key + `-img`}
-												name={row.key + `-img`}
-												src={row.value}
-												style="max-width: 50ch;"
-												alt=""
-											/>
+												<RadioItem
+													bind:group={row.value}
+													name={row.key}
+													value={'false'}
+													on:change={() => {
+														updateField(row.id, 'value', row.value, row.key);
+													}}>FALSE</RadioItem
+												>
+											</RadioGroup>
 										{:else}
 											<input
 												class="input p-2 w-full"
