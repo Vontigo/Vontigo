@@ -6,9 +6,9 @@ import { slugify } from 'transliteration';
 /** @type {import('./$types').RequestHandler} */
 export const GET = (async ({ request, params }) => {
 	let dataQuery: any;
-	const asciiSlug = convertToAsciiSlug(params.slug);
+	const asciiSlug = await convertToAsciiSlug(params.name);
 
-	const uniqueSlug = await createUniqueSlug(asciiSlug);
+	const uniqueSlug = await createUniqueSlug(params.table, asciiSlug);
 	console.log(uniqueSlug);
 	return new Response(
 		JSON.stringify({
@@ -33,10 +33,11 @@ export const GET = (async ({ request, params }) => {
 	// }
 
 }) satisfies RequestHandler;
-async function createUniqueSlug(slug: string): Promise<string> {
+
+async function createUniqueSlug(table: string, slug: string): Promise<string> {
 	// console.log('createUniqueSlug: ', slug);
 
-	const existingSlugCount = await knexInstance(ENUM_DATABASE_TABLE.posts).where('slug', slug).count();
+	const existingSlugCount = await knexInstance(table).where('slug', slug).count();
 	const count = parseInt(existingSlugCount[0]['count(*)'] || '0', 10);
 	// console.log(count);
 
@@ -45,9 +46,9 @@ async function createUniqueSlug(slug: string): Promise<string> {
 	}
 
 	const newSlug = `${slug}-${count}`;
-	return createUniqueSlug(newSlug);
+	return createUniqueSlug(table, newSlug);
 }
-function convertToAsciiSlug(input: string): string {
+async function convertToAsciiSlug(input: string): string {
 	const latinString = slugify(input, { lowercase: true, separator: '-' });
 	return latinString.replace(/[^a-z0-9-]/g, '');
 }

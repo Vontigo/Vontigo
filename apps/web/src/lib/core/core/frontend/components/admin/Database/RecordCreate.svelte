@@ -144,7 +144,7 @@
 </script>
 
 {#if data.record}
-	<div class="recordsList">
+	<div class="postsList">
 		<!-- Responsive Container (recommended) -->
 		<div class="table-container rounded-none w-full">
 			<!-- Native Table Element -->
@@ -207,7 +207,7 @@
 									{#await getReferenceValue(row)}
 										<ProgressRadial width="w-6" />
 									{:then rec}
-										{rec?.row?.name}
+										{rec.row.name}
 									{/await}
 								{:else if row.type == 'text'}
 									<textarea

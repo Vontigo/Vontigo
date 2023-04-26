@@ -15,16 +15,25 @@
 	import type { PageData } from '../[type]/[slug]/$types';
 	import { adminSiteUrl, isEditorOpen } from '$lib/core/shared/stores/site';
 	import { goto } from '$app/navigation';
+	import ObjectID from 'bson-objectid';
+
 	export let data: PageData;
 	let selectedPost: any;
 	let keysJson: string[];
+	let newTagBody = {
+		id: new ObjectID(),
+		name: '',
+		slug: '',
+		created_at: '',
+		created_by: 1
+	};
 
 	// if (data && data.posts) keysJson = Object.keys(data.posts[0]);
 
 	const settings: DrawerSettings = {
-		id: 'postEditorDrawer',
+		id: 'tagEditorDrawer',
 		position: 'right',
-		width: 'w-full lg:w-[80%]',
+		width: 'w-full lg:w-[400px]',
 		// height: 'h-full',
 		padding: 'p-4',
 		rounded: 'rounded-xl',
@@ -78,8 +87,59 @@
 	</AppBar>
 
 	<Drawer>
-		{#if $drawerStore.id === 'postEditorDrawer'}
-			<CompEditor postData={selectedPost} />
+		{#if $drawerStore.id === 'tagEditorDrawer'}
+			<div class="p-4">
+				<div class="flex">
+					<h3 class="w-full">New Tag</h3>
+					<div class="text-right">
+						<button
+							type="button"
+							class="btn btn-sm variant-filled rounded"
+							on:click={async () => {
+								newTagBody.created_at = new Date(Date.now()).toISOString();
+								const requestOptions = {
+									method: 'POST',
+									headers: { 'Content-Type': 'application/json' },
+									body: JSON.stringify(newTagBody)
+								};
+								const response = await fetch(`/api/database/tags/create`,requestOptions);
+								const resJson = await response.json();
+								if(resJson.row){
+
+									goto($adminSiteUrl + `/tags/${$page.params.visibility}/${resJson.row.slug}`);
+								}
+							}}>Save</button
+						>
+					</div>
+				</div>
+				<div class="py-4 flex flex-col gap-2">
+					<div>
+						<div>Name</div>
+						<div>
+							<input
+								type="text"
+								class="input p-2"
+								bind:value={newTagBody.name}
+								on:input={async () => {
+									//newTagBody.slug = await convertToAsciiSlug(newTagBody.name);
+								}}
+								on:change={async () => {
+									//newTagBody.slug = await createUniqueSlug(newTagBody.name);
+									const response = await fetch(`/api/admin/slugs/tags/${newTagBody.name}`);
+									const resJson = await response.json();
+									console.log(resJson);
+
+									newTagBody.slug = resJson?.slugs[0]?.slug;
+								}}
+							/>
+						</div>
+					</div>
+					<div>
+						<div>Slug</div>
+						<div><input type="text" class="input p-2" bind:value={newTagBody.slug} /></div>
+					</div>
+				</div>
+			</div>
 		{/if}
 	</Drawer>
 	{#if data.tags.length > 0}
