@@ -42,16 +42,16 @@
 
 	// if (data && data.posts) keysJson = Object.keys(data.posts[0]);
 
-	const settings: DrawerSettings = {
-		id: 'postEditorDrawer',
-		position: 'right',
-		width: 'w-full lg:w-[80%]',
-		// height: 'h-full',
-		padding: 'p-4',
-		rounded: 'rounded-xl',
-		shadow: 'shadow-md',
-		regionDrawer: 'overflow-y-hidden'
-	};
+	// const settings: DrawerSettings = {
+	// 	id: 'postEditorDrawer',
+	// 	position: 'right',
+	// 	width: 'w-full lg:w-[80%]',
+	// 	// height: 'h-full',
+	// 	padding: 'p-4',
+	// 	rounded: 'rounded-xl',
+	// 	shadow: 'shadow-md',
+	// 	regionDrawer: 'overflow-y-hidden'
+	// };
 
 	const onFileSelected = (e, key: string) => {
 		// console.log(key);
@@ -178,7 +178,7 @@
 								<p
 									class="unstyled text-sm font-medium antialiased tracking-wide uppercase flex gap-2"
 								>
-									{row.key.replace(/_/g, ' ')}
+									{row.key.replace(/_/g, ' ')}<span class="text-red-700 font-bold">{tableSchema[row.key].nullable == false?'*':''}</span>
 									{#if row.reference}
 										<svg
 											xmlns="http://www.w3.org/2000/svg"
@@ -196,11 +196,11 @@
 										</svg>
 									{/if}
 								</p>
-								{#if tableSchema[row.key].validations}
+								<!-- {#if tableSchema[row.key].validations}
 									<p class="unstyled text-xs mt-1 text-slate-500">
-										{JSON.stringify(tableSchema[row.key].validations)}
+										{tableSchema[row.key].nullable == false?'(*)':''}
 									</p>
-								{/if}
+								{/if} -->
 							</td>
 							<td>
 								{#if row.reference}
@@ -215,6 +215,7 @@
 										rows="6"
 										placeholder="Enter some long form content."
 										name={row.key}
+                                        maxlength={tableSchema[row.key]?.validations?.isLength?.max?tableSchema[row.key]?.validations?.isLength.max:''}
 										bind:value={row.value}
 										on:change={() => {
 											updateField(recordId, row.key, row.value);
@@ -339,17 +340,6 @@
 											}}
 											readonly="readonly"
 										/>
-									{:else if row.key.indexOf('description') >= 0}
-										<textarea
-											class="textarea w-full rounded-xl p-2"
-											rows="3"
-											placeholder="Enter some long form content."
-											name={row.key}
-											bind:value={row.value}
-											on:change={() => {
-												updateField(row.id, row.key, row.value);
-											}}
-										/>
 									{:else if row.type == 'varchar' && tableSchema[row.key]?.validations?.isIn}
 										<select
 											class="select rounded-3xl w-1/3"
@@ -365,14 +355,38 @@
 												{/each}
 											{/each}
 										</select>
+									{:else if row.key.indexOf('description') >= 0}
+										<textarea
+											class="textarea w-full rounded-xl p-2"
+											rows="3"
+											placeholder="Enter some long form content."
+											name={row.key}
+                                            maxlength={tableSchema[row.key]?.validations?.isLength?.max?tableSchema[row.key]?.validations?.isLength.max:''}
+											bind:value={row.value}
+											on:change={() => {
+												updateField(row.id, row.key, row.value);
+											}}
+										/>
 									{:else}
+                                    <!-- {tableSchema[row.key]?.validations?.matches?.toString().slice(1, -1)} -->
 										<input
 											class="input p-2 w-full"
 											type="text"
 											name={row.key}
+                                            maxlength={tableSchema[row.key]?.validations?.isLength?.max?tableSchema[row.key]?.validations?.isLength.max:''}
+                                            pattern={tableSchema[row.key]?.validations?.matches?tableSchema[row.key]?.validations?.matches?.toString().slice(1, -1):'.*'}
+                                            required={tableSchema[row.key]?.nullable==false?'required':''}
 											bind:value={row.value}
-											on:change={() => {
-												updateField(recordId, row.key, row.value);
+                                            
+											on:change={(e) => {
+                                                const regex = new RegExp(e.target.pattern);
+                                                let isValid = regex.test(e.target.value);
+                                                if(isValid && (tableSchema[row.key]?.nullable==false && e.target.value)){
+												    updateField(recordId, row.key, row.value);
+                                                }
+                                                else{
+                                                    alert('Invalid input format or value!');
+                                                }
 											}}
 										/>
 									{/if}
