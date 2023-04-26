@@ -96,16 +96,16 @@
 							type="button"
 							class="btn btn-sm variant-filled rounded"
 							on:click={async () => {
-								newTagBody.created_at = new Date(Date.now()).toISOString();
+								newTagBody.created_at = new Date().toISOString().slice(0, 16);
 								const requestOptions = {
 									method: 'POST',
 									headers: { 'Content-Type': 'application/json' },
 									body: JSON.stringify(newTagBody)
 								};
-								const response = await fetch(`/api/database/tags/create`,requestOptions);
+								const response = await fetch(`/api/database/tags/create`, requestOptions);
 								const resJson = await response.json();
-								if(resJson.row){
-
+								if (resJson.row) {
+									drawerStore.close();
 									goto($adminSiteUrl + `/tags/${$page.params.visibility}/${resJson.row.slug}`);
 								}
 							}}>Save</button
