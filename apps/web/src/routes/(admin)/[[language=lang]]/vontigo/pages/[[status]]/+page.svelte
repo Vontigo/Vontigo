@@ -22,10 +22,10 @@
 	// if (data && data.posts) keysJson = Object.keys(data.posts[0]);
 
 	const settings: DrawerSettings = {
-		id: 'postEditorDrawer',
+		id: 'pageEditorDrawer',
 		position: 'right',
-		width: 'w-full lg:w-[80%]',
-		// height: 'h-full',
+		width: 'w-full lg:w-[100%]',
+		height: 'h-full',
 		padding: 'p-4',
 		rounded: 'rounded-xl',
 		shadow: 'shadow-md',
@@ -84,8 +84,22 @@
 	</AppBar>
 
 	<Drawer>
-		{#if $drawerStore.id === 'postEditorDrawer'}
-			<CompEditor postData={selectedPost} />
+		{#if $drawerStore.id === 'pageEditorDrawer'}
+			<AppShell>
+				<svelte:fragment slot="sidebarLeft">
+					<div class="border-s min-w-full">as dfasdfasdfasdfasd fasd fsadf sdf</div>
+				</svelte:fragment>
+				<svelte:fragment slot="sidebarRight">
+					<div class="border-s">
+						<div class="w-[30%]" />
+					</div>
+				</svelte:fragment>
+				<!-- Router Slot -->
+				<div class="max-w-screen-md m-auto">
+					<CompEditor postData={selectedPost} />
+				</div>
+				<!-- ---- / ---- -->
+			</AppShell>
 		{/if}
 	</Drawer>
 
@@ -103,6 +117,7 @@
 						{/if} -->
 						<th class="uppercase">Title</th>
 						<th class="w-1 uppercase text-right">Status</th>
+						<th class="w-24" />
 						<!-- <th>Symbol</th>
 						<th>Weight</th> -->
 					</tr>
@@ -121,8 +136,8 @@
 							<td
 								class="cursor-pointer"
 								on:click={() => {
-										goto($adminSiteUrl + `/editor/${row.type}/${row.slug}`);
-									}}
+									goto($adminSiteUrl + `/editor/${row.type}/${row.slug}`);
+								}}
 							>
 								<p class="unstyled text-sm font-medium antialiased tracking-wide">{row.title}</p>
 								<p class="unstyled text-xs mt-1 text-slate-500">
@@ -136,6 +151,15 @@
 										? 'variant-filled-success'
 										: 'variant-filled-surface'}">{row.status}</span
 								>
+							</td>
+							<td
+								class="cursor-pointer text-end"
+								on:click={() => {
+									selectedPost = row;
+									drawerStore.open(settings);
+								}}
+							>
+								Edit
 							</td>
 						</tr>
 					{/each}
@@ -152,7 +176,7 @@
 </div>
 
 <style global>
-	.drawer-backdrop .drawer {
+	/* .drawer-backdrop .drawer {
 		height: calc(100vh - 2rem);
-	}
+	} */
 </style>

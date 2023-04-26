@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Layout from '$lib/themes/casper/Layout.svelte';
+	import Default from '$lib/themes/casper/Default.svelte';
 	import { PUBLIC_DEFAULT_LANG } from '$env/static/public';
 	import { page } from '$app/stores';
 	import {
@@ -21,7 +21,7 @@
 </script>
 
 {#key $page.url}
-	<Layout>
+	<Default>
 		<slot />
-	</Layout>
+	</Default>
 {/key}
