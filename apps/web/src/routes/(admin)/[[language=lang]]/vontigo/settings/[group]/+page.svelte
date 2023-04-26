@@ -25,7 +25,7 @@
 		fileInputs.forEach((fileInput) => {
 			initialFileValues[fileInput.id] = fileInput.value;
 		});
-		console.log(initialFileValues);
+		// console.log(initialFileValues);
 	});
 
 	const settings: DrawerSettings = {
@@ -40,7 +40,7 @@
 	};
 
 	const onFileSelected = (e, key: string, id: string) => {
-		console.log(key);
+		// console.log(key);
 
 		//let imgSrc;
 		let imgElement = document.getElementById(key + `-img`);
@@ -50,7 +50,7 @@
 		let reader = new FileReader();
 		reader.readAsDataURL(image);
 		reader.onload = async (e) => {
-			console.log(e);
+			// console.log(e);
 
 			//imgSrc = e.target.result;
 			imgElement.src = e.target.result;
@@ -58,7 +58,7 @@
 
 			const reqUpFile = await uploadFile(key, id);
 
-			console.log(reqUpFile);
+			// console.log(reqUpFile);
 			if (reqUpFile.filePath) {
 				const serverPath = reqUpFile.filePath.replace('static\\', '/').replace(/\\/g, '/');
 				//console.log(serverPath);

@@ -1,7 +1,14 @@
 <script lang="ts">
 	import type { PageData } from './$types';
 	import { img_url } from '$lib/core/core/frontend/helpers/img_url';
-	import { language, siteUrl, origin, templateType, custom, site } from '$lib/core/shared/stores/site';
+	import {
+		language,
+		siteUrl,
+		origin,
+		templateType,
+		custom,
+		site
+	} from '$lib/core/shared/stores/site';
 	import { ENUM_IMAGE_SIZE } from '$lib/core/shared/enum';
 	import IconFire from './partials/icons/IconFire.svelte';
 	import IconAvatar from './partials/icons/IconAvatar.svelte';
@@ -11,8 +18,7 @@
 	export let data: PageData;
 	let post = data.post.content;
 	let authors = data.post.authors;
-	console.log(authors);
-	
+	// console.log(authors);
 </script>
 
 {#if post}
@@ -20,15 +26,15 @@
 
 	<main id="site-main" class="site-main">
 		<article
-			class="article {post_class(post)} {`#match @custom.post_image_style "Full"`}image-full{`else match @custom.post_image_style "=" "Small"`}image-small{`/match`}"
+			class="article {post_class(
+				post
+			)} {`#match @custom.post_image_style "Full"`}image-full{`else match @custom.post_image_style "=" "Small"`}image-small{`/match`}"
 		>
 			<header class="article-header gh-canvas">
 				<div class="article-tag post-card-tags">
 					{#if post.primary_tag}
 						<span class="post-card-primary-tag">
-							<a href={'tag' + '/' + post.primary_tag_slug}
-								>{post.primary_tag_name}</a
-							>
+							<a href={'tag' + '/' + post.primary_tag_slug}>{post.primary_tag_name}</a>
 						</span>
 					{/if}
 					{#if post.featured}
@@ -117,8 +123,8 @@
 	</main>
 
 	<!-- A signup call to action is displayed here, unless viewed as a logged-in member -->
-{#if $site.members_enabled}
-<!-- {`#unless @member`}
+	{#if $site.members_enabled}
+		<!-- {`#unless @member`}
 {`#unless @site.comments_enabled`}
 {#if access}
     <section class="footer-cta outer">
@@ -133,10 +139,9 @@
 {/if}
 {`/unless`}
 {`/unless`} -->
-{/if}
+	{/if}
 
-
- <!-- Read more links, just above the footer -->
+	<!-- Read more links, just above the footer -->
 	<!--{#if @custom.show_recent_posts_footer}
      The {#get} helper below fetches some of the latest posts here
     so that people have something else to read when they finish this one.

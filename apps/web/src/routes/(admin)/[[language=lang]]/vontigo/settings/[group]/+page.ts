@@ -14,7 +14,7 @@ export const load = (async ({ fetch, url, params }) => {
 
 	const response = await fetch(`/api/admin/settings/${params.group}`);
 	const data = await response.json();
-	console.log(data);
+	// console.log(data);
 	//if (data) console.log(data[0]);
 
 	return {

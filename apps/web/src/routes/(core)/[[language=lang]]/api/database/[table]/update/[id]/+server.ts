@@ -2,13 +2,11 @@ import { error } from '@sveltejs/kit';
 import type { RequestHandler } from '../$types';
 import { knexInstance } from '$lib/core/core/server/data/db/connection';
 
-
 export const PUT = (async ({ request, url, params }) => {
-
 	// const { method, body } = request;
 	const { table, id } = params;
-	const body = await request.json()
-	console.log(body);
+	const body = await request.json();
+	// console.log(body);
 
 	// Check if the table exists in the database
 	const tableExists = await knexInstance.schema.hasTable(table);
