@@ -18,7 +18,7 @@
 	let colorValue;
 	const initialFileValues: { [key: string]: string } = {};
 
-	let recordId = data.tag.find((obj) => obj.key === 'id').value;
+	let recordId = data.user.find((obj) => obj.key === 'id').value;
 
 	onMount(async () => {
 		// Backup all of previous files to delete incase upload new files
@@ -137,11 +137,8 @@
 		<!-- <svelte:fragment slot="lead">
 			<Icon3BottomLeft />
 		</svelte:fragment> -->
-		<h2 class="text-xl font-bold">Tag</h2>
-		<span class="uppercase text-sm font-semibold"
-			><a href={$adminSiteUrl + `/tags/${$page.params.visibility}`}>All tags</a> > {$page.params
-				.slug || ''}</span
-		>
+		<h2 class="text-xl font-bold">User</h2>
+		<span class="uppercase text-sm font-semibold">{$page.params.slug || ''}</span>
 		<svelte:fragment slot="trail">
 			<!-- <div class="w-full "> -->
 			<div class="hidden md:flex md:flex-row-reverse w-full items-center gap-6">
@@ -179,7 +176,7 @@
 			<CompEditor postData={selectedPost} />
 		{/if}
 	</Drawer>
-	{#if data.tag}
+	{#if data.user}
 		<div class="postsList">
 			<!-- Responsive Container (recommended) -->
 			<div class="table-container rounded-none w-full">
@@ -200,7 +197,7 @@
 						</tr>
 					</thead>
 					<tbody>
-						{#each data.tag as row, i}
+						{#each data.user as row, i}
 							<!-- <tr>
 							{#if keysJson}
 								{#each keysJson as column}

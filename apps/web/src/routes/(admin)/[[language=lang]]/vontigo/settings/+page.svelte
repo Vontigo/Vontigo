@@ -1,53 +1,22 @@
-<script lang="ts">
-	import { page } from '$app/stores';
-	import { goto } from '$app/navigation';
-	import CompMenuAuthors from '$lib/core/core/frontend/components/admin/CompMenu/CompMenuAuthors.svelte';
-	import CompMenuMembersAccess from '$lib/core/core/frontend/components/admin/CompMenu/CompMenuMembersAccess.svelte';
-	import CompMenuPosts from '$lib/core/core/frontend/components/admin/CompMenu/CompMenuPosts.svelte';
-	import CompMenuSortBy from '$lib/core/core/frontend/components/admin/CompMenu/CompMenuSortBy.svelte';
-	import CompMenuTags from '$lib/core/core/frontend/components/admin/CompMenu/CompMenuTags.svelte';
-	import CompEditor from '$lib/core/core/frontend/components/admin/Editor/CompEditor.svelte';
-	import Icon3BottomLeft from '$lib/icons/Icon3BottomLeft.svelte';
-	import IconArrowDown from '$lib/icons/IconArrowDown.svelte';
+<script>
+	import { adminSiteUrl } from '$lib/core/shared/stores/site';
 	import IconPlusSmall from '$lib/icons/IconPlusSmall.svelte';
-	import { AppBar, AppShell } from '@skeletonlabs/skeleton';
-	import { Drawer, drawerStore } from '@skeletonlabs/skeleton';
-	import type { DrawerSettings } from '@skeletonlabs/skeleton';
-	import type { PageData } from './$types';
-	import { adminSiteUrl, isEditorOpen } from '$lib/core/shared/stores/site';
-	export let data: PageData;
-	let selectedPost: any;
-	let keysJson: string[];
-
-	// if (data && data.posts) keysJson = Object.keys(data.posts[0]);
-
-	const settings: DrawerSettings = {
-		id: 'postEditorDrawer',
-		position: 'right',
-		width: 'w-full lg:w-[80%]',
-		// height: 'h-full',
-		padding: 'p-4',
-		rounded: 'rounded-xl',
-		shadow: 'shadow-md',
-		regionDrawer: 'overflow-y-hidden'
-	};
-
-	$: if (selectedPost) {
-		selectedPost = selectedPost;
-	}
+	import { AppBar } from '@skeletonlabs/skeleton';
 </script>
 
-<div class="max-w-screen-xl mx-auto px-10 py-2">
+<div class="max-w-screen-xl_ mx-auto px-10 py-2">
 	<AppBar class="sticky top-0 z-10 p-4 bg-white">
 		<!-- <svelte:fragment slot="lead">
 			<Icon3BottomLeft />
 		</svelte:fragment> -->
 		<h2 class="text-xl font-bold">Settings</h2>
-		<span>{$page.params.status || ''}</span>
+		<!-- <span class="uppercase text-sm font-semibold"
+			><a href={$adminSiteUrl + `/settings`}>All</a> > {$page.params.group || ''}</span
+		> -->
 		<svelte:fragment slot="trail">
 			<!-- <div class="w-full "> -->
 			<div class="hidden md:flex md:flex-row-reverse w-full items-center gap-6">
-				<!--<button
+				<!-- <button
 					type="button"
 					class="btn btn-sm variant-filled rounded"
 					on:click={() => {
@@ -58,7 +27,7 @@
 					<span><IconPlusSmall /></span>
 					<span>New post</span>
 				</button>
-				 <div class="filter-bar flex gap-4">
+				<div class="filter-bar flex gap-4">
 					<span><CompMenuPosts /></span>
 					<span><CompMenuMembersAccess /></span>
 					<span><CompMenuAuthors /></span>
@@ -66,95 +35,80 @@
 					<span><CompMenuSortBy /></span>
 				</div> -->
 			</div>
-			<button
-				type="button"
-				class="md:hidden btn btn-sm variant-filled rounded"
-				on:click={() => {
-					selectedPost = {};
-					drawerStore.open(settings);
-				}}
-			>
+			<!-- <button type="button" class="md:hidden btn btn-sm variant-filled rounded">
 				<span><IconPlusSmall /></span>
 				<span>New post</span>
-			</button>
+			</button> -->
 			<!-- </div> -->
 		</svelte:fragment>
 
 		<!-- <svelte:fragment slot="trail">(actions)</svelte:fragment> -->
 	</AppBar>
-
-	<Drawer>
-		{#if $drawerStore.id === 'postEditorDrawer'}
-			<CompEditor postData={selectedPost} />
-		{/if}
-	</Drawer>
-
-	<div class="postsList">
-		<!-- Responsive Container (recommended) -->
-		<div class="table-container rounded-none w-full">
-			<!-- Native Table Element -->
-			<table class="table table-hover table-compact">
-				<thead>
-					<tr>
-						<!-- {#if keysJson}
-							{#each keysJson as column}
-								<th class="table-cell-fit">{column}</th>
-							{/each}
-						{/if} -->
-						<th class="uppercase">Group</th>
-						<th class="w-1 uppercase text-right">Status</th>
-						<!-- <th>Symbol</th>
-						<th>Weight</th> -->
-					</tr>
-				</thead>
-				<tbody>
-					{#each data.settings as row, i}
-						<!-- <tr>
-							{#if keysJson}
-								{#each keysJson as column}
-									<td>{row[column]}</td>
-								{/each}
-							{/if}</tr
-						> -->
-						<tr>
-							<!-- svelte-ignore a11y-click-events-have-key-events -->
-							<td
-								class="cursor-pointer"
-								on:click={() => {
-									goto($adminSiteUrl + `/settings/${row.group}`);
-								}}
-							>
-								<p class="unstyled text-sm font-medium antialiased tracking-wide uppercase">
-									{row.group}
-								</p>
-								<!-- <p class="unstyled text-xs mt-1 text-slate-500">
-									<span>By {row.created_by}</span> • <span>{row.updated_at}</span>
-								</p> -->
-							</td>
-							<td>
-								<span
-									class="badge uppercase text-xs font-light pb-[1px] pt-[2px] px-3 {row.status ==
-									'published'
-										? 'variant-filled-success'
-										: 'variant-filled-surface'}">{row.status}</span
-								>
-							</td>
-						</tr>
-					{/each}
-				</tbody>
-				<!-- <tfoot>
-					<tr>
-						<th colspan="2">Calculated Total Weight</th>
-						<td>{data.posts.length}</td>
-					</tr>
-				</tfoot> -->
-			</table>
+	<div class="p-4">
+		<h6>Website</h6>
+		<hr />
+		<div class="flex flex-wrap gap-10 mb-6">
+			<dl class="list-dl">
+				<div>
+					<span class=""
+						><svg
+							xmlns="http://www.w3.org/2000/svg"
+							fill="none"
+							viewBox="0 0 24 24"
+							stroke-width="1"
+							stroke="currentColor"
+							class="w-10 h-10"
+						>
+							<path
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								d="M10.343 3.94c.09-.542.56-.94 1.11-.94h1.093c.55 0 1.02.398 1.11.94l.149.894c.07.424.384.764.78.93.398.164.855.142 1.205-.108l.737-.527a1.125 1.125 0 011.45.12l.773.774c.39.389.44 1.002.12 1.45l-.527.737c-.25.35-.272.806-.107 1.204.165.397.505.71.93.78l.893.15c.543.09.94.56.94 1.109v1.094c0 .55-.397 1.02-.94 1.11l-.893.149c-.425.07-.765.383-.93.78-.165.398-.143.854.107 1.204l.527.738c.32.447.269 1.06-.12 1.45l-.774.773a1.125 1.125 0 01-1.449.12l-.738-.527c-.35-.25-.806-.272-1.203-.107-.397.165-.71.505-.781.929l-.149.894c-.09.542-.56.94-1.11.94h-1.094c-.55 0-1.019-.398-1.11-.94l-.148-.894c-.071-.424-.384-.764-.781-.93-.398-.164-.854-.142-1.204.108l-.738.527c-.447.32-1.06.269-1.45-.12l-.773-.774a1.125 1.125 0 01-.12-1.45l.527-.737c.25-.35.273-.806.108-1.204-.165-.397-.505-.71-.93-.78l-.894-.15c-.542-.09-.94-.56-.94-1.109v-1.094c0-.55.398-1.02.94-1.11l.894-.149c.424-.07.765-.383.93-.78.165-.398.143-.854-.107-1.204l-.527-.738a1.125 1.125 0 01.12-1.45l.773-.773a1.125 1.125 0 011.45-.12l.737.527c.35.25.807.272 1.204.107.397-.165.71-.505.78-.929l.15-.894z"
+							/>
+							<path
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+							/>
+						</svg>
+					</span>
+					<span class="flex-auto">
+						<dt class="font-semibold"><a href={$adminSiteUrl + `/settings/site`}>General</a></dt>
+						<dd class="text-sm">Basic publication details and site metadata</dd>
+					</span>
+				</div>
+				<!-- ... -->
+			</dl>
+			<dl class="list-dl">
+				<div>
+					<span>
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							fill="none"
+							viewBox="0 0 24 24"
+							stroke-width="1"
+							stroke="currentColor"
+							class="w-10 h-10"
+						>
+							<path
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z"
+							/>
+						</svg>
+					</span>
+					<span class="flex-auto">
+						<dt class="font-semibold"><a href={$adminSiteUrl + `/settings/staff`}>Staff</a></dt>
+						<dd class="text-sm">Manage authors, editor and collaborators</dd>
+					</span>
+				</div>
+				<!-- ... -->
+			</dl>
 		</div>
+		<!-- <h6>Website</h6>
+		<hr />
+		<h6>Website</h6>
+		<hr />
+		<h6>Website</h6>
+		<hr /> -->
 	</div>
 </div>
-
-<style global>
-	.drawer-backdrop .drawer {
-		height: calc(100vh - 2rem);
-	}
-</style>
