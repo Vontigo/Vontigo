@@ -12,11 +12,19 @@
 	import { adminSiteUrl, isEditorOpen } from '$lib/core/shared/stores/site';
 	import type { ReferenceStructure, TableStructure } from '$lib/core/shared/types';
 	import { onMount } from 'svelte';
+	import { tables } from '$lib/core/core/server/data/schema/schema';
+	import { each } from 'svelte/internal';
+
 	export let data: PageData;
 	export let table: string;
+
 	let selectedPost: any;
 	let keysJson: string[];
 	let colorValue;
+
+	const tableSchema = tables[table];
+	console.log(tableSchema);
+
 	const initialFileValues: { [key: string]: string } = {};
 
 	let recordId = data.record.find((obj) => obj.key === 'id').value;
@@ -87,12 +95,14 @@
 	}
 
 	async function updateField(id: string, field: string, value: string) {
+        // console.log('id',id);
+        
 		const requestOptions = {
 			method: 'PUT',
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify({ body: value })
 		};
-		const resData = await fetch(`/api/database/${table}/put/${id}/${field}`, requestOptions);
+		const resData = await fetch(`/api/database/${table}/put/${recordId}/${field}`, requestOptions);
 		const resDataJson = await resData.json();
 		if (resDataJson.row) {
 			const t: ToastSettings = {
@@ -186,9 +196,11 @@
 										</svg>
 									{/if}
 								</p>
-								<!-- <p class="unstyled text-xs mt-1 text-slate-500">
-									<span>{row.group}</span>
-								</p> -->
+								{#if tableSchema[row.key].validations}
+									<p class="unstyled text-xs mt-1 text-slate-500">
+										{JSON.stringify(tableSchema[row.key].validations)}
+									</p>
+								{/if}
 							</td>
 							<td>
 								{#if row.reference}
@@ -304,7 +316,7 @@
 												name={row.key}
 												value={'true'}
 												on:change={() => {
-													updateField(row.id, 'value', row.value, row.key);
+													updateField(row.id, row.key, row.value);
 												}}>TRUE</RadioItem
 											>
 											<RadioItem
@@ -312,7 +324,7 @@
 												name={row.key}
 												value={'false'}
 												on:change={() => {
-													updateField(row.id, 'value', row.value, row.key);
+													updateField(row.id, row.key, row.value);
 												}}>FALSE</RadioItem
 											>
 										</RadioGroup>
@@ -325,19 +337,34 @@
 											on:change={() => {
 												updateField(recordId, row.key, row.value);
 											}}
-											readonly='readonly'
+											readonly="readonly"
 										/>
-                                    {:else if row.key.indexOf('description') >= 0}
-                                        <textarea
-                                            class="textarea w-full rounded-xl p-2"
-                                            rows="3"
-                                            placeholder="Enter some long form content."
-                                            name={row.key}
-                                            bind:value={row.value}
-                                            on:change={() => {
-                                                updateField(row.id, row.key, row.value);
-                                            }}
-                                        />
+									{:else if row.key.indexOf('description') >= 0}
+										<textarea
+											class="textarea w-full rounded-xl p-2"
+											rows="3"
+											placeholder="Enter some long form content."
+											name={row.key}
+											bind:value={row.value}
+											on:change={() => {
+												updateField(row.id, row.key, row.value);
+											}}
+										/>
+									{:else if row.type == 'varchar' && tableSchema[row.key]?.validations?.isIn}
+										<select
+											class="select rounded-3xl w-1/3"
+											bind:value={row.value}
+											on:change={() => {
+												updateField(recordId, row.key, row.value);
+											}}
+										>
+                                        <option value={''}>-- NULL --</option>
+											{#each tableSchema[row.key]?.validations?.isIn as optiongroup}
+												{#each optiongroup as option}
+													<option value={option}>{option}</option>
+												{/each}
+											{/each}
+										</select>
 									{:else}
 										<input
 											class="input p-2 w-full"
