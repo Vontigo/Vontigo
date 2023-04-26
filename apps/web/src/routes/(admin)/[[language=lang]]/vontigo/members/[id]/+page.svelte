@@ -59,6 +59,6 @@
 	</AppBar>
 
 	{#if data.record}
-		<RecordDetail {data}/>
+		<RecordDetail {data} table={'members'}/>
 	{/if}
 </div>

@@ -13,6 +13,7 @@
 	import type { ReferenceStructure, TableStructure } from '$lib/core/shared/types';
 	import { onMount } from 'svelte';
 	export let data: PageData;
+	export let table: string;
 	let selectedPost: any;
 	let keysJson: string[];
 	let colorValue;
@@ -91,7 +92,7 @@
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify({ body: value })
 		};
-		const resData = await fetch(`/api/database/tags/put/${id}/${field}`, requestOptions);
+		const resData = await fetch(`/api/database/${table}/put/${id}/${field}`, requestOptions);
 		const resDataJson = await resData.json();
 		if (resDataJson.row) {
 			const t: ToastSettings = {
@@ -217,6 +218,25 @@
 											updateField(recordId, row.key, row.value);
 										}}
 									/>
+								{:else if row.type == 'boolean'}
+									<RadioGroup active="variant-filled-primary" hover="hover:variant-soft-primary">
+										<RadioItem
+											bind:group={row.value}
+											name={row.key}
+											value={'true'}
+											on:change={() => {
+												updateField(row.id, row.key, row.value);
+											}}>TRUE</RadioItem
+										>
+										<RadioItem
+											bind:group={row.value}
+											name={row.key}
+											value={'false'}
+											on:change={() => {
+												updateField(row.id, row.key, row.value);
+											}}>FALSE</RadioItem
+										>
+									</RadioGroup>
 								{:else if row.type == 'varchar'}
 									{#if row.key.indexOf('color') >= 0}
 										<div class="grid grid-cols-[auto_1fr] gap-2">
