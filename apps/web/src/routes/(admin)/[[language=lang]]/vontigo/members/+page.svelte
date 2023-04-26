@@ -14,6 +14,7 @@
 	import type { DrawerSettings } from '@skeletonlabs/skeleton';
 	import type { PageData } from './$types';
 	import { adminSiteUrl, isEditorOpen } from '$lib/core/shared/stores/site';
+	import { goto } from '$app/navigation';
 	export let data: PageData;
 	let selectedPost: any;
 	let keysJson: string[];
@@ -115,8 +116,7 @@
 								<td
 									class="cursor-pointer"
 									on:click={() => {
-										selectedPost = row;
-										drawerStore.open(settings);
+										goto($adminSiteUrl + `/members/${row.id}`);
 									}}
 								>
 									<div class="flex gap-4">

@@ -1,0 +1,321 @@
+<script lang="ts">
+	import { page } from '$app/stores';
+	import { toastStore, type ToastSettings, Toast, ProgressRadial } from '@skeletonlabs/skeleton';
+	import CompEditor from '$lib/core/core/frontend/components/admin/Editor/CompEditor.svelte';
+	import Icon3BottomLeft from '$lib/icons/Icon3BottomLeft.svelte';
+	import IconArrowDown from '$lib/icons/IconArrowDown.svelte';
+	import IconPlusSmall from '$lib/icons/IconPlusSmall.svelte';
+	import { AppBar, AppShell, RadioGroup, RadioItem } from '@skeletonlabs/skeleton';
+	import { Drawer, drawerStore } from '@skeletonlabs/skeleton';
+	import type { DrawerSettings } from '@skeletonlabs/skeleton';
+	import type { PageData } from './$types';
+	import { adminSiteUrl, isEditorOpen } from '$lib/core/shared/stores/site';
+	import type { ReferenceStructure, TableStructure } from '$lib/core/shared/types';
+	import { onMount } from 'svelte';
+	export let data: PageData;
+	let selectedPost: any;
+	let keysJson: string[];
+	let colorValue;
+	const initialFileValues: { [key: string]: string } = {};
+
+	let recordId = data.record.find((obj) => obj.key === 'id').value;
+
+	onMount(async () => {
+		// Backup all of previous files to delete incase upload new files
+		const fileInputs = document.querySelectorAll('.prevFileHidden');
+		fileInputs.forEach((fileInput) => {
+			initialFileValues[fileInput.id] = fileInput.value;
+		});
+		// console.log(initialFileValues);
+	});
+
+	// let previousSubGroup = '';
+
+	// if (data && data.posts) keysJson = Object.keys(data.posts[0]);
+
+	const settings: DrawerSettings = {
+		id: 'postEditorDrawer',
+		position: 'right',
+		width: 'w-full lg:w-[80%]',
+		// height: 'h-full',
+		padding: 'p-4',
+		rounded: 'rounded-xl',
+		shadow: 'shadow-md',
+		regionDrawer: 'overflow-y-hidden'
+	};
+
+	const onFileSelected = (e, key: string) => {
+		// console.log(key);
+
+		//let imgSrc;
+		let imgElement = document.getElementById(key + `-img`);
+		let imgBase64Element = document.getElementById(key + `-base64`);
+
+		let image = e.target.files[0];
+		let reader = new FileReader();
+		reader.readAsDataURL(image);
+		reader.onload = async (e) => {
+			// console.log(e);
+
+			//imgSrc = e.target.result;
+			imgElement.src = e.target.result;
+			imgBase64Element.value = e.target.result;
+
+			const reqUpFile = await uploadFile(key);
+
+			// console.log(reqUpFile);
+			if (reqUpFile.filePath) {
+				const serverPath = reqUpFile.filePath.replace('static\\', '/').replace(/\\/g, '/');
+				//console.log(serverPath);
+				await updateField(recordId, key, serverPath);
+				if (serverPath != initialFileValues[key]) await deletePrevFile(key);
+			}
+		};
+	};
+
+	async function deletePrevFile(key: string) {
+		// console.log('deletePrevFile ', initialFileValues);
+
+		const requestOptions = {
+			method: 'PUT',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({ body: initialFileValues[key] })
+		};
+		const resData = await fetch(`/api/admin/file/delete`, requestOptions);
+		const resDataJson = await resData.json();
+	}
+
+	async function updateField(id: string, field: string, value: string) {
+		const requestOptions = {
+			method: 'PUT',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({ body: value })
+		};
+		const resData = await fetch(`/api/database/tags/put/${id}/${field}`, requestOptions);
+		const resDataJson = await resData.json();
+		if (resDataJson.row) {
+			const t: ToastSettings = {
+				message: `New value for [ ${field} ] key setting saved!`,
+				timeout: 2000
+			};
+			toastStore.trigger(t);
+		}
+	}
+
+	async function uploadFile(key: string) {
+		let imgInputElement = document.getElementById(key + `-input`);
+		let imgElement = document.getElementById(key + `-img`);
+		let imgBase64Element = document.getElementById(key + `-base64`);
+
+		var file = imgInputElement.value.split('\\');
+		var fileName = recordId + '_' + file[file.length - 1];
+
+		const requestOptions = {
+			method: 'PUT',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({
+				fileName: fileName,
+				fileBase64: imgBase64Element.value
+			})
+		};
+
+		const resData = await fetch(`/api/admin/file/create`, requestOptions);
+		return resData.json();
+	}
+	async function getReferenceValue(rec: TableStructure) {
+		console.log(rec);
+
+		const resData = await fetch(`/api/database/${rec.reference.table}/read/${rec.value}`);
+		// console.log(await resData.json());
+
+		return await resData.json();
+	}
+</script>
+
+{#if data.record}
+	<div class="postsList">
+		<!-- Responsive Container (recommended) -->
+		<div class="table-container rounded-none w-full">
+			<!-- Native Table Element -->
+			<table class="table table-hover table-compact">
+				<thead>
+					<tr>
+						<!-- {#if keysJson}
+							{#each keysJson as column}
+								<th class="table-cell-fit">{column}</th>
+							{/each}
+						{/if} -->
+						<th class="w-1/4 uppercase">Key</th>
+						<th class="">Value</th>
+						<th class="w-1 uppercase text-right">Type</th>
+						<!-- <th>Symbol</th>
+						<th>Weight</th> -->
+					</tr>
+				</thead>
+				<tbody>
+					{#each data.record as row, i}
+						<!-- <tr>
+							{#if keysJson}
+								{#each keysJson as column}
+									<td>{row[column]}</td>
+								{/each}
+							{/if}</tr
+						> -->
+						<tr>
+							<!-- svelte-ignore a11y-click-events-have-key-events -->
+							<td class="">
+								<p
+									class="unstyled text-sm font-medium antialiased tracking-wide uppercase flex gap-2"
+								>
+									{row.key.replace(/_/g, ' ')}
+									{#if row.reference}
+										<svg
+											xmlns="http://www.w3.org/2000/svg"
+											fill="none"
+											viewBox="0 0 24 24"
+											stroke-width="1.5"
+											stroke="currentColor"
+											class="w-6 h-6"
+										>
+											<path
+												stroke-linecap="round"
+												stroke-linejoin="round"
+												d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244"
+											/>
+										</svg>
+									{/if}
+								</p>
+								<!-- <p class="unstyled text-xs mt-1 text-slate-500">
+									<span>{row.group}</span>
+								</p> -->
+							</td>
+							<td>
+								{#if row.reference}
+									{#await getReferenceValue(row)}
+										<ProgressRadial width="w-6" />
+									{:then rec}
+										{rec.row.name}
+									{/await}
+								{:else if row.type == 'text'}
+									<textarea
+										class="textarea w-full rounded-xl p-2"
+										rows="6"
+										placeholder="Enter some long form content."
+										name={row.key}
+										bind:value={row.value}
+										on:change={() => {
+											updateField(recordId, row.key, row.value);
+										}}
+									/>
+								{:else if row.type == 'datetime'}
+									<input
+										class="input p-2 w-full"
+										type="datetime-local"
+										name={row.key}
+										bind:value={row.value}
+										on:change={() => {
+											updateField(recordId, row.key, row.value);
+										}}
+									/>
+								{:else if row.type == 'varchar'}
+									{#if row.key.indexOf('color') >= 0}
+										<div class="grid grid-cols-[auto_1fr] gap-2">
+											<input
+												class="input"
+												type="color"
+												name={row.key}
+												bind:value={row.value}
+												on:change={() => {
+													updateField(recordId, row.key, row.value);
+												}}
+											/>
+											<input
+												class="input w-1/3 p-2"
+												type="text"
+												bind:value={row.value}
+												readonly
+												tabindex="-1"
+											/>
+										</div>
+									{:else if row.key.indexOf('image') >= 0}
+										<div class="flex flex-col gap-2">
+											<input
+												id={row.key}
+												class="prevFileHidden"
+												type="hidden"
+												bind:value={row.value}
+											/>
+											<input
+												id={row.key + `-input`}
+												class="input w-full"
+												type="file"
+												bind:value={row.value}
+												on:change={(e) => onFileSelected(e, row.key)}
+											/>
+											{#if row.value}
+												<em>
+													⚠️ Warning: Old file will be deleted from the server whenever new file has
+													been uploaded.</em
+												>
+											{/if}
+											<input id={row.key + `-base64`} name={row.key + `-base64`} type="hidden" />
+											<img
+												id={row.key + `-img`}
+												name={row.key + `-img`}
+												src={row.value}
+												style="max-width: 50ch;"
+												alt=""
+											/>
+										</div>
+									{:else if row.type == 'boolean'}
+										<RadioGroup active="variant-filled-primary" hover="hover:variant-soft-primary">
+											<RadioItem
+												bind:group={row.value}
+												name={row.key}
+												value={'true'}
+												on:change={() => {
+													updateField(row.id, 'value', row.value, row.key);
+												}}>TRUE</RadioItem
+											>
+											<RadioItem
+												bind:group={row.value}
+												name={row.key}
+												value={'false'}
+												on:change={() => {
+													updateField(row.id, 'value', row.value, row.key);
+												}}>FALSE</RadioItem
+											>
+										</RadioGroup>
+									{:else}
+										<input
+											class="input p-2 w-full"
+											type="text"
+											name={row.key}
+											bind:value={row.value}
+											on:change={() => {
+												updateField(recordId, row.key, row.value);
+											}}
+											readonly={row.key == 'id' ? 'readonly' : ''}
+										/>
+									{/if}
+								{/if}
+							</td>
+							<td>
+								{row.type}
+							</td>
+						</tr>
+
+						<!-- {assignPreviousSubGroup(row.key.split('_')[0])} -->
+					{/each}
+				</tbody>
+				<!-- <tfoot>
+					<tr>
+						<th colspan="2">Calculated Total Weight</th>
+						<td>{data.posts.length}</td>
+					</tr>
+				</tfoot> -->
+			</table>
+		</div>
+	</div>
+{/if}
+<Toast />

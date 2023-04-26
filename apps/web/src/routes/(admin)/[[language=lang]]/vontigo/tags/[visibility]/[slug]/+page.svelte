@@ -18,7 +18,7 @@
 	let colorValue;
 	const initialFileValues: { [key: string]: string } = {};
 
-	let recordId = data.tag.find((obj) => obj.key === 'id').value;
+	let recordId = data.record.find((obj) => obj.key === 'id').value;
 
 	onMount(async () => {
 		// Backup all of previous files to delete incase upload new files
@@ -179,7 +179,7 @@
 			<CompEditor postData={selectedPost} />
 		{/if}
 	</Drawer>
-	{#if data.tag}
+	{#if data.record}
 		<div class="postsList">
 			<!-- Responsive Container (recommended) -->
 			<div class="table-container rounded-none w-full">
@@ -200,7 +200,7 @@
 						</tr>
 					</thead>
 					<tbody>
-						{#each data.tag as row, i}
+						{#each data.record as row, i}
 							<!-- <tr>
 							{#if keysJson}
 								{#each keysJson as column}

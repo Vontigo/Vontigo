@@ -12,7 +12,7 @@ export const load = (async ({ fetch, url, params }) => {
 	// 	};
 	// }
 
-	const response = await fetch(`/api/admin/tags/${params.visibility}/${params.slug}`);
+	const response = await fetch(`/api/admin/members/${params.id}`);
 	const data = await response.json();
 	// console.log(data);
 	//if (data) console.log(data[0]);
