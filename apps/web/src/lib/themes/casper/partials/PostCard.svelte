@@ -97,8 +97,8 @@ which templates loop over to generate a list of posts. -->
 					{post.title}
 				</h2>
 			</header>
-			{#if post.excerpt}
-				<div class="post-card-excerpt">{`excerpt`}</div>
+			{#if post.custom_excerpt}
+				<div class="post-card-excerpt">{post.custom_excerpt}</div>
 			{/if}
 		</a>
 
