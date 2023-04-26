@@ -1,11 +1,43 @@
 <script lang="ts">
 	import { ENUM_IMAGE_SIZE } from '$lib/core/shared/enum';
 	import { img_url } from '$lib/core/core/frontend/helpers/img_url';
-	import { language, siteUrl, origin, site } from '$lib/core/shared/stores/site';
+	import {
+		language,
+		siteUrl,
+		origin,
+		site,
+		custom,
+		templateType
+	} from '$lib/core/shared/stores/site';
 	import IconFire from './icons/IconFire.svelte';
+	import { page } from '$app/stores';
+	import IconLock from './icons/IconLock.svelte';
 
 	export let post: any;
+	export let index: number;
+
 	let postUrl = $siteUrl + '/' + post.slug;
+	let post_class = '';
+
+	if ($custom.feed_layout.default == 'Classic') {
+		if ($templateType == 'home') {
+			if (index == 0) {
+				post_class += ' post-card-large';
+			} else if (index == 1 || index == 2) {
+				post_class += ' dynamic';
+			}
+		}
+	} else if ($custom.feed_layout.default == 'Grid') {
+		post_class += ' keep-ratio';
+	} else if ($custom.feed_layout.default == 'List') {
+		if ($templateType == 'home' || $templateType == 'paged') {
+			post_class += ' post-card-large';
+		}
+	}
+	if ($page.data.session.user) {
+		post_class += ` post-access-${post.visibility}`;
+	}
+
 	// let postFeatureImage =
 	// 	'/content/' + $tenant.replace(':', '_') + '/' + $language + '/images' + post.feature_image;
 </script>
@@ -13,9 +45,7 @@
 <!-- This is a partial file used to generate a post "card"
 which templates loop over to generate a list of posts. -->
 
-<article
-	class="post-card {`post_class`}{`#match @custom.feed_layout "Classic"`}{`#is "home"`}{`#has index="0"`} post-card-large{`/has`}{`#has index="1,2"`} dynamic{`/has`}{`/is`}{`/match`}{`#match @custom.feed_layout "Grid"`} keep-ratio{`/match`}{`#match @custom.feed_layout "List"`}{`#is "home, paged"`} post-card-large{`/is`}{`/match`}{`#unless access`} post-access-{`visibility`}{`/unless`}"
->
+<article class="post-card {post_class}">
 	{#if post.feature_image}
 		<a class="post-card-image-link" href={postUrl}>
 			<!-- This is a responsive image, it loads different sizes depending on device
@@ -30,19 +60,18 @@ which templates loop over to generate a list of posts. -->
 				src={img_url(post.feature_image, ENUM_IMAGE_SIZE.M)}
 				loading="lazy"
 			/>
-
-			<!-- {`#unless access`}
-			{`^has visibility="public"`}
-			<div class="post-card-access">
-				{`> "icons/lock"`}
-				{`#has visibility="members"`}
-				Members only
-				{`else`}
-				Paid-members only
-				{`/has`}
-			</div>
-			{`/has`}
-			{`/unless`} -->
+				{#if !$page.data.session.user}
+					{#if post.visibility == "public"}
+					<div class="post-card-access">
+						<IconLock/>
+						{#if post.visibility="members"}
+						Members only
+						{:else}
+						Paid-members only
+						{/if}
+					</div>
+					{/if}
+				{/if}
 		</a>
 	{/if}
 
@@ -58,14 +87,13 @@ which templates loop over to generate a list of posts. -->
 					{/if}
 				</div>
 				<h2 class="post-card-title">
-					<!-- {`#unless access`}
-					{`^has visibility="public"`}
-					{`#unless feature_image`}
-					{`> "icons/lock"`}
-					{`/unless`}
-					{`/has`}
-					{`/unless`}
-					{`title`} -->
+					{#if !$page.data.session.user}
+						{#if post.visibility == "public"}
+							{#if post.feature_image}
+								<IconLock/>
+							{/if}
+						{/if}
+					{/if}
 					{post.title}
 				</h2>
 			</header>
@@ -77,10 +105,10 @@ which templates loop over to generate a list of posts. -->
 		<footer class="post-card-meta">
 			<time class="post-card-meta-date" datetime={post.published_at}>{post.published_at}</time>
 			{#if post.reading_time}
-				<span class="post-card-meta-length">{`reading_time`}</span>
+				<span class="post-card-meta-length">{post.reading_time}</span>
 			{/if}
 			{#if $site.comments_enabled}
-				{`comment_count`}
+				{post.comment_count}
 			{/if}
 		</footer>
 	</div>

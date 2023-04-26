@@ -19,8 +19,9 @@
 </script>
 
 <svelte:head>
-	<title>Home</title>
-	<meta name="description" content="Svelte demo app" />
+	<!-- TODO -->
+	<title>The professional publishing platform! | Vontigo</title>
+	<meta name="description" content="The professional publishing platform!" />
 </svelte:head>
 
 {#if data}
@@ -76,9 +77,9 @@
 		<div class="inner posts">
 			<div class="post-feed">
 				{#if data?.posts}
-					{#each data?.posts as post}
+					{#each data?.posts as post, index}
 						<!-- The tag below includes the markup for each post - partials/post-card.hbs -->
-						<PostCard {post} />
+						<PostCard {post} {index} />
 					{/each}
 				{:else}
 					No posts found...
