@@ -2,7 +2,7 @@ import { ENUM_IMAGE_SIZE } from '$lib/core/shared/enum';
 
 import { config } from '$lib/themes/casper/config.json';
 
-export function img_url(origin: string = '', image: string, sizeKey: string = ENUM_IMAGE_SIZE.M) {
+export function img_url(image: string, sizeKey: string = ENUM_IMAGE_SIZE.M) {
 	const imageSizes = config.image_sizes;
 	const filePath = image.replace('_raw', `w${imageSizes[sizeKey].width}`);
 

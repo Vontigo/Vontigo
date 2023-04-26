@@ -94,12 +94,12 @@
                 https://medium.freecodecamp.org/a-guide-to-responsive-images-with-ready-to-use-templates-c400bd65c433 -->
 
 							<img
-								srcset="{img_url($origin, post.feature_image, ENUM_IMAGE_SIZE.S)} 300w,
-                    {img_url($origin, post.feature_image, ENUM_IMAGE_SIZE.M)} 600w,
-                    {img_url($origin, post.feature_image, ENUM_IMAGE_SIZE.L)} 1000w,
-                    {img_url($origin, post.feature_image, ENUM_IMAGE_SIZE.XL)} 2000w"
+								srcset="{img_url(post.feature_image, ENUM_IMAGE_SIZE.S)} 300w,
+                    {img_url(post.feature_image, ENUM_IMAGE_SIZE.M)} 600w,
+                    {img_url(post.feature_image, ENUM_IMAGE_SIZE.L)} 1000w,
+                    {img_url(post.feature_image, ENUM_IMAGE_SIZE.XL)} 2000w"
 								sizes="(min-width: 1400px) 1400px, 92vw"
-								src={img_url($origin, post.feature_image, ENUM_IMAGE_SIZE.XL)}
+								src={img_url(post.feature_image, ENUM_IMAGE_SIZE.XL)}
 								loading="lazy"
 							/>
 							{#if post.feature_image_caption}
