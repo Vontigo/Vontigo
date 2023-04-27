@@ -159,12 +159,12 @@
 							<span class="flex-auto text-base">Tags</span>
 						</a>
 					</li>
-					<li class="w-auto">
+					<!-- <li class="w-auto">
 						<a class={classesActive($adminSiteUrl + '/members')} href={$adminSiteUrl + '/members'}>
 							<IconUsers />
 							<span class="flex-auto text-base">Members</span>
 						</a>
-					</li>
+					</li> -->
 					<!-- <li class="w-auto">
 						<a class={classesActive($adminSiteUrl + '/base')} href={$adminSiteUrl + '/base'}>
 							<IconDatabase />

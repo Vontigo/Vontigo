@@ -46,7 +46,7 @@
 		<!-- <span class="text-xs uppercase font-semibold">{$page.params.status || 'all status'}</span> -->
 		<svelte:fragment slot="trail">
 			<!-- <div class="w-full "> -->
-			<div class="hidden md:flex md:flex-row-reverse w-full items-center gap-6">
+			<!-- <div class="hidden md:flex md:flex-row-reverse w-full items-center gap-6">
 				<button
 					type="button"
 					class="btn btn-sm variant-filled rounded"
@@ -56,15 +56,8 @@
 					}}
 				>
 					<span><IconPlusSmall /></span>
-					<span>New member</span>
+					<span>Invite people</span>
 				</button>
-				<!-- <div class="filter-bar flex gap-4">
-					<span><CompMenuPosts /></span>
-					<span><CompMenuMembersAccess /></span>
-					<span><CompMenuAuthors /></span>
-					<span><CompMenuTags /></span>
-					<span><CompMenuSortBy /></span>
-				</div> -->
 			</div>
 			<button
 				type="button"
@@ -75,8 +68,8 @@
 				}}
 			>
 				<span><IconPlusSmall /></span>
-				<span>New member</span>
-			</button>
+				<span>Invite people</span>
+			</button> -->
 			<!-- </div> -->
 		</svelte:fragment>
 
@@ -96,7 +89,7 @@
 				<table class="table table-hover table-compact">
 					<thead>
 						<tr>
-							<th class="uppercase">Member</th>
+							<th class="uppercase">ACTIVE USERS</th>
 							<th class="w-1 uppercase text-right" />
 							<!-- <th>Symbol</th>
 						<th>Weight</th> -->

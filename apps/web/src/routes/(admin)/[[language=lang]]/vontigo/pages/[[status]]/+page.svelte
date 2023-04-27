@@ -56,7 +56,7 @@
 					}}
 				>
 					<span><IconPlusSmall /></span>
-					<span>New post</span>
+					<span>New page</span>
 				</button>
 				<div class="filter-bar flex gap-4">
 					<span><CompMenuPosts /></span>
@@ -75,7 +75,7 @@
 				}}
 			>
 				<span><IconPlusSmall /></span>
-				<span>New post</span>
+				<span>New page</span>
 			</button>
 			<!-- </div> -->
 		</svelte:fragment>
