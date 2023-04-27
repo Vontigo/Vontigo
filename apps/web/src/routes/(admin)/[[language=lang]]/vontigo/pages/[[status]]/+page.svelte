@@ -125,7 +125,6 @@
 					>
 						<a
 							href="#"
-							id="ember637"
 							class="ember-view permalink v-list-data v-post-list-title w-full py-4 col-span-3 w-full"
 							on:click={() => {
 								goto($adminSiteUrl + `/editor/${row.type}/${row.slug}`);
@@ -152,7 +151,6 @@
 
 						<a
 							href="#"
-							id="ember640"
 							class="ember-view permalink v-list-data v-post-list-status px-2 py-6"
 							on:click={() => {
 								selectedPost = row;

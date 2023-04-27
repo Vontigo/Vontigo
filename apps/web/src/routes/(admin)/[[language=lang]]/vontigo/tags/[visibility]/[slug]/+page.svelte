@@ -16,53 +16,52 @@
 	export let data: PageData;
 </script>
 
-<div class="max-w-screen-xl mx-auto px-12">
-	<AppBar class="sticky top-0 z-10 p-4 bg-white">
-		<!-- <svelte:fragment slot="lead">
-			<Icon3BottomLeft />
-		</svelte:fragment> -->
+<AppBar class="sticky top-0 z-10 p-6 bg-white max-w-screen-xl mx-auto px-12">
+	<!-- <svelte:fragment slot="lead">
+		<Icon3BottomLeft />
+	</svelte:fragment> -->
 
-		<ol class="breadcrumb">
-			<li class="crumb"><h2 class="text-xl font-bold mb-1">Tags</h2></li>
-			<li class="crumb-separator" aria-hidden>&rsaquo;</li>
-			<li class="crumb font-bold capitalize">
-				<a href={$adminSiteUrl + `/tags/${$page.params.visibility}`}>All tags</a>
-			</li>
-			<li class="crumb-separator" aria-hidden>&rsaquo;</li>
-			<li class="crumb font-bold capitalize">{$page.params.slug || 'all status'}</li>
-		</ol>
-		<svelte:fragment slot="trail">
-			<!-- <div class="w-full "> -->
-			<div class="hidden md:flex md:flex-row-reverse w-full items-center gap-6">
-				<!-- <button
-					type="button"
-					class="btn btn-sm variant-filled rounded"
-					on:click={() => {
-						selectedPost = null;
-						drawerStore.open(settings);
-					}}
-				>
-					<span><IconPlusSmall /></span>
-					<span>New post</span>
-				</button>
-				<div class="filter-bar flex gap-4">
-					<span><CompMenuPosts /></span>
-					<span><CompMenuMembersAccess /></span>
-					<span><CompMenuAuthors /></span>
-					<span><CompMenuTags /></span>
-					<span><CompMenuSortBy /></span>
-				</div> -->
-			</div>
-			<button type="button" class="md:hidden btn btn-sm variant-filled rounded">
+	<ol class="breadcrumb">
+		<li class="crumb"><h2 class="text-xl font-bold mb-1">Tags</h2></li>
+		<li class="crumb-separator" aria-hidden>&rsaquo;</li>
+		<li class="crumb font-bold capitalize">
+			<a href={$adminSiteUrl + `/tags/${$page.params.visibility}`}>All tags</a>
+		</li>
+		<li class="crumb-separator" aria-hidden>&rsaquo;</li>
+		<li class="crumb font-bold capitalize">{$page.params.slug || 'all status'}</li>
+	</ol>
+	<svelte:fragment slot="trail">
+		<!-- <div class="w-full "> -->
+		<div class="hidden md:flex md:flex-row-reverse w-full items-center gap-6">
+			<!-- <button
+				type="button"
+				class="btn btn-sm variant-filled rounded"
+				on:click={() => {
+					selectedPost = null;
+					drawerStore.open(settings);
+				}}
+			>
 				<span><IconPlusSmall /></span>
 				<span>New post</span>
 			</button>
-			<!-- </div> -->
-		</svelte:fragment>
+			<div class="filter-bar flex gap-4">
+				<span><CompMenuPosts /></span>
+				<span><CompMenuMembersAccess /></span>
+				<span><CompMenuAuthors /></span>
+				<span><CompMenuTags /></span>
+				<span><CompMenuSortBy /></span>
+			</div> -->
+		</div>
+		<!-- <button type="button" class="md:hidden btn btn-sm variant-filled rounded">
+			<span><IconPlusSmall /></span>
+			<span>New post</span>
+		</button> -->
+		<!-- </div> -->
+	</svelte:fragment>
 
-		<!-- <svelte:fragment slot="trail">(actions)</svelte:fragment> -->
-	</AppBar>
-
+	<!-- <svelte:fragment slot="trail">(actions)</svelte:fragment> -->
+</AppBar>
+<div class="max-w-screen-xl mx-auto px-12">
 	{#if data.record}
 		<RecordDetail {data} table={'tags'} />
 	{/if}

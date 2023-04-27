@@ -46,50 +46,49 @@
 	}
 </script>
 
-<div class="max-w-screen-xl mx-auto px-12 h-full">
-	<AppBar class="sticky top-0 z-10 p-4 bg-white">
-		<!-- <svelte:fragment slot="lead">
-			<Icon3BottomLeft />
-		</svelte:fragment> -->
-		<!-- <h2 class="text-xl font-bold">Tags</h2> -->
-		<!-- <span class="text-xs uppercase font-semibold">{$page.params.status || 'all status'}</span> -->
+<AppBar class="sticky top-0 z-10 p-6 bg-white max-w-screen-xl mx-auto px-12">
+	<!-- <svelte:fragment slot="lead">
+		<Icon3BottomLeft />
+	</svelte:fragment> -->
+	<!-- <h2 class="text-xl font-bold">Tags</h2> -->
+	<!-- <span class="text-xs uppercase font-semibold">{$page.params.status || 'all status'}</span> -->
 
-		<ol class="breadcrumb">
-			<li class="crumb"><h2 class="text-xl font-bold mb-1">Tags</h2></li>
-		</ol>
-		<svelte:fragment slot="trail">
-			<!-- <div class="w-full "> -->
-			<div class="hidden md:flex md:flex-row-reverse w-full items-center gap-6">
-				<button
-					type="button"
-					class="btn btn-sm variant-filled rounded"
-					on:click={() => {
-						selectedPost = null;
-						drawerStore.open(settings);
-					}}
-				>
-					<span><IconPlusSmall /></span>
-					<span>New tag</span>
-				</button>
-				<div class="filter-bar flex gap-4" />
-			</div>
+	<ol class="breadcrumb">
+		<li class="crumb"><h2 class="text-xl font-bold mb-1">Tags</h2></li>
+	</ol>
+	<svelte:fragment slot="trail">
+		<!-- <div class="w-full "> -->
+		<div class="hidden md:flex md:flex-row-reverse w-full items-center gap-6">
 			<button
 				type="button"
-				class="md:hidden btn btn-sm variant-filled rounded"
+				class="btn btn-sm variant-filled rounded"
 				on:click={() => {
-					selectedPost = {};
+					selectedPost = null;
 					drawerStore.open(settings);
 				}}
 			>
 				<span><IconPlusSmall /></span>
 				<span>New tag</span>
 			</button>
-			<!-- </div> -->
-		</svelte:fragment>
+			<div class="filter-bar flex gap-4" />
+		</div>
+		<button
+			type="button"
+			class="md:hidden btn btn-sm variant-filled rounded"
+			on:click={() => {
+				selectedPost = {};
+				drawerStore.open(settings);
+			}}
+		>
+			<span><IconPlusSmall /></span>
+			<span>New tag</span>
+		</button>
+		<!-- </div> -->
+	</svelte:fragment>
 
-		<!-- <svelte:fragment slot="trail">(actions)</svelte:fragment> -->
-	</AppBar>
-
+	<!-- <svelte:fragment slot="trail">(actions)</svelte:fragment> -->
+</AppBar>
+<div class="max-w-screen-xl mx-auto px-12">
 	<Drawer>
 		{#if $drawerStore.id === 'tagEditorDrawer'}
 			<div class="p-4">
@@ -146,61 +145,57 @@
 			</div>
 		{/if}
 	</Drawer>
-	{#if data.tags.length > 0}
-		<div class="postsList">
-			<!-- Responsive Container (recommended) -->
-			<div class="table-container rounded-none w-full">
-				<!-- Native Table Element -->
-				<table class="table table-hover">
-					<thead>
-						<tr>
-							<!-- {#if keysJson}
-							{#each keysJson as column}
-								<th class="table-cell-fit">{column}</th>
-							{/each}
-						{/if} -->
-							<th class="uppercase">Title</th>
-							<th class="w-40 uppercase">Slug</th>
-							<th class="w-40 uppercase text-right">No. Of Posts</th>
-							<!-- <th>Symbol</th>
-						<th>Weight</th> -->
-						</tr>
-					</thead>
-					<tbody>
-						{#each data.tags as row, i}
-							<!-- <tr>
-							{#if keysJson}
-								{#each keysJson as column}
-									<td>{row[column]}</td>
-								{/each}
-							{/if}</tr
-						> -->
-							<tr>
-								<!-- svelte-ignore a11y-click-events-have-key-events -->
-								<td
-									class="cursor-pointer"
-									on:click={() => {
-										goto($adminSiteUrl + `/tags/${$page.params.visibility}/${row.slug}`);
-									}}
-								>
-									<p class="unstyled text-sm font-medium antialiased tracking-wide">{row.name}</p>
-								</td>
-								<td>{row.slug}</td>
-								<td class="text-end"> {row.total_posts} post{row.total_posts > 1 ? 's' : ''} </td>
-							</tr>
-						{/each}
-					</tbody>
-					<!-- <tfoot>
-					<tr>
-						<th colspan="2">Calculated Total Weight</th>
-						<td>{data.posts.length}</td>
-					</tr>
-				</tfoot> -->
-				</table>
-			</div>
-		</div>
+	{#if data.records.length > 0}
+		<section class="view-container content-list">
+			<ol class="posts-list v-list flex flex-col">
+				<li class="v-list-row header grid grid-cols-5 uppercase text-xs border-b">
+					<div class="v-list-header v-posts-title-header w-full p-2 ps-0 col-span-3">Name</div>
+					<div class="v-list-header v-posts-status-header py-2">Slug</div>
+					<div class="v-list-header v-posts-status-header p-2 text-end">No. of post</div>
+				</li>
+				{#each data.records as row, i}
+					<li
+						class="v-list-row v-posts-list-item grid grid-cols-5 border-b hover:bg-slate-100 {i ==
+						data.records.length - 1
+							? ' border-b'
+							: ''}"
+					>
+						<a
+							href={$adminSiteUrl + `/tags/${$page.params.visibility}/${row.slug}`}
+							class="ember-view permalink v-list-data v-post-list-title w-full py-4 col-span-3 w-full"
+						>
+							<h3
+								class="v-content-entry-title unstyled text-sm font-medium antialiased tracking-wide"
+							>
+								{row.name}
+							</h3>
+						</a>
+						<a
+							href={$adminSiteUrl + `/tags/${$page.params.visibility}/${row.slug}`}
+							class="ember-view permalink v-list-data v-post-list-title w-full py-4 w-full text-xs tracking-wide text-slate-500"
+						>
+							{row.slug}
+						</a>
+
+						<a
+							href={$adminSiteUrl + `/tags/${$page.params.visibility}/${row.slug}`}
+							class="ember-view permalink v-list-data v-post-list-status px-2 py-6"
+							on:click={() => {
+								selectedPost = row;
+								drawerStore.open(settings);
+							}}
+						>
+							<div class="grid justify-items-end w-full text-sm text-slate-500">
+								{row.total_posts} post{row.total_posts > 1 ? 's' : ''}
+							</div>
+						</a>
+					</li>
+				{/each}
+			</ol>
+			<div class="infinity-loader reached-infinity py-10" />
+		</section>
 	{:else}
-		<div class="w-full justify-center h-[80%] flex">
+		<div class="w-full flex my-60">
 			<div class="flex flex-col w-2/4 m-auto">
 				<div class="w-full h-full m-auto text-center">No tags found</div>
 			</div>
