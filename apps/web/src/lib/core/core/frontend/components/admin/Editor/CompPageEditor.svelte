@@ -21,6 +21,7 @@
 	import TextAlign from '@tiptap/extension-text-align';
 	import { generateHTML } from '@tiptap/html';
 	import './CompEditor.css';
+	import './ProseMirror.css';
 	// ICONS
 	import IconBold from '$lib/icons/IconBold.svelte';
 	import IconItalic from '$lib/icons/IconItalic.svelte';
@@ -464,9 +465,10 @@
 	</div>
 	<div
 		id="postContent"
-		class="p-3 pt-0 pr-0 overflow-x-hidden overflow-y-auto"
+		class="p-0 overflow-x-hidden overflow-y-auto"
 		style="height: calc(100vh - {stickyEditorHeight}px - 2rem);"
 		bind:this={element}
+		tabindex="0"
 	/>
 </div>
 <Modal />

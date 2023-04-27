@@ -272,18 +272,12 @@
 						<svelte:fragment slot="meta">PNG, JPG are allowed.</svelte:fragment>
 					</FileDropzone>
 				</div>
-				<div>
-					<!-- <textarea
-						class="input p-4 border-none focus:border-none active:border-none font-bold text-4xl"
-						placeholder="Page title..."
-					/> -->
-					<div class="parent font-bold text-4xl">
-						<AutoResizableTextarea
-							value={'sdasdasd'}
-							classes={'input border-none focus:border-none active:border-none rounded-none overflow-hidden'}
-							placeholder={'Page title...'}
-						/>
-					</div>
+				<div class="parent font-bold text-4xl">
+					<AutoResizableTextarea
+						value={'sdasdasd'}
+						classes={'input border-none focus:border-none active:border-none rounded-none overflow-hidden'}
+						placeholder={'Page title...'}
+					/>
 				</div>
 				<CompPageEditor />
 			</div>

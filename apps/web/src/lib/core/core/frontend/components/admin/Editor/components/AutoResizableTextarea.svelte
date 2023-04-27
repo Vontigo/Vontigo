@@ -44,4 +44,5 @@
 	{...$$restProps}
 	class={classes}
 	{placeholder}
+	tabindex="0"
 />
