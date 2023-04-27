@@ -40,52 +40,51 @@
 	}
 </script>
 
-<div class="max-w-screen-xl mx-auto px-10 py-2 h-full">
-	<AppBar class="sticky top-0 z-10 p-4 bg-white">
-		<!-- <svelte:fragment slot="lead">
-			<Icon3BottomLeft />
-		</svelte:fragment> -->
-		<h2 class="text-xl font-bold">Pages</h2>
-		<span>{$page.params.status || ''}</span>
-		<svelte:fragment slot="trail">
-			<!-- <div class="w-full "> -->
-			<div class="hidden md:flex md:flex-row-reverse w-full items-center gap-6">
-				<button
-					type="button"
-					class="btn btn-sm variant-filled rounded"
-					on:click={() => {
-						selectedPost = null;
-						drawerStore.open(settings);
-					}}
-				>
-					<span><IconPlusSmall /></span>
-					<span>New page</span>
-				</button>
-				<div class="filter-bar flex gap-4">
-					<span><CompMenuPosts /></span>
-					<span><CompMenuMembersAccess /></span>
-					<span><CompMenuAuthors /></span>
-					<span><CompMenuTags /></span>
-					<span><CompMenuSortBy /></span>
-				</div>
-			</div>
+<AppBar class="sticky top-0 z-10 p-7 bg-white max-w-screen-xl mx-auto px-12">
+	<!-- <svelte:fragment slot="lead">
+		<Icon3BottomLeft />
+	</svelte:fragment> -->
+	<h2 class="text-xl font-bold">Pages</h2>
+	<span>{$page.params.status || ''}</span>
+	<svelte:fragment slot="trail">
+		<!-- <div class="w-full "> -->
+		<div class="hidden md:flex md:flex-row-reverse w-full items-center gap-6">
 			<button
 				type="button"
-				class="md:hidden btn btn-sm variant-filled rounded"
+				class="btn btn-sm variant-filled rounded"
 				on:click={() => {
-					selectedPost = {};
+					selectedPost = null;
 					drawerStore.open(settings);
 				}}
 			>
 				<span><IconPlusSmall /></span>
 				<span>New page</span>
 			</button>
-			<!-- </div> -->
-		</svelte:fragment>
+			<div class="filter-bar flex gap-4">
+				<span><CompMenuPosts /></span>
+				<span><CompMenuMembersAccess /></span>
+				<span><CompMenuAuthors /></span>
+				<span><CompMenuTags /></span>
+				<span><CompMenuSortBy /></span>
+			</div>
+		</div>
+		<button
+			type="button"
+			class="md:hidden btn btn-sm variant-filled rounded"
+			on:click={() => {
+				selectedPost = {};
+				drawerStore.open(settings);
+			}}
+		>
+			<span><IconPlusSmall /></span>
+			<span>New page</span>
+		</button>
+		<!-- </div> -->
+	</svelte:fragment>
 
-		<!-- <svelte:fragment slot="trail">(actions)</svelte:fragment> -->
-	</AppBar>
-
+	<!-- <svelte:fragment slot="trail">(actions)</svelte:fragment> -->
+</AppBar>
+<div class="max-w-screen-xl mx-auto px-12 h-full">
 	<Drawer>
 		{#if $drawerStore.id === 'pageEditorDrawer'}
 			<AppShell>
@@ -107,76 +106,77 @@
 	</Drawer>
 
 	{#if data.posts.length > 0}
-	<div class="postsList">
-		<!-- Responsive Container (recommended) -->
-		<div class="table-container rounded-none w-full">
-			<!-- Native Table Element -->
-			<table class="table table-hover table-compact">
-				<thead>
-					<tr>
-						<!-- {#if keysJson}
+		<div class="postsList">
+			<!-- Responsive Container (recommended) -->
+			<div class="table-container rounded-none w-full">
+				<!-- Native Table Element -->
+				<table class="table table-hover table-compact">
+					<thead>
+						<tr>
+							<!-- {#if keysJson}
 							{#each keysJson as column}
 								<th class="table-cell-fit">{column}</th>
 							{/each}
 						{/if} -->
-						<th class="uppercase">Title</th>
-						<th class="w-1 uppercase text-right">Status</th>
-						<th class="w-24" />
-						<!-- <th>Symbol</th>
+							<th class="uppercase">Title</th>
+							<th class="w-1 uppercase text-right">Status</th>
+							<th class="w-24" />
+							<!-- <th>Symbol</th>
 						<th>Weight</th> -->
-					</tr>
-				</thead>
-				<tbody>
-					{#each data.posts as row, i}
-						<!-- <tr>
+						</tr>
+					</thead>
+					<tbody>
+						{#each data.posts as row, i}
+							<!-- <tr>
 							{#if keysJson}
 								{#each keysJson as column}
 									<td>{row[column]}</td>
 								{/each}
 							{/if}</tr
 						> -->
-						<tr>
-							<!-- svelte-ignore a11y-click-events-have-key-events -->
-							<td
-								class="cursor-pointer"
-								on:click={() => {
-									goto($adminSiteUrl + `/editor/${row.type}/${row.slug}`);
-								}}
-							>
-								<p class="unstyled text-sm font-medium antialiased tracking-wide">{row.title}</p>
-								<p class="unstyled text-xs mt-1 text-slate-500">
-									By <span class="font-semibold">{row.author_name}</span> • <span>{format(row.updated_at)}</span>
-								</p>
-							</td>
-							<td>
-								<span
-									class="badge uppercase text-xs font-light pb-[1px] pt-[2px] px-3 {row.status ==
-									'published'
-										? 'variant-filled-success'
-										: 'variant-filled-surface'}">{row.status}</span
+							<tr>
+								<!-- svelte-ignore a11y-click-events-have-key-events -->
+								<td
+									class="cursor-pointer"
+									on:click={() => {
+										goto($adminSiteUrl + `/editor/${row.type}/${row.slug}`);
+									}}
 								>
-							</td>
-							<td
-								class="cursor-pointer text-end"
-								on:click={() => {
-									selectedPost = row;
-									drawerStore.open(settings);
-								}}
-							>
-								Edit
-							</td>
-						</tr>
-					{/each}
-				</tbody>
-				<!-- <tfoot>
+									<p class="unstyled text-sm font-medium antialiased tracking-wide">{row.title}</p>
+									<p class="unstyled text-xs mt-1 text-slate-500">
+										By <span class="font-semibold">{row.author_name}</span> •
+										<span>{format(row.updated_at)}</span>
+									</p>
+								</td>
+								<td>
+									<span
+										class="badge uppercase text-xs font-light pb-[1px] pt-[2px] px-3 {row.status ==
+										'published'
+											? 'variant-filled-success'
+											: 'variant-filled-surface'}">{row.status}</span
+									>
+								</td>
+								<td
+									class="cursor-pointer text-end"
+									on:click={() => {
+										selectedPost = row;
+										drawerStore.open(settings);
+									}}
+								>
+									Edit
+								</td>
+							</tr>
+						{/each}
+					</tbody>
+					<!-- <tfoot>
 					<tr>
 						<th colspan="2">Calculated Total Weight</th>
 						<td>{data.posts.length}</td>
 					</tr>
 				</tfoot> -->
-			</table>
+				</table>
+			</div>
 		</div>
-	</div>
 	{:else}
 		<div class="w-full h-[80%] flex">
 			<div class="flex flex-col w-2/4 m-auto">

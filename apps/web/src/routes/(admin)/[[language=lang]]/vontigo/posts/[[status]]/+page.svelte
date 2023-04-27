@@ -39,7 +39,7 @@
 	}
 </script>
 
-<div class="max-w-screen-xl mx-auto px-10 py-2 h-full">
+<div class="max-w-screen-xl mx-auto px-12 h-full">
 	<AppBar class="sticky top-0 z-10 p-4 bg-white">
 		<!-- <svelte:fragment slot="lead">
 			<Icon3BottomLeft />
@@ -49,7 +49,7 @@
 			<li class="crumb-separator" aria-hidden>&rsaquo;</li>
 			<li class="crumb font-bold capitalize">{$page.params.status || 'all status'}</li>
 		</ol>
-		
+
 		<svelte:fragment slot="trail">
 			<!-- <div class="w-full "> -->
 			<div class="hidden md:flex md:flex-row-reverse w-full items-center gap-6">
@@ -133,7 +133,9 @@
 								>
 									<p class="unstyled text-sm font-medium antialiased tracking-wide">{row.title}</p>
 									<p class="unstyled text-xs mt-1 text-slate-400">
-										By <span class="font-semibold">{row.author_name}</span> in <span class="font-semibold">{row.primary_tag_name}</span> • <span>{format(row.updated_at)}</span>
+										By <span class="font-semibold">{row.author_name}</span> in
+										<span class="font-semibold">{row.primary_tag_name}</span>
+										• <span>{format(row.updated_at)}</span>
 									</p>
 								</td>
 								<td>

@@ -46,14 +46,14 @@
 	}
 </script>
 
-<div class="max-w-screen-xl mx-auto px-10 py-2 h-full">
+<div class="max-w-screen-xl mx-auto px-12 h-full">
 	<AppBar class="sticky top-0 z-10 p-4 bg-white">
 		<!-- <svelte:fragment slot="lead">
 			<Icon3BottomLeft />
 		</svelte:fragment> -->
 		<!-- <h2 class="text-xl font-bold">Tags</h2> -->
 		<!-- <span class="text-xs uppercase font-semibold">{$page.params.status || 'all status'}</span> -->
-		
+
 		<ol class="breadcrumb">
 			<li class="crumb"><h2 class="text-xl font-bold mb-1">Tags</h2></li>
 		</ol>
@@ -186,7 +186,7 @@
 									<p class="unstyled text-sm font-medium antialiased tracking-wide">{row.name}</p>
 								</td>
 								<td>{row.slug}</td>
-								<td class="text-end"> {row.total_posts} post{row.total_posts>1?'s':''} </td>
+								<td class="text-end"> {row.total_posts} post{row.total_posts > 1 ? 's' : ''} </td>
 							</tr>
 						{/each}
 					</tbody>

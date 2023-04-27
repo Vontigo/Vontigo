@@ -37,7 +37,7 @@
 	}
 </script>
 
-<div class="max-w-screen-xl mx-auto px-10 py-2">
+<div class="max-w-screen-xl mx-auto px-12">
 	<AppBar class="sticky top-0 z-10 p-4 bg-white">
 		<!-- <svelte:fragment slot="lead">
 			<Icon3BottomLeft />

@@ -1,14 +1,12 @@
 <script>
-	import RecordCreate from "$lib/core/core/frontend/components/admin/Database/RecordCreate.svelte";
-import { adminSiteUrl } from "$lib/core/shared/stores/site";
-import IconPlusSmall from "$lib/icons/IconPlusSmall.svelte";
+	import RecordCreate from '$lib/core/core/frontend/components/admin/Database/RecordCreate.svelte';
+	import { adminSiteUrl } from '$lib/core/shared/stores/site';
+	import IconPlusSmall from '$lib/icons/IconPlusSmall.svelte';
 
-
-	import { AppBar } from "@skeletonlabs/skeleton";
-
+	import { AppBar } from '@skeletonlabs/skeleton';
 </script>
 
-<div class="max-w-screen-xl mx-auto px-10 py-2">
+<div class="max-w-screen-xl mx-auto px-12">
 	<AppBar class="sticky top-0 z-10 p-4 bg-white">
 		<!-- <svelte:fragment slot="lead">
 			<Icon3BottomLeft />
@@ -46,7 +44,7 @@ import IconPlusSmall from "$lib/icons/IconPlusSmall.svelte";
 
 		<!-- <svelte:fragment slot="trail">(actions)</svelte:fragment> -->
 	</AppBar>
-<div class="p-4">
-    <h6>Basic Settings</h6>
-</div>
+	<div class="p-4">
+		<h6>Basic Settings</h6>
+	</div>
 </div>

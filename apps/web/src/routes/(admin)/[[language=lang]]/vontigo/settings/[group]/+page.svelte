@@ -119,7 +119,7 @@
 	}
 </script>
 
-<div class="max-w-screen-xl mx-auto px-10 py-2">
+<div class="max-w-screen-xl mx-auto px-12">
 	<AppBar class="sticky top-0 z-10 p-4 bg-white">
 		<!-- <svelte:fragment slot="lead">
 			<Icon3BottomLeft />
@@ -134,7 +134,7 @@
 			<li class="crumb-separator" aria-hidden>&rsaquo;</li>
 			<li class="crumb font-bold capitalize">{$page.params.group || ''}</li>
 		</ol>
-		
+
 		<svelte:fragment slot="trail">
 			<!-- <div class="w-full "> -->
 			<div class="hidden md:flex md:flex-row-reverse w-full items-center gap-6">
