@@ -106,7 +106,7 @@ function readingMinutes(html, additionalImages) {
  */
 
 export function readingTime(post, options = {}) {
-    console.log(post);
+    // console.log(post);
 
     const minuteStr = typeof options.minute === 'string' ? options.minute : '1 min read';
     const minutesStr = typeof options.minutes === 'string' ? options.minutes : '% min read';

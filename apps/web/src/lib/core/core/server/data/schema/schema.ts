@@ -121,7 +121,8 @@ export let tables = {
 			type: 'string',
 			maxlength: 50,
 			nullable: false,
-			defaultTo: 'public'
+			defaultTo: 'public',
+			validations: { isIn: [['public', 'members', 'paid', 'tiers']] }
 		},
 		email_recipient_filter: {
 			type: 'text',

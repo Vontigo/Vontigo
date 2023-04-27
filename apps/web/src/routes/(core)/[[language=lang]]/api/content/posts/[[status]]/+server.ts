@@ -29,7 +29,7 @@ async function getAllRows(): Promise<any[] | null> {
 			.from('posts as p')
 			.leftJoin('posts_tags as pt', 'p.id', 'pt.post_id')
 			.leftJoin('tags as t', 't.id', 'pt.tag_id')
-			.where({ 'p.type': 'post', 'p.status': 'published', 'p.visibility': 'public' });
+			.where({ 'p.type': 'post', 'p.status': 'published' });
 		return rows;
 	} catch (error) {
 		console.error(error);

@@ -5,10 +5,10 @@ import { error, redirect } from '@sveltejs/kit';
 import type { PageLoad } from './$types';
 
 export const load = (async ({ fetch, parent, url, params }) => {
-	const { session } = await parent();
-	if (!session?.user) {
-		throw redirect(302, '/');
-	}
+	// const { session } = await parent();
+	// if (!session?.user) {
+	// 	throw redirect(302, '/');
+	// }
 	throw redirect(302, '/vontigo/dashboard');
 	// if (params.slug === 'hello-world') {
 	// 	return {

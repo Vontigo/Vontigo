@@ -14,3 +14,5 @@ export const themeConfig = writable({});
 export const custom = writable({});
 
 export const templateType = writable('');
+
+export const access = writable(false);

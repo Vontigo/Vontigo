@@ -18,7 +18,6 @@ export async function GET({ url, params }) {
 			.leftJoin('tags as t', 't.id', 'pt.tag_id')
 			.where({
 				'p.status': 'published',
-				'p.visibility': 'public',
 				'p.slug': params.slug
 			})
 			.first();

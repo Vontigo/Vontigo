@@ -7,7 +7,8 @@
 		origin,
 		site,
 		custom,
-		templateType
+		templateType,
+		access
 	} from '$lib/core/shared/stores/site';
 	import IconFire from './icons/IconFire.svelte';
 	import { page } from '$app/stores';
@@ -19,6 +20,9 @@
 
 	let postUrl = $siteUrl + '/' + post.slug;
 	let post_class = '';
+	// if (post.visibility != 'public') {
+	// 	$access = true;
+	// }
 
 	if ($custom.feed_layout.default == 'Classic') {
 		if ($templateType == 'home') {
@@ -35,7 +39,7 @@
 			post_class += ' post-card-large';
 		}
 	}
-	if ($page.data.session.user) {
+	if ($access == false) {
 		post_class += ` post-access-${post.visibility}`;
 	}
 
@@ -61,18 +65,18 @@ which templates loop over to generate a list of posts. -->
 				src={img_url(post.feature_image, ENUM_IMAGE_SIZE.M)}
 				loading="lazy"
 			/>
-				{#if !$page.data.session.user}
-					{#if post.visibility == "public"}
+			{#if $access == false}
+				{#if post.visibility != 'public'}
 					<div class="post-card-access">
-						<IconLock/>
-						{#if post.visibility="members"}
-						Members only
+						<IconLock />
+						{#if post.visibility == 'members'}
+							Members only
 						{:else}
-						Paid-members only
+							Paid-members only
 						{/if}
 					</div>
-					{/if}
 				{/if}
+			{/if}
 		</a>
 	{/if}
 
@@ -88,25 +92,36 @@ which templates loop over to generate a list of posts. -->
 					{/if}
 				</div>
 				<h2 class="post-card-title">
-					{#if !$page.data.session.user}
-						{#if post.visibility == "public"}
+					{#if $access == true}
+						{#if post.visibility != 'public'}
 							{#if post.feature_image}
-								<IconLock/>
+								<IconLock />
 							{/if}
 						{/if}
 					{/if}
 					{post.title}
 				</h2>
 			</header>
-			{#if post.custom_excerpt}
-				<div class="post-card-excerpt">{post.custom_excerpt}</div>
+			{#if $access == false}
+				{#if post.visibility == 'public'}
+					{#if post.custom_excerpt}
+						<div class="post-card-excerpt">{post.custom_excerpt}</div>
+					{/if}
+				{/if}
 			{/if}
 		</a>
 
 		<footer class="post-card-meta">
-			<time class="post-card-meta-date" datetime={post.published_at}>{new Date(post.published_at).toLocaleDateString($language, { weekday:"long", year:"numeric", month:"short", day:"numeric"})}</time>
+			<time class="post-card-meta-date" datetime={post.published_at}
+				>{new Date(post.published_at).toLocaleDateString($language, {
+					weekday: 'long',
+					year: 'numeric',
+					month: 'short',
+					day: 'numeric'
+				})}</time
+			>
 			<!-- {#if post.reading_time} -->
-				<span class="post-card-meta-length">{readingTime(post.html)}</span>
+			<span class="post-card-meta-length">{readingTime(post.html)}</span>
 			<!-- {/if} -->
 			{#if $site.comments_enabled}
 				{post.comment_count}
