@@ -39,9 +39,9 @@
 			post_class += ' post-card-large';
 		}
 	}
-	if ($access == false) {
-		post_class += ` post-access-${post.visibility}`;
-	}
+	// if ($access == false) {
+	// 	post_class += ` post-access-${post.visibility}`;
+	// }
 
 	// let postFeatureImage =
 	// 	'/content/' + $tenant.replace(':', '_') + '/' + $language + '/images' + post.feature_image;
