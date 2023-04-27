@@ -110,77 +110,71 @@
 	</Drawer>
 
 	{#if data.posts.length > 0}
-		<div class="postsList">
-			<!-- Responsive Container (recommended) -->
-			<div class="table-container rounded-none w-full">
-				<!-- Native Table Element -->
-				<table class="table table-hover">
-					<thead>
-						<tr>
-							<!-- {#if keysJson}
-							{#each keysJson as column}
-								<th class="table-cell-fit">{column}</th>
-							{/each}
-						{/if} -->
-							<th class="uppercase">Title</th>
-							<th class="w-1 uppercase text-right">Status</th>
-							<th class="w-24" />
-							<!-- <th>Symbol</th>
-						<th>Weight</th> -->
-						</tr>
-					</thead>
-					<tbody>
-						{#each data.posts as row, i}
-							<!-- <tr>
-							{#if keysJson}
-								{#each keysJson as column}
-									<td>{row[column]}</td>
-								{/each}
-							{/if}</tr
-						> -->
-							<tr>
-								<!-- svelte-ignore a11y-click-events-have-key-events -->
-								<td
-									class="cursor-pointer"
-									on:click={() => {
-										goto($adminSiteUrl + `/editor/${row.type}/${row.slug}`);
-									}}
+		<section class="view-container content-list">
+			<ol class="posts-list v-list flex flex-col">
+				<li class="v-list-row header grid grid-cols-4 uppercase text-xs border-b">
+					<div class="v-list-header v-posts-title-header w-full p-2 ps-0 col-span-3">Title</div>
+					<div class="v-list-header v-posts-status-header p-2 text-end">Status</div>
+				</li>
+				{#each data.posts as row, i}
+					<li
+						class="v-list-row v-posts-list-item grid grid-cols-4 border-b hover:bg-slate-100 {i ==
+						data.posts.length - 1
+							? ' border-b'
+							: ''}"
+					>
+						<a
+							href="#"
+							id="ember637"
+							class="ember-view permalink v-list-data v-post-list-title w-full py-4 col-span-3 w-full"
+							on:click={() => {
+								goto($adminSiteUrl + `/editor/${row.type}/${row.slug}`);
+							}}
+						>
+							<h3
+								class="v-content-entry-title unstyled text-sm font-medium antialiased tracking-wide"
+							>
+								{row.title}
+							</h3>
+							<p>
+								<span
+									class="v-content-entry-meta unstyled text-xs font-light mt-1 text-slate-500 tracking-wide"
 								>
-									<p class="unstyled text-sm font-medium antialiased tracking-wide">{row.title}</p>
-									<p class="unstyled text-xs mt-1 text-slate-500">
-										By <span class="font-semibold">{row.author_name}</span> •
-										<span>{format(row.updated_at)}</span>
-									</p>
-								</td>
-								<td>
+									By <span class="font-medium">{row.author_name}</span>
+									{#if row.primary_tag_name}
+										in
+										<span class="font-medium">{row.primary_tag_name}</span>
+									{/if}
+									• <span data-tooltip={format(row.updated_at)}>{format(row.updated_at)}</span>
+								</span>
+							</p>
+						</a>
+
+						<a
+							href="#"
+							id="ember640"
+							class="ember-view permalink v-list-data v-post-list-status px-2 py-6"
+							on:click={() => {
+								selectedPost = row;
+								drawerStore.open(settings);
+							}}
+						>
+							<div class="grid justify-items-end w-full">
+								<span class="v-content-status-draft v-badge v-badge-pink nowrap">
 									<span
-										class="badge uppercase text-xs font-light pb-[1px] pt-[2px] px-3 {row.status ==
+										class="badge my-auto uppercase text-xs font-light pb-[1px] pt-[2px] px-3 {row.status ==
 										'published'
 											? 'variant-filled-success'
 											: 'variant-filled-surface'}">{row.status}</span
 									>
-								</td>
-								<td
-									class="cursor-pointer text-end"
-									on:click={() => {
-										selectedPost = row;
-										drawerStore.open(settings);
-									}}
-								>
-									Edit
-								</td>
-							</tr>
-						{/each}
-					</tbody>
-					<!-- <tfoot>
-					<tr>
-						<th colspan="2">Calculated Total Weight</th>
-						<td>{data.posts.length}</td>
-					</tr>
-				</tfoot> -->
-				</table>
-			</div>
-		</div>
+								</span>
+							</div>
+						</a>
+					</li>
+				{/each}
+			</ol>
+			<div class="infinity-loader reached-infinity py-10" />
+		</section>
 	{:else}
 		<div class="w-full my-60 flex">
 			<div class="flex flex-col w-2/4 m-auto">
