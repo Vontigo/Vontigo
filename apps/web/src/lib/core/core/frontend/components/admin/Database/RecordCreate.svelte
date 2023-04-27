@@ -95,8 +95,8 @@
 	}
 
 	async function updateField(id: string, field: string, value: string) {
-        // console.log('id',id);
-        
+		// console.log('id',id);
+
 		const requestOptions = {
 			method: 'PUT',
 			headers: { 'Content-Type': 'application/json' },
@@ -148,7 +148,7 @@
 		<!-- Responsive Container (recommended) -->
 		<div class="table-container rounded-none w-full">
 			<!-- Native Table Element -->
-			<table class="table table-hover table-compact">
+			<table class="table table-hover">
 				<thead>
 					<tr>
 						<!-- {#if keysJson}
@@ -178,7 +178,9 @@
 								<p
 									class="unstyled text-sm font-medium antialiased tracking-wide uppercase flex gap-2"
 								>
-									{row.key.replace(/_/g, ' ')}<span class="text-red-700 font-bold">{tableSchema[row.key].nullable == false?'*':''}</span>
+									{row.key.replace(/_/g, ' ')}<span class="text-red-700 font-bold"
+										>{tableSchema[row.key].nullable == false ? '*' : ''}</span
+									>
 									{#if row.reference}
 										<svg
 											xmlns="http://www.w3.org/2000/svg"
@@ -215,7 +217,9 @@
 										rows="6"
 										placeholder="Enter some long form content."
 										name={row.key}
-                                        maxlength={tableSchema[row.key]?.validations?.isLength?.max?tableSchema[row.key]?.validations?.isLength.max:''}
+										maxlength={tableSchema[row.key]?.validations?.isLength?.max
+											? tableSchema[row.key]?.validations?.isLength.max
+											: ''}
 										bind:value={row.value}
 										on:change={() => {
 											updateField(recordId, row.key, row.value);
@@ -348,7 +352,7 @@
 												updateField(recordId, row.key, row.value);
 											}}
 										>
-                                        <option value={''}>-- NULL --</option>
+											<option value={''}>-- NULL --</option>
 											{#each tableSchema[row.key]?.validations?.isIn as optiongroup}
 												{#each optiongroup as option}
 													<option value={option}>{option}</option>
@@ -361,32 +365,36 @@
 											rows="3"
 											placeholder="Enter some long form content."
 											name={row.key}
-                                            maxlength={tableSchema[row.key]?.validations?.isLength?.max?tableSchema[row.key]?.validations?.isLength.max:''}
+											maxlength={tableSchema[row.key]?.validations?.isLength?.max
+												? tableSchema[row.key]?.validations?.isLength.max
+												: ''}
 											bind:value={row.value}
 											on:change={() => {
 												updateField(row.id, row.key, row.value);
 											}}
 										/>
 									{:else}
-                                    <!-- {tableSchema[row.key]?.validations?.matches?.toString().slice(1, -1)} -->
+										<!-- {tableSchema[row.key]?.validations?.matches?.toString().slice(1, -1)} -->
 										<input
 											class="input p-2 w-full"
 											type="text"
 											name={row.key}
-                                            maxlength={tableSchema[row.key]?.validations?.isLength?.max?tableSchema[row.key]?.validations?.isLength.max:''}
-                                            pattern={tableSchema[row.key]?.validations?.matches?tableSchema[row.key]?.validations?.matches?.toString().slice(1, -1):'.*'}
-                                            required={tableSchema[row.key]?.nullable==false?'required':''}
+											maxlength={tableSchema[row.key]?.validations?.isLength?.max
+												? tableSchema[row.key]?.validations?.isLength.max
+												: ''}
+											pattern={tableSchema[row.key]?.validations?.matches
+												? tableSchema[row.key]?.validations?.matches?.toString().slice(1, -1)
+												: '.*'}
+											required={tableSchema[row.key]?.nullable == false ? 'required' : ''}
 											bind:value={row.value}
-                                            
 											on:change={(e) => {
-                                                const regex = new RegExp(e.target.pattern);
-                                                let isValid = regex.test(e.target.value);
-                                                if(isValid && (tableSchema[row.key]?.nullable==false && e.target.value)){
-												    updateField(recordId, row.key, row.value);
-                                                }
-                                                else{
-                                                    alert('Invalid input format or value!');
-                                                }
+												const regex = new RegExp(e.target.pattern);
+												let isValid = regex.test(e.target.value);
+												if (isValid && tableSchema[row.key]?.nullable == false && e.target.value) {
+													updateField(recordId, row.key, row.value);
+												} else {
+													alert('Invalid input format or value!');
+												}
 											}}
 										/>
 									{/if}

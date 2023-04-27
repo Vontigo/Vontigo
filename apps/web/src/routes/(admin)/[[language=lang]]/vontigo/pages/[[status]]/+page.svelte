@@ -40,12 +40,16 @@
 	}
 </script>
 
-<AppBar class="sticky top-0 z-10 p-7 bg-white max-w-screen-xl mx-auto px-12">
+<AppBar class="sticky top-0 z-10 p-6 bg-white max-w-screen-xl mx-auto px-12">
 	<!-- <svelte:fragment slot="lead">
 		<Icon3BottomLeft />
 	</svelte:fragment> -->
-	<h2 class="text-xl font-bold">Pages</h2>
-	<span>{$page.params.status || ''}</span>
+
+	<ol class="breadcrumb">
+		<li class="crumb"><h2 class="text-xl font-bold py-1">Pages</h2></li>
+		<!-- <li class="crumb-separator" aria-hidden>&rsaquo;</li>
+		<li class="crumb font-bold capitalize">{$page.params.status || 'all status'}</li> -->
+	</ol>
 	<svelte:fragment slot="trail">
 		<!-- <div class="w-full "> -->
 		<div class="hidden md:flex md:flex-row-reverse w-full items-center gap-6">
@@ -84,7 +88,7 @@
 
 	<!-- <svelte:fragment slot="trail">(actions)</svelte:fragment> -->
 </AppBar>
-<div class="max-w-screen-xl mx-auto px-12 h-full">
+<div class="max-w-screen-xl mx-auto px-12">
 	<Drawer>
 		{#if $drawerStore.id === 'pageEditorDrawer'}
 			<AppShell>
@@ -110,7 +114,7 @@
 			<!-- Responsive Container (recommended) -->
 			<div class="table-container rounded-none w-full">
 				<!-- Native Table Element -->
-				<table class="table table-hover table-compact">
+				<table class="table table-hover">
 					<thead>
 						<tr>
 							<!-- {#if keysJson}
@@ -178,9 +182,9 @@
 			</div>
 		</div>
 	{:else}
-		<div class="w-full h-[80%] flex">
+		<div class="w-full my-60 flex">
 			<div class="flex flex-col w-2/4 m-auto">
-				<div class="w-full h-full m-auto text-center">No pages match the current filter</div>
+				<div class="w-full m-auto text-center">No pages match the current filter</div>
 				<a href={$adminSiteUrl + '/pages'} class="button text-center">Show all pages</a>
 			</div>
 		</div>

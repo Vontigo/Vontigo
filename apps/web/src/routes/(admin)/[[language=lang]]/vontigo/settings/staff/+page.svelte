@@ -86,7 +86,7 @@
 			<!-- Responsive Container (recommended) -->
 			<div class="table-container rounded-none w-full">
 				<!-- Native Table Element -->
-				<table class="table table-hover table-compact">
+				<table class="table table-hover">
 					<thead>
 						<tr>
 							<th class="uppercase">ACTIVE USERS</th>

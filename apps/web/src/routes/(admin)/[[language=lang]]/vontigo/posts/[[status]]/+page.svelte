@@ -39,127 +39,126 @@
 	}
 </script>
 
-<div class="max-w-screen-xl mx-auto px-12 h-full">
-	<AppBar class="sticky top-0 z-10 p-4 bg-white">
-		<!-- <svelte:fragment slot="lead">
-			<Icon3BottomLeft />
-		</svelte:fragment> -->
-		<ol class="breadcrumb">
-			<li class="crumb"><h2 class="text-xl font-bold mb-1">Posts</h2></li>
-			<li class="crumb-separator" aria-hidden>&rsaquo;</li>
-			<li class="crumb font-bold capitalize">{$page.params.status || 'all status'}</li>
-		</ol>
+<AppBar class="sticky top-0 z-10 p-6 bg-white max-w-screen-xl mx-auto px-12">
+	<!-- <svelte:fragment slot="lead">
+		<Icon3BottomLeft />
+	</svelte:fragment> -->
+	<ol class="breadcrumb">
+		<li class="crumb"><h2 class="text-xl font-bold py-1">Posts</h2></li>
+		<li class="crumb-separator" aria-hidden>&rsaquo;</li>
+		<li class="crumb font-bold capitalize">{$page.params.status || 'all status'}</li>
+	</ol>
 
-		<svelte:fragment slot="trail">
-			<!-- <div class="w-full "> -->
-			<div class="hidden md:flex md:flex-row-reverse w-full items-center gap-6">
-				<button
-					type="button"
-					class="btn btn-sm variant-filled rounded"
-					on:click={() => {
-						selectedPost = null;
-						drawerStore.open(settings);
-					}}
-				>
-					<span><IconPlusSmall /></span>
-					<span>New post</span>
-				</button>
-				<div class="filter-bar flex gap-4">
-					<span><CompMenuPosts /></span>
-					<!-- <span><CompMenuMembersAccess /></span> -->
-					<span><CompMenuAuthors /></span>
-					<span><CompMenuTags /></span>
-					<span><CompMenuSortBy /></span>
-				</div>
-			</div>
+	<svelte:fragment slot="trail">
+		<!-- <div class="w-full "> -->
+		<div class="hidden md:flex md:flex-row-reverse w-full items-center gap-6">
 			<button
 				type="button"
-				class="md:hidden btn btn-sm variant-filled rounded"
+				class="btn btn-sm variant-filled rounded"
 				on:click={() => {
-					selectedPost = {};
+					selectedPost = null;
 					drawerStore.open(settings);
 				}}
 			>
 				<span><IconPlusSmall /></span>
 				<span>New post</span>
 			</button>
-			<!-- </div> -->
-		</svelte:fragment>
+			<div class="filter-bar flex gap-4">
+				<span><CompMenuPosts /></span>
+				<!-- <span><CompMenuMembersAccess /></span> -->
+				<span><CompMenuAuthors /></span>
+				<span><CompMenuTags /></span>
+				<span><CompMenuSortBy /></span>
+			</div>
+		</div>
+		<button
+			type="button"
+			class="md:hidden btn btn-sm variant-filled rounded"
+			on:click={() => {
+				selectedPost = {};
+				drawerStore.open(settings);
+			}}
+		>
+			<span><IconPlusSmall /></span>
+			<span>New post</span>
+		</button>
+		<!-- </div> -->
+	</svelte:fragment>
 
-		<!-- <svelte:fragment slot="trail">(actions)</svelte:fragment> -->
-	</AppBar>
-
+	<!-- <svelte:fragment slot="trail">(actions)</svelte:fragment> -->
+</AppBar>
+<div class="max-w-screen-xl mx-auto px-12">
 	<Drawer>
 		{#if $drawerStore.id === 'postEditorDrawer'}
 			<CompEditor postData={selectedPost} />
 		{/if}
 	</Drawer>
 	{#if data.posts.length > 0}
-		<div class="postsList">
-			<!-- Responsive Container (recommended) -->
-			<div class="table-container rounded-none w-full">
-				<!-- Native Table Element -->
-				<table class="table table-hover table-compact">
-					<thead>
-						<tr>
-							<!-- {#if keysJson}
-							{#each keysJson as column}
-								<th class="table-cell-fit">{column}</th>
-							{/each}
-						{/if} -->
-							<th class="uppercase">Title</th>
-							<th class="w-1 uppercase text-right">Status</th>
-							<!-- <th>Symbol</th>
-						<th>Weight</th> -->
-						</tr>
-					</thead>
-					<tbody>
-						{#each data.posts as row, i}
-							<!-- <tr>
-							{#if keysJson}
-								{#each keysJson as column}
-									<td>{row[column]}</td>
-								{/each}
-							{/if}</tr
-						> -->
-							<tr>
-								<!-- svelte-ignore a11y-click-events-have-key-events -->
-								<td
-									class="cursor-pointer"
-									on:click={() => {
-										selectedPost = row;
-										drawerStore.open(settings);
-									}}
+		<section class="view-container content-list">
+			<ol class="posts-list v-list flex flex-col">
+				<li class="v-list-row header flex gap-4 uppercase text-xs border-b">
+					<div class="v-list-header v-posts-title-header w-full">Title</div>
+					<div class="v-list-header v-posts-status-header">Status</div>
+				</li>
+				{#each data.posts as row, i}
+					<li
+						class="v-list-row v-posts-list-item flex gap-4 border-b py-4 hover:bg-slate-100 {i ==
+						data.posts.length - 1
+							? ' border-b'
+							: ''}"
+					>
+						<a
+							href="#"
+							id="ember637"
+							class="ember-view permalink v-list-data v-post-list-title w-full"
+							on:click={() => {
+								selectedPost = row;
+								drawerStore.open(settings);
+							}}
+						>
+							<h3
+								class="v-content-entry-title unstyled text-sm font-medium antialiased tracking-wide"
+							>
+								{row.title}
+							</h3>
+							<p>
+								<span
+									class="v-content-entry-meta unstyled text-xs font-light mt-1 text-slate-500 tracking-wide"
 								>
-									<p class="unstyled text-sm font-medium antialiased tracking-wide">{row.title}</p>
-									<p class="unstyled text-xs mt-1 text-slate-400">
-										By <span class="font-semibold">{row.author_name}</span> in
-										<span class="font-semibold">{row.primary_tag_name}</span>
-										• <span>{format(row.updated_at)}</span>
-									</p>
-								</td>
-								<td>
+									By <span class="font-medium">{row.author_name}</span> in
+									<span class="font-medium">{row.primary_tag_name}</span>
+									• <span data-tooltip={format(row.updated_at)}>{format(row.updated_at)}</span>
+								</span>
+							</p>
+						</a>
+
+						<a
+							href="#/editor/post/644a1d60b49ab60001087355/"
+							id="ember640"
+							class="ember-view permalink v-list-data v-post-list-status p-2"
+							on:click={() => {
+								selectedPost = row;
+								drawerStore.open(settings);
+							}}
+						>
+							<div class="flex items-center">
+								<span class="v-content-status-draft v-badge v-badge-pink nowrap">
 									<span
-										class="badge uppercase text-xs font-light pb-[1px] pt-[2px] px-3 {row.status ==
+										class="badge my-auto uppercase text-xs font-light pb-[1px] pt-[2px] px-3 {row.status ==
 										'published'
 											? 'variant-filled-success'
 											: 'variant-filled-surface'}">{row.status}</span
 									>
-								</td>
-							</tr>
-						{/each}
-					</tbody>
-					<!-- <tfoot>
-					<tr>
-						<th colspan="2">Calculated Total Weight</th>
-						<td>{data.posts.length}</td>
-					</tr>
-				</tfoot> -->
-				</table>
-			</div>
-		</div>
+								</span>
+							</div>
+						</a>
+					</li>
+				{/each}
+			</ol>
+			<div class="infinity-loader reached-infinity py-40" />
+		</section>
 	{:else}
-		<div class="w-full h-[80%] flex">
+		<div class="w-full flex my-60">
 			<div class="flex flex-col w-2/4 m-auto">
 				<div class="w-full h-full m-auto text-center">No posts match the current filter</div>
 				<a href={$adminSiteUrl + '/posts'} class="button text-center">Show all posts</a>
