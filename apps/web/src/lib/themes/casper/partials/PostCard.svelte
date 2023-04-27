@@ -12,6 +12,7 @@
 	import IconFire from './icons/IconFire.svelte';
 	import { page } from '$app/stores';
 	import IconLock from './icons/IconLock.svelte';
+	import { readingTime } from '$lib/core/core/frontend/helpers/readingTime';
 
 	export let post: any;
 	export let index: number;
@@ -103,10 +104,10 @@ which templates loop over to generate a list of posts. -->
 		</a>
 
 		<footer class="post-card-meta">
-			<time class="post-card-meta-date" datetime={post.published_at}>{post.published_at}</time>
-			{#if post.reading_time}
-				<span class="post-card-meta-length">{post.reading_time}</span>
-			{/if}
+			<time class="post-card-meta-date" datetime={post.published_at}>{new Date(post.published_at).toLocaleDateString($language, { weekday:"long", year:"numeric", month:"short", day:"numeric"})}</time>
+			<!-- {#if post.reading_time} -->
+				<span class="post-card-meta-length">{readingTime(post.html)}</span>
+			<!-- {/if} -->
 			{#if $site.comments_enabled}
 				{post.comment_count}
 			{/if}

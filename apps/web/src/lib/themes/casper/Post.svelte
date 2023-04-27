@@ -12,7 +12,7 @@
 	import { ENUM_IMAGE_SIZE } from '$lib/core/shared/enum';
 	import IconFire from './partials/icons/IconFire.svelte';
 	import IconAvatar from './partials/icons/IconAvatar.svelte';
-	import { post_class } from '$lib/core/core/frontend/helpers/post_class';
+	import { post_class } from '$lib/core/core/frontend/helpers/postClass';
 
 	$templateType = 'post';
 	export let data: PageData;
