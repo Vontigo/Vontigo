@@ -7,7 +7,8 @@
 		origin,
 		templateType,
 		custom,
-		site
+		site,
+		access
 	} from '$lib/core/shared/stores/site';
 	import { ENUM_IMAGE_SIZE } from '$lib/core/shared/enum';
 	import IconFire from './partials/icons/IconFire.svelte';
@@ -44,8 +45,12 @@
 
 				<h1 class="article-title">{post.title}</h1>
 
-				{#if post.custom_excerpt}
-					<p class="article-excerpt">{post.custom_excerpt}</p>
+				{#if $access == false}
+					{#if post.visibility == 'public'}
+						{#if post.custom_excerpt}
+							<p class="article-excerpt">{post.custom_excerpt}</p>
+						{/if}
+					{/if}
 				{/if}
 
 				<div class="article-byline">
@@ -110,9 +115,13 @@
 				{/if}
 			</header>
 
-			<section class="gh-content gh-canvas">
-				{@html post.html}
-			</section>
+			{#if $access == false}
+				{#if post.visibility == 'public'}
+					<section class="gh-content gh-canvas">
+						{@html post.html}
+					</section>
+				{/if}
+			{/if}
 
 			{#if post.comments}
 				<section class="article-comments gh-canvas">
@@ -124,6 +133,7 @@
 
 	<!-- A signup call to action is displayed here, unless viewed as a logged-in member -->
 	{#if $site.members_enabled}
+	
 		<!-- {`#unless @member`}
 {`#unless @site.comments_enabled`}
 {#if access}
