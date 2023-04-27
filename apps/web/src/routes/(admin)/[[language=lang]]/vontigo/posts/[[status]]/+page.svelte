@@ -14,6 +14,8 @@
 	import type { DrawerSettings } from '@skeletonlabs/skeleton';
 	import type { PageData } from './$types';
 	import { adminSiteUrl, isEditorOpen } from '$lib/core/shared/stores/site';
+	import { format } from 'timeago.js';
+
 	export let data: PageData;
 	let selectedPost: any;
 	let keysJson: string[];
@@ -37,7 +39,7 @@
 	}
 </script>
 
-<div class="max-w-screen-xl mx-auto px-10 py-2">
+<div class="max-w-screen-xl mx-auto px-10 py-2 h-full">
 	<AppBar class="sticky top-0 z-10 p-4 bg-white">
 		<!-- <svelte:fragment slot="lead">
 			<Icon3BottomLeft />
@@ -126,8 +128,8 @@
 									}}
 								>
 									<p class="unstyled text-sm font-medium antialiased tracking-wide">{row.title}</p>
-									<p class="unstyled text-xs mt-1 text-slate-500">
-										By <span class="font-semibold">{row.author_name}</span> • <span>{row.updated_at}</span>
+									<p class="unstyled text-xs mt-1 text-slate-400">
+										By <span class="font-semibold">{row.author_name}</span> in <span class="font-semibold">{row.primary_tag_name}</span> • <span>{format(row.updated_at)}</span>
 									</p>
 								</td>
 								<td>
@@ -151,10 +153,10 @@
 			</div>
 		</div>
 	{:else}
-		<div class="w-full justify-center">
+		<div class="w-full h-[80%] flex">
 			<div class="flex flex-col w-2/4 m-auto">
 				<div class="w-full h-full m-auto text-center">No posts match the current filter</div>
-				<a href={$adminSiteUrl + '/posts'} class="btn">Show all posts</a>
+				<a href={$adminSiteUrl + '/posts'} class="button text-center">Show all posts</a>
 			</div>
 		</div>
 	{/if}

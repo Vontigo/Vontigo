@@ -46,7 +46,7 @@
 	}
 </script>
 
-<div class="max-w-screen-xl mx-auto px-10 py-2">
+<div class="max-w-screen-xl mx-auto px-10 py-2 h-full">
 	<AppBar class="sticky top-0 z-10 p-4 bg-white">
 		<!-- <svelte:fragment slot="lead">
 			<Icon3BottomLeft />
@@ -156,6 +156,7 @@
 							{/each}
 						{/if} -->
 							<th class="uppercase">Title</th>
+							<th class="w-40 uppercase">Slug</th>
 							<th class="w-40 uppercase text-right">No. Of Posts</th>
 							<!-- <th>Symbol</th>
 						<th>Weight</th> -->
@@ -180,7 +181,8 @@
 								>
 									<p class="unstyled text-sm font-medium antialiased tracking-wide">{row.name}</p>
 								</td>
-								<td class="text-end"> # </td>
+								<td>{row.slug}</td>
+								<td class="text-end"> {row.total_posts} post{row.total_posts>1?'s':''} </td>
 							</tr>
 						{/each}
 					</tbody>
@@ -194,9 +196,9 @@
 			</div>
 		</div>
 	{:else}
-		<div class="w-full justify-center">
+		<div class="w-full justify-center h-[80%] flex">
 			<div class="flex flex-col w-2/4 m-auto">
-				<div class="w-full h-full m-auto text-center">No slugs found</div>
+				<div class="w-full h-full m-auto text-center">No tags found</div>
 			</div>
 		</div>
 	{/if}
