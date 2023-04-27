@@ -135,9 +135,3 @@
 	{/if}
 	<Toast />
 </div>
-
-<style global>
-	.drawer-backdrop .drawer {
-		height: calc(100vh - 2rem);
-	}
-</style>

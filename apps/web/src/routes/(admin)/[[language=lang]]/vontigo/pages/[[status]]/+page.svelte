@@ -9,28 +9,31 @@
 	import Icon3BottomLeft from '$lib/icons/Icon3BottomLeft.svelte';
 	import IconArrowDown from '$lib/icons/IconArrowDown.svelte';
 	import IconPlusSmall from '$lib/icons/IconPlusSmall.svelte';
-	import { AppBar, AppShell } from '@skeletonlabs/skeleton';
+	import { AppBar, AppShell, FileDropzone } from '@skeletonlabs/skeleton';
 	import { Drawer, drawerStore } from '@skeletonlabs/skeleton';
 	import type { DrawerSettings } from '@skeletonlabs/skeleton';
 	import type { PageData } from './$types';
 	import { adminSiteUrl, isEditorOpen } from '$lib/core/shared/stores/site';
 	import { goto } from '$app/navigation';
 	import { format } from 'timeago.js';
+	import CompPageEditor from '$lib/core/core/frontend/components/admin/Editor/CompPageEditor.svelte';
+	import AutoResizableTextarea from '$lib/core/core/frontend/components/admin/Editor/components/AutoResizableTextarea.svelte';
 
 	export let data: PageData;
 
 	let selectedPost: any;
 	let keysJson: string[];
+	let isDrawerSidebar = true;
 
 	// if (data && data.posts) keysJson = Object.keys(data.posts[0]);
 
-	const settings: DrawerSettings = {
+	const createPageDrawer: DrawerSettings = {
 		id: 'pageEditorDrawer',
 		position: 'right',
 		width: 'w-full lg:w-[100%]',
 		height: 'h-full',
-		padding: 'p-4',
-		rounded: 'rounded-xl',
+		// padding: 'p-4',
+		// rounded: 'rounded',
 		shadow: 'shadow-md',
 		regionDrawer: 'overflow-y-hidden'
 	};
@@ -58,7 +61,7 @@
 				class="btn btn-sm variant-filled rounded"
 				on:click={() => {
 					selectedPost = null;
-					drawerStore.open(settings);
+					drawerStore.open(createPageDrawer);
 				}}
 			>
 				<span><IconPlusSmall /></span>
@@ -77,7 +80,7 @@
 			class="md:hidden btn btn-sm variant-filled rounded"
 			on:click={() => {
 				selectedPost = {};
-				drawerStore.open(settings);
+				drawerStore.open(createPageDrawer);
 			}}
 		>
 			<span><IconPlusSmall /></span>
@@ -88,27 +91,8 @@
 
 	<!-- <svelte:fragment slot="trail">(actions)</svelte:fragment> -->
 </AppBar>
-<div class="max-w-screen-xl mx-auto px-12">
-	<Drawer>
-		{#if $drawerStore.id === 'pageEditorDrawer'}
-			<AppShell>
-				<svelte:fragment slot="sidebarLeft">
-					<div class="border-s min-w-full">as dfasdfasdfasdfasd fasd fsadf sdf</div>
-				</svelte:fragment>
-				<svelte:fragment slot="sidebarRight">
-					<div class="border-s">
-						<div class="w-[30%]" />
-					</div>
-				</svelte:fragment>
-				<!-- Router Slot -->
-				<div class="max-w-screen-md m-auto">
-					<CompEditor postData={selectedPost} />
-				</div>
-				<!-- ---- / ---- -->
-			</AppShell>
-		{/if}
-	</Drawer>
 
+<div class="max-w-screen-xl mx-auto px-12">
 	{#if data.posts.length > 0}
 		<section class="view-container content-list">
 			<ol class="posts-list v-list flex flex-col">
@@ -154,7 +138,7 @@
 							class="ember-view permalink v-list-data v-post-list-status px-2 py-6"
 							on:click={() => {
 								selectedPost = row;
-								drawerStore.open(settings);
+								drawerStore.open(createPageDrawer);
 							}}
 						>
 							<div class="grid justify-items-end w-full">
@@ -183,8 +167,127 @@
 	{/if}
 </div>
 
-<style global>
-	/* .drawer-backdrop .drawer {
-		height: calc(100vh - 2rem);
-	} */
-</style>
+<Drawer>
+	{#if $drawerStore.id === 'pageEditorDrawer'}
+		<button
+			class="absolute left-2 top-2 btn btn-sm variant-filled rounded"
+			on:click={() => {
+				selectedPost = {};
+				drawerStore.close();
+			}}
+		>
+			<span>
+				<svg
+					xmlns="http://www.w3.org/2000/svg"
+					fill="none"
+					viewBox="0 0 24 24"
+					stroke-width="1.5"
+					stroke="currentColor"
+					class="w-4 h-4"
+				>
+					<path
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"
+					/>
+				</svg>
+			</span>
+			<span>Back</span></button
+		>
+		<button
+			class="absolute right-2 top-2 rounded border-none p-2"
+			on:click={() => {
+				isDrawerSidebar = !isDrawerSidebar;
+			}}
+		>
+			{#if !isDrawerSidebar}
+				<svg
+					xmlns="http://www.w3.org/2000/svg"
+					fill="none"
+					viewBox="0 0 24 24"
+					stroke-width="1.5"
+					stroke="currentColor"
+					class="w-6 h-6"
+				>
+					<path
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75"
+					/>
+				</svg>
+			{:else}
+				<svg
+					xmlns="http://www.w3.org/2000/svg"
+					fill="none"
+					viewBox="0 0 24 24"
+					stroke-width="1.5"
+					stroke="currentColor"
+					class="w-6 h-6"
+				>
+					<path
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15m3 0l3-3m0 0l-3-3m3 3H9"
+					/>
+				</svg>
+			{/if}
+		</button>
+		<AppShell>
+			<!-- <svelte:fragment slot="sidebarLeft">
+				
+			</svelte:fragment> -->
+			<svelte:fragment slot="sidebarRight">
+				{#if isDrawerSidebar}
+					<div id="sidebar-right" class="hidden lg:block">
+						<div class="card w-[350px] h-screen p-4 px-2">
+							<header class="card-header text-lg font-medium">Page settings</header>
+							<section class="p-4">(content)</section>
+						</div>
+					</div>
+				{/if}
+			</svelte:fragment>
+			<!-- Router Slot -->
+			<div class="max-w-screen-md m-auto py-14 flex flex-col gap-4">
+				<div>
+					<FileDropzone name="files">
+						<svelte:fragment slot="lead">
+							<div class="flex">
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									fill="none"
+									viewBox="0 0 24 24"
+									stroke-width="1.5"
+									stroke="currentColor"
+									class="w-20 h-20 m-auto"
+								>
+									<path
+										stroke-linecap="round"
+										stroke-linejoin="round"
+										d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"
+									/>
+								</svg>
+							</div>
+						</svelte:fragment>
+						<svelte:fragment slot="message">Add feature image</svelte:fragment>
+						<svelte:fragment slot="meta">PNG, JPG are allowed.</svelte:fragment>
+					</FileDropzone>
+				</div>
+				<div>
+					<!-- <textarea
+						class="input p-4 border-none focus:border-none active:border-none font-bold text-4xl"
+						placeholder="Page title..."
+					/> -->
+					<div class="parent font-bold text-4xl">
+						<AutoResizableTextarea
+							value={'sdasdasd'}
+							classes={'input border-none focus:border-none active:border-none rounded-none overflow-hidden'}
+							placeholder={'Page title...'}
+						/>
+					</div>
+				</div>
+				<CompPageEditor />
+			</div>
+			<!-- ---- / ---- -->
+		</AppShell>
+	{/if}
+</Drawer>
