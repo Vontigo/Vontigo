@@ -124,10 +124,17 @@
 		<!-- <svelte:fragment slot="lead">
 			<Icon3BottomLeft />
 		</svelte:fragment> -->
-		<h2 class="text-xl font-bold">Settings</h2>
+		<!-- <h2 class="text-xl font-bold">Settings</h2>
 		<span class="uppercase text-sm font-semibold"
 			><a href={$adminSiteUrl + `/settings`}>All</a> > {$page.params.group || ''}</span
 		>
+		 -->
+		<ol class="breadcrumb">
+			<li class="crumb"><h2 class="text-xl font-bold mb-1">Settings</h2></li>
+			<li class="crumb-separator" aria-hidden>&rsaquo;</li>
+			<li class="crumb font-bold capitalize">{$page.params.group || ''}</li>
+		</ol>
+		
 		<svelte:fragment slot="trail">
 			<!-- <div class="w-full "> -->
 			<div class="hidden md:flex md:flex-row-reverse w-full items-center gap-6">

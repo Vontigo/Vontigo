@@ -66,8 +66,8 @@
 				<!-- (optionally you can provde a label here) -->
 				<ul class="p-2 pl-11 px-6 pt-6">
 					<li class="w-auto">
-						<span class="unstyled flex-auto font-bold"
-							><span class="font-bold text-4xl text-primary-500">V</span>ontigo</span
+						<span class="unstyled flex-auto font-bold antialiased"
+							><span class="font-black text-4xl text-primary-500">V</span>ontigo</span
 						>
 					</li>
 				</ul>
@@ -173,9 +173,9 @@
 					</li> -->
 				</ul>
 				<ul class="h-full" />
-				<ul class="sidebar-left__bottom pb-2 px-6 flex flex-row">
-					<li class="w-full pt-1">
-						<div class=" relative inline-block">
+				<ul class="sidebar-left__bottom p-8 flex flex-row">
+					<li class="w-full mt-1 flex">
+						<div class=" relative inline-block my-auto">
 							<span
 								class="badge-icon variant-filled-success absolute -top-0 -right-0 z-10 w-3 h-3"
 							/>
@@ -183,7 +183,7 @@
 								src={$page.data.session.user?.image}
 								action={filter}
 								actionParams="#Apollo"
-								width="w-10"
+								width="w-8"
 							/>
 						</div>
 					</li>

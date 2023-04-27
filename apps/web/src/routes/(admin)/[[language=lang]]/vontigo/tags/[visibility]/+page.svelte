@@ -51,8 +51,12 @@
 		<!-- <svelte:fragment slot="lead">
 			<Icon3BottomLeft />
 		</svelte:fragment> -->
-		<h2 class="text-xl font-bold">Tags</h2>
+		<!-- <h2 class="text-xl font-bold">Tags</h2> -->
 		<!-- <span class="text-xs uppercase font-semibold">{$page.params.status || 'all status'}</span> -->
+		
+		<ol class="breadcrumb">
+			<li class="crumb"><h2 class="text-xl font-bold mb-1">Tags</h2></li>
+		</ol>
 		<svelte:fragment slot="trail">
 			<!-- <div class="w-full "> -->
 			<div class="hidden md:flex md:flex-row-reverse w-full items-center gap-6">
