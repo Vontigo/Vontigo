@@ -158,8 +158,7 @@
 						? ' border-b'
 						: ''}"
 				>
-					<a
-						href={$adminSiteUrl + `/tags/${$page.params.visibility}/${row.slug}`}
+					<div
 						class="ember-view permalink v-list-data v-post-list-title w-full py-4 w-full capitalize col-span-2"
 					>
 						<h3
@@ -185,8 +184,8 @@
 								</svg>
 							{/if}
 						</h3>
-					</a>
-					<a
+					</div>
+					<div
 						href={$adminSiteUrl + `/tags/${$page.params.visibility}/${row.slug}`}
 						class="ember-view permalink v-list-data v-post-list-title w-full py-4 w-full text-xs tracking-wide text-slate-500 col-span-3"
 					>
@@ -379,20 +378,13 @@
 								/>
 							{/if}
 						{/if}
-					</a>
+					</div>
 
-					<a
-						href={$adminSiteUrl + `/tags/${$page.params.visibility}/${row.slug}`}
-						class="ember-view permalink v-list-data v-post-list-status px-2 py-6"
-						on:click={() => {
-							selectedPost = row;
-							drawerStore.open(settings);
-						}}
-					>
+					<div class="ember-view permalink v-list-data v-post-list-status px-2 py-6">
 						<div class="grid justify-items-end w-full text-sm text-slate-500">
 							{row.type}
 						</div>
-					</a>
+					</div>
 				</li>
 			{/each}
 		</ol>

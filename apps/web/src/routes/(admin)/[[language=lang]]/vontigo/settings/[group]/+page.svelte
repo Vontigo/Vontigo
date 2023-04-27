@@ -17,7 +17,7 @@
 	let keysJson: string[];
 	let colorValue;
 	const initialFileValues: { [key: string]: string } = {};
-	// let recordId = data.settings.find((obj) => obj.key === 'id').value;
+	// let recordId = data.records.find((obj) => obj.key === 'id').value;
 
 	onMount(async () => {
 		// Backup all of previous files to delete incase upload new files
@@ -119,220 +119,196 @@
 	}
 </script>
 
-<div class="max-w-screen-xl mx-auto px-12">
-	<AppBar class="sticky top-0 z-10 p-4 bg-white">
-		<!-- <svelte:fragment slot="lead">
-			<Icon3BottomLeft />
-		</svelte:fragment> -->
-		<!-- <h2 class="text-xl font-bold">Settings</h2>
-		<span class="uppercase text-sm font-semibold"
-			><a href={$adminSiteUrl + `/settings`}>All</a> > {$page.params.group || ''}</span
-		>
-		 -->
-		<ol class="breadcrumb">
-			<li class="crumb"><h2 class="text-xl font-bold mb-1">Settings</h2></li>
-			<li class="crumb-separator" aria-hidden>&rsaquo;</li>
-			<li class="crumb font-bold capitalize">{$page.params.group || ''}</li>
-		</ol>
+<AppBar class="sticky top-0 z-10 p-6 bg-white max-w-screen-xl mx-auto px-12">
+	<!-- <svelte:fragment slot="lead">
+		<Icon3BottomLeft />
+	</svelte:fragment> -->
+	<!-- <h2 class="text-xl font-bold">Settings</h2>
+	<span class="uppercase text-sm font-semibold"
+		><a href={$adminSiteUrl + `/settings`}>All</a> > {$page.params.group || ''}</span
+	>
+	 -->
+	<ol class="breadcrumb">
+		<li class="crumb"><h2 class="text-xl font-bold mb-1">Settings</h2></li>
+		<li class="crumb-separator" aria-hidden>&rsaquo;</li>
+		<li class="crumb font-bold capitalize">{$page.params.group || ''}</li>
+	</ol>
 
-		<svelte:fragment slot="trail">
-			<!-- <div class="w-full "> -->
-			<div class="hidden md:flex md:flex-row-reverse w-full items-center gap-6">
-				<!-- <button
-					type="button"
-					class="btn btn-sm variant-filled rounded"
-					on:click={() => {
-						selectedPost = null;
-						drawerStore.open(settings);
-					}}
-				>
-					<span><IconPlusSmall /></span>
-					<span>New post</span>
-				</button>
-				<div class="filter-bar flex gap-4">
-					<span><CompMenuPosts /></span>
-					<span><CompMenuMembersAccess /></span>
-					<span><CompMenuAuthors /></span>
-					<span><CompMenuTags /></span>
-					<span><CompMenuSortBy /></span>
-				</div> -->
-			</div>
-			<button type="button" class="md:hidden btn btn-sm variant-filled rounded">
+	<svelte:fragment slot="trail">
+		<!-- <div class="w-full "> -->
+		<div class="hidden md:flex md:flex-row-reverse w-full items-center gap-6">
+			<!-- <button
+				type="button"
+				class="btn btn-sm variant-filled rounded"
+				on:click={() => {
+					selectedPost = null;
+					drawerStore.open(settings);
+				}}
+			>
 				<span><IconPlusSmall /></span>
 				<span>New post</span>
 			</button>
-			<!-- </div> -->
-		</svelte:fragment>
+			<div class="filter-bar flex gap-4">
+				<span><CompMenuPosts /></span>
+				<span><CompMenuMembersAccess /></span>
+				<span><CompMenuAuthors /></span>
+				<span><CompMenuTags /></span>
+				<span><CompMenuSortBy /></span>
+			</div> -->
+		</div>
+		<!-- </div> -->
+	</svelte:fragment>
 
-		<!-- <svelte:fragment slot="trail">(actions)</svelte:fragment> -->
-	</AppBar>
-
+	<!-- <svelte:fragment slot="trail">(actions)</svelte:fragment> -->
+</AppBar>
+<div class="max-w-screen-xl mx-auto px-12">
 	<Drawer>
 		{#if $drawerStore.id === 'postEditorDrawer'}
 			<CompEditor postData={selectedPost} />
 		{/if}
 	</Drawer>
-	{#if data.settings.length > 0}
-		<div class="postsList">
-			<!-- Responsive Container (recommended) -->
-			<div class="table-container rounded-none w-full">
-				<!-- Native Table Element -->
-				<table class="table table-hover">
-					<thead>
-						<tr>
-							<!-- {#if keysJson}
-							{#each keysJson as column}
-								<th class="table-cell-fit">{column}</th>
-							{/each}
-						{/if} -->
-							<th class="w-1/4 uppercase">Key</th>
-							<th class="">Value</th>
-							<th class="w-1 uppercase text-right">Type</th>
-							<!-- <th>Symbol</th>
-						<th>Weight</th> -->
-						</tr>
-					</thead>
-					<tbody>
-						{#each data.settings as row, i}
-							<!-- <tr>
-							{#if keysJson}
-								{#each keysJson as column}
-									<td>{row[column]}</td>
-								{/each}
-							{/if}</tr
-						> -->
-							<tr>
-								<!-- svelte-ignore a11y-click-events-have-key-events -->
-								<td class="cursor-pointer">
-									<p class="unstyled text-sm font-medium antialiased tracking-wide uppercase">
-										{row.key.replace(/_/g, ' ')}
-									</p>
-									<!-- <p class="unstyled text-xs mt-1 text-slate-500">
-									<span>{row.group}</span>
-								</p> -->
-								</td>
-								<td>
-									{#if row.type == 'string'}
-										{#if row.key.indexOf('color') >= 0}
-											<div class="grid grid-cols-[auto_1fr] gap-2">
-												<input
-													class="input"
-													type="color"
-													name={row.key}
-													bind:value={row.value}
-													on:change={() => {
-														updateField(row.id, 'value', row.value, row.key);
-													}}
-												/>
-												<input
-													class="input w-1/3 p-2"
-													type="text"
-													bind:value={row.value}
-													readonly
-													tabindex="-1"
-												/>
-											</div>
-										{:else if row.key.indexOf('image') >= 0 || row.key.indexOf('logo') >= 0 || row.key.indexOf('icon') >= 0}
-											<!-- <input
-												class="input w-full"
-												type="file"
-												bind:value={row.value}
-												on:blur={() => {
-													updateField(row.id, 'value', row.value, row.key);
-												}}
-											/> -->
-
-											<div class="flex flex-col gap-2">
-												<input
-													id={row.key}
-													class="prevFileHidden"
-													type="hidden"
-													bind:value={row.value}
-												/>
-												<input
-													id={row.key + `-input`}
-													class="input w-full"
-													type="file"
-													bind:value={row.value}
-													on:change={(e) => onFileSelected(e, row.key, row.id)}
-												/>
-												{#if row.value}
-													<em>
-														⚠️ Warning: Old file will be deleted from the server whenever new file
-														has been uploaded.</em
-													>
-												{/if}
-												<input id={row.key + `-base64`} name={row.key + `-base64`} type="hidden" />
-												<img
-													id={row.key + `-img`}
-													name={row.key + `-img`}
-													src={row.value}
-													style="max-width: 50ch;"
-													alt=""
-												/>
-											</div>
-										{:else}
-											<input
-												class="input p-2 w-full"
-												type="text"
-												name={row.key}
-												bind:value={row.value}
-												on:change={() => {
-													updateField(row.id, 'value', row.value, row.key);
-												}}
-											/>
-										{/if}
-									{:else if row.type == 'array'}
-										<textarea
-											class="textarea w-full rounded-xl p-2"
-											rows="6"
-											placeholder="Enter some long form content."
+	{#if data.records.length > 0}
+		<section class="view-container content-list">
+			<ol class="records-list v-list flex flex-col">
+				<li class="v-list-row header grid grid-cols-6 uppercase text-xs border-b">
+					<div class="v-list-header v-posts-title-header w-full p-2 ps-0 col-span-2">Key</div>
+					<div class="v-list-header v-posts-status-header py-2 col-span-3">Value</div>
+					<div class="v-list-header v-posts-status-header p-2 text-end">Type</div>
+				</li>
+				{#each data.records as row, i}
+					<li
+						class="v-list-row v-records-list-item grid md:grid-cols-6 border-b hover:bg-slate-100 grid-cols-1 {i ==
+						data.records.length - 1
+							? ' border-b'
+							: ''}"
+					>
+						<div
+							class="ember-view permalink v-list-data v-post-list-title w-full py-4 w-full capitalize col-span-2"
+						>
+							<h3
+								class="v-content-entry-title unstyled text-sm font-medium antialiased tracking-wide flex gap-2"
+							>
+								{row.key.replace(/_/g, ' ')}
+							</h3>
+						</div>
+						<div
+							class="ember-view permalink v-list-data v-post-list-title w-full py-4 w-full text-xs tracking-wide text-slate-500 col-span-3"
+						>
+							{#if row.type == 'string'}
+								{#if row.key.indexOf('color') >= 0}
+									<div class="grid grid-cols-[auto_1fr] gap-2">
+										<input
+											class="input"
+											type="color"
 											name={row.key}
 											bind:value={row.value}
 											on:change={() => {
 												updateField(row.id, 'value', row.value, row.key);
 											}}
 										/>
-									{:else if row.type == 'boolean'}
-										<RadioGroup active="variant-filled-primary" hover="hover:variant-soft-primary">
-											<RadioItem
-												bind:group={row.value}
-												name={row.key}
-												value={'true'}
-												on:change={() => {
-													updateField(row.id, 'value', row.value, row.key);
-												}}>TRUE</RadioItem
-											>
-											<RadioItem
-												bind:group={row.value}
-												name={row.key}
-												value={'false'}
-												on:change={() => {
-													updateField(row.id, 'value', row.value, row.key);
-												}}>FALSE</RadioItem
-											>
-										</RadioGroup>
-									{:else}
-										Unknow type...
-									{/if}
-								</td>
-								<td>
-									{row.type}
-								</td>
-							</tr>
+										<input
+											class="input w-1/3 p-2"
+											type="text"
+											bind:value={row.value}
+											readonly
+											tabindex="-1"
+										/>
+									</div>
+								{:else if row.key.indexOf('image') >= 0 || row.key.indexOf('logo') >= 0 || row.key.indexOf('icon') >= 0}
+									<!-- <input
+									class="input w-full"
+									type="file"
+									bind:value={row.value}
+									on:blur={() => {
+										updateField(row.id, 'value', row.value, row.key);
+									}}
+								/> -->
 
-							<!-- {assignPreviousSubGroup(row.key.split('_')[0])} -->
-						{/each}
-					</tbody>
-					<!-- <tfoot>
-					<tr>
-						<th colspan="2">Calculated Total Weight</th>
-						<td>{data.posts.length}</td>
-					</tr>
-				</tfoot> -->
-				</table>
-			</div>
-		</div>
+									<div class="flex flex-col gap-2">
+										<input
+											id={row.key}
+											class="prevFileHidden"
+											type="hidden"
+											bind:value={row.value}
+										/>
+										<input
+											id={row.key + `-input`}
+											class="input w-full"
+											type="file"
+											bind:value={row.value}
+											on:change={(e) => onFileSelected(e, row.key, row.id)}
+										/>
+										{#if row.value}
+											<em>
+												⚠️ Warning: Old file will be deleted from the server whenever new file has
+												been uploaded.</em
+											>
+										{/if}
+										<input id={row.key + `-base64`} name={row.key + `-base64`} type="hidden" />
+										<img
+											id={row.key + `-img`}
+											name={row.key + `-img`}
+											src={row.value}
+											style="max-width: 50ch;"
+											alt=""
+										/>
+									</div>
+								{:else}
+									<input
+										class="input p-2 w-full"
+										type="text"
+										name={row.key}
+										bind:value={row.value}
+										on:change={() => {
+											updateField(row.id, 'value', row.value, row.key);
+										}}
+									/>
+								{/if}
+							{:else if row.type == 'array'}
+								<textarea
+									class="textarea w-full rounded-xl p-2"
+									rows="6"
+									placeholder="Enter some long form content."
+									name={row.key}
+									bind:value={row.value}
+									on:change={() => {
+										updateField(row.id, 'value', row.value, row.key);
+									}}
+								/>
+							{:else if row.type == 'boolean'}
+								<RadioGroup active="variant-filled-primary" hover="hover:variant-soft-primary">
+									<RadioItem
+										bind:group={row.value}
+										name={row.key}
+										value={'true'}
+										on:change={() => {
+											updateField(row.id, 'value', row.value, row.key);
+										}}>TRUE</RadioItem
+									>
+									<RadioItem
+										bind:group={row.value}
+										name={row.key}
+										value={'false'}
+										on:change={() => {
+											updateField(row.id, 'value', row.value, row.key);
+										}}>FALSE</RadioItem
+									>
+								</RadioGroup>
+							{:else}
+								Unknow type...
+							{/if}
+						</div>
+
+						<div class="ember-view permalink v-list-data v-post-list-status px-2 py-6">
+							<div class="grid justify-items-end w-full text-sm text-slate-500">
+								{row.type}
+							</div>
+						</div>
+					</li>
+				{/each}
+			</ol>
+			<div class="infinity-loader reached-infinity py-10" />
+		</section>
 	{/if}
 	<Toast />
 </div>

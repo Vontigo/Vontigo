@@ -33,7 +33,7 @@
 	const settings: DrawerSettings = {
 		id: 'tagEditorDrawer',
 		position: 'right',
-		width: 'w-full lg:w-[400px]',
+		width: 'w-full lg:w-[300px]',
 		// height: 'h-full',
 		padding: 'p-4',
 		rounded: 'rounded-xl',
@@ -93,7 +93,7 @@
 		{#if $drawerStore.id === 'tagEditorDrawer'}
 			<div class="p-4">
 				<div class="flex">
-					<h3 class="w-full">New Tag</h3>
+					<h6 class="w-full font-bold">New Tag</h6>
 					<div class="text-right">
 						<button
 							type="button"
@@ -115,8 +115,8 @@
 						>
 					</div>
 				</div>
-				<div class="py-4 flex flex-col gap-2">
-					<div>
+				<div class="py-4 flex flex-col gap-4">
+					<div class="flex flex-col gap-2">
 						<div>Name</div>
 						<div>
 							<input
@@ -137,7 +137,7 @@
 							/>
 						</div>
 					</div>
-					<div>
+					<div class="flex flex-col gap-2">
 						<div>Slug</div>
 						<div><input type="text" class="input p-2" bind:value={newTagBody.slug} /></div>
 					</div>
@@ -172,7 +172,7 @@
 						</a>
 						<a
 							href={$adminSiteUrl + `/tags/${$page.params.visibility}/${row.slug}`}
-							class="ember-view permalink v-list-data v-post-list-title w-full py-4 w-full text-xs tracking-wide text-slate-500"
+							class="ember-view permalink v-list-data v-post-list-title w-full py-4 w-full text-sm tracking-wide text-slate-500"
 						>
 							{row.slug}
 						</a>

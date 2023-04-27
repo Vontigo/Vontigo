@@ -10,7 +10,7 @@
 	--theme-font-color-base: var(--color-surface-900);
 	--theme-font-color-dark: var(--color-surface-50);
 	--theme-rounded-base: 24px;
-	--theme-rounded-container: 0;
+	--theme-rounded-container: 3px;
 	--theme-border-base: 1px;
 	/* =~= Theme On-X Colors =~= */
 	--on-primary: 255 255 255;

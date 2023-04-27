@@ -176,9 +176,7 @@
 				<ul class="sidebar-left__bottom p-8 flex flex-row">
 					<li class="w-full mt-1 flex">
 						<div class=" relative inline-block my-auto">
-							<span
-								class="badge-icon variant-filled-success absolute -top-0 -right-0 z-10 w-3 h-3"
-							/>
+							<span class="badge-icon bg-green-400 absolute -top-0 -right-0 z-10 w-2 h-2" />
 							<Avatar
 								src={$page.data.session.user?.image}
 								action={filter}

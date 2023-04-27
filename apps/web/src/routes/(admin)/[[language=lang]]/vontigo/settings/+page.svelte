@@ -4,51 +4,51 @@
 	import { AppBar } from '@skeletonlabs/skeleton';
 </script>
 
-<div class="max-w-screen-xl_ mx-auto px-10 py-2">
-	<AppBar class="sticky top-0 z-10 p-4 bg-white">
-		<!-- <svelte:fragment slot="lead">
-			<Icon3BottomLeft />
-		</svelte:fragment> -->
-		<h2 class="text-xl font-bold">Settings</h2>
-		<!-- <span class="uppercase text-sm font-semibold"
-			><a href={$adminSiteUrl + `/settings`}>All</a> > {$page.params.group || ''}</span
-		> -->
-		<svelte:fragment slot="trail">
-			<!-- <div class="w-full "> -->
-			<div class="hidden md:flex md:flex-row-reverse w-full items-center gap-6">
-				<!-- <button
-					type="button"
-					class="btn btn-sm variant-filled rounded"
-					on:click={() => {
-						selectedPost = null;
-						drawerStore.open(settings);
-					}}
-				>
-					<span><IconPlusSmall /></span>
-					<span>New post</span>
-				</button>
-				<div class="filter-bar flex gap-4">
-					<span><CompMenuPosts /></span>
-					<span><CompMenuMembersAccess /></span>
-					<span><CompMenuAuthors /></span>
-					<span><CompMenuTags /></span>
-					<span><CompMenuSortBy /></span>
-				</div> -->
-			</div>
-			<!-- <button type="button" class="md:hidden btn btn-sm variant-filled rounded">
+<AppBar class="sticky top-0 z-10 p-6 bg-white max-w-screen-xl mx-auto px-12">
+	<!-- <svelte:fragment slot="lead">
+		<Icon3BottomLeft />
+	</svelte:fragment> -->
+	<h2 class="text-xl font-bold">Settings</h2>
+	<!-- <span class="uppercase text-sm font-semibold"
+		><a href={$adminSiteUrl + `/settings`}>All</a> > {$page.params.group || ''}</span
+	> -->
+	<svelte:fragment slot="trail">
+		<!-- <div class="w-full "> -->
+		<div class="hidden md:flex md:flex-row-reverse w-full items-center gap-6">
+			<!-- <button
+				type="button"
+				class="btn btn-sm variant-filled rounded"
+				on:click={() => {
+					selectedPost = null;
+					drawerStore.open(settings);
+				}}
+			>
 				<span><IconPlusSmall /></span>
 				<span>New post</span>
-			</button> -->
-			<!-- </div> -->
-		</svelte:fragment>
+			</button>
+			<div class="filter-bar flex gap-4">
+				<span><CompMenuPosts /></span>
+				<span><CompMenuMembersAccess /></span>
+				<span><CompMenuAuthors /></span>
+				<span><CompMenuTags /></span>
+				<span><CompMenuSortBy /></span>
+			</div> -->
+		</div>
+		<!-- <button type="button" class="md:hidden btn btn-sm variant-filled rounded">
+			<span><IconPlusSmall /></span>
+			<span>New post</span>
+		</button> -->
+		<!-- </div> -->
+	</svelte:fragment>
 
-		<!-- <svelte:fragment slot="trail">(actions)</svelte:fragment> -->
-	</AppBar>
-	<div class="p-4">
-		<h6>Website</h6>
+	<!-- <svelte:fragment slot="trail">(actions)</svelte:fragment> -->
+</AppBar>
+<div class="max-w-screen-xl mx-auto px-12">
+	<div class="">
+		<h6 class="py-4">Website</h6>
 		<hr />
 		<div class="flex flex-wrap gap-10 mb-6">
-			<dl class="list-dl">
+			<dl class="list-dl p-4">
 				<div>
 					<span class=""
 						><svg
@@ -78,7 +78,7 @@
 				</div>
 				<!-- ... -->
 			</dl>
-			<dl class="list-dl">
+			<dl class="list-dl p-4">
 				<div>
 					<span>
 						<svg
