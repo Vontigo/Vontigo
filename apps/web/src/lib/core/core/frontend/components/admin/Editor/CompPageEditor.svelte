@@ -416,13 +416,7 @@
 	/>
 
 	{#if editor}
-		<div
-			id="tooltip"
-			style="position: absolute;"
-			class=""
-			class:hidden={!floatingMenuShow}
-			bind:this={floatingMenuHTML}
-		>
+		<div id="tooltip" class="" class:hidden={!floatingMenuShow} bind:this={floatingMenuHTML}>
 			<div class="flex flex-row justify-start">
 				<button
 					on:click={() => {

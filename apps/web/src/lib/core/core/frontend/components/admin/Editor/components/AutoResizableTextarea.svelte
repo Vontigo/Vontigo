@@ -12,9 +12,16 @@
 	let parentFontSize: number;
 
 	const handleInput = () => {
+		textareaRef.style.height = '0px';
 		textareaHeight = `${textareaRef.scrollHeight}px`;
+		textareaRef.style.height = textareaHeight;
 		rows = Math.ceil(textareaRef.scrollHeight / (parentFontSize * 1.2));
 		dispatch('input');
+	};
+	const handleDelete = (event) => {
+		if (event.key === 'Backspace' || event.key === 'Delete' || event.key === 'Enter') {
+			handleInput();
+		}
 	};
 
 	onMount(() => {
@@ -22,6 +29,9 @@
 		parentFontSize = parseFloat(getComputedStyle(parentEl).fontSize);
 		handleInput();
 	});
+	$: if (value) {
+		value = value.replace(/[\r\n]/g, '');
+	}
 </script>
 
 <textarea
@@ -29,6 +39,7 @@
 	bind:this={textareaRef}
 	{rows}
 	on:input={handleInput}
+	on:keydown={handleDelete}
 	style={`height: ${textareaHeight}px;`}
 	{...$$restProps}
 	class={classes}
