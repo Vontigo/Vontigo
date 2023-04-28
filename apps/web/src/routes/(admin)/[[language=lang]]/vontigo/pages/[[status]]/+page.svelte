@@ -18,6 +18,8 @@
 	import { format } from 'timeago.js';
 	import CompPageEditor from '$lib/core/core/frontend/components/admin/Editor/CompPageEditor.svelte';
 	import AutoResizableTextarea from '$lib/core/core/frontend/components/admin/Editor/components/AutoResizableTextarea.svelte';
+	import RecordCreate from '$lib/core/core/frontend/components/admin/Database/RecordCreate.svelte';
+	import { ENUM_DATABASE_TABLE } from '$lib/core/shared/enum';
 
 	export let data: PageData;
 
@@ -241,7 +243,9 @@
 					<div id="sidebar-right" class="hidden lg:block">
 						<div class="card w-[350px] h-screen p-4 px-2">
 							<header class="card-header text-lg font-medium">Page settings</header>
-							<section class="p-4">(content)</section>
+							<section class="p-4">
+								<RecordCreate {data} table={ENUM_DATABASE_TABLE.posts} />
+							</section>
 						</div>
 					</div>
 				{/if}
@@ -274,12 +278,12 @@
 				</div>
 				<div class="parent font-bold text-4xl">
 					<AutoResizableTextarea
-						value={'sdasdasd'}
+						value={''}
 						classes={'input border-none focus:border-none active:border-none rounded-none overflow-hidden'}
 						placeholder={'Page title...'}
 					/>
 				</div>
-				<CompPageEditor />
+				<CompPageEditor {data} />
 			</div>
 			<!-- ---- / ---- -->
 		</AppShell>

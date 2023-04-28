@@ -23,11 +23,11 @@
 	let colorValue;
 
 	const tableSchema = tables[table];
-	console.log(tableSchema);
+	// console.log(tableSchema);
 
 	const initialFileValues: { [key: string]: string } = {};
 
-	let recordId = data.record.find((obj) => obj.key === 'id').value;
+	let recordId = '1234567';//data.schema.find((obj) => obj.key === 'id').value;
 
 	onMount(async () => {
 		// Backup all of previous files to delete incase upload new files
@@ -143,279 +143,252 @@
 	}
 </script>
 
-{#if data.record}
-	<div class="postsList">
-		<!-- Responsive Container (recommended) -->
-		<div class="table-container rounded-none w-full">
-			<!-- Native Table Element -->
-			<table class="table table-hover">
-				<thead>
-					<tr>
-						<!-- {#if keysJson}
-							{#each keysJson as column}
-								<th class="table-cell-fit">{column}</th>
-							{/each}
-						{/if} -->
-						<th class="w-1/4 uppercase">Key</th>
-						<th class="">Value</th>
-						<th class="w-1 uppercase text-right">Type</th>
-						<!-- <th>Symbol</th>
-						<th>Weight</th> -->
-					</tr>
-				</thead>
-				<tbody>
-					{#each data.record as row, i}
-						<!-- <tr>
-							{#if keysJson}
-								{#each keysJson as column}
-									<td>{row[column]}</td>
-								{/each}
-							{/if}</tr
-						> -->
-						<tr>
-							<!-- svelte-ignore a11y-click-events-have-key-events -->
-							<td class="">
-								<p
-									class="unstyled text-sm font-medium antialiased tracking-wide uppercase flex gap-2"
+{#if data.schema}
+	<section class="view-container content-list">
+		<ol class="records-list v-list flex flex-col">
+			<li class="v-list-row header grid grid-cols-6 uppercase text-xs border-b">
+				<div class="v-list-header v-posts-title-header w-full p-2 ps-0 col-span-2">Key</div>
+				<div class="v-list-header v-posts-status-header py-2 col-span-3">Value</div>
+				<div class="v-list-header v-posts-status-header p-2 text-end">Type</div>
+			</li>
+			{#each data.schema as row, i}
+				<li
+					class="v-list-row v-records-list-item grid md:grid-cols-1 border-b hover:bg-slate-100 grid-cols-6 {i ==
+					data.schema.length - 1
+						? ' border-b'
+						: ''}"
+				>
+					<div
+						class="ember-view permalink v-list-data v-post-list-title w-full py-4 w-full capitalize col-span-2"
+					>
+						<h3
+							class="v-content-entry-title unstyled text-sm font-medium antialiased tracking-wide flex gap-2"
+						>
+							{row.key.replace(/_/g, ' ')}<span class="text-red-700 font-bold"
+								>{tableSchema[row.key].nullable == false ? '*' : ''}</span
+							>
+							{#if row.reference}
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									fill="none"
+									viewBox="0 0 24 24"
+									stroke-width="1.5"
+									stroke="currentColor"
+									class="w-4 h-4"
 								>
-									{row.key.replace(/_/g, ' ')}<span class="text-red-700 font-bold"
-										>{tableSchema[row.key].nullable == false ? '*' : ''}</span
+									<path
+										stroke-linecap="round"
+										stroke-linejoin="round"
+										d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244"
+									/>
+								</svg>
+							{/if}
+						</h3>
+					</div>
+					<div
+						href={$adminSiteUrl + `/tags/${$page.params.visibility}/${row.slug}`}
+						class="ember-view permalink v-list-data v-post-list-title w-full py-4 w-full text-xs tracking-wide text-slate-500 col-span-3"
+					>
+						{#if row.reference}
+							{#await getReferenceValue(row)}
+								<ProgressRadial width="w-6" />
+							{:then rec}
+								{rec?.row?.name}
+							{/await}
+						{:else if row.type == 'text'}
+							<textarea
+								class="textarea w-full rounded-xl p-2"
+								rows="6"
+								placeholder="Enter some long form content."
+								name={row.key}
+								maxlength={tableSchema[row.key]?.validations?.isLength?.max
+									? tableSchema[row.key]?.validations?.isLength.max
+									: ''}
+								bind:value={row.value}
+								on:change={() => {
+									updateField(recordId, row.key, row.value);
+								}}
+							/>
+						{:else if row.type == 'datetime'}
+							<input
+								class="input p-2 w-1/3"
+								type="datetime-local"
+								name={row.key}
+								bind:value={row.value}
+								on:change={() => {
+									updateField(recordId, row.key, row.value);
+								}}
+							/>
+						{:else if row.type == 'integer'}
+							<input
+								class="input p-2 w-1/3"
+								type="number"
+								name={row.key}
+								bind:value={row.value}
+								on:change={() => {
+									updateField(recordId, row.key, row.value);
+								}}
+							/>
+						{:else if row.type == 'boolean'}
+							<RadioGroup active="variant-filled-primary" hover="hover:variant-soft-primary">
+								<RadioItem
+									bind:group={row.value}
+									name={row.key}
+									value={'true'}
+									on:change={() => {
+										updateField(row.id, row.key, row.value);
+									}}>TRUE</RadioItem
+								>
+								<RadioItem
+									bind:group={row.value}
+									name={row.key}
+									value={'false'}
+									on:change={() => {
+										updateField(row.id, row.key, row.value);
+									}}>FALSE</RadioItem
+								>
+							</RadioGroup>
+						{:else if row.type == 'varchar'}
+							{#if row.key.indexOf('color') >= 0}
+								<div class="grid grid-cols-[auto_1fr] gap-2">
+									<input
+										class="input"
+										type="color"
+										name={row.key}
+										bind:value={row.value}
+										on:change={() => {
+											updateField(recordId, row.key, row.value);
+										}}
+									/>
+									<input
+										class="input w-1/3 p-2"
+										type="text"
+										bind:value={row.value}
+										readonly
+										tabindex="-1"
+									/>
+								</div>
+							{:else if row.key.indexOf('image') >= 0 || row.key.indexOf('logo') >= 0 || row.key.indexOf('icon') >= 0}
+								<div class="flex flex-col gap-2">
+									<input id={row.key} class="prevFileHidden" type="hidden" bind:value={row.value} />
+									<input
+										id={row.key + `-input`}
+										class="input w-full"
+										type="file"
+										bind:value={row.value}
+										on:change={(e) => onFileSelected(e, row.key)}
+									/>
+									{#if row.value}
+										<em>
+											⚠️ Warning: Old file will be deleted from the server whenever new file has
+											been uploaded.</em
+										>
+									{/if}
+									<input id={row.key + `-base64`} name={row.key + `-base64`} type="hidden" />
+									<img
+										id={row.key + `-img`}
+										name={row.key + `-img`}
+										src={row.value}
+										style="max-width: 50ch;"
+										alt=""
+									/>
+								</div>
+							{:else if row.type == 'boolean'}
+								<RadioGroup active="variant-filled-primary" hover="hover:variant-soft-primary">
+									<RadioItem
+										bind:group={row.value}
+										name={row.key}
+										value={'true'}
+										on:change={() => {
+											updateField(row.id, row.key, row.value);
+										}}>TRUE</RadioItem
 									>
-									{#if row.reference}
-										<svg
-											xmlns="http://www.w3.org/2000/svg"
-											fill="none"
-											viewBox="0 0 24 24"
-											stroke-width="1.5"
-											stroke="currentColor"
-											class="w-6 h-6"
-										>
-											<path
-												stroke-linecap="round"
-												stroke-linejoin="round"
-												d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244"
-											/>
-										</svg>
-									{/if}
-								</p>
-								<!-- {#if tableSchema[row.key].validations}
-									<p class="unstyled text-xs mt-1 text-slate-500">
-										{tableSchema[row.key].nullable == false?'(*)':''}
-									</p>
-								{/if} -->
-							</td>
-							<td>
-								{#if row.reference}
-									{#await getReferenceValue(row)}
-										<ProgressRadial width="w-6" />
-									{:then rec}
-										{rec.row.name}
-									{/await}
-								{:else if row.type == 'text'}
-									<textarea
-										class="textarea w-full rounded-xl p-2"
-										rows="6"
-										placeholder="Enter some long form content."
+									<RadioItem
+										bind:group={row.value}
 										name={row.key}
-										maxlength={tableSchema[row.key]?.validations?.isLength?.max
-											? tableSchema[row.key]?.validations?.isLength.max
-											: ''}
-										bind:value={row.value}
+										value={'false'}
 										on:change={() => {
+											updateField(row.id, row.key, row.value);
+										}}>FALSE</RadioItem
+									>
+								</RadioGroup>
+							{:else if row.key == 'id' || row.key == 'uuid'}
+								<input
+									class="input p-2 w-full"
+									type="text"
+									name={row.key}
+									bind:value={row.value}
+									on:change={() => {
+										updateField(recordId, row.key, row.value);
+									}}
+									readonly="readonly"
+								/>
+							{:else if row.type == 'varchar' && tableSchema[row.key]?.validations?.isIn}
+								<select
+									class="select rounded-3xl w-1/3"
+									bind:value={row.value}
+									on:change={() => {
+										updateField(recordId, row.key, row.value);
+									}}
+								>
+									<option value={''}>-- NULL --</option>
+									{#each tableSchema[row.key]?.validations?.isIn as optiongroup}
+										{#each optiongroup as option}
+											<option value={option}>{option}</option>
+										{/each}
+									{/each}
+								</select>
+							{:else if row.key.indexOf('description') >= 0}
+								<textarea
+									class="textarea w-full rounded-xl p-2"
+									rows="3"
+									placeholder="Enter some long form content."
+									name={row.key}
+									maxlength={tableSchema[row.key]?.validations?.isLength?.max
+										? tableSchema[row.key]?.validations?.isLength.max
+										: ''}
+									bind:value={row.value}
+									on:change={() => {
+										updateField(row.id, row.key, row.value);
+									}}
+								/>
+							{:else}
+								<!-- {tableSchema[row.key]?.validations?.matches?.toString().slice(1, -1)} -->
+								<input
+									class="input p-2 w-full"
+									type="text"
+									name={row.key}
+									maxlength={tableSchema[row.key]?.validations?.isLength?.max
+										? tableSchema[row.key]?.validations?.isLength.max
+										: ''}
+									pattern={tableSchema[row.key]?.validations?.matches
+										? tableSchema[row.key]?.validations?.matches?.toString().slice(1, -1)
+										: '.*'}
+									required={tableSchema[row.key]?.nullable == false ? 'required' : ''}
+									bind:value={row.value}
+									on:change={(e) => {
+										const regex = new RegExp(e.target.pattern);
+										let isValid = regex.test(e.target.value);
+										if (isValid && tableSchema[row.key]?.nullable == false && e.target.value) {
 											updateField(recordId, row.key, row.value);
-										}}
-									/>
-								{:else if row.type == 'datetime'}
-									<input
-										class="input p-2 w-1/3"
-										type="datetime-local"
-										name={row.key}
-										bind:value={row.value}
-										on:change={() => {
-											updateField(recordId, row.key, row.value);
-										}}
-									/>
-								{:else if row.type == 'integer'}
-									<input
-										class="input p-2 w-1/3"
-										type="number"
-										name={row.key}
-										bind:value={row.value}
-										on:change={() => {
-											updateField(recordId, row.key, row.value);
-										}}
-									/>
-								{:else if row.type == 'boolean'}
-									<RadioGroup active="variant-filled-primary" hover="hover:variant-soft-primary">
-										<RadioItem
-											bind:group={row.value}
-											name={row.key}
-											value={'true'}
-											on:change={() => {
-												updateField(row.id, row.key, row.value);
-											}}>TRUE</RadioItem
-										>
-										<RadioItem
-											bind:group={row.value}
-											name={row.key}
-											value={'false'}
-											on:change={() => {
-												updateField(row.id, row.key, row.value);
-											}}>FALSE</RadioItem
-										>
-									</RadioGroup>
-								{:else if row.type == 'varchar'}
-									{#if row.key.indexOf('color') >= 0}
-										<div class="grid grid-cols-[auto_1fr] gap-2">
-											<input
-												class="input"
-												type="color"
-												name={row.key}
-												bind:value={row.value}
-												on:change={() => {
-													updateField(recordId, row.key, row.value);
-												}}
-											/>
-											<input
-												class="input w-1/3 p-2"
-												type="text"
-												bind:value={row.value}
-												readonly
-												tabindex="-1"
-											/>
-										</div>
-									{:else if row.key.indexOf('image') >= 0 || row.key.indexOf('logo') >= 0 || row.key.indexOf('icon') >= 0}
-										<div class="flex flex-col gap-2">
-											<input
-												id={row.key}
-												class="prevFileHidden"
-												type="hidden"
-												bind:value={row.value}
-											/>
-											<input
-												id={row.key + `-input`}
-												class="input w-full"
-												type="file"
-												bind:value={row.value}
-												on:change={(e) => onFileSelected(e, row.key)}
-											/>
-											{#if row.value}
-												<em>
-													⚠️ Warning: Old file will be deleted from the server whenever new file has
-													been uploaded.</em
-												>
-											{/if}
-											<input id={row.key + `-base64`} name={row.key + `-base64`} type="hidden" />
-											<img
-												id={row.key + `-img`}
-												name={row.key + `-img`}
-												src={row.value}
-												style="max-width: 50ch;"
-												alt=""
-											/>
-										</div>
-									{:else if row.type == 'boolean'}
-										<RadioGroup active="variant-filled-primary" hover="hover:variant-soft-primary">
-											<RadioItem
-												bind:group={row.value}
-												name={row.key}
-												value={'true'}
-												on:change={() => {
-													updateField(row.id, row.key, row.value);
-												}}>TRUE</RadioItem
-											>
-											<RadioItem
-												bind:group={row.value}
-												name={row.key}
-												value={'false'}
-												on:change={() => {
-													updateField(row.id, row.key, row.value);
-												}}>FALSE</RadioItem
-											>
-										</RadioGroup>
-									{:else if row.key == 'id' || row.key == 'uuid'}
-										<input
-											class="input p-2 w-full"
-											type="text"
-											name={row.key}
-											bind:value={row.value}
-											on:change={() => {
-												updateField(recordId, row.key, row.value);
-											}}
-											readonly="readonly"
-										/>
-									{:else if row.type == 'varchar' && tableSchema[row.key]?.validations?.isIn}
-										<select
-											class="select rounded-3xl w-1/3"
-											bind:value={row.value}
-											on:change={() => {
-												updateField(recordId, row.key, row.value);
-											}}
-										>
-											<option value={''}>-- NULL --</option>
-											{#each tableSchema[row.key]?.validations?.isIn as optiongroup}
-												{#each optiongroup as option}
-													<option value={option}>{option}</option>
-												{/each}
-											{/each}
-										</select>
-									{:else if row.key.indexOf('description') >= 0}
-										<textarea
-											class="textarea w-full rounded-xl p-2"
-											rows="3"
-											placeholder="Enter some long form content."
-											name={row.key}
-											maxlength={tableSchema[row.key]?.validations?.isLength?.max
-												? tableSchema[row.key]?.validations?.isLength.max
-												: ''}
-											bind:value={row.value}
-											on:change={() => {
-												updateField(row.id, row.key, row.value);
-											}}
-										/>
-									{:else}
-										<!-- {tableSchema[row.key]?.validations?.matches?.toString().slice(1, -1)} -->
-										<input
-											class="input p-2 w-full"
-											type="text"
-											name={row.key}
-											maxlength={tableSchema[row.key]?.validations?.isLength?.max
-												? tableSchema[row.key]?.validations?.isLength.max
-												: ''}
-											pattern={tableSchema[row.key]?.validations?.matches
-												? tableSchema[row.key]?.validations?.matches?.toString().slice(1, -1)
-												: '.*'}
-											required={tableSchema[row.key]?.nullable == false ? 'required' : ''}
-											bind:value={row.value}
-											on:change={(e) => {
-												const regex = new RegExp(e.target.pattern);
-												let isValid = regex.test(e.target.value);
-												if (isValid && tableSchema[row.key]?.nullable == false && e.target.value) {
-													updateField(recordId, row.key, row.value);
-												} else {
-													alert('Invalid input format or value!');
-												}
-											}}
-										/>
-									{/if}
-								{/if}
-							</td>
-							<td>
-								{row.type}
-							</td>
-						</tr>
+										} else {
+											alert('Invalid input format or value!');
+										}
+									}}
+								/>
+							{/if}
+						{/if}
+					</div>
 
-						<!-- {assignPreviousSubGroup(row.key.split('_')[0])} -->
-					{/each}
-				</tbody>
-				<!-- <tfoot>
-					<tr>
-						<th colspan="2">Calculated Total Weight</th>
-						<td>{data.posts.length}</td>
-					</tr>
-				</tfoot> -->
-			</table>
-		</div>
-	</div>
+					<div class="ember-view permalink v-list-data v-post-list-status px-2 py-6">
+						<div class="grid justify-items-end w-full text-sm text-slate-500">
+							{row.type}
+						</div>
+					</div>
+				</li>
+			{/each}
+		</ol>
+		<div class="infinity-loader reached-infinity py-10" />
+	</section>
 {/if}
 <Toast />

@@ -27,12 +27,13 @@ function mapForeignKey(json: ForeignKey): Record<string, ForeignKey> {
 }
 
 async function getAllRows(params: any): Promise<any[] | null> {
+	const table = ENUM_DATABASE_TABLE.tags;
 	try {
-		const valueRows: any[] = await knexInstance.select('t.*').from('tags as t').where(params).first();
+		const valueRows: any[] = await knexInstance.select('t.*').from(`${table} as t`).where(params).first();
 
 		let foreignKeyMap: any[];
 		// console.log(await knexInstance.raw('PRAGMA table_info(users);'));
-		await knexInstance.raw('PRAGMA foreign_key_list(tags);').then(function (info) {
+		await knexInstance.raw(`PRAGMA foreign_key_list(${table});`).then(function (info) {
 			// foreignKeyMap = info.map(mapForeignKey);
 			// console.log(foreignKeyMap.find(key => key.from === 'created_by'));
 			foreignKeyMap = info.reduce((result, obj) => {
@@ -44,7 +45,7 @@ async function getAllRows(params: any): Promise<any[] | null> {
 		});
 
 		let row: any;
-		await knexInstance('tags').columnInfo().then(function (info) {
+		await knexInstance(table).columnInfo().then(function (info) {
 			// console.log(info);
 			const tagStructure: TableStructure = Object.keys(info).map(key => ({
 				key,

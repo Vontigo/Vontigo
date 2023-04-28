@@ -13,6 +13,7 @@
 	import type { ReferenceStructure, TableStructure } from '$lib/core/shared/types';
 	import { onMount } from 'svelte';
 	import RecordDetail from '$lib/core/core/frontend/components/admin/Database/RecordDetail.svelte';
+	import { ENUM_DATABASE_TABLE } from '$lib/core/shared/enum';
 	export let data: PageData;
 </script>
 
@@ -63,6 +64,6 @@
 </AppBar>
 <div class="max-w-screen-xl mx-auto px-12">
 	{#if data.record}
-		<RecordDetail {data} table={'tags'} />
+		<RecordDetail {data} table={ENUM_DATABASE_TABLE.tags} />
 	{/if}
 </div>
