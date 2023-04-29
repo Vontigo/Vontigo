@@ -196,7 +196,7 @@
 		<button
 			class="absolute left-2 top-2 btn btn-sm variant-filled rounded"
 			on:click={() => {
-				selectedPost = {};
+				$recordDataModal = {};
 				drawerStore.close();
 			}}
 		>

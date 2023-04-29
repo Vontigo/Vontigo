@@ -403,7 +403,7 @@
 										{/each}
 									{/each}
 								</select>
-							{:else if dataModal[key].key.indexOf('description') >= 0}
+							{:else if dataModal[key].key.indexOf('description') >= 0 || dataModal[key].key.indexOf('excerpt') >= 0}
 								<textarea
 									class="textarea w-full rounded-xl p-2"
 									rows="3"

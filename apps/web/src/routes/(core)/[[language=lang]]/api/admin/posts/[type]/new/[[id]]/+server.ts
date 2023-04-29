@@ -50,7 +50,7 @@ async function getAllRows(params: any): Promise<any[] | null> {
 					uuid: uuidv4(),
 					title: 'Draft title',
 					slug: 'draft-slug-' + id,
-					type: ENUM_POST_TYPE.page,
+					type: params.type,
 					email_recipient_filter: 'all',
 					locale: get(language),
 					created_at: new Date().toISOString().slice(0, 16),
