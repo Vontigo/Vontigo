@@ -46,9 +46,7 @@
 
 	const initialFileValues: { [key: string]: string } = {};
 
-	const initialRecordDataValues: { [key: string]: string } = {};
-
-	let recordId = get(recordDataModal).id.value; //data.schema.find((obj) => obj.key === 'id').value;
+	let recordId = dataModal.id.value; //data.schema.find((obj) => obj.key === 'id').value;
 
 	onMount(async () => {
 		// Backup all of previous files to delete incase upload new files
@@ -162,15 +160,19 @@
 
 		return await resData.json();
 	}
-	let oldValues = {};
-	$: {
-		Object.keys(dataModal).forEach((key) => {
-			if (dataModal[key].value !== null && dataModal[key].value !== oldValues[key]) {
-				console.log(`${key} value changed:`, dataModal[key].value);
-				updateField(recordId, dataModal[key].key, dataModal[key].value);
-				oldValues[key] = dataModal[key].value;
-			}
-		});
+	let oldValues: any = {};
+	let timeoutId: any;
+	$: if (dataModal) {
+		clearTimeout(timeoutId);
+		timeoutId = setTimeout(() => {
+			Object.keys(dataModal).forEach((key) => {
+				if (dataModal[key].value !== null && dataModal[key].value !== oldValues[key]) {
+					//console.log(`${key} value changed:`, dataModal[key].value);
+					updateField(recordId, dataModal[key].key, dataModal[key].value);
+					oldValues[key] = dataModal[key].value;
+				}
+			});
+		}, 5000);
 	}
 </script>
 
