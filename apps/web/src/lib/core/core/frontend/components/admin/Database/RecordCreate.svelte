@@ -199,10 +199,10 @@
 			</li>
 			{#each Object.keys(dataModal) as key, i}
 				<li
-					class="v-list-row v-records-list-item grid md:grid-cols-1 border-b grid-cols-6 {i ==
-					dataModal.length - 1
-						? ' border-b'
-						: ''}"
+					class="v-list-row v-records-list-item grid md:grid-cols-1 border-b grid-cols-6
+					{i == dataModal.length - 1 ? ' border-b' : ''}
+					{tableSchema[dataModal[key].key].isHidden == true ? ' hidden' : ''}
+						"
 				>
 					<div
 						class="ember-view permalink v-list-data v-post-list-title w-full py-4 w-full capitalize md:grid-cols-1 col-span-2 md:pb-0"
@@ -436,14 +436,16 @@
 									on:change={(e) => {
 										const regex = new RegExp(e.target.pattern);
 										let isValid = regex.test(e.target.value);
-										if (
-											isValid &&
-											tableSchema[dataModal[key].key]?.nullable == false &&
-											e.target.value
-										) {
-											updateField(recordId, dataModal[key].key, dataModal[key].value);
+										console.log(isValid);
+										if (isValid) {
+											if (
+												tableSchema[dataModal[key].key]?.nullable == false &&
+												e.target.value.trim() == ''
+											) {
+												alert('Value should not be blank!');
+											} else updateField(recordId, dataModal[key].key, dataModal[key].value);
 										} else {
-											alert('Invalid input format or value!');
+											alert('Invalid input format or value! Regex: ' + regex);
 										}
 									}}
 								/>

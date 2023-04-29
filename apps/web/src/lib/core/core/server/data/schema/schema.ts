@@ -84,8 +84,14 @@ export let tables = {
 		updated_at: { type: 'dateTime', nullable: true }
 	},
 	posts: {
-		id: { type: 'string', maxlength: 24, nullable: false, primary: true },
-		uuid: { type: 'string', maxlength: 36, nullable: false, validations: { isUUID: true } },
+		id: { type: 'string', maxlength: 24, nullable: false, primary: true, isHidden: true },
+		uuid: {
+			type: 'string',
+			maxlength: 36,
+			nullable: false,
+			validations: { isUUID: true },
+			isHidden: true
+		},
 		title: {
 			type: 'string',
 			maxlength: 2000,
@@ -93,12 +99,42 @@ export let tables = {
 			validations: { isLength: { max: 255 } }
 		},
 		slug: { type: 'string', maxlength: 191, nullable: false },
-		mobiledoc: { type: 'text', maxlength: 1000000000, fieldtype: 'long', nullable: true },
-		lexical: { type: 'text', maxlength: 1000000000, fieldtype: 'long', nullable: true },
-		markdown: { type: 'text', maxlength: 1000000000, fieldtype: 'long', nullable: true },
-		html: { type: 'text', maxlength: 1000000000, fieldtype: 'long', nullable: true },
-		comment_id: { type: 'string', maxlength: 50, nullable: true },
-		plaintext: { type: 'text', maxlength: 1000000000, fieldtype: 'long', nullable: true },
+		mobiledoc: {
+			type: 'text',
+			maxlength: 1000000000,
+			fieldtype: 'long',
+			nullable: true,
+			isHidden: true
+		},
+		lexical: {
+			type: 'text',
+			maxlength: 1000000000,
+			fieldtype: 'long',
+			nullable: true,
+			isHidden: true
+		},
+		markdown: {
+			type: 'text',
+			maxlength: 1000000000,
+			fieldtype: 'long',
+			nullable: true,
+			isHidden: true
+		},
+		html: {
+			type: 'text',
+			maxlength: 1000000000,
+			fieldtype: 'long',
+			nullable: true,
+			isHidden: true
+		},
+		comment_id: { type: 'string', maxlength: 50, nullable: true, isHidden: true },
+		plaintext: {
+			type: 'text',
+			maxlength: 1000000000,
+			fieldtype: 'long',
+			nullable: true,
+			isHidden: true
+		},
 		feature_image: { type: 'string', maxlength: 2000, nullable: true },
 		featured: { type: 'boolean', nullable: false, defaultTo: false },
 		type: {
@@ -106,7 +142,8 @@ export let tables = {
 			maxlength: 50,
 			nullable: false,
 			defaultTo: 'post',
-			validations: { isIn: [['post', 'page']] }
+			validations: { isIn: [['post', 'page']] },
+			isHidden: true
 		},
 		status: {
 			type: 'string',

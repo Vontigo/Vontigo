@@ -244,7 +244,7 @@
 				{#if isDrawerSidebar}
 					<div id="sidebar-right" class="hidden lg:block">
 						<div class="card w-[350px] h-screen p-4 px-2">
-							<header class="card-header text-lg font-medium">Page settings</header>
+							<header class="card-header text-lg font-medium">Post settings</header>
 							<section class="p-4">
 								<RecordCreate
 									{data}
