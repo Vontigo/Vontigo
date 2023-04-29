@@ -116,12 +116,12 @@
 				// 	}
 				// }),
 				BubbleMenu.configure({
-					element: bubbleMenu,
-					tippyOptions: { duration: 100 },
-					shouldShow: ({ editor, view, state, oldState }) => {
-						// show the floating within any paragraph
-						return editor.isActive('paragraph');
-					}
+					element: bubbleMenu
+					// tippyOptions: { duration: 100 },
+					// shouldShow: ({ editor, view, state, oldState }) => {
+					// 	// show the floating within any paragraph
+					// 	return editor.isActive('paragraph');
+					// }
 				}),
 				StarterKit,
 				Image,
@@ -449,110 +449,99 @@
 	{/if} -->
 	<div class="bubble-menu" bind:this={bubbleMenu}>
 		{#if editor}
-			<div class="flex flex-row flex-wrap p-2 bg-black opacity-100 w-full">
+			<div class="grid grid-cols-4 gap-2 p-2 bg-black opacity-100 w-full">
 				<!-- <div class="flex flex-row"> -->
 				<button
 					on:click={() => editor.chain().focus().toggleBold().run()}
 					disabled={!editor.can().chain().focus().toggleBold().run() || enteringTitle}
-					class="btn px-2 py-1 rounded-md {editor.isActive('bold') ? 'is-active' : ''}"
+					class="btn p-4 rounded-md {editor.isActive('bold') ? 'is-active' : ''}"
 				>
 					<IconBold fillColor={editor.isActive('bold') ? 'white' : 'white'} />
 				</button>
 				<button
 					on:click={() => editor.chain().focus().toggleItalic().run()}
 					disabled={!editor.can().chain().focus().toggleItalic().run() || enteringTitle}
-					class="btn px-2 py-1 rounded-md {editor.isActive('italic') ? 'is-active' : ''}"
+					class="btn p-4 rounded-md {editor.isActive('italic') ? 'is-active' : ''}"
 				>
 					<IconItalic fillColor={editor.isActive('italic') ? 'white' : 'white'} />
 				</button>
 				<button
 					on:click={() => editor.chain().focus().toggleStrike().run()}
 					disabled={!editor.can().chain().focus().toggleStrike().run() || enteringTitle}
-					class="btn px-2 py-1 rounded-md {editor.isActive('strike') ? 'is-active' : ''}"
+					class="btn p-4 rounded-md {editor.isActive('strike') ? 'is-active' : ''}"
 				>
 					<IconStrike fillColor={editor.isActive('strike') ? 'white' : 'white'} />
 				</button>
 				<button
 					on:click={() => editor.chain().focus().toggleCode().run()}
 					disabled={!editor.can().chain().focus().toggleCode().run() || enteringTitle}
-					class="btn px-2 py-1 rounded-md {editor.isActive('code') ? 'is-active' : ''}"
+					class="btn p-4 rounded-md {editor.isActive('code') ? 'is-active' : ''}"
 				>
 					<IconCode fillColor={editor.isActive('code') ? 'white' : 'white'} />
 				</button>
 				<!-- </div> -->
 
-				<span class="divider-vertical mx-2 hidden md:block" />
+				<!-- <span class="divider-vertical mx-2 hidden md:block" /> -->
 				<!-- <button on:click={() => editor.chain().focus().unsetAllMarks().run()}> clear marks </button>
 		<button on:click={() => editor.chain().focus().clearNodes().run()}> clear nodes </button> -->
 				<!-- <div class="flex flex-row"> -->
 				<button
 					on:click={() => editor.chain().focus().setParagraph().run()}
 					disabled={enteringTitle}
-					class="btn px-2 py-1 rounded-md {editor.isActive('paragraph') ? 'is-active' : ''}"
+					class="btn p-4 rounded-md {editor.isActive('paragraph') ? 'is-active' : ''}"
 				>
 					<IconParagraph fillColor={editor.isActive('paragraph') ? 'white' : 'white'} />
 				</button>
 				<button
 					on:click={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
 					disabled={enteringTitle}
-					class="btn px-2 py-1 rounded-md {editor.isActive('heading', { level: 1 })
-						? 'is-active'
-						: ''}"
+					class="btn p-4 rounded-md {editor.isActive('heading', { level: 1 }) ? 'is-active' : ''}"
 				>
 					<IconH1 fillColor={editor.isActive('heading', { level: 1 }) ? 'white' : 'white'} />
 				</button>
 				<button
 					on:click={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
 					disabled={enteringTitle}
-					class="btn px-2 py-1 rounded-md {editor.isActive('heading', { level: 2 })
-						? 'is-active'
-						: ''}"
+					class="btn p-4 rounded-md {editor.isActive('heading', { level: 2 }) ? 'is-active' : ''}"
 				>
 					<IconH2 fillColor={editor.isActive('heading', { level: 2 }) ? 'white' : 'white'} />
 				</button>
 				<button
 					on:click={() => editor.chain().focus().toggleHeading({ level: 3 }).run()}
 					disabled={enteringTitle}
-					class="btn px-2 py-1 rounded-md {editor.isActive('heading', { level: 3 })
-						? 'is-active'
-						: ''}"
+					class="btn p-4 rounded-md {editor.isActive('heading', { level: 3 }) ? 'is-active' : ''}"
 				>
 					<IconH3 fillColor={editor.isActive('heading', { level: 3 }) ? 'white' : 'white'} />
 				</button>
 				<button
 					on:click={() => editor.chain().focus().toggleHeading({ level: 4 }).run()}
 					disabled={enteringTitle}
-					class="btn px-2 py-1 rounded-md {editor.isActive('heading', { level: 4 })
-						? 'is-active'
-						: ''}"
+					class="btn p-4 rounded-md {editor.isActive('heading', { level: 4 }) ? 'is-active' : ''}"
 				>
 					<IconH4 fillColor={editor.isActive('heading', { level: 4 }) ? 'white' : 'white'} />
 				</button>
 				<button
 					on:click={() => editor.chain().focus().toggleHeading({ level: 5 }).run()}
 					disabled={enteringTitle}
-					class="btn px-2 py-1 rounded-md {editor.isActive('heading', { level: 5 })
-						? 'is-active'
-						: ''}"
+					class="btn p-4 rounded-md {editor.isActive('heading', { level: 5 }) ? 'is-active' : ''}"
 				>
 					<IconH5 fillColor={editor.isActive('heading', { level: 5 }) ? 'white' : 'white'} />
 				</button>
 				<button
 					on:click={() => editor.chain().focus().toggleHeading({ level: 6 }).run()}
 					disabled={enteringTitle}
-					class="btn px-2 py-1 rounded-md {editor.isActive('heading', { level: 6 })
-						? 'is-active'
-						: ''}"
+					class="btn p-4 rounded-md {editor.isActive('heading', { level: 6 }) ? 'is-active' : ''}"
 				>
 					<IconH6 fillColor={editor.isActive('heading', { level: 6 }) ? 'white' : 'white'} />
 				</button>
+				<div />
 				<!-- </div> -->
-				<span class="divider-vertical mx-2 hidden md:block" />
+				<!-- <span class="divider-vertical mx-2 hidden md:block" /> -->
 				<!-- <div class="flex flex-row"> -->
 				<button
 					on:click={() => editor.chain().focus().setTextAlign('left').run()}
 					disabled={enteringTitle}
-					class="btn px-2 py-1 rounded-md text-white {editor.isActive({ textAlign: 'left' })
+					class="btn p-4 rounded-md text-white {editor.isActive({ textAlign: 'left' })
 						? 'is-active'
 						: ''}"
 				>
@@ -561,7 +550,7 @@
 				<button
 					on:click={() => editor.chain().focus().setTextAlign('center').run()}
 					disabled={enteringTitle}
-					class="btn px-2 py-1 rounded-md text-white {editor.isActive({ textAlign: 'center' })
+					class="btn p-4 rounded-md text-white {editor.isActive({ textAlign: 'center' })
 						? 'is-active'
 						: ''}"
 				>
@@ -572,7 +561,7 @@
 				<button
 					on:click={() => editor.chain().focus().setTextAlign('right').run()}
 					disabled={enteringTitle}
-					class="btn px-2 py-1 rounded-md text-white {editor.isActive({ textAlign: 'right' })
+					class="btn p-4 rounded-md text-white {editor.isActive({ textAlign: 'right' })
 						? 'is-active'
 						: ''}"
 				>
@@ -581,7 +570,7 @@
 				<button
 					on:click={() => editor.chain().focus().setTextAlign('justify').run()}
 					disabled={enteringTitle}
-					class="btn px-2 py-1 rounded-md text-white {editor.isActive({ textAlign: 'justify' })
+					class="btn p-4 rounded-md text-white {editor.isActive({ textAlign: 'justify' })
 						? 'is-active'
 						: ''}"
 				>
@@ -591,54 +580,54 @@
 				</button>
 				<!-- <button
 				on:click={() => editor.chain().focus().toggleBulletList().run()}
-				class="btn px-2 py-1 rounded-md {editor.isActive('bulletList') ? 'is-active' : ''}"
+				class="btn p-4 rounded-md {editor.isActive('bulletList') ? 'is-active' : ''}"
 			>
 				<IconBulletList fillColor={editor.isActive('bulletList') ? 'white' : 'white'} />
 			</button>
 			<button
 				on:click={() => editor.chain().focus().toggleOrderedList().run()}
-				class="btn px-2 py-1 rounded-md {editor.isActive('orderedList') ? 'is-active' : ''}"
+				class="btn p-4 rounded-md {editor.isActive('orderedList') ? 'is-active' : ''}"
 			>
 				<IconOrderedList fillColor={editor.isActive('orderedList') ? 'white' : 'white'} />
 			</button>
 			<button
 				on:click={() => editor.chain().focus().toggleCodeBlock().run()}
-				class="btn px-2 py-1 rounded-md {editor.isActive('codeBlock') ? 'is-active' : ''}"
+				class="btn p-4 rounded-md {editor.isActive('codeBlock') ? 'is-active' : ''}"
 			>
 				<IconCodeBlock fillColor={editor.isActive('codeBlock') ? 'white' : 'white'} />
 			</button>
 			<button
 				on:click={() => editor.chain().focus().toggleBlockquote().run()}
-				class="btn px-2 py-1 rounded-md {editor.isActive('blockquote') ? 'is-active' : ''}"
+				class="btn p-4 rounded-md {editor.isActive('blockquote') ? 'is-active' : ''}"
 			>
 				<IconQuotes fillColor={editor.isActive('blockquote') ? 'white' : 'white'} />
 			</button>
 			<button
 				on:click={() => editor.chain().focus().setHorizontalRule().run()}
-				class="btn px-2 py-1 rounded-md"
+				class="btn p-4 rounded-md"
 			>
 				<IconSeparator fillColor="white" />
 			</button>
-			<button use:popup={imagePopupSettings} class="btn px-2 py-1 rounded-md">
+			<button use:popup={imagePopupSettings} class="btn p-4 rounded-md">
 				<IconImage fillColor="white" />
 			</button> -->
-				<button
+				<!-- <button
 					on:click={() => editor.chain().focus().undo().run()}
 					disabled={!editor.can().chain().focus().undo().run() || enteringTitle}
-					class="btn px-2 py-1 rounded-md"
+					class="btn p-4 rounded-md"
 				>
 					<IconUndo fillColor="white" />
 				</button>
 				<button
 					on:click={() => editor.chain().focus().redo().run()}
 					disabled={!editor.can().chain().focus().redo().run() || enteringTitle}
-					class="btn px-2 py-1 rounded-md"
+					class="btn p-4 rounded-md"
 				>
 					<IconRedo fillColor="white" />
-				</button>
-				<button on:click={() => getOutput()} class="btn px-2 py-1 rounded-md">
+				</button> -->
+				<!-- <button on:click={() => getOutput()} class="btn p-4 rounded-md">
 					<IconTerminal fillColor="white" />
-				</button>
+				</button> -->
 			</div>
 		{/if}
 	</div>

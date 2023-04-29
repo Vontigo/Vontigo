@@ -30,10 +30,6 @@
 
 	let demoBinding = '';
 
-	data.schema.forEach((value, key) => {
-		$recordDataModal[value.key] = value;
-	});
-
 	// if (data && data.posts) keysJson = Object.keys(data.posts[0]);
 
 	const createPageDrawer: DrawerSettings = {
@@ -46,6 +42,15 @@
 		shadow: 'shadow-md',
 		regionDrawer: 'overflow-y-hidden'
 	};
+
+	async function createNewRecord() {
+		const resPostsSchema = await fetch(`/api/admin/pages/new`);
+		const dataPostsSchema = await resPostsSchema.json();
+		dataPostsSchema.forEach((value, key) => {
+			$recordDataModal[value.key] = value;
+		});
+		drawerStore.open(createPageDrawer);
+	}
 
 	$: if (selectedPost) {
 		selectedPost = selectedPost;
@@ -69,8 +74,9 @@
 				type="button"
 				class="btn btn-sm variant-filled rounded"
 				on:click={() => {
-					selectedPost = null;
-					drawerStore.open(createPageDrawer);
+					//selectedPost = null;
+					//drawerStore.open(createPageDrawer);
+					createNewRecord();
 				}}
 			>
 				<span><IconPlusSmall /></span>
@@ -88,8 +94,9 @@
 			type="button"
 			class="md:hidden btn btn-sm variant-filled rounded"
 			on:click={() => {
-				selectedPost = {};
-				drawerStore.open(createPageDrawer);
+				//selectedPost = {};
+				//drawerStore.open(createPageDrawer);
+				createNewRecord();
 			}}
 		>
 			<span><IconPlusSmall /></span>

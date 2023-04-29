@@ -17,12 +17,12 @@ export const load = (async ({ fetch, url, params }) => {
 	// console.log(data);
 	//if (data) console.log(data[0]);
 
-	const resPostsSchema = await fetch(`/api/admin/pages/new`);
-	const dataPostsSchema = await resPostsSchema.json();
+	//const resPostsSchema = await fetch(`/api/admin/pages/new`);
+	//const dataPostsSchema = await resPostsSchema.json();
 	// console.log(dataPostsSchema)
 
 	return {
-		posts: data,
-		schema: dataPostsSchema
+		posts: data
+		//schema: dataPostsSchema
 	};
 }) satisfies PageLoad;

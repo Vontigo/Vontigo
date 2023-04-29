@@ -1,11 +1,13 @@
 import { knexInstance } from '$lib/core/core/server/data/db/connection';
-import { ENUM_DATABASE_TABLE, ENUM_POSTS_STATUS } from '$lib/core/shared/enum.js';
+import { ENUM_DATABASE_TABLE, ENUM_POSTS_STATUS, ENUM_POST_TYPE } from '$lib/core/shared/enum.js';
+import { language } from '$lib/core/shared/stores/site';
 import type {
 	RreferenceStructure as ReferenceStructure,
 	TableStructure
 } from '$lib/core/shared/types';
 import type { RequestHandler } from './$types';
 import ObjectID from 'bson-objectid';
+import { get } from 'svelte/store';
 import { v4 as uuidv4 } from 'uuid';
 
 /** @type {import('./$types').RequestHandler} */
@@ -34,6 +36,23 @@ async function getAllRows(params: any): Promise<any[] | null> {
 	const table = ENUM_DATABASE_TABLE.posts;
 	try {
 		//const valueRows: any[] = await knexInstance.select('t.*').from('tags as t').where(params).first();
+		let id = new ObjectID().toHexString();
+
+		const newRecord: any = await knexInstance(table)
+			.insert({
+				id: id,
+				uuid: uuidv4(),
+				title: 'Draft title',
+				slug: 'draft-slug-' + id,
+				type: ENUM_POST_TYPE.page,
+				email_recipient_filter: 'all',
+				locale: get(language),
+				created_at: new Date().toISOString().slice(0, 16),
+				created_by: 1
+			})
+			.returning('*');
+
+		console.log(newRecord);
 
 		let foreignKeyMap: any[];
 		// console.log(await knexInstance.raw('PRAGMA table_info(users);'));
@@ -54,7 +73,7 @@ async function getAllRows(params: any): Promise<any[] | null> {
 				// console.log(info);
 				const tableStructure: TableStructure = Object.keys(info).map((key) => ({
 					key,
-					value: null, //valueRows[key],
+					value: newRecord[0][key], //valueRows[key],
 					type: info[key].type,
 					maxLength: info[key].maxLength,
 					nullable: info[key].nullable,

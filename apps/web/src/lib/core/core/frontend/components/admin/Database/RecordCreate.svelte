@@ -9,11 +9,12 @@
 	import { Drawer, drawerStore } from '@skeletonlabs/skeleton';
 	import type { DrawerSettings } from '@skeletonlabs/skeleton';
 	import type { PageData } from './$types';
-	import { adminSiteUrl, isEditorOpen } from '$lib/core/shared/stores/site';
+	import { adminSiteUrl, isEditorOpen, recordDataModal } from '$lib/core/shared/stores/site';
 	import type { ReferenceStructure, TableStructure } from '$lib/core/shared/types';
 	import { onMount } from 'svelte';
 	import { tables } from '$lib/core/core/server/data/schema/schema';
 	import { each } from 'svelte/internal';
+	import { get } from 'svelte/store';
 
 	export let data: PageData;
 	export let dataModal: any;
@@ -45,7 +46,9 @@
 
 	const initialFileValues: { [key: string]: string } = {};
 
-	let recordId = '1234567'; //data.schema.find((obj) => obj.key === 'id').value;
+	const initialRecordDataValues: { [key: string]: string } = {};
+
+	let recordId = get(recordDataModal).id.value; //data.schema.find((obj) => obj.key === 'id').value;
 
 	onMount(async () => {
 		// Backup all of previous files to delete incase upload new files
@@ -159,6 +162,16 @@
 
 		return await resData.json();
 	}
+	let oldValues = {};
+	$: {
+		Object.keys(dataModal).forEach((key) => {
+			if (dataModal[key].value !== null && dataModal[key].value !== oldValues[key]) {
+				console.log(`${key} value changed:`, dataModal[key].value);
+				updateField(recordId, dataModal[key].key, dataModal[key].value);
+				oldValues[key] = dataModal[key].value;
+			}
+		});
+	}
 </script>
 
 <!-- 
@@ -212,7 +225,7 @@
 						href={$adminSiteUrl + `/tags/${$page.params.visibility}/${dataModal[key].slug}`}
 						class="ember-view permalink v-list-data v-post-list-title w-full py-4 w-full text-xs tracking-wide text-slate-500 col-span-3 md:pb-0"
 					>
-						{#if dataModal[key].reference}
+						{#if dataModal[key].reference && dataModal[key].value}
 							{#await getReferenceValue(dataModal[key])}
 								<ProgressRadial width="w-6" />
 							{:then rec}
