@@ -111,8 +111,10 @@
 									drawerStore.close();
 									goto($adminSiteUrl + `/tags/${$page.params.visibility}/${resJson.row.slug}`);
 								}
-							}}>Save</button
+							}}
 						>
+							Save
+						</button>
 					</div>
 				</div>
 				<div class="py-4 flex flex-col gap-4">

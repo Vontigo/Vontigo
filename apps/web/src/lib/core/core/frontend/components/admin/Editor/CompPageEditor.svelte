@@ -56,6 +56,8 @@
 
 	// VARIABLE DEFINE
 	export let data: any;
+	export let newRecordObject: any;
+
 	let element: HTMLDivElement;
 	let floatingMenuHTML: HTMLDivElement;
 	let bubbleMenu: HTMLDivElement;

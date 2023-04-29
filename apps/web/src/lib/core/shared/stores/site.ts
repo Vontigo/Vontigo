@@ -16,3 +16,6 @@ export const custom = writable({});
 export const templateType = writable('');
 
 export const access = writable(false);
+
+// Data
+export const recordDataModal = writable({});

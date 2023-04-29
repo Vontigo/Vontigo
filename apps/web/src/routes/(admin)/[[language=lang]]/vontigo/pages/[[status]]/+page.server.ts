@@ -17,10 +17,9 @@ export const load = (async ({ fetch, url, params }) => {
 	// console.log(data);
 	//if (data) console.log(data[0]);
 
-
 	const resPostsSchema = await fetch(`/api/admin/pages/new`);
 	const dataPostsSchema = await resPostsSchema.json();
-	console.log(dataPostsSchema)
+	// console.log(dataPostsSchema)
 
 	return {
 		posts: data,

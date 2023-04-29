@@ -16,14 +16,32 @@
 	import { each } from 'svelte/internal';
 
 	export let data: PageData;
+	export let dataModal: any;
 	export let table: string;
 
 	let selectedPost: any;
 	let keysJson: string[];
 	let colorValue;
+	let formElement: any;
 
 	const tableSchema = tables[table];
+
+	console.log(dataModal);
+
+	// data.schema.forEach((value, key) => {
+	// 	dataSchema[value.key] = value;
+	// });
+	// console.log(dataSchema);
 	// console.log(tableSchema);
+
+	// const formData = new FormData(formElement);
+	// const formObject: any = {};
+
+	// formData.forEach((value, key) => {
+	// 	formObject[key] = value;
+	// });
+
+	// console.log(formObject);
 
 	const initialFileValues: { [key: string]: string } = {};
 
@@ -143,18 +161,23 @@
 	}
 </script>
 
-{#if data.schema}
+<!-- 
+{#each Object.keys(recordDataModal) as row}
+	{row}
+{/each} -->
+<!-- {recordDataModal.title.value} -->
+{#if dataModal}
 	<section class="view-container content-list">
 		<ol class="records-list v-list flex flex-col">
-			<li class="v-list-row header grid grid-cols-6 uppercase text-xs border-b">
+			<li class="v-list-row header grid grid-cols-6 uppercase text-xs border-b md:hidden">
 				<div class="v-list-header v-posts-title-header w-full p-2 ps-0 col-span-2">Key</div>
 				<div class="v-list-header v-posts-status-header py-2 col-span-3">Value</div>
 				<div class="v-list-header v-posts-status-header p-2 text-end">Type</div>
 			</li>
-			{#each data.schema as row, i}
+			{#each Object.keys(dataModal) as key, i}
 				<li
 					class="v-list-row v-records-list-item grid md:grid-cols-1 border-b grid-cols-6 {i ==
-					data.schema.length - 1
+					dataModal.length - 1
 						? ' border-b'
 						: ''}"
 				>
@@ -164,10 +187,10 @@
 						<h3
 							class="v-content-entry-title unstyled text-sm font-medium antialiased tracking-wide flex gap-2"
 						>
-							{row.key.replace(/_/g, ' ')}<span class="text-red-700 font-bold"
-								>{tableSchema[row.key].nullable == false ? '*' : ''}</span
+							{dataModal[key].key.replace(/_/g, ' ')}<span class="text-red-700 font-bold"
+								>{tableSchema[dataModal[key].key].nullable == false ? '*' : ''}</span
 							>
-							{#if row.reference}
+							{#if dataModal[key].reference}
 								<svg
 									xmlns="http://www.w3.org/2000/svg"
 									fill="none"
@@ -186,204 +209,217 @@
 						</h3>
 					</div>
 					<div
-						href={$adminSiteUrl + `/tags/${$page.params.visibility}/${row.slug}`}
+						href={$adminSiteUrl + `/tags/${$page.params.visibility}/${dataModal[key].slug}`}
 						class="ember-view permalink v-list-data v-post-list-title w-full py-4 w-full text-xs tracking-wide text-slate-500 col-span-3 md:pb-0"
 					>
-						{#if row.reference}
-							{#await getReferenceValue(row)}
+						{#if dataModal[key].reference}
+							{#await getReferenceValue(dataModal[key])}
 								<ProgressRadial width="w-6" />
 							{:then rec}
 								{rec?.row?.name}
 							{/await}
-						{:else if row.type == 'text'}
+						{:else if dataModal[key].type == 'text'}
 							<textarea
 								class="textarea w-full rounded-xl p-2"
-								id={row.key}
-								name={row.key}
+								id={dataModal[key].key}
+								name={dataModal[key].key}
 								rows="6"
 								placeholder="Enter some long form content."
-								maxlength={tableSchema[row.key]?.validations?.isLength?.max
-									? tableSchema[row.key]?.validations?.isLength.max
+								maxlength={tableSchema[dataModal[key].key]?.validations?.isLength?.max
+									? tableSchema[dataModal[key].key]?.validations?.isLength.max
 									: ''}
-								bind:value={row.value}
+								bind:value={dataModal[key].value}
 								on:change={() => {
-									updateField(recordId, row.key, row.value);
+									updateField(recordId, dataModal[key].key, dataModal[key].value);
 								}}
 							/>
-						{:else if row.type == 'datetime'}
+						{:else if dataModal[key].type == 'datetime'}
 							<input
 								class="input p-2 w-1/3 md:w-full"
 								type="datetime-local"
-								id={row.key}
-								name={row.key}
-								bind:value={row.value}
+								id={dataModal[key].key}
+								name={dataModal[key].key}
+								bind:value={dataModal[key].value}
 								on:change={() => {
-									updateField(recordId, row.key, row.value);
+									updateField(recordId, dataModal[key].key, dataModal[key].value);
 								}}
 							/>
-						{:else if row.type == 'integer'}
+						{:else if dataModal[key].type == 'integer'}
 							<input
 								class="input p-2 w-1/3 md:w-full"
 								type="number"
-								id={row.key}
-								name={row.key}
-								bind:value={row.value}
+								id={dataModal[key].key}
+								name={dataModal[key].key}
+								bind:value={dataModal[key].value}
 								on:change={() => {
-									updateField(recordId, row.key, row.value);
+									updateField(recordId, dataModal[key].key, dataModal[key].value);
 								}}
 							/>
-						{:else if row.type == 'boolean'}
+						{:else if dataModal[key].type == 'boolean'}
 							<RadioGroup active="variant-filled-primary" hover="hover:variant-soft-primary">
 								<RadioItem
-									bind:group={row.value}
-									id={row.key}
-									name={row.key}
+									bind:group={dataModal[key].value}
+									id={dataModal[key].key}
+									name={dataModal[key].key}
 									value={'true'}
 									on:change={() => {
-										updateField(row.id, row.key, row.value);
+										updateField(dataModal[key].id, dataModal[key].key, dataModal[key].value);
 									}}>TRUE</RadioItem
 								>
 								<RadioItem
-									bind:group={row.value}
-									id={row.key}
-									name={row.key}
+									bind:group={dataModal[key].value}
+									id={dataModal[key].key}
+									name={dataModal[key].key}
 									value={'false'}
 									on:change={() => {
-										updateField(row.id, row.key, row.value);
+										updateField(dataModal[key].id, dataModal[key].key, dataModal[key].value);
 									}}>FALSE</RadioItem
 								>
 							</RadioGroup>
-						{:else if row.type == 'varchar'}
-							{#if row.key.indexOf('color') >= 0}
+						{:else if dataModal[key].type == 'varchar'}
+							{#if dataModal[key].key.indexOf('color') >= 0}
 								<div class="grid grid-cols-[auto_1fr] gap-2">
 									<input
 										class="input"
 										type="color"
-										id={row.key}
-										name={row.key}
-										bind:value={row.value}
+										id={dataModal[key].key}
+										name={dataModal[key].key}
+										bind:value={dataModal[key].value}
 										on:change={() => {
-											updateField(recordId, row.key, row.value);
+											updateField(recordId, dataModal[key].key, dataModal[key].value);
 										}}
 									/>
 									<input
 										class="input w-1/3 p-2 md:w-full"
 										type="text"
-										bind:value={row.value}
+										bind:value={dataModal[key].value}
 										readonly
 										tabindex="-1"
 									/>
 								</div>
-							{:else if row.key.indexOf('image') >= 0 || row.key.indexOf('logo') >= 0 || row.key.indexOf('icon') >= 0}
+							{:else if dataModal[key].key.indexOf('image') >= 0 || dataModal[key].key.indexOf('logo') >= 0 || dataModal[key].key.indexOf('icon') >= 0}
 								<div class="flex flex-col gap-2">
-									<input id={row.key} class="prevFileHidden" type="hidden" bind:value={row.value} />
 									<input
-										id={row.key + `-input`}
+										id={dataModal[key].key}
+										class="prevFileHidden"
+										type="hidden"
+										bind:value={dataModal[key].value}
+									/>
+									<input
+										id={dataModal[key].key + `-input`}
 										class="input w-full"
 										type="file"
-										bind:value={row.value}
-										on:change={(e) => onFileSelected(e, row.key)}
+										bind:value={dataModal[key].value}
+										on:change={(e) => onFileSelected(e, dataModal[key].key)}
 									/>
-									{#if row.value}
+									{#if dataModal[key].value}
 										<em>
 											⚠️ Warning: Old file will be deleted from the server whenever new file has
 											been uploaded.</em
 										>
 									{/if}
-									<input id={row.key + `-base64`} name={row.key + `-base64`} type="hidden" />
+									<input
+										id={dataModal[key].key + `-base64`}
+										name={dataModal[key].key + `-base64`}
+										type="hidden"
+									/>
 									<img
-										id={row.key + `-img`}
-										name={row.key + `-img`}
-										src={row.value}
+										id={dataModal[key].key + `-img`}
+										name={dataModal[key].key + `-img`}
+										src={dataModal[key].value}
 										style="max-width: 50ch;"
 										alt=""
 									/>
 								</div>
-							{:else if row.type == 'boolean'}
+							{:else if dataModal[key].type == 'boolean'}
 								<RadioGroup active="variant-filled-primary" hover="hover:variant-soft-primary">
 									<RadioItem
-										bind:group={row.value}
-										id={row.key}
-										name={row.key}
+										bind:group={dataModal[key].value}
+										id={dataModal[key].key}
+										name={dataModal[key].key}
 										value={'true'}
 										on:change={() => {
-											updateField(row.id, row.key, row.value);
+											updateField(dataModal[key].id, dataModal[key].key, dataModal[key].value);
 										}}>TRUE</RadioItem
 									>
 									<RadioItem
-										bind:group={row.value}
-										id={row.key}
-										name={row.key}
+										bind:group={dataModal[key].value}
+										id={dataModal[key].key}
+										name={dataModal[key].key}
 										value={'false'}
 										on:change={() => {
-											updateField(row.id, row.key, row.value);
+											updateField(dataModal[key].id, dataModal[key].key, dataModal[key].value);
 										}}>FALSE</RadioItem
 									>
 								</RadioGroup>
-							{:else if row.key == 'id' || row.key == 'uuid'}
+							{:else if dataModal[key].key == 'id' || dataModal[key].key == 'uuid'}
 								<input
 									class="input p-2 w-full"
 									type="text"
-									id={row.key}
-									name={row.key}
-									bind:value={row.value}
+									id={dataModal[key].key}
+									name={dataModal[key].key}
+									bind:value={dataModal[key].value}
 									on:change={() => {
-										updateField(recordId, row.key, row.value);
+										updateField(recordId, dataModal[key].key, dataModal[key].value);
 									}}
 									readonly="readonly"
 								/>
-							{:else if row.type == 'varchar' && tableSchema[row.key]?.validations?.isIn}
+							{:else if dataModal[key].type == 'varchar' && tableSchema[dataModal[key].key]?.validations?.isIn}
 								<select
-									id={row.key}
-									name={row.key}
+									id={dataModal[key].key}
+									name={dataModal[key].key}
 									class="select rounded-3xl w-1/3 md:w-full"
-									bind:value={row.value}
+									bind:value={dataModal[key].value}
 									on:change={() => {
-										updateField(recordId, row.key, row.value);
+										updateField(recordId, dataModal[key].key, dataModal[key].value);
 									}}
 								>
 									<option value={''}>-- NULL --</option>
-									{#each tableSchema[row.key]?.validations?.isIn as optiongroup}
+									{#each tableSchema[dataModal[key].key]?.validations?.isIn as optiongroup}
 										{#each optiongroup as option}
 											<option value={option}>{option}</option>
 										{/each}
 									{/each}
 								</select>
-							{:else if row.key.indexOf('description') >= 0}
+							{:else if dataModal[key].key.indexOf('description') >= 0}
 								<textarea
 									class="textarea w-full rounded-xl p-2"
 									rows="3"
 									placeholder="Enter some long form content."
-									id={row.key}
-									name={row.key}
-									maxlength={tableSchema[row.key]?.validations?.isLength?.max
-										? tableSchema[row.key]?.validations?.isLength.max
+									id={dataModal[key].key}
+									name={dataModal[key].key}
+									maxlength={tableSchema[dataModal[key].key]?.validations?.isLength?.max
+										? tableSchema[dataModal[key].key]?.validations?.isLength.max
 										: ''}
-									bind:value={row.value}
+									bind:value={dataModal[key].value}
 									on:change={() => {
-										updateField(row.id, row.key, row.value);
+										updateField(dataModal[key].id, dataModal[key].key, dataModal[key].value);
 									}}
 								/>
 							{:else}
-								<!-- {tableSchema[row.key]?.validations?.matches?.toString().slice(1, -1)} -->
+								<!-- {tableSchema[recordDataModal[key].key]?.validations?.matches?.toString().slice(1, -1)} -->
 								<input
 									class="input p-2 w-full"
 									type="text"
-									id={row.key}
-									name={row.key}
-									maxlength={tableSchema[row.key]?.validations?.isLength?.max
-										? tableSchema[row.key]?.validations?.isLength.max
+									id={dataModal[key].key}
+									name={dataModal[key].key}
+									maxlength={tableSchema[dataModal[key].key]?.validations?.isLength?.max
+										? tableSchema[dataModal[key].key]?.validations?.isLength.max
 										: ''}
-									pattern={tableSchema[row.key]?.validations?.matches
-										? tableSchema[row.key]?.validations?.matches?.toString().slice(1, -1)
+									pattern={tableSchema[dataModal[key].key]?.validations?.matches
+										? tableSchema[dataModal[key].key]?.validations?.matches?.toString().slice(1, -1)
 										: '.*'}
-									required={tableSchema[row.key]?.nullable == false ? 'required' : ''}
-									bind:value={row.value}
+									required={tableSchema[dataModal[key].key]?.nullable == false ? 'required' : ''}
+									bind:value={dataModal[key].value}
 									on:change={(e) => {
 										const regex = new RegExp(e.target.pattern);
 										let isValid = regex.test(e.target.value);
-										if (isValid && tableSchema[row.key]?.nullable == false && e.target.value) {
-											updateField(recordId, row.key, row.value);
+										if (
+											isValid &&
+											tableSchema[dataModal[key].key]?.nullable == false &&
+											e.target.value
+										) {
+											updateField(recordId, dataModal[key].key, dataModal[key].value);
 										} else {
 											alert('Invalid input format or value!');
 										}
@@ -395,7 +431,7 @@
 
 					<div class="ember-view permalink v-list-data v-post-list-status px-2 py-6 md:pt-0">
 						<div class="grid justify-items-end w-full text-sm text-slate-500">
-							{row.type}
+							{dataModal[key].type}
 						</div>
 					</div>
 				</li>

@@ -13,7 +13,7 @@
 	import { Drawer, drawerStore } from '@skeletonlabs/skeleton';
 	import type { DrawerSettings } from '@skeletonlabs/skeleton';
 	import type { PageData } from './$types';
-	import { adminSiteUrl, isEditorOpen } from '$lib/core/shared/stores/site';
+	import { adminSiteUrl, isEditorOpen, recordDataModal } from '$lib/core/shared/stores/site';
 	import { goto } from '$app/navigation';
 	import { format } from 'timeago.js';
 	import CompPageEditor from '$lib/core/core/frontend/components/admin/Editor/CompPageEditor.svelte';
@@ -26,6 +26,13 @@
 	let selectedPost: any;
 	let keysJson: string[];
 	let isDrawerSidebar = true;
+	// let dataSchema: any = {};
+
+	let demoBinding = '';
+
+	data.schema.forEach((value, key) => {
+		$recordDataModal[value.key] = value;
+	});
 
 	// if (data && data.posts) keysJson = Object.keys(data.posts[0]);
 
@@ -244,7 +251,11 @@
 						<div class="card w-[350px] h-screen p-4 px-2">
 							<header class="card-header text-lg font-medium">Page settings</header>
 							<section class="p-4">
-								<RecordCreate {data} table={ENUM_DATABASE_TABLE.posts} />
+								<RecordCreate
+									{data}
+									table={ENUM_DATABASE_TABLE.posts}
+									bind:dataModal={$recordDataModal}
+								/>
 							</section>
 						</div>
 					</div>
@@ -278,12 +289,12 @@
 				</div>
 				<div class="parent font-bold text-4xl">
 					<AutoResizableTextarea
-						value={data.schema.title}
+						bind:value={$recordDataModal.title.value}
 						classes={'input border-none focus:border-none active:border-none rounded-none overflow-hidden'}
 						placeholder={'Page title...'}
 					/>
 				</div>
-				<CompPageEditor {data} />
+				<!-- <CompPageEditor {data} bind:$postDataModal /> -->
 			</div>
 			<!-- ---- / ---- -->
 		</AppShell>
