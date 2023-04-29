@@ -27,7 +27,7 @@
 
 	const initialFileValues: { [key: string]: string } = {};
 
-	let recordId = '1234567';//data.schema.find((obj) => obj.key === 'id').value;
+	let recordId = '1234567'; //data.schema.find((obj) => obj.key === 'id').value;
 
 	onMount(async () => {
 		// Backup all of previous files to delete incase upload new files
@@ -153,13 +153,13 @@
 			</li>
 			{#each data.schema as row, i}
 				<li
-					class="v-list-row v-records-list-item grid md:grid-cols-1 border-b hover:bg-slate-100 grid-cols-6 {i ==
+					class="v-list-row v-records-list-item grid md:grid-cols-1 border-b grid-cols-6 {i ==
 					data.schema.length - 1
 						? ' border-b'
 						: ''}"
 				>
 					<div
-						class="ember-view permalink v-list-data v-post-list-title w-full py-4 w-full capitalize col-span-2"
+						class="ember-view permalink v-list-data v-post-list-title w-full py-4 w-full capitalize md:grid-cols-1 col-span-2 md:pb-0"
 					>
 						<h3
 							class="v-content-entry-title unstyled text-sm font-medium antialiased tracking-wide flex gap-2"
@@ -187,7 +187,7 @@
 					</div>
 					<div
 						href={$adminSiteUrl + `/tags/${$page.params.visibility}/${row.slug}`}
-						class="ember-view permalink v-list-data v-post-list-title w-full py-4 w-full text-xs tracking-wide text-slate-500 col-span-3"
+						class="ember-view permalink v-list-data v-post-list-title w-full py-4 w-full text-xs tracking-wide text-slate-500 col-span-3 md:pb-0"
 					>
 						{#if row.reference}
 							{#await getReferenceValue(row)}
@@ -211,7 +211,7 @@
 							/>
 						{:else if row.type == 'datetime'}
 							<input
-								class="input p-2 w-1/3"
+								class="input p-2 w-1/3 md:w-full"
 								type="datetime-local"
 								name={row.key}
 								bind:value={row.value}
@@ -221,7 +221,7 @@
 							/>
 						{:else if row.type == 'integer'}
 							<input
-								class="input p-2 w-1/3"
+								class="input p-2 w-1/3 md:w-full"
 								type="number"
 								name={row.key}
 								bind:value={row.value}
@@ -261,7 +261,7 @@
 										}}
 									/>
 									<input
-										class="input w-1/3 p-2"
+										class="input w-1/3 p-2 md:w-full"
 										type="text"
 										bind:value={row.value}
 										readonly
@@ -325,7 +325,7 @@
 								/>
 							{:else if row.type == 'varchar' && tableSchema[row.key]?.validations?.isIn}
 								<select
-									class="select rounded-3xl w-1/3"
+									class="select rounded-3xl w-1/3 md:w-full"
 									bind:value={row.value}
 									on:change={() => {
 										updateField(recordId, row.key, row.value);
@@ -380,7 +380,7 @@
 						{/if}
 					</div>
 
-					<div class="ember-view permalink v-list-data v-post-list-status px-2 py-6">
+					<div class="ember-view permalink v-list-data v-post-list-status px-2 py-6 md:pt-0">
 						<div class="grid justify-items-end w-full text-sm text-slate-500">
 							{row.type}
 						</div>
