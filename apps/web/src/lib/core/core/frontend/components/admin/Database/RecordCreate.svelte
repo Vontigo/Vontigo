@@ -50,12 +50,16 @@
 
 	onMount(async () => {
 		// Backup all of previous files to delete incase upload new files
+		updateInitialFileValues();
+		// console.log(initialFileValues);
+	});
+
+	function updateInitialFileValues() {
 		const fileInputs = document.querySelectorAll('.prevFileHidden');
 		fileInputs.forEach((fileInput) => {
 			initialFileValues[fileInput.id] = fileInput.value;
 		});
-		// console.log(initialFileValues);
-	});
+	}
 
 	// let previousSubGroup = '';
 
@@ -94,9 +98,11 @@
 			// console.log(reqUpFile);
 			if (reqUpFile.filePath) {
 				const serverPath = reqUpFile.filePath.replace('static\\', '/').replace(/\\/g, '/');
-				//console.log(serverPath);
 				await updateField(recordId, key, serverPath);
 				if (serverPath != initialFileValues[key]) await deletePrevFile(key);
+				// console.log(serverPath);
+				initialFileValues[key] = serverPath;
+				dataModal[key].value = serverPath;
 			}
 		};
 	};
@@ -167,9 +173,11 @@
 		timeoutId = setTimeout(() => {
 			Object.keys(dataModal).forEach((key) => {
 				if (dataModal[key].value !== null && dataModal[key].value !== oldValues[key]) {
-					//console.log(`${key} value changed:`, dataModal[key].value);
-					updateField(recordId, dataModal[key].key, dataModal[key].value);
-					oldValues[key] = dataModal[key].value;
+					if (key == 'title' || key == 'mobiledoc' || key == 'html' || key == 'plaintext') {
+						console.log(`${key} value changed:`, dataModal[key].value);
+						updateField(recordId, dataModal[key].key, dataModal[key].value);
+						oldValues[key] = dataModal[key].value;
+					}
 				}
 			});
 		}, 5000);
@@ -324,7 +332,6 @@
 										id={dataModal[key].key + `-input`}
 										class="input w-full"
 										type="file"
-										bind:value={dataModal[key].value}
 										on:change={(e) => onFileSelected(e, dataModal[key].key)}
 									/>
 									{#if dataModal[key].value}
