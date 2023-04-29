@@ -278,7 +278,7 @@
 				</div>
 				<div class="parent font-bold text-4xl">
 					<AutoResizableTextarea
-						value={''}
+						value={data.schema.title}
 						classes={'input border-none focus:border-none active:border-none rounded-none overflow-hidden'}
 						placeholder={'Page title...'}
 					/>
