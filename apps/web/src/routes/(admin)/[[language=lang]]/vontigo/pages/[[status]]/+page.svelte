@@ -16,7 +16,7 @@
 	import { adminSiteUrl, isEditorOpen, recordDataModal } from '$lib/core/shared/stores/site';
 	import { goto } from '$app/navigation';
 	import { format } from 'timeago.js';
-	import CompPageEditor from '$lib/core/core/frontend/components/admin/Editor/CompPageEditor.svelte';
+	import CompPostEditor from '$lib/core/core/frontend/components/admin/Editor/CompPostEditor.svelte';
 	import AutoResizableTextarea from '$lib/core/core/frontend/components/admin/Editor/components/AutoResizableTextarea.svelte';
 	import RecordCreate from '$lib/core/core/frontend/components/admin/Database/RecordCreate.svelte';
 	import { ENUM_DATABASE_TABLE } from '$lib/core/shared/enum';
@@ -43,16 +43,16 @@
 		regionDrawer: 'overflow-y-hidden'
 	};
 
-	async function createNewRecord() {
-		const resPostsSchema = await fetch(`/api/admin/pages/new`);
-		const dataPostsSchema = await resPostsSchema.json();
-		dataPostsSchema.forEach((value, key) => {
-			$recordDataModal[value.key] = value;
-		});
-		drawerStore.open(createPageDrawer);
-	}
+	// async function createNewRecord() {
+	// 	const resPostsSchema = await fetch(`/api/admin/pages/new`);
+	// 	const dataPostsSchema = await resPostsSchema.json();
+	// 	dataPostsSchema.forEach((value, key) => {
+	// 		$recordDataModal[value.key] = value;
+	// 	});
+	// 	drawerStore.open(createPageDrawer);
+	// }
 	async function openDrawer(id: string = '') {
-		const resPostsSchema = await fetch(`/api/admin/pages/${id}`);
+		const resPostsSchema = await fetch(`/api/admin/posts/page/new/${id}`);
 		const dataPostsSchema = await resPostsSchema.json();
 		dataPostsSchema.forEach((value, key) => {
 			$recordDataModal[value.key] = value;
@@ -84,7 +84,7 @@
 				on:click={() => {
 					//selectedPost = null;
 					//drawerStore.open(createPageDrawer);
-					createNewRecord();
+					openDrawer();
 				}}
 			>
 				<span><IconPlusSmall /></span>
@@ -104,7 +104,7 @@
 			on:click={() => {
 				//selectedPost = {};
 				//drawerStore.open(createPageDrawer);
-				createNewRecord();
+				openDrawer();
 			}}
 		>
 			<span><IconPlusSmall /></span>
@@ -289,7 +289,7 @@
 					/>
 				</div>
 				<div class="mb-20">
-					<CompPageEditor {data} bind:dataModal={$recordDataModal} />
+					<CompPostEditor {data} bind:dataModal={$recordDataModal} />
 				</div>
 			</div>
 			<!-- ---- / ---- -->

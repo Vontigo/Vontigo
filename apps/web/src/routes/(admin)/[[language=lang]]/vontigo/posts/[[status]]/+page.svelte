@@ -13,26 +13,38 @@
 	import { Drawer, drawerStore } from '@skeletonlabs/skeleton';
 	import type { DrawerSettings } from '@skeletonlabs/skeleton';
 	import type { PageData } from './$types';
-	import { adminSiteUrl, isEditorOpen } from '$lib/core/shared/stores/site';
+	import { adminSiteUrl, isEditorOpen, recordDataModal } from '$lib/core/shared/stores/site';
 	import { format } from 'timeago.js';
+	import RecordCreate from '$lib/core/core/frontend/components/admin/Database/RecordCreate.svelte';
+	import AutoResizableTextarea from '$lib/core/core/frontend/components/admin/Editor/components/AutoResizableTextarea.svelte';
+	import CompPostEditor from '$lib/core/core/frontend/components/admin/Editor/CompPostEditor.svelte';
+	import { ENUM_DATABASE_TABLE } from '$lib/core/shared/enum';
 
 	export let data: PageData;
 	let selectedPost: any;
 	let keysJson: string[];
+	let isDrawerSidebar = true;
 
 	// if (data && data.posts) keysJson = Object.keys(data.posts[0]);
 
-	const settings: DrawerSettings = {
+	const createPageDrawer: DrawerSettings = {
 		id: 'postEditorDrawer',
-		position: 'bottom',
-		width: 'w-full lg:w-[740px]',
+		position: 'right',
+		width: 'w-full lg:w-[100%]',
 		height: 'h-full',
-		padding: 'p-4 justify-center',
-		rounded: 'rounded-2xl',
+		// padding: 'p-4',
+		// rounded: 'rounded',
 		shadow: 'shadow-md',
-		regionDrawer: 'overflow-y-hidden',
-		bgDrawer: 'bg-white'
+		regionDrawer: 'overflow-y-hidden'
 	};
+	async function openDrawer(id: string = '') {
+		const resPostsSchema = await fetch(`/api/admin/posts/post/new/${id}`);
+		const dataPostsSchema = await resPostsSchema.json();
+		dataPostsSchema.forEach((value, key) => {
+			$recordDataModal[value.key] = value;
+		});
+		drawerStore.open(createPageDrawer);
+	}
 
 	$: if (selectedPost) {
 		selectedPost = selectedPost;
@@ -56,8 +68,7 @@
 				type="button"
 				class="btn btn-sm variant-filled rounded"
 				on:click={() => {
-					selectedPost = null;
-					drawerStore.open(settings);
+					openDrawer();
 				}}
 			>
 				<span><IconPlusSmall /></span>
@@ -75,8 +86,7 @@
 			type="button"
 			class="md:hidden btn btn-sm variant-filled rounded"
 			on:click={() => {
-				selectedPost = {};
-				drawerStore.open(settings);
+				openDrawer();
 			}}
 		>
 			<span><IconPlusSmall /></span>
@@ -88,11 +98,6 @@
 	<!-- <svelte:fragment slot="trail">(actions)</svelte:fragment> -->
 </AppBar>
 <div class="max-w-screen-xl mx-auto px-12">
-	<Drawer>
-		{#if $drawerStore.id === 'postEditorDrawer'}
-			<CompEditor postData={selectedPost} />
-		{/if}
-	</Drawer>
 	{#if data.posts.length > 0}
 		<section class="view-container content-list">
 			<ol class="posts-list v-list flex flex-col">
@@ -111,8 +116,7 @@
 							href="#"
 							class="ember-view permalink v-list-data v-post-list-title w-full py-4 col-span-3 w-full"
 							on:click={() => {
-								selectedPost = row;
-								drawerStore.open(settings);
+								openDrawer(row.id);
 							}}
 						>
 							<h3
@@ -138,8 +142,7 @@
 							href="#"
 							class="ember-view permalink v-list-data v-post-list-status px-2 py-6"
 							on:click={() => {
-								selectedPost = row;
-								drawerStore.open(settings);
+								openDrawer(row.id);
 							}}
 						>
 							<div class="grid justify-items-end w-full">
@@ -168,8 +171,108 @@
 	{/if}
 </div>
 
-<style>
-	.drawer-backdrop .drawer {
-		height: calc(100vh - 2rem);
-	}
-</style>
+<Drawer>
+	{#if $drawerStore.id === 'postEditorDrawer'}
+		<button
+			class="absolute left-2 top-2 btn btn-sm variant-filled rounded"
+			on:click={() => {
+				selectedPost = {};
+				drawerStore.close();
+			}}
+		>
+			<span>
+				<svg
+					xmlns="http://www.w3.org/2000/svg"
+					fill="none"
+					viewBox="0 0 24 24"
+					stroke-width="1.5"
+					stroke="currentColor"
+					class="w-4 h-4"
+				>
+					<path
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"
+					/>
+				</svg>
+			</span>
+			<span>Back</span></button
+		>
+		<button
+			class="absolute right-2 top-2 rounded border-none p-2"
+			on:click={() => {
+				isDrawerSidebar = !isDrawerSidebar;
+			}}
+		>
+			{#if !isDrawerSidebar}
+				<svg
+					xmlns="http://www.w3.org/2000/svg"
+					fill="none"
+					viewBox="0 0 24 24"
+					stroke-width="1.5"
+					stroke="currentColor"
+					class="w-6 h-6"
+				>
+					<path
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75"
+					/>
+				</svg>
+			{:else}
+				<svg
+					xmlns="http://www.w3.org/2000/svg"
+					fill="none"
+					viewBox="0 0 24 24"
+					stroke-width="1.5"
+					stroke="currentColor"
+					class="w-6 h-6"
+				>
+					<path
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15m3 0l3-3m0 0l-3-3m3 3H9"
+					/>
+				</svg>
+			{/if}
+		</button>
+		<AppShell>
+			<!-- <svelte:fragment slot="sidebarLeft">
+				
+			</svelte:fragment> -->
+			<svelte:fragment slot="sidebarRight">
+				{#if isDrawerSidebar}
+					<div id="sidebar-right" class="hidden lg:block">
+						<div class="card w-[350px] h-screen p-4 px-2">
+							<header class="card-header text-lg font-medium">Page settings</header>
+							<section class="p-4">
+								<RecordCreate
+									{data}
+									table={ENUM_DATABASE_TABLE.posts}
+									bind:dataModal={$recordDataModal}
+								/>
+							</section>
+						</div>
+					</div>
+				{/if}
+			</svelte:fragment>
+			<!-- Router Slot -->
+			<div class="max-w-screen-md m-auto py-14 flex flex-col gap-4">
+				<div>
+					<img src={$recordDataModal.feature_image.value} class="w-full" alt="" />
+				</div>
+				<div class="parent font-bold text-4xl">
+					<AutoResizableTextarea
+						bind:value={$recordDataModal.title.value}
+						classes={'input border-none focus:border-none active:border-none rounded-none overflow-hidden'}
+						placeholder={'Page title...'}
+					/>
+				</div>
+				<div class="mb-20">
+					<CompPostEditor {data} bind:dataModal={$recordDataModal} />
+				</div>
+			</div>
+			<!-- ---- / ---- -->
+		</AppShell>
+	{/if}
+</Drawer>
