@@ -23,7 +23,7 @@
 	let colorValue;
 
 	const tableSchema = tables[table];
-	console.log(tableSchema);
+	// console.log(tableSchema);
 
 	const initialFileValues: { [key: string]: string } = {};
 

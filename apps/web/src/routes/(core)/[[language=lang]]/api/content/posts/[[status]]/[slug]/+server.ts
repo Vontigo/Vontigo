@@ -4,7 +4,7 @@ import { knexInstance } from '$lib/core/core/server/data/db/connection';
 export async function GET({ url, params }) {
 	let content: any;
 	let authors: any;
-	console.log(params);
+	// console.log(params);
 	try {
 		const post: any[] = await knexInstance
 			.select(

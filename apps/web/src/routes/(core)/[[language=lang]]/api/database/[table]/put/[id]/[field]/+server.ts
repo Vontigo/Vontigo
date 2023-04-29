@@ -16,7 +16,7 @@ export const PUT = (async ({ url, params, request }) => {
 	if (!tableExists) {
 		return { status: 404, body: `Table ${table} not found` };
 	}
-	console.log(value);
+	// console.log(value);
 
 	const count = await knexInstance(table)
 		.where({ id })

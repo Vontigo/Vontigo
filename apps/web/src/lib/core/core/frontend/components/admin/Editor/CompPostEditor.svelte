@@ -296,7 +296,7 @@
 			// let title;
 			// if(editorJson) title = editorJson.content[0];
 
-			console.log(title);
+			// console.log(title);
 
 			if (title.type == 'heading' && title.attrs.level && title.attrs.level == 1) {
 				// console.log('OK');
@@ -366,7 +366,7 @@
 		// let title;
 		// if(editorJson) title = editorJson.content[0];
 
-		console.log(title);
+		// console.log(title);
 
 		if (title.type == 'heading' && title.attrs.level && title.attrs.level == 1) {
 			// console.log('OK');

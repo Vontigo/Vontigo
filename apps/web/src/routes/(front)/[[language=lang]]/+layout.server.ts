@@ -5,7 +5,7 @@ import { config } from '$lib/themes/casper/config.json';
 const output: SiteGroup = {};
 
 export const load: LayoutServerLoad = async (event) => {
-	console.log('______LayoutServerLoad (front): ', await event.locals.getSession());
+	// console.log('______LayoutServerLoad (front): ', await event.locals.getSession());
 
 	const response = await event.fetch(`/api/shared/settings/site`);
 	const settings = response.json();

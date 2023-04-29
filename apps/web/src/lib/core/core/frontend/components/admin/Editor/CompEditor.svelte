@@ -77,7 +77,7 @@
 		valueAttr: { type: 'text', required: true },
 		// Returns the updated response value
 		response: (r: string) => {
-			console.log('response:', r);
+			// console.log('response:', r);
 			if (r) {
 				editor.chain().focus().setImage({ src: r }).run();
 			}
@@ -279,7 +279,7 @@
 			// let title;
 			// if(editorJson) title = editorJson.content[0];
 
-			console.log(title);
+			// console.log(title);
 
 			if (title.type == 'heading' && title.attrs.level && title.attrs.level == 1) {
 				// console.log('OK');
@@ -349,7 +349,7 @@
 		// let title;
 		// if(editorJson) title = editorJson.content[0];
 
-		console.log(title);
+		// console.log(title);
 
 		if (title.type == 'heading' && title.attrs.level && title.attrs.level == 1) {
 			// console.log('OK');
@@ -385,7 +385,7 @@
 		}
 	};
 	const getOutput = () => {
-		console.log('__OUTPUT: JSON ', editor.getJSON());
+		// console.log('__OUTPUT: JSON ', editor.getJSON());
 		// console.log(encodeURIComponent(editor.getJSON().toString()));
 		// console.log('__OUTPUT: HTML ', editor.getHTML());
 		// console.log('__OUTPUT: Text ', editor.getText());
@@ -395,7 +395,7 @@
 		const file = e.target.files[0];
 		const reader = new FileReader();
 		reader.onloadend = () => {
-			console.log(reader.result);
+			// console.log(reader.result);
 			featureImage = reader.result;
 			// Logs data:<type>;base64,wL2dvYWwgbW9yZ...
 		};

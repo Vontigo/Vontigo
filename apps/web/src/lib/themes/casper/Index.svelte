@@ -12,6 +12,7 @@
 	} from '$lib/core/shared/stores/site';
 	import type { PageData } from './$types';
 	import PostCard from './partials/PostCard.svelte';
+	import { MetaTags } from 'svelte-meta-tags';
 
 	$templateType = 'home';
 
@@ -19,12 +20,15 @@
 </script>
 
 <svelte:head>
-	<!-- TODO -->
-	<title>The professional publishing platform! | Vontigo</title>
-	<meta name="description" content="The professional publishing platform!" />
+	<!---->
 </svelte:head>
 
 {#if data}
+	<MetaTags
+		title={data.settings.site.title}
+		titleTemplate={data.settings.site.description + ' | %s'}
+		description={data.settings.site.description}
+	/>
 	<!-- The tag above means: insert everything in this file
 	into the {body} of the default.hbs template -->
 

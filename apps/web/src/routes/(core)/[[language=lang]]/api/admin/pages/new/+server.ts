@@ -55,7 +55,7 @@ async function getAllRows(params: any): Promise<any[] | null> {
 			})
 			.returning('*');
 
-		console.log(newRecord);
+		// console.log(newRecord);
 
 		let foreignKeyMap: any[];
 		// console.log(await knexInstance.raw('PRAGMA table_info(users);'));

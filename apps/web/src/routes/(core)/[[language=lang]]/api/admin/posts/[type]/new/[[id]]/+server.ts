@@ -38,7 +38,7 @@ async function getAllRows(params: any): Promise<any[] | null> {
 	try {
 		//const valueRows: any[] = await knexInstance.select('t.*').from('tags as t').where(params).first();
 
-		console.log(params);
+		// console.log(params);
 		if (params.id) {
 			records = await knexInstance.select('t.*').from(`${table} as t`).where(params);
 		} else {
@@ -61,7 +61,7 @@ async function getAllRows(params: any): Promise<any[] | null> {
 				})
 				.returning('*');
 		}
-		console.log(records);
+		// console.log(records);
 
 		let foreignKeyMap: any[];
 		// console.log(await knexInstance.raw('PRAGMA table_info(users);'));

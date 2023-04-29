@@ -14,6 +14,7 @@
 	import IconFire from './partials/icons/IconFire.svelte';
 	import IconAvatar from './partials/icons/IconAvatar.svelte';
 	import { post_class } from '$lib/core/core/frontend/helpers/postClass';
+	import { MetaTags } from 'svelte-meta-tags';
 
 	$templateType = 'post';
 	export let data: PageData;
@@ -23,6 +24,11 @@
 </script>
 
 {#if post}
+	<MetaTags
+		title={data.settings.site.title}
+		titleTemplate={post.title + ' | %s'}
+		description={post.description}
+	/>
 	<!-- Everything inside the #post block pulls data from the post -->
 
 	<main id="site-main" class="site-main">
@@ -133,7 +139,6 @@
 
 	<!-- A signup call to action is displayed here, unless viewed as a logged-in member -->
 	{#if $site.members_enabled}
-	
 		<!-- {`#unless @member`}
 {`#unless @site.comments_enabled`}
 {#if access}

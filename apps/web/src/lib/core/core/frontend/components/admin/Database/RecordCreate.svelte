@@ -159,7 +159,7 @@
 		return resData.json();
 	}
 	async function getReferenceValue(rec: TableStructure) {
-		console.log(rec);
+		// console.log(rec);
 
 		const resData = await fetch(`/api/database/${rec.reference.table}/read/${rec.value}`);
 		// console.log(await resData.json());
@@ -174,7 +174,7 @@
 			Object.keys(dataModal).forEach((key) => {
 				if (dataModal[key].value !== null && dataModal[key].value !== oldValues[key]) {
 					if (key == 'title' || key == 'mobiledoc' || key == 'html' || key == 'plaintext') {
-						console.log(`${key} value changed:`, dataModal[key].value);
+						// console.log(`${key} value changed:`, dataModal[key].value);
 						updateField(recordId, dataModal[key].key, dataModal[key].value);
 						oldValues[key] = dataModal[key].value;
 					}
@@ -436,7 +436,7 @@
 									on:change={(e) => {
 										const regex = new RegExp(e.target.pattern);
 										let isValid = regex.test(e.target.value);
-										console.log(isValid);
+										// console.log(isValid);
 										if (isValid) {
 											if (
 												tableSchema[dataModal[key].key]?.nullable == false &&

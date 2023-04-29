@@ -132,7 +132,7 @@
 									//newTagBody.slug = await createUniqueSlug(newTagBody.name);
 									const response = await fetch(`/api/admin/slugs/tags/${newTagBody.name}`);
 									const resJson = await response.json();
-									console.log(resJson);
+									// console.log(resJson);
 
 									newTagBody.slug = resJson?.slugs[0]?.slug;
 								}}
