@@ -198,9 +198,10 @@
 						{:else if row.type == 'text'}
 							<textarea
 								class="textarea w-full rounded-xl p-2"
+								id={row.key}
+								name={row.key}
 								rows="6"
 								placeholder="Enter some long form content."
-								name={row.key}
 								maxlength={tableSchema[row.key]?.validations?.isLength?.max
 									? tableSchema[row.key]?.validations?.isLength.max
 									: ''}
@@ -213,6 +214,7 @@
 							<input
 								class="input p-2 w-1/3 md:w-full"
 								type="datetime-local"
+								id={row.key}
 								name={row.key}
 								bind:value={row.value}
 								on:change={() => {
@@ -223,6 +225,7 @@
 							<input
 								class="input p-2 w-1/3 md:w-full"
 								type="number"
+								id={row.key}
 								name={row.key}
 								bind:value={row.value}
 								on:change={() => {
@@ -233,6 +236,7 @@
 							<RadioGroup active="variant-filled-primary" hover="hover:variant-soft-primary">
 								<RadioItem
 									bind:group={row.value}
+									id={row.key}
 									name={row.key}
 									value={'true'}
 									on:change={() => {
@@ -241,6 +245,7 @@
 								>
 								<RadioItem
 									bind:group={row.value}
+									id={row.key}
 									name={row.key}
 									value={'false'}
 									on:change={() => {
@@ -254,6 +259,7 @@
 									<input
 										class="input"
 										type="color"
+										id={row.key}
 										name={row.key}
 										bind:value={row.value}
 										on:change={() => {
@@ -297,6 +303,7 @@
 								<RadioGroup active="variant-filled-primary" hover="hover:variant-soft-primary">
 									<RadioItem
 										bind:group={row.value}
+										id={row.key}
 										name={row.key}
 										value={'true'}
 										on:change={() => {
@@ -305,6 +312,7 @@
 									>
 									<RadioItem
 										bind:group={row.value}
+										id={row.key}
 										name={row.key}
 										value={'false'}
 										on:change={() => {
@@ -316,6 +324,7 @@
 								<input
 									class="input p-2 w-full"
 									type="text"
+									id={row.key}
 									name={row.key}
 									bind:value={row.value}
 									on:change={() => {
@@ -325,6 +334,8 @@
 								/>
 							{:else if row.type == 'varchar' && tableSchema[row.key]?.validations?.isIn}
 								<select
+									id={row.key}
+									name={row.key}
 									class="select rounded-3xl w-1/3 md:w-full"
 									bind:value={row.value}
 									on:change={() => {
@@ -343,6 +354,7 @@
 									class="textarea w-full rounded-xl p-2"
 									rows="3"
 									placeholder="Enter some long form content."
+									id={row.key}
 									name={row.key}
 									maxlength={tableSchema[row.key]?.validations?.isLength?.max
 										? tableSchema[row.key]?.validations?.isLength.max
@@ -357,6 +369,7 @@
 								<input
 									class="input p-2 w-full"
 									type="text"
+									id={row.key}
 									name={row.key}
 									maxlength={tableSchema[row.key]?.validations?.isLength?.max
 										? tableSchema[row.key]?.validations?.isLength.max
