@@ -102,7 +102,7 @@
 		// 		data = resDataJson.row;
 		// 	}
 		// }
-		const content = '';
+		const content = JSON.parse(dataModal.mobiledoc.value);
 
 		editor = new Editor({
 			element: element,

@@ -31,12 +31,15 @@
 
 	onMount(async () => {
 		// Backup all of previous files to delete incase upload new files
+		updateInitialFileValues();
+		// console.log(initialFileValues);
+	});
+	function updateInitialFileValues() {
 		const fileInputs = document.querySelectorAll('.prevFileHidden');
 		fileInputs.forEach((fileInput) => {
 			initialFileValues[fileInput.id] = fileInput.value;
 		});
-		// console.log(initialFileValues);
-	});
+	}
 
 	// let previousSubGroup = '';
 
@@ -75,9 +78,10 @@
 			// console.log(reqUpFile);
 			if (reqUpFile.filePath) {
 				const serverPath = reqUpFile.filePath.replace('static\\', '/').replace(/\\/g, '/');
-				//console.log(serverPath);
 				await updateField(recordId, key, serverPath);
 				if (serverPath != initialFileValues[key]) await deletePrevFile(key);
+				// console.log(serverPath);
+				initialFileValues[key] = serverPath;
 			}
 		};
 	};

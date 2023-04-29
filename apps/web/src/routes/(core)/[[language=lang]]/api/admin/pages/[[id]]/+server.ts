@@ -34,28 +34,35 @@ function mapForeignKey(json: ForeignKey): Record<string, ForeignKey> {
 
 async function getAllRows(params: any): Promise<any[] | null> {
 	const table = ENUM_DATABASE_TABLE.posts;
+	let record: any;
 	try {
 		//const valueRows: any[] = await knexInstance.select('t.*').from('tags as t').where(params).first();
-		let id = new ObjectID().toHexString();
 
-		const newRecord: any = await knexInstance(table)
-			.insert({
-				id: id,
-				uuid: uuidv4(),
-				title: 'Draft title',
-				slug: 'draft-slug-' + id,
-				type: ENUM_POST_TYPE.page,
-				email_recipient_filter: 'all',
-				locale: get(language),
-				created_at: new Date().toISOString().slice(0, 16),
-				created_by: 1,
-				updated_at: new Date().toISOString().slice(0, 16),
-				updated_by: 1,
-				comment_id: new ObjectID().toHexString()
-			})
-			.returning('*');
+		console.log(params);
+		if (params.id) {
+			record = await knexInstance.select('t.*').from(`${table} as t`).where(params).first();
+		} else {
+			let id = new ObjectID().toHexString();
 
-		console.log(newRecord);
+			record = await knexInstance(table)
+				.insert({
+					id: id,
+					uuid: uuidv4(),
+					title: 'Draft title',
+					slug: 'draft-slug-' + id,
+					type: ENUM_POST_TYPE.page,
+					email_recipient_filter: 'all',
+					locale: get(language),
+					created_at: new Date().toISOString().slice(0, 16),
+					created_by: 1,
+					updated_at: new Date().toISOString().slice(0, 16),
+					updated_by: 1,
+					comment_id: new ObjectID().toHexString()
+				})
+				.returning('*')
+				.first();
+		}
+		console.log(record);
 
 		let foreignKeyMap: any[];
 		// console.log(await knexInstance.raw('PRAGMA table_info(users);'));
@@ -76,7 +83,7 @@ async function getAllRows(params: any): Promise<any[] | null> {
 				// console.log(info);
 				const tableStructure: TableStructure = Object.keys(info).map((key) => ({
 					key,
-					value: newRecord[0][key], //valueRows[key],
+					value: record[key], //valueRows[key],
 					type: info[key].type,
 					maxLength: info[key].maxLength,
 					nullable: info[key].nullable,
