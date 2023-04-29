@@ -294,7 +294,7 @@
 						placeholder={'Page title...'}
 					/>
 				</div>
-				<!-- <CompPageEditor {data} bind:$postDataModal /> -->
+				<CompPageEditor {data} bind:dataModal={$recordDataModal} />
 			</div>
 			<!-- ---- / ---- -->
 		</AppShell>

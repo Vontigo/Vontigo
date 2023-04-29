@@ -26,7 +26,7 @@
 
 	const tableSchema = tables[table];
 
-	console.log(dataModal);
+	// console.log(dataModal);
 
 	// data.schema.forEach((value, key) => {
 	// 	dataSchema[value.key] = value;

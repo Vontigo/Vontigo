@@ -56,7 +56,9 @@
 
 	// VARIABLE DEFINE
 	export let data: any;
-	export let newRecordObject: any;
+	export let dataModal: any;
+
+	// console.log(dataModal);
 
 	let element: HTMLDivElement;
 	let floatingMenuHTML: HTMLDivElement;
@@ -91,184 +93,186 @@
 
 	let floatingMenuShow = false;
 	let enteringTitle = false;
-	// onMount(async () => {
-	// 	// console.log(postData.mobiledoc);
-	// 	if (data && data.id) {
-	// 		const resData = await fetch(`/api/database/posts/read/${data.id}`);
-	// 		const resDataJson = await resData.json();
-	// 		if (resDataJson.row) {
-	// 			data = resDataJson.row;
-	// 		}
-	// 	}
-	// 	const content = data
-	// 		? generateHTML(JSON.parse(data.mobiledoc), [StarterKit, Image])
-	// 		: '<p></p>';
-	// 	title = data ? data.title : '';
-	// 	// console.log(content);
+	onMount(async () => {
+		// console.log(postData.mobiledoc);
+		// if (dataModal && dataModal.id) {
+		// 	const resData = await fetch(`/api/database/posts/read/${dataModal.id.value}`);
+		// 	const resDataJson = await resData.json();
+		// 	if (resDataJson.row) {
+		// 		data = resDataJson.row;
+		// 	}
+		// }
+		const content = '';
 
-	// 	editor = new Editor({
-	// 		element: element,
-	// 		extensions: [
-	// 			// FloatingMenu.configure({
-	// 			// 	element: floatingMenuHTML,
-	// 			// 	tippyOptions: { duration: 100 },
-	// 			// 	shouldShow: ({ editor, view, state, oldState }) => {
-	// 			// 		// show the floating within any paragraph
-	// 			// 		return editor.isActive('paragraph');
-	// 			// 	}
-	// 			// }),
-	// 			BubbleMenu.configure({
-	// 				element: bubbleMenu,
-	// 				tippyOptions: { duration: 100 },
-	// 				shouldShow: ({ editor, view, state, oldState }) => {
-	// 					// show the floating within any paragraph
-	// 					return editor.isActive('paragraph');
-	// 				}
-	// 			}),
-	// 			StarterKit,
-	// 			Image,
-	// 			CharacterCount,
-	// 			Placeholder.configure({
-	// 				placeholder: ({ node }) => {
-	// 					// console.log(node.type);
+		editor = new Editor({
+			element: element,
+			extensions: [
+				// FloatingMenu.configure({
+				// 	element: floatingMenuHTML,
+				// 	tippyOptions: { duration: 100 },
+				// 	shouldShow: ({ editor, view, state, oldState }) => {
+				// 		// show the floating within any paragraph
+				// 		return editor.isActive('paragraph');
+				// 	}
+				// }),
+				BubbleMenu.configure({
+					element: bubbleMenu,
+					tippyOptions: { duration: 100 },
+					shouldShow: ({ editor, view, state, oldState }) => {
+						// show the floating within any paragraph
+						return editor.isActive('paragraph');
+					}
+				}),
+				StarterKit,
+				Image,
+				CharacterCount,
+				Placeholder.configure({
+					placeholder: ({ node }) => {
+						// console.log(node.type);
 
-	// 					if (node.type.name === 'heading') {
-	// 						return 'What’s the title?';
-	// 					}
-	// 				}
-	// 			}),
-	// 			TextAlign.configure({
-	// 				types: ['heading', 'paragraph']
-	// 			})
-	// 		],
-	// 		content: content,
-	// 		onTransaction: () => {
-	// 			// force re-render so `editor.isActive` works as expected
-	// 			// console.log('Transaction');
+						if (node.type.name === 'heading') {
+							return 'What’s the title?';
+						}
+					}
+				}),
+				TextAlign.configure({
+					types: ['heading', 'paragraph']
+				})
+			],
+			content: content,
+			onTransaction: () => {
+				// force re-render so `editor.isActive` works as expected
+				// console.log('Transaction');
 
-	// 			editor = editor;
+				editor = editor;
 
-	// 			// if (editor.isEmpty) {
-	// 			// 	// editor.commands.insertContent('<h1 name="title" id="postTitle"></h1>');
-	// 			// 	editor.commands.insertContent('<h1 name="title" id="postTitle"></h1>');
-	// 			// }
-	// 			const focusNode = editor.view.domObserver.currentSelection.focusNode;
+				// if (editor.isEmpty) {
+				// 	// editor.commands.insertContent('<h1 name="title" id="postTitle"></h1>');
+				// 	editor.commands.insertContent('<h1 name="title" id="postTitle"></h1>');
+				// }
+				const focusNode = editor.view.domObserver.currentSelection.focusNode;
 
-	// 			if (focusNode && focusNode.classList && focusNode.classList.contains('is-empty')) {
-	// 				// console.log(
-	// 				// 	editor.view.domObserver.currentSelection.focusNode.classList.contains('is-empty')
-	// 				// );
-	// 				// const el = editor.view.dom.children[editor.view.dom.children.length - 1];
-	// 				// console.log(editor.view.domObserver.currentSelection);
-	// 				// if (editor.isActive('heading') && focusNode.localName == 'h1') {
-	// 				// 	enteringTitle = true;
-	// 				// 	console.log('Entering Title');
-	// 				// } else {
-	// 				// 	enteringTitle = false;
-	// 				// }
-	// 				if (editor.isActive('paragraph')) {
-	// 					// console.log(el.innerHTML.indexOf(`<br class="ProseMirror-trailingBreak">`));
+				if (focusNode && focusNode.classList && focusNode.classList.contains('is-empty')) {
+					// console.log(
+					// 	editor.view.domObserver.currentSelection.focusNode.classList.contains('is-empty')
+					// );
+					// const el = editor.view.dom.children[editor.view.dom.children.length - 1];
+					// console.log(editor.view.domObserver.currentSelection);
+					// if (editor.isActive('heading') && focusNode.localName == 'h1') {
+					// 	enteringTitle = true;
+					// 	console.log('Entering Title');
+					// } else {
+					// 	enteringTitle = false;
+					// }
+					if (editor.isActive('paragraph')) {
+						// console.log(el.innerHTML.indexOf(`<br class="ProseMirror-trailingBreak">`));
 
-	// 					// let position = {
-	// 					// 	left: 0,
-	// 					// 	top: 0
-	// 					// };
-	// 					if (editor.isActive({ textAlign: 'left' })) {
-	// 						computePosition(focusNode, floatingMenuHTML, {
-	// 							placement: 'left' // 'bottom' by default
-	// 						}).then(({ x, y }) => {
-	// 							Object.assign(floatingMenuHTML.style, {
-	// 								left: `${x + 10 + floatingMenuHTML.clientWidth}px`,
-	// 								right: 'unset',
-	// 								top: `${y}px`
-	// 							});
-	// 						});
-	// 					} else if (editor.isActive({ textAlign: 'center' })) {
-	// 						computePosition(focusNode, floatingMenuHTML, {
-	// 							placement: 'bottom' // 'bottom' by default
-	// 						}).then(({ x, y }) => {
-	// 							Object.assign(floatingMenuHTML.style, {
-	// 								left: `${x}px`,
-	// 								right: 'unset',
-	// 								top: `${y}px`
-	// 							});
-	// 						});
-	// 					} else if (editor.isActive({ textAlign: 'right' })) {
-	// 						computePosition(focusNode, floatingMenuHTML, {
-	// 							placement: 'left' // 'bottom' by default
-	// 						}).then(({ x, y }) => {
-	// 							Object.assign(floatingMenuHTML.style, {
-	// 								left: 'unset',
-	// 								right: `${30}px`,
-	// 								top: `${y}px`
-	// 							});
-	// 						});
-	// 					}
-	// 					// console.log(el.innerHTML);
+						// let position = {
+						// 	left: 0,
+						// 	top: 0
+						// };
+						if (editor.isActive({ textAlign: 'left' })) {
+							computePosition(focusNode, floatingMenuHTML, {
+								placement: 'left' // 'bottom' by default
+							}).then(({ x, y }) => {
+								Object.assign(floatingMenuHTML.style, {
+									left: `${x + 10 + floatingMenuHTML.clientWidth}px`,
+									right: 'unset',
+									top: `${y}px`
+								});
+							});
+						} else if (editor.isActive({ textAlign: 'center' })) {
+							computePosition(focusNode, floatingMenuHTML, {
+								placement: 'bottom' // 'bottom' by default
+							}).then(({ x, y }) => {
+								Object.assign(floatingMenuHTML.style, {
+									left: `${x}px`,
+									right: 'unset',
+									top: `${y}px`
+								});
+							});
+						} else if (editor.isActive({ textAlign: 'right' })) {
+							computePosition(focusNode, floatingMenuHTML, {
+								placement: 'left' // 'bottom' by default
+							}).then(({ x, y }) => {
+								Object.assign(floatingMenuHTML.style, {
+									left: 'unset',
+									right: `${30}px`,
+									top: `${y}px`
+								});
+							});
+						}
+						// console.log(el.innerHTML);
 
-	// 					// console.log(el.innerHTML.replaceAll(`<br class="ProseMirror-trailingBreak">`, ''));
+						// console.log(el.innerHTML.replaceAll(`<br class="ProseMirror-trailingBreak">`, ''));
 
-	// 					// computePosition(focusNode, floatingMenuHTML, {
-	// 					// 	placement: 'left' // 'bottom' by default
-	// 					// }).then(({ x, y }) => {
-	// 					// 	Object.assign(floatingMenuHTML.style, {
-	// 					// 		left: `${20}px`,
-	// 					// 		top: `${y}px`
-	// 					// 	});
-	// 					// });
-	// 					floatingMenuShow = true;
-	// 				} else {
-	// 					floatingMenuShow = false;
-	// 				}
-	// 			} else {
-	// 				floatingMenuShow = false;
-	// 			}
-	// 		},
-	// 		autofocus: true,
+						// computePosition(focusNode, floatingMenuHTML, {
+						// 	placement: 'left' // 'bottom' by default
+						// }).then(({ x, y }) => {
+						// 	Object.assign(floatingMenuHTML.style, {
+						// 		left: `${20}px`,
+						// 		top: `${y}px`
+						// 	});
+						// });
+						floatingMenuShow = true;
+					} else {
+						floatingMenuShow = false;
+					}
+				} else {
+					floatingMenuShow = false;
+				}
+			},
+			autofocus: true,
 
-	// 		onUpdate({ editor }) {
-	// 			// const focusNode = editor.view.domObserver.currentSelection.focusNode;
-	// 			// console.log(focusNode);
-	// 			// The editor is focused.
-	// 			// const el = editor.view.dom.children[editor.view.dom.children.length - 1];
-	// 			// if (editor.isActive('paragraph') && el.classList.contains('is-empty')) {
-	// 			// 	// console.log(el.innerHTML.indexOf(`<br class="ProseMirror-trailingBreak">`));
-	// 			// 	// console.log(el.innerHTML);
-	// 			// 	// console.log(el.innerHTML.replaceAll(`<br class="ProseMirror-trailingBreak">`, ''));
-	// 			// 	computePosition(el, floatingMenuHTML, {
-	// 			// 		placement: 'left' // 'bottom' by default
-	// 			// 	}).then(({ x, y }) => {
-	// 			// 		Object.assign(floatingMenuHTML.style, {
-	// 			// 			left: `${20}px`,
-	// 			// 			top: `${y}px`
-	// 			// 		});
-	// 			// 	});
-	// 			// 	floatingMenuShow = true;
-	// 			// } else {
-	// 			// 	floatingMenuShow = false;
-	// 			// }
-	// 		}
-	// 		// onUpdate({ editor }) {
-	// 		// 	// The editor is focused.
-	// 		// 	const el = editor.view.dom.children[editor.view.dom.children.length - 1];
-	// 		// 	if (editor.isActive('paragraph')) {
-	// 		// 		if (el.innerHTML.replaceAll(`<br class="ProseMirror-trailingBreak">`, '') === '') {
-	// 		// 			floatingMenuShow = true;
-	// 		// 			computePosition(el, floatingMenuHTML, {
-	// 		// 				placement: 'left' // 'bottom' by default
-	// 		// 			}).then(({ x, y }) => {
-	// 		// 				Object.assign(floatingMenuHTML.style, {
-	// 		// 					left: `${x - 12}px`,
-	// 		// 					top: `${y}px`
-	// 		// 				});
-	// 		// 			});
-	// 		// 		} else {
-	// 		// 			floatingMenuShow = false;
-	// 		// 		}
-	// 		// 	}
-	// 		// }
-	// 	});
-	// });
+			onUpdate({ editor }) {
+				// console.log(editor);
+
+				// const el = editor.view.dom.children[editor.view.dom.children.length - 1];
+				dataModal.mobiledoc.value = JSON.stringify(editor.getJSON());
+				dataModal.html.value = editor.getHTML();
+				dataModal.plaintext.value = editor.getText();
+				// const focusNode = editor.view.domObserver.currentSelection.focusNode;
+				// console.log(focusNode);
+				// The editor is focused.
+				// const el = editor.view.dom.children[editor.view.dom.children.length - 1];
+				// if (editor.isActive('paragraph') && el.classList.contains('is-empty')) {
+				// 	// console.log(el.innerHTML.indexOf(`<br class="ProseMirror-trailingBreak">`));
+				// 	// console.log(el.innerHTML);
+				// 	// console.log(el.innerHTML.replaceAll(`<br class="ProseMirror-trailingBreak">`, ''));
+				// 	computePosition(el, floatingMenuHTML, {
+				// 		placement: 'left' // 'bottom' by default
+				// 	}).then(({ x, y }) => {
+				// 		Object.assign(floatingMenuHTML.style, {
+				// 			left: `${20}px`,
+				// 			top: `${y}px`
+				// 		});
+				// 	});
+				// 	floatingMenuShow = true;
+				// } else {
+				// 	floatingMenuShow = false;
+				// }
+			}
+			// onUpdate({ editor }) {
+			// 	// The editor is focused.
+			// 	const el = editor.view.dom.children[editor.view.dom.children.length - 1];
+			// 	if (editor.isActive('paragraph')) {
+			// 		if (el.innerHTML.replaceAll(`<br class="ProseMirror-trailingBreak">`, '') === '') {
+			// 			floatingMenuShow = true;
+			// 			computePosition(el, floatingMenuHTML, {
+			// 				placement: 'left' // 'bottom' by default
+			// 			}).then(({ x, y }) => {
+			// 				Object.assign(floatingMenuHTML.style, {
+			// 					left: `${x - 12}px`,
+			// 					top: `${y}px`
+			// 				});
+			// 			});
+			// 		} else {
+			// 			floatingMenuShow = false;
+			// 		}
+			// 	}
+			// }
+		});
+	});
 	// async function updateField(id: string, field: string, value: any) {
 	// 	// console.log(encodeURIComponent(value));
 	// 	// console.log(value);
