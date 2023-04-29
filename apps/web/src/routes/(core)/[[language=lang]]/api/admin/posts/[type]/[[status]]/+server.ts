@@ -1,7 +1,9 @@
 import { knexInstance } from '$lib/core/core/server/data/db/connection';
 import { ENUM_DATABASE_TABLE, ENUM_POSTS_STATUS } from '$lib/core/shared/enum.js';
+import { language } from '$lib/core/shared/stores/site';
 import type { RequestHandler } from './$types';
 import ObjectID from 'bson-objectid';
+import { get } from 'svelte/store';
 import { v4 as uuidv4 } from 'uuid';
 
 /** @type {import('./$types').RequestHandler} */
@@ -47,6 +49,7 @@ async function getAllRows(params: any): Promise<any[] | null> {
 				'p.visibility': 'public'
 			})
 			.where('p.status', params.status != 'undefined' ? '=' : '<>', params.status)
+			.where({ 'p.locale': get(language) })
 			.orderBy('updated_at', 'desc');
 		return rows;
 	} catch (error) {

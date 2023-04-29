@@ -1,4 +1,6 @@
 import { knexInstance } from '$lib/core/core/server/data/db/connection';
+import { language } from '$lib/core/shared/stores/site.js';
+import { get } from 'svelte/store';
 
 /** @type {import('./$types').RequestHandler} */
 export async function GET({ url }) {
@@ -29,7 +31,7 @@ async function getAllRows(): Promise<any[] | null> {
 			.from('posts as p')
 			.leftJoin('posts_tags as pt', 'p.id', 'pt.post_id')
 			.leftJoin('tags as t', 't.id', 'pt.tag_id')
-			.where({ 'p.type': 'post', 'p.status': 'published' });
+			.where({ 'p.type': 'post', 'p.status': 'published', 'p.locale': get(language) });
 		return rows;
 	} catch (error) {
 		console.error(error);

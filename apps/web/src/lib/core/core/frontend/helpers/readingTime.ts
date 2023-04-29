@@ -1,4 +1,3 @@
-
 /**
  * Word count Utility
  * @param {string} text
@@ -8,37 +7,38 @@
  * with extra diacritics character matching.
  **/
 function countWords(text) {
-    if (!text) {
-        return 0;
-    }
-    // protect against Handlebars.SafeString
-    if (Object.prototype.hasOwnProperty.call(text, 'string')) {
-        text = text.string;
-    }
+	if (!text) {
+		return 0;
+	}
+	// protect against Handlebars.SafeString
+	if (Object.prototype.hasOwnProperty.call(text, 'string')) {
+		text = text.string;
+	}
 
-    text = text.replace(/<(.|\n)*?>/g, ' '); // strip any HTML tags
+	text = text.replace(/<(.|\n)*?>/g, ' '); // strip any HTML tags
 
-    const pattern = /[a-zA-ZÀ-ÿ0-9_\u0392-\u03c9\u0410-\u04F9]+|[\u4E00-\u9FFF\u3400-\u4dbf\uf900-\ufaff\u3040-\u309f\uac00-\ud7af]+/g;
+	const pattern =
+		/[a-zA-ZÀ-ÿ0-9_\u0392-\u03c9\u0410-\u04F9]+|[\u4E00-\u9FFF\u3400-\u4dbf\uf900-\ufaff\u3040-\u309f\uac00-\ud7af]+/g;
 
-    const RTLPattern = /([\u0600-\u06ff]+|[\u0591-\u05F4]+)/g;
+	const RTLPattern = /([\u0600-\u06ff]+|[\u0591-\u05F4]+)/g;
 
-    const match = text.match(pattern) || text.match(RTLPattern);
+	const match = text.match(pattern) || text.match(RTLPattern);
 
-    let count = 0;
+	let count = 0;
 
-    if (match === null) {
-        return count;
-    }
+	if (match === null) {
+		return count;
+	}
 
-    for (var i = 0; i < match.length; i += 1) {
-        if (match[i].charCodeAt(0) >= 0x4e00) {
-            count += match[i].length;
-        } else {
-            count += 1;
-        }
-    }
+	for (var i = 0; i < match.length; i += 1) {
+		if (match[i].charCodeAt(0) >= 0x4e00) {
+			count += match[i].length;
+		} else {
+			count += 1;
+		}
+	}
 
-    return count;
+	return count;
 }
 
 /**
@@ -48,29 +48,29 @@ function countWords(text) {
  * @description Takes an HTML string and returns the number of images
  **/
 function countImages(html) {
-    if (!html) {
-        return 0;
-    }
-    // protect against Handlebars.SafeString
-    if (Object.prototype.hasOwnProperty.call(html, 'string')) {
-        html = html.string;
-    }
-    return (html.match(/<img(.|\n)*?>/g) || []).length;
+	if (!html) {
+		return 0;
+	}
+	// protect against Handlebars.SafeString
+	if (Object.prototype.hasOwnProperty.call(html, 'string')) {
+		html = html.string;
+	}
+	return (html.match(/<img(.|\n)*?>/g) || []).length;
 }
 
 function estimatedReadingTimeInMinutes({ wordCount, imageCount }) {
-    const wordsPerMinute = 275;
-    const wordsPerSecond = wordsPerMinute / 60;
-    let readingTimeSeconds = wordCount / wordsPerSecond;
+	const wordsPerMinute = 275;
+	const wordsPerSecond = wordsPerMinute / 60;
+	let readingTimeSeconds = wordCount / wordsPerSecond;
 
-    // add 12 seconds for the first image, 11 for the second, etc. limiting at 3
-    for (var i = 12; i > 12 - imageCount; i -= 1) {
-        readingTimeSeconds += Math.max(i, 3);
-    }
+	// add 12 seconds for the first image, 11 for the second, etc. limiting at 3
+	for (var i = 12; i > 12 - imageCount; i -= 1) {
+		readingTimeSeconds += Math.max(i, 3);
+	}
 
-    let readingTimeMinutes = Math.round(readingTimeSeconds / 60);
+	let readingTimeMinutes = Math.round(readingTimeSeconds / 60);
 
-    return readingTimeMinutes;
+	return readingTimeMinutes;
 }
 /**
  * Reading minutes method
@@ -81,18 +81,18 @@ function estimatedReadingTimeInMinutes({ wordCount, imageCount }) {
  */
 
 function readingMinutes(html, additionalImages) {
-    if (!html) {
-        return '';
-    }
+	if (!html) {
+		return '';
+	}
 
-    let imageCount = countImages(html);
-    let wordCount = countWords(html);
+	let imageCount = countImages(html);
+	let wordCount = countWords(html);
 
-    if (additionalImages) {
-        imageCount += additionalImages;
-    }
+	if (additionalImages) {
+		imageCount += additionalImages;
+	}
 
-    return estimatedReadingTimeInMinutes({ wordCount, imageCount });
+	return estimatedReadingTimeInMinutes({ wordCount, imageCount });
 }
 
 /**
@@ -106,30 +106,30 @@ function readingMinutes(html, additionalImages) {
  */
 
 export function readingTime(post, options = {}) {
-    // console.log(post);
+	// console.log(post);
 
-    const minuteStr = typeof options.minute === 'string' ? options.minute : '1 min read';
-    const minutesStr = typeof options.minutes === 'string' ? options.minutes : '% min read';
+	const minuteStr = typeof options.minute === 'string' ? options.minute : '1 min read';
+	const minutesStr = typeof options.minutes === 'string' ? options.minutes : '% min read';
 
-    // TODO: cache?
-    // if (!post.html && !post.reading_time) {
-    //     return '';
-    // }
+	// TODO: cache?
+	// if (!post.html && !post.reading_time) {
+	//     return '';
+	// }
 
-    let imageCount = 0;
+	let imageCount = 0;
 
-    if (post.feature_image) {
-        imageCount += 1;
-    }
+	if (post?.feature_image) {
+		imageCount += 1;
+	}
 
-    const time = post.reading_time || readingMinutes(post.html, imageCount);
-    let readingTime = '';
+	const time = post?.reading_time || readingMinutes(post.html, imageCount);
+	let readingTime = '';
 
-    if (time <= 1) {
-        readingTime = minuteStr;
-    } else {
-        readingTime = minutesStr.replace('%', time);
-    }
+	if (time <= 1) {
+		readingTime = minuteStr;
+	} else {
+		readingTime = minutesStr.replace('%', time);
+	}
 
-    return readingTime;
+	return readingTime;
 }

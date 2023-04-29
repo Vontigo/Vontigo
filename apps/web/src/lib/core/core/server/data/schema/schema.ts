@@ -153,7 +153,7 @@ export let tables = {
 			validations: { isIn: [['published', 'draft', 'scheduled', 'sent']] }
 		},
 		// NOTE: unused at the moment and reserved for future features
-		locale: { type: 'string', maxlength: 6, nullable: true },
+		locale: { type: 'string', maxlength: 6, nullable: false },
 		visibility: {
 			type: 'string',
 			maxlength: 50,
