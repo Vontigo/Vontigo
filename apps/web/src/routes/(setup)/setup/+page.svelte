@@ -1,11 +1,16 @@
 <script>
 	import { goto } from '$app/navigation';
-	async function setup(){
-		await fetch(`/api/setup`);
-		goto('/setup/done');
-	}
-</script>
 
+
+	let setupBody = {
+		siteTitle: '',
+		fullName: '',
+		email: '',
+		password: ''
+	};
+
+</script>
+<!-- {JSON.stringify(setupBody)} -->
 <div class="max-w-screen-sm m-auto flex h-screen">
 	<div class="m-auto flex flex-col gap-6 px-20">
 		<h3>Hi! Vontigoers!</h3>
@@ -13,23 +18,33 @@
 		<div class="flex flex-col gap-4 pr-40">
 			<div class="flex flex-col gap-2">
 				<label>Site title</label>
-				<input class="input p-2" type="text" placeholder="My Voyage"/>
+				<input bind:value={setupBody.siteTitle} class="input p-2" type="text" placeholder="My Voyage"/>
 			</div>
 			<div class="flex flex-col gap-2">
 				<label>Full name</label>
-				<input class="input p-2" type="text" placeholder="Huy Nguyen"/>
+				<input bind:value={setupBody.fullName} class="input p-2" type="text" placeholder="Huy Nguyen"/>
 			</div>
 			<div class="flex flex-col gap-2">
 				<label>Email address</label>
-				<input class="input p-2" type="email" placeholder="huy@example.com"/>
+				<input bind:value={setupBody.email} class="input p-2" type="email" placeholder="huy@example.com"/>
 			</div>
 			<div class="flex flex-col gap-2">
 				<label>Password</label>
-				<input class="input p-2" type="password" placeholder="At least 10 characters"/>
+				<input bind:value={setupBody.password} class="input p-2" type="password" placeholder="At least 10 characters"/>
 			</div>
 		</div>
 		<div class="pt-4">
-			<button class="btn variant-filled" on:click={() => setup()}>Continue -></button>
+			<button class="btn variant-filled" on:click={async () => {
+				
+				const requestOptions = {
+					method: 'POST',
+					headers: { 'Content-Type': 'application/json' },
+					body: JSON.stringify(setupBody)
+				};
+
+				await fetch(`/api/setup`, requestOptions);
+				goto('/setup/done');
+			}}>Continue -></button>
 		</div>
 	</div>
 </div>
