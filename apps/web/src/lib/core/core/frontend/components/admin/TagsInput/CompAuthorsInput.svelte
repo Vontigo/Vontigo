@@ -71,7 +71,7 @@
 	}
 </script>
 
-{JSON.stringify(taglist)}
+<!-- {JSON.stringify(taglist)} -->
 <Tags
 	bind:tags={taglist}
 	autoComplete={tagWhitelist}
