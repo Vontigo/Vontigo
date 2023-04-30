@@ -31,9 +31,9 @@ const setup = (async ({ event, resolve }) => {
 	}
 
 	if (isDbExist) {
-		if (event.url.pathname == '/setup') throw redirect(303, '/');
+		if (event.url.pathname.indexOf('/setup') > -1) throw redirect(303, '/');
 	} else {
-		if (event.url.pathname != '/setup') throw redirect(303, '/setup');
+		if (event.url.pathname.indexOf('/setup') < 0) throw redirect(303, '/setup');
 	}
 
 	return await resolve(event);

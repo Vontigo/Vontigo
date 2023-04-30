@@ -51,7 +51,7 @@
 		href === $page.url.pathname ? '!bg-primary-500 text-white' : '';
 </script>
 
-<AppShell regionPage="relative" slotPageHeader="sticky top-0 z-10 ">
+<AppShell regionPage="relative" slotPageHeader="sticky top-0 z-10 h-full">
 	<!-- <svelte:fragment slot="header">Header</svelte:fragment> -->
 	<!-- <svelte:fragment slot="sidebarRight">Sidebar Right</svelte:fragment> -->
 	<!-- <svelte:fragment slot="pageHeader">
@@ -63,3 +63,12 @@
 	<!-- <svelte:fragment slot="pageFooter">Page Footer</svelte:fragment> -->
 	<!-- <svelte:fragment slot="footer">Footer</svelte:fragment> -->
 </AppShell>
+
+<style>
+	html {
+		height: 100%;
+	}
+	body {
+		height: 100%;
+	}
+</style>
