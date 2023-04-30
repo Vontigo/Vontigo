@@ -128,6 +128,9 @@ importers:
       sqlite3:
         specifier: ^5.1.6
         version: 5.1.6
+      svelte-tags-input:
+        specifier: ^5.0.0
+        version: 5.0.0
       timeago.js:
         specifier: ^4.0.2
         version: 4.0.2
@@ -5084,6 +5087,10 @@ packages:
       svelte: 3.58.0
       typescript: 5.0.4
     dev: true
+
+  /svelte-tags-input@5.0.0:
+    resolution: {integrity: sha512-lH0rkSdVcurCEnJBkHG9gTQfpz0gsQmVBzA+TQqSLL1/A0okRsz8lZJzVC20d6Eufkr24b5zHkYzQmrbIaqS/w==}
+    dev: false
 
   /svelte@3.58.0:
     resolution: {integrity: sha512-brIBNNB76mXFmU/Kerm4wFnkskBbluBDCjx/8TcpYRb298Yh2dztS2kQ6bhtjMcvUhd5ynClfwpz5h2gnzdQ1A==}

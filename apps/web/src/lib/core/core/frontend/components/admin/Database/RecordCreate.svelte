@@ -51,6 +51,7 @@
 	onMount(async () => {
 		// Backup all of previous files to delete incase upload new files
 		updateInitialFileValues();
+		initOldValues();
 		// console.log(initialFileValues);
 	});
 
@@ -166,6 +167,14 @@
 
 		return await resData.json();
 	}
+
+	function initOldValues() {
+		Object.keys(dataModal).forEach(async (key) => {
+			oldValues[key] = dataModal[key].value;
+		});
+		return '';
+	}
+
 	let oldValues: any = {};
 	let timeoutId: any;
 	$: if (dataModal) {
@@ -411,7 +420,7 @@
 									<option value={''}>-- NULL --</option>
 									{#each tableSchema[dataModal[key].key]?.validations?.isIn as optiongroup}
 										{#each optiongroup as option}
-											<option value={option}>{option}</option>
+											<option value={option} class="capitalize">{option}</option>
 										{/each}
 									{/each}
 								</select>

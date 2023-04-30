@@ -121,7 +121,7 @@ which templates loop over to generate a list of posts. -->
 				})}</time
 			>
 			<!-- {#if post.reading_time} -->
-			<span class="post-card-meta-length">{readingTime(post.html)}</span>
+			<span class="post-card-meta-length">{readingTime(post?.html)}</span>
 			<!-- {/if} -->
 			{#if $site.comments_enabled}
 				{post.comment_count}

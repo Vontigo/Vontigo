@@ -11,9 +11,9 @@ export const POST = (async ({ request, url, params }) => {
 	if (!tableExists) {
 		return { status: 404, body: `Table ${table} not found` };
 	}
+
 	const [id] = await knexInstance(table).insert(body);
 	const row = await knexInstance(table).where({ id: body.id }).first();
-
 
 	if (id > -1) {
 		return new Response(JSON.stringify({ row }), { status: 200 });

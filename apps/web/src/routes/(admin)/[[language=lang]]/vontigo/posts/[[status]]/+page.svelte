@@ -9,7 +9,7 @@
 	import Icon3BottomLeft from '$lib/icons/Icon3BottomLeft.svelte';
 	import IconArrowDown from '$lib/icons/IconArrowDown.svelte';
 	import IconPlusSmall from '$lib/icons/IconPlusSmall.svelte';
-	import { AppBar, AppShell, InputChip } from '@skeletonlabs/skeleton';
+	import { AppBar, AppShell } from '@skeletonlabs/skeleton';
 	import { Drawer, drawerStore } from '@skeletonlabs/skeleton';
 	import type { DrawerSettings } from '@skeletonlabs/skeleton';
 	import type { PageData } from './$types';
@@ -19,13 +19,20 @@
 	import AutoResizableTextarea from '$lib/core/core/frontend/components/admin/Editor/components/AutoResizableTextarea.svelte';
 	import CompPostEditor from '$lib/core/core/frontend/components/admin/Editor/CompPostEditor.svelte';
 	import { ENUM_DATABASE_TABLE } from '$lib/core/shared/enum';
+	import Tags from 'svelte-tags-input';
+	import ObjectID from 'bson-objectid';
+	import { onMount } from 'svelte';
 
 	export let data: PageData;
 	let selectedPost: any;
 	let keysJson: string[];
 	let isDrawerSidebar = true;
-	let taglist: string[] = ['foo', 'bar', 'fizz', 'buzz'];
-	let tagWhitelist = ['vanilla', 'chocolate', 'strawberry', 'peach', 'rocky road'];
+	let taglist: string[] = [];
+	const tagWhitelist = data.tags.map((tag: string) => {
+		return tag.name;
+	});
+
+	onMount(async () => {});
 
 	// if (data && data.posts) keysJson = Object.keys(data.posts[0]);
 
@@ -45,11 +52,56 @@
 		dataPostsSchema.forEach((value, key) => {
 			$recordDataModal[value.key] = value;
 		});
+		await getPostsTags($recordDataModal.id.value);
 		drawerStore.open(createPageDrawer);
 	}
-
+	async function closeDrawer() {
+		taglist = [];
+		$recordDataModal = {};
+		drawerStore.close();
+	}
+	async function getPostsTags(post_id: string) {
+		const resPostsTags = await fetch(`/api/admin/posts_tags/${post_id}`);
+		const resPostsTagsData = await resPostsTags.json();
+		console.log(resPostsTagsData);
+		taglist = resPostsTagsData.rows.map((tag: string) => {
+			return tag.name;
+		});
+	}
+	let timeoutId;
 	$: if (selectedPost) {
 		selectedPost = selectedPost;
+	}
+	$: if (taglist) {
+		clearTimeout(timeoutId);
+		timeoutId = setTimeout(async () => {
+			if ($recordDataModal.id) {
+				// console.log('tagWhitelist', tagWhitelist);
+				const filteredItems = data.tags.filter((item) => taglist.includes(item.name));
+				// const post_id = '123';
+				const outputJson = filteredItems.map((item) => {
+					return {
+						id: new ObjectID().toHexString(),
+						post_id: $recordDataModal.id.value,
+						tag_id: item.id
+					};
+				});
+				if (outputJson.length > 0) {
+					const requestOptions = {
+						method: 'POST',
+						headers: { 'Content-Type': 'application/json' },
+						body: JSON.stringify(outputJson)
+					};
+					const response = await fetch(
+						`/api/admin/posts_tags/${$recordDataModal.id.value}`,
+						requestOptions
+					);
+					const responseData = await response.json();
+
+					console.log('response', response);
+				}
+			}
+		}, 2500);
 	}
 </script>
 
@@ -178,8 +230,7 @@
 		<button
 			class="absolute left-2 top-2 btn btn-sm variant-filled rounded"
 			on:click={() => {
-				$recordDataModal = {};
-				drawerStore.close();
+				closeDrawer();
 			}}
 		>
 			<span>
@@ -246,7 +297,7 @@
 				<div id="sidebar-right" class="hidden lg:{isDrawerSidebar ? 'block' : 'hidden'}">
 					<div class="card w-[350px] h-screen p-4 px-2">
 						<header class="card-header text-lg font-medium">Post settings</header>
-						<section class="p-4">
+						<section class="p-4 pb-20">
 							<RecordCreate
 								{data}
 								table={ENUM_DATABASE_TABLE.posts}
@@ -261,11 +312,13 @@
 								>
 									Tags
 								</h3>
-								<InputChip
-									bind:value={taglist}
-									name="tag-chips"
-									placeholder="Enter any value..."
-									whitelist={tagWhitelist}
+								<!-- {JSON.stringify(taglist)} -->
+								<Tags
+									bind:tags={taglist}
+									autoComplete={tagWhitelist}
+									onlyAutocomplete={true}
+									onlyUnique={true}
+									placeholder={'Type to add...'}
 								/>
 							</div>
 						</section>

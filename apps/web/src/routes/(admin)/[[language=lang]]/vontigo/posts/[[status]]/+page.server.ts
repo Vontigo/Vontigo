@@ -16,10 +16,15 @@ export const load = (async ({ fetch, url, params }) => {
 		`/api/admin/posts/post/${params.status != 'drafts' ? params.status : 'draft'}`
 	);
 	const data = await response.json();
-	// console.log(data);
+
+	const tagsResponse = await fetch(`/api/admin/tags/public`);
+	const tagsData = await tagsResponse.json();
+
+	// console.log(tagsData);
 	// if (data) console.log(data[0]);
 
 	return {
-		posts: data
+		posts: data,
+		tags: tagsData
 	};
 }) satisfies PageLoad;
