@@ -16,14 +16,17 @@
 
 	$templateType = 'home';
 
-	export let data: PageData;
+	export let data: any;
 </script>
 
 <svelte:head>
 	<!---->
 </svelte:head>
 
-{#if data}
+{#await data}
+	Loading...	
+{:then data} 
+
 	<MetaTags
 		title={data.settings.site.title}
 		titleTemplate={data.settings.site.description + ' | %s'}
@@ -93,4 +96,4 @@
 			<Pagination />
 		</div>
 	</main>
-{/if}
+{/await}

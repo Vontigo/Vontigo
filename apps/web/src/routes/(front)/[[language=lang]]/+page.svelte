@@ -5,5 +5,8 @@
 
 	export let data: PageData;
 </script>
-
-<Index {data} />
+{#await data}
+	Loading...
+{:then data} 
+	<Index {data} />
+{/await}
