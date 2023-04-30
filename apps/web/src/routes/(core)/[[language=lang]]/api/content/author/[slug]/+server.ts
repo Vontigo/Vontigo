@@ -7,9 +7,7 @@ export async function GET({ url, params }) {
 	// console.log(params);
 	try {
 		content = await knexInstance
-			.select(
-				'a.*',
-			)
+			.select('a.*')
 			.from('users as a')
 			.where({
 				'a.slug': params.slug
@@ -17,7 +15,6 @@ export async function GET({ url, params }) {
 			.first();
 
 		// console.log(content);
-
 
 		posts = await knexInstance
 			.select(
@@ -32,10 +29,12 @@ export async function GET({ url, params }) {
 			.leftJoin('tags as t', 't.id', 'pt.tag_id')
 			.where({
 				'pa.author_id': content.id,
-				'p.type': 'post', 'p.status': 'published', 'p.visibility': 'public'
+				'p.type': 'post',
+				'p.status': 'published',
+				'p.visibility': 'public'
 			});
 
-		console.log(await posts);
+		// console.log(await posts);
 	} catch (error) {
 		return new Response(JSON.stringify(error), { status: 300 });
 	}

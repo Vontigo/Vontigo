@@ -62,7 +62,7 @@ async function getAllRows(params: any): Promise<any[] | null> {
 					defaultValue: info[key].defaultValue,
 					reference: foreignKeyMap[key]
 				}));
-				console.log(userstructure);
+				// console.log(userstructure);
 
 				row = userstructure;
 			});

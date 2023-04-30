@@ -45,7 +45,7 @@ export const POST = (async ({ request, url, params }) => {
 		});
 
 	const rows = await knexInstance(table).insert(body);
-	console.log(rows);
+	// console.log(rows);
 
 	// const rows = await knexInstance(table).where({ id: body.id });
 

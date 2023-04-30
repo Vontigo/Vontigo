@@ -96,7 +96,7 @@ export const POST = (async ({ request, params }) => {
 			newsletter_id: reqJsonData.newsletter_id
 		})
 		.then((result) => {
-			console.log('Inserted:', result);
+			// console.log('Inserted:', result);
 			return new Response(JSON.stringify(result), { status: 200 });
 		})
 		.catch((error) => {

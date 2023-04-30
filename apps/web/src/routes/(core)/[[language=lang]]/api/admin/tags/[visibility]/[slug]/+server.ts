@@ -1,10 +1,12 @@
 import { knexInstance } from '$lib/core/core/server/data/db/connection';
 import { ENUM_DATABASE_TABLE, ENUM_POSTS_STATUS } from '$lib/core/shared/enum.js';
-import type { RreferenceStructure as ReferenceStructure, TableStructure } from '$lib/core/shared/types';
+import type {
+	RreferenceStructure as ReferenceStructure,
+	TableStructure
+} from '$lib/core/shared/types';
 import type { RequestHandler } from './$types';
 import ObjectID from 'bson-objectid';
 import { v4 as uuidv4 } from 'uuid';
-
 
 /** @type {import('./$types').RequestHandler} */
 export async function GET({ url, params }) {
@@ -29,7 +31,11 @@ function mapForeignKey(json: ForeignKey): Record<string, ForeignKey> {
 async function getAllRows(params: any): Promise<any[] | null> {
 	const table = ENUM_DATABASE_TABLE.tags;
 	try {
-		const valueRows: any[] = await knexInstance.select('t.*').from(`${table} as t`).where(params).first();
+		const valueRows: any[] = await knexInstance
+			.select('t.*')
+			.from(`${table} as t`)
+			.where(params)
+			.first();
 
 		let foreignKeyMap: any[];
 		// console.log(await knexInstance.raw('PRAGMA table_info(users);'));
@@ -41,25 +47,26 @@ async function getAllRows(params: any): Promise<any[] | null> {
 				return result;
 			}, {});
 			// console.log(foreignKeyMap['created_by']);
-
 		});
 
 		let row: any;
-		await knexInstance(table).columnInfo().then(function (info) {
-			// console.log(info);
-			const tagStructure: TableStructure = Object.keys(info).map(key => ({
-				key,
-				value: valueRows[key],
-				type: info[key].type,
-				maxLength: info[key].maxLength,
-				nullable: info[key].nullable,
-				defaultValue: info[key].defaultValue,
-				reference: foreignKeyMap[key]
-			}));
-			console.log(tagStructure);
+		await knexInstance(table)
+			.columnInfo()
+			.then(function (info) {
+				// console.log(info);
+				const tagStructure: TableStructure = Object.keys(info).map((key) => ({
+					key,
+					value: valueRows[key],
+					type: info[key].type,
+					maxLength: info[key].maxLength,
+					nullable: info[key].nullable,
+					defaultValue: info[key].defaultValue,
+					reference: foreignKeyMap[key]
+				}));
+				// console.log(tagStructure);
 
-			row = tagStructure;
-		});
+				row = tagStructure;
+			});
 		return row;
 	} catch (error) {
 		console.error(error);

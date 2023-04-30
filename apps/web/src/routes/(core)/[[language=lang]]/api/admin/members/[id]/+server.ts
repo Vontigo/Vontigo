@@ -1,10 +1,12 @@
 import { knexInstance } from '$lib/core/core/server/data/db/connection';
 import { ENUM_DATABASE_TABLE, ENUM_POSTS_STATUS } from '$lib/core/shared/enum.js';
-import type { RreferenceStructure as ReferenceStructure, TableStructure } from '$lib/core/shared/types';
+import type {
+	RreferenceStructure as ReferenceStructure,
+	TableStructure
+} from '$lib/core/shared/types';
 import type { RequestHandler } from './$types';
 import ObjectID from 'bson-objectid';
 import { v4 as uuidv4 } from 'uuid';
-
 
 /** @type {import('./$types').RequestHandler} */
 export async function GET({ url, params }) {
@@ -28,7 +30,11 @@ function mapForeignKey(json: ForeignKey): Record<string, ForeignKey> {
 
 async function getAllRows(params: any): Promise<any[] | null> {
 	try {
-		const valueRows: any[] = await knexInstance.select('m.*').from('members as m').where(params).first();
+		const valueRows: any[] = await knexInstance
+			.select('m.*')
+			.from('members as m')
+			.where(params)
+			.first();
 
 		let foreignKeyMap: any[];
 		// console.log(await knexInstance.raw('PRAGMA table_info(users);'));
@@ -40,25 +46,26 @@ async function getAllRows(params: any): Promise<any[] | null> {
 				return result;
 			}, {});
 			// console.log(foreignKeyMap['created_by']);
-
 		});
 
 		let row: any;
-		await knexInstance('members').columnInfo().then(function (info) {
-			// console.log(info);
-			const memberstructure: TableStructure = Object.keys(info).map(key => ({
-				key,
-				value: valueRows[key],
-				type: info[key].type,
-				maxLength: info[key].maxLength,
-				nullable: info[key].nullable,
-				defaultValue: info[key].defaultValue,
-				reference: foreignKeyMap[key]
-			}));
-			console.log(memberstructure);
+		await knexInstance('members')
+			.columnInfo()
+			.then(function (info) {
+				// console.log(info);
+				const memberstructure: TableStructure = Object.keys(info).map((key) => ({
+					key,
+					value: valueRows[key],
+					type: info[key].type,
+					maxLength: info[key].maxLength,
+					nullable: info[key].nullable,
+					defaultValue: info[key].defaultValue,
+					reference: foreignKeyMap[key]
+				}));
+				// console.log(memberstructure);
 
-			row = memberstructure;
-		});
+				row = memberstructure;
+			});
 		return row;
 	} catch (error) {
 		console.error(error);
