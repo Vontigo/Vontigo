@@ -41,9 +41,9 @@
 
 	let timeoutId;
 	$: if (taglist) {
-		console.log('taglist', taglist);
-		console.log('oldTaglist', oldTaglist);
-		console.log(taglist == oldTaglist);
+		// console.log('taglist', taglist);
+		// console.log('oldTaglist', oldTaglist);
+		// console.log(taglist == oldTaglist);
 
 		clearTimeout(timeoutId);
 		timeoutId = setTimeout(async () => {
