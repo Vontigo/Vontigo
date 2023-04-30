@@ -5,9 +5,13 @@ import { get } from 'svelte/store';
 
 export const load: LayoutServerLoad = async (event) => {
 	console.log('______LayoutServerLoad (admin): ', await event.locals.getSession());
+	console.log('______LayoutServerLoad (admin): ', await event.locals.getSession());
 
 	const session = await event.locals.getSession();
-	if (!session?.user) throw redirect(303, '/auth/signin');
+	// if (!session?.user) throw redirect(303, '/auth/signin');
+	if (session?.user.role != 'Administrator') {
+		throw redirect(303, '/auth/signin');
+	}
 
 	// console.log(event.url.pathname);
 	// if (get(isSignedIn) == false && event.url.pathname != '/vontigo/signin') {

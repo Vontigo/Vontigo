@@ -12,7 +12,10 @@ import { AUTH_SECRET, GOOGLE_ID, GOOGLE_SECRET } from '$env/static/private';
 // TODO: https://github.com/nextauthjs/next-auth/discussions/3038
 const auth = SvelteKitAuth({
 	providers: [
-		Google({ clientId: GOOGLE_ID, clientSecret: GOOGLE_SECRET }),
+		Google({
+			clientId: GOOGLE_ID,
+			clientSecret: GOOGLE_SECRET
+		}),
 		Credentials({
 			credentials: {
 				username: { label: 'Username' },
@@ -22,15 +25,31 @@ const auth = SvelteKitAuth({
 				//const response = await fetch(request);
 				//if (!response.ok) return null;
 				//return (await response.json()) ?? null;
+				//https://webkul.com/blog/how-to-implement-authentication-in-nextjs-with-magento2-using-credentials-provider/
 				return {
+					id: 1,
 					name: 'Huy Nguyen',
 					email: 'i.love.to.smile.around@gmail.com',
+					role: 'Administrator',
 					image:
 						'https://lh3.googleusercontent.com/a/AGNmyxbKXTS_H0ATpH89eMRUsFJZwMCtVVJAkPoMjanW8pY=s96-c'
 				};
 			}
 		})
 	],
+	callbacks: {
+		jwt: async ({ token, user }) => {
+			user && (token.user = user);
+			return token;
+		},
+		session: async ({ session, token }) => {
+			session.user = token.user; // Setting token in session
+			return session;
+		}
+	},
+	// pages: {
+	// 	signIn: '/login' //Need to define custom login page (if using)
+	// },
 	secret: AUTH_SECRET
 });
 
