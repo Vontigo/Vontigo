@@ -270,7 +270,7 @@
 								>
 									Tags
 								</h3>
-								<CompTagsInput table={'posts_tags'} postId={$recordDataModal.id.value} />
+								<CompTagsInput postId={$recordDataModal.id.value} />
 							</div>
 							<div
 								class="ember-view permalink v-list-data v-post-list-title w-full py-4 w-full capitalize md:grid-cols-1 col-span-2 md:pb-0 flex flex-col gap-4"
@@ -280,7 +280,7 @@
 								>
 									Authors
 								</h3>
-								<CompAuthorsInput table={'posts_authors'} postId={$recordDataModal.id.value} />
+								<CompAuthorsInput postId={$recordDataModal.id.value} />
 							</div>
 						</section>
 					</div>

@@ -3,10 +3,11 @@
 	import { onMount } from 'svelte';
 	import Tags from 'svelte-tags-input';
 
-	export let table: string;
+	const table: string = 'posts_authors';
 	export let postId: string;
 
 	let data: any;
+	let oldTaglist: string[] = [];
 	let taglist: string[] = [];
 
 	let tagWhitelist: string[] = [];
@@ -28,7 +29,10 @@
 	async function getPostsTags(post_id: string) {
 		const resPostsTags = await fetch(`/api/admin/${table}/${post_id}`);
 		const resPostsTagsData = await resPostsTags.json();
-		console.log(resPostsTagsData);
+		// console.log(resPostsTagsData);
+		oldTaglist = resPostsTagsData.rows.map((tag: string) => {
+			return tag.name;
+		});
 		taglist = resPostsTagsData.rows.map((tag: string) => {
 			return tag.name;
 		});
@@ -38,7 +42,7 @@
 	$: if (taglist) {
 		clearTimeout(timeoutId);
 		timeoutId = setTimeout(async () => {
-			if (postId) {
+			if (postId && JSON.stringify(taglist) != JSON.stringify(oldTaglist)) {
 				// const filteredItems = data.filter((item) => taglist.includes(item.name));
 
 				const filteredItems = data

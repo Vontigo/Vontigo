@@ -102,7 +102,11 @@
 		// 		data = resDataJson.row;
 		// 	}
 		// }
-		const content = JSON.parse(dataModal.mobiledoc.value);
+		const content = JSON.parse(
+			dataModal.mobiledoc.value
+				? dataModal.mobiledoc.value
+				: '{"type":"doc","content":[{"type":"paragraph","attrs":{"textAlign":"left"},"content":[{"type":"text","text":"Your content is here..."}]}]}'
+		);
 
 		editor = new Editor({
 			element: element,
