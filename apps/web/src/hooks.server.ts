@@ -8,7 +8,36 @@ import { SvelteKitAuth } from '@auth/sveltekit';
 import Google from '@auth/core/providers/google';
 import Credentials from '@auth/core/providers/credentials';
 import { AUTH_SECRET, GOOGLE_ID, GOOGLE_SECRET } from '$env/static/private';
+import fs from 'fs';
+import { redirect } from '@sveltejs/kit';
 
+const setup = (async ({ event, resolve }) => {
+	// Do something
+	console.log(event.url);
+	const dbFilePath = './database/vontigo.db';
+
+	let isDbExist = false;
+	try {
+		// Check if the file exists
+		await fs.promises.access(dbFilePath);
+
+		// File exists
+		console.log('Database file exists!');
+		isDbExist = true;
+	} catch (error) {
+		// File doesn't exist
+		console.error('Database file does not exist!', error);
+		isDbExist = false;
+	}
+
+	if (isDbExist) {
+		if (event.url.pathname == '/setup') throw redirect(303, '/');
+	} else {
+		if (event.url.pathname != '/setup') throw redirect(303, '/setup');
+	}
+
+	return await resolve(event);
+}) satisfies Handle;
 // TODO: https://github.com/nextauthjs/next-auth/discussions/3038
 const auth = SvelteKitAuth({
 	providers: [
@@ -53,14 +82,7 @@ const auth = SvelteKitAuth({
 	secret: AUTH_SECRET
 });
 
-export const handle = sequence(auth);
-
-// const firstHandle = (async ({ event, resolve }) => {
-// 	// Do something
-// 	// console.log(event.url);
-
-// 	return await resolve(event);
-// }) satisfies Handle;
+export const handle = sequence(setup, auth);
 
 // const secondHandle = (async ({ event, resolve }) => {
 // 	const response = await resolve(event);
