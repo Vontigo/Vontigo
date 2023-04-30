@@ -20,7 +20,7 @@ export const load = (async ({ fetch, parent, url, params }) => {
 	// }
 
 	const response = await fetch(`/api/content/posts`);
-	const posts = response.json();
+	const posts = await response.json();
 	return {
 		posts: posts
 	};

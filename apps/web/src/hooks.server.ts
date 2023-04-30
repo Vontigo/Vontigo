@@ -14,21 +14,28 @@ import { redirect } from '@sveltejs/kit';
 const setup = (async ({ event, resolve }) => {
 	// Do something
 	console.log(event.url);
-	const dbFilePath = './database/vontigo.db';
+	const dbFilePath = 'database/vontigo.db';
 
 	let isDbExist = false;
-	try {
-		// Check if the file exists
-		await fs.promises.access(dbFilePath);
-
-		// File exists
-		console.log('Database file exists!');
+	if (fs.existsSync(dbFilePath)) {
+		console.log('File exists!');
 		isDbExist = true;
-	} catch (error) {
-		// File doesn't exist
-		console.error('Database file does not exist!', error);
+	} else {
+		console.log('File does not exist.');
 		isDbExist = false;
 	}
+	// try {
+	// 	// Check if the file exists
+	// 	await fs.promises.access(dbFilePath);
+
+	// 	// File exists
+	// 	console.log('Database file exists!');
+	// 	isDbExist = true;
+	// } catch (error) {
+	// 	// File doesn't exist
+	// 	console.error('Database file does not exist!', error);
+	// 	isDbExist = false;
+	// }
 
 	if (isDbExist) {
 		if (event.url.pathname.indexOf('/setup') > -1) throw redirect(303, '/');
@@ -36,12 +43,12 @@ const setup = (async ({ event, resolve }) => {
 		if (event.url.pathname.indexOf('/setup') < 0) throw redirect(303, '/setup');
 	}
 
+
 	return await resolve(event);
 }) satisfies Handle;
 // TODO: https://github.com/nextauthjs/next-auth/discussions/3038
 const auth = SvelteKitAuth({
-	trustHost: true,
-	secret: AUTH_SECRET,
+	// trustHost: true,
 	providers: [
 		Google({
 			clientId: GOOGLE_ID,
@@ -77,7 +84,8 @@ const auth = SvelteKitAuth({
 			session.user = token.user; // Setting token in session
 			return session;
 		}
-	}
+	},
+	secret: AUTH_SECRET
 	// pages: {
 	// 	signIn: '/login' //Need to define custom login page (if using)
 	// },

@@ -16,7 +16,7 @@
 
 	$templateType = 'home';
 
-	export let data: any;
+	export let data: PageData;
 </script>
 
 <svelte:head>
