@@ -23,13 +23,10 @@ const auth = SvelteKitAuth({
 				//if (!response.ok) return null;
 				//return (await response.json()) ?? null;
 				return {
-					user: {
-						name: 'Huy Nguyen',
-						email: 'i.love.to.smile.around@gmail.com',
-						image:
-							'https://lh3.googleusercontent.com/a/AGNmyxbKXTS_H0ATpH89eMRUsFJZwMCtVVJAkPoMjanW8pY=s96-c'
-					},
-					expires: '2023-05-30T12:41:01.032Z'
+					name: 'Huy Nguyen',
+					email: 'i.love.to.smile.around@gmail.com',
+					image:
+						'https://lh3.googleusercontent.com/a/AGNmyxbKXTS_H0ATpH89eMRUsFJZwMCtVVJAkPoMjanW8pY=s96-c'
 				};
 			}
 		})
