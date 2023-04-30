@@ -294,7 +294,7 @@
 				<div class="parent font-bold text-4xl">
 					<AutoResizableTextarea
 						bind:value={$recordDataModal.title.value}
-						classes={'input border-none focus:border-none active:border-none rounded-none overflow-hidden'}
+						classes={'input border-none focus:border-none active:border-none rounded-xl overflow-hidden bg-white'}
 						placeholder={'Page title...'}
 					/>
 				</div>

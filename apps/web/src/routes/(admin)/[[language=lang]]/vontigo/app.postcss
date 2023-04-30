@@ -11,8 +11,14 @@
 html,
 body {
 	@apply h-full overflow-hidden;
-	background-color: #fafafb;
+	background-color: rgb(var(--color-surface-100));
 	/* font-family: 'Outfit', sans-serif; */
+}
+
+.input,
+.textarea,
+.select,
+.input-group {
 }
 
 #page-content .app-bar-row-main {
@@ -23,7 +29,7 @@ body {
 }
 
 #page-content .app-bar {
-	background-color: #fafafb;
+	background-color: rgb(var(--color-surface-100));
 	.filter-bar {
 		button {
 			background: transparent;
@@ -44,7 +50,7 @@ body {
 .table {
 	border-radius: 0;
 	thead {
-		background-color: #fafafb;
+		/* background-color: #fafafb; */
 		th {
 			font-weight: 500;
 			font-size: 0.8rem;
@@ -53,9 +59,9 @@ body {
 	}
 	tbody {
 		tr {
-			background-color: #fafafb;
+			/* background-color: #fafafb; */
 			&:nth-child(even) {
-				background-color: #fafafb;
+				/* background-color: #fafafb; */
 			}
 			&:hover {
 				background-color: #eee;

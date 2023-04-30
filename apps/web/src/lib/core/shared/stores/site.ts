@@ -19,3 +19,6 @@ export const access = writable(false);
 
 // Data
 export const recordDataModal = writable({});
+
+// Auth
+export const isSignedIn = writable(true);

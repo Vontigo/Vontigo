@@ -6,11 +6,34 @@ import { sequence } from '@sveltejs/kit/hooks';
 import { CONST_DEFAULT_LANGUAGE } from '$lib/core/shared/const';
 import { SvelteKitAuth } from '@auth/sveltekit';
 import Google from '@auth/core/providers/google';
+import Credentials from '@auth/core/providers/credentials';
 import { AUTH_SECRET, GOOGLE_ID, GOOGLE_SECRET } from '$env/static/private';
 
 // TODO: https://github.com/nextauthjs/next-auth/discussions/3038
 const auth = SvelteKitAuth({
-	providers: [Google({ clientId: GOOGLE_ID, clientSecret: GOOGLE_SECRET })],
+	providers: [
+		Google({ clientId: GOOGLE_ID, clientSecret: GOOGLE_SECRET }),
+		Credentials({
+			credentials: {
+				username: { label: 'Username' },
+				password: { label: 'Password', type: 'password' }
+			},
+			async authorize({ request }) {
+				//const response = await fetch(request);
+				//if (!response.ok) return null;
+				//return (await response.json()) ?? null;
+				return {
+					user: {
+						name: 'Huy Nguyen',
+						email: 'i.love.to.smile.around@gmail.com',
+						image:
+							'https://lh3.googleusercontent.com/a/AGNmyxbKXTS_H0ATpH89eMRUsFJZwMCtVVJAkPoMjanW8pY=s96-c'
+					},
+					expires: '2023-05-30T12:41:01.032Z'
+				};
+			}
+		})
+	],
 	secret: AUTH_SECRET
 });
 

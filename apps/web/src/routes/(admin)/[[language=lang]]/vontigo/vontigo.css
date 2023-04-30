@@ -89,8 +89,8 @@
 	--color-error-900: 103 62 63; /* ⬅ #673e3f */
 	/* surface | #2b2e40 */
 	--color-surface-50: 223 224 226; /* ⬅ #dfe0e2 */
-	--color-surface-100: 213 213 217; /* ⬅ #d5d5d9 */
-	--color-surface-200: 202 203 207; /* ⬅ #cacbcf */
+	--color-surface-100: 255 255 255; /* ⬅ #d5d5d9 */
+	--color-surface-200: 242 242 242; /* ⬅ #cacbcf */
 	--color-surface-300: 170 171 179; /* ⬅ #aaabb3 */
 	--color-surface-400: 107 109 121; /* ⬅ #6b6d79 */
 	--color-surface-500: 43 46 64; /* ⬅ #2b2e40 */
