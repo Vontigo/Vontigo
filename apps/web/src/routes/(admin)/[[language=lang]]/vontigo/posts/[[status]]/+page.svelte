@@ -19,18 +19,15 @@
 	import AutoResizableTextarea from '$lib/core/core/frontend/components/admin/Editor/components/AutoResizableTextarea.svelte';
 	import CompPostEditor from '$lib/core/core/frontend/components/admin/Editor/CompPostEditor.svelte';
 	import { ENUM_DATABASE_TABLE } from '$lib/core/shared/enum';
-	import Tags from 'svelte-tags-input';
 	import ObjectID from 'bson-objectid';
 	import { onMount } from 'svelte';
+	import CompTagsInput from '$lib/core/core/frontend/components/admin/TagsInput/CompTagsInput.svelte';
+	import CompAuthorsInput from '$lib/core/core/frontend/components/admin/TagsInput/CompAuthorsInput.svelte';
 
 	export let data: PageData;
 	let selectedPost: any;
 	let keysJson: string[];
 	let isDrawerSidebar = true;
-	let taglist: string[] = [];
-	const tagWhitelist = data.tags.map((tag: string) => {
-		return tag.name;
-	});
 
 	onMount(async () => {});
 
@@ -52,56 +49,17 @@
 		dataPostsSchema.forEach((value, key) => {
 			$recordDataModal[value.key] = value;
 		});
-		await getPostsTags($recordDataModal.id.value);
+		// await getPostsTags($recordDataModal.id.value);
 		drawerStore.open(createPageDrawer);
 	}
 	async function closeDrawer() {
-		taglist = [];
+		// taglist = [];
 		$recordDataModal = {};
 		drawerStore.close();
 	}
-	async function getPostsTags(post_id: string) {
-		const resPostsTags = await fetch(`/api/admin/posts_tags/${post_id}`);
-		const resPostsTagsData = await resPostsTags.json();
-		console.log(resPostsTagsData);
-		taglist = resPostsTagsData.rows.map((tag: string) => {
-			return tag.name;
-		});
-	}
-	let timeoutId;
+
 	$: if (selectedPost) {
 		selectedPost = selectedPost;
-	}
-	$: if (taglist) {
-		clearTimeout(timeoutId);
-		timeoutId = setTimeout(async () => {
-			if ($recordDataModal.id) {
-				// console.log('tagWhitelist', tagWhitelist);
-				const filteredItems = data.tags.filter((item) => taglist.includes(item.name));
-				// const post_id = '123';
-				const outputJson = filteredItems.map((item) => {
-					return {
-						id: new ObjectID().toHexString(),
-						post_id: $recordDataModal.id.value,
-						tag_id: item.id
-					};
-				});
-				if (outputJson.length > 0) {
-					const requestOptions = {
-						method: 'POST',
-						headers: { 'Content-Type': 'application/json' },
-						body: JSON.stringify(outputJson)
-					};
-					const response = await fetch(
-						`/api/admin/posts_tags/${$recordDataModal.id.value}`,
-						requestOptions
-					);
-					const responseData = await response.json();
-
-					console.log('response', response);
-				}
-			}
-		}, 2500);
 	}
 </script>
 
@@ -312,14 +270,17 @@
 								>
 									Tags
 								</h3>
-								<!-- {JSON.stringify(taglist)} -->
-								<Tags
-									bind:tags={taglist}
-									autoComplete={tagWhitelist}
-									onlyAutocomplete={true}
-									onlyUnique={true}
-									placeholder={'Type to add...'}
-								/>
+								<CompTagsInput table={'posts_tags'} postId={$recordDataModal.id.value} />
+							</div>
+							<div
+								class="ember-view permalink v-list-data v-post-list-title w-full py-4 w-full capitalize md:grid-cols-1 col-span-2 md:pb-0 flex flex-col gap-4"
+							>
+								<h3
+									class="v-content-entry-title unstyled text-sm font-medium antialiased tracking-wide flex gap-2"
+								>
+									Authors
+								</h3>
+								<CompAuthorsInput table={'posts_authors'} postId={$recordDataModal.id.value} />
 							</div>
 						</section>
 					</div>
