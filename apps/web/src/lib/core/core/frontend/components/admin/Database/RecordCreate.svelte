@@ -171,12 +171,24 @@
 	$: if (dataModal) {
 		clearTimeout(timeoutId);
 		timeoutId = setTimeout(() => {
-			Object.keys(dataModal).forEach((key) => {
+			Object.keys(dataModal).forEach(async (key) => {
 				if (dataModal[key].value !== null && dataModal[key].value !== oldValues[key]) {
 					if (key == 'title' || key == 'mobiledoc' || key == 'html' || key == 'plaintext') {
 						// console.log(`${key} value changed:`, dataModal[key].value);
 						updateField(recordId, dataModal[key].key, dataModal[key].value);
 						oldValues[key] = dataModal[key].value;
+
+						if (key == 'title') {
+							//newTagBody.slug = await createUniqueSlug(newTagBody.name);
+							const response = await fetch(`/api/admin/slugs/posts/${dataModal[key].value}`);
+							const resJson = await response.json();
+							// console.log(resJson);
+
+							dataModal['slug'].value = resJson?.slugs[0]?.slug;
+
+							updateField(recordId, dataModal['slug'].key, dataModal['slug'].value);
+							oldValues['slug'] = dataModal['slug'].value;
+						}
 					}
 				}
 			});
@@ -461,7 +473,7 @@
 				</li>
 			{/each}
 		</ol>
-		<div class="infinity-loader reached-infinity py-10" />
+		<!-- <div class="infinity-loader reached-infinity py-10" /> -->
 	</section>
 {/if}
 <Toast />

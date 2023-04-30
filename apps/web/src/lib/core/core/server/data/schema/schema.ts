@@ -96,7 +96,8 @@ export let tables = {
 			type: 'string',
 			maxlength: 2000,
 			nullable: false,
-			validations: { isLength: { max: 255 } }
+			validations: { isLength: { max: 255 } },
+			isHidden: true
 		},
 		slug: { type: 'string', maxlength: 191, nullable: false },
 		mobiledoc: {
@@ -153,7 +154,7 @@ export let tables = {
 			validations: { isIn: [['published', 'draft', 'scheduled', 'sent']] }
 		},
 		// NOTE: unused at the moment and reserved for future features
-		locale: { type: 'string', maxlength: 6, nullable: false },
+		locale: { type: 'string', maxlength: 6, nullable: false, isHidden: true },
 		visibility: {
 			type: 'string',
 			maxlength: 50,
@@ -164,30 +165,37 @@ export let tables = {
 		email_recipient_filter: {
 			type: 'text',
 			maxlength: 1000000000,
-			nullable: false
+			nullable: false,
+			isHidden: true
 		},
-		created_at: { type: 'dateTime', nullable: false },
+		created_at: { type: 'dateTime', nullable: false, isHidden: true },
 		/**
 		 * @deprecated: https://github.com/TryGhost/Ghost/issues/10286
 		 *
 		 * This is valid for all x_by fields.
 		 */
-		created_by: { type: 'string', maxlength: 24, nullable: false },
-		updated_at: { type: 'dateTime', nullable: true },
-		updated_by: { type: 'string', maxlength: 24, nullable: true },
-		published_at: { type: 'dateTime', nullable: true },
-		published_by: { type: 'string', maxlength: 24, nullable: true },
+		created_by: { type: 'string', maxlength: 24, nullable: false, isHidden: true },
+		updated_at: { type: 'dateTime', nullable: true, isHidden: true },
+		updated_by: { type: 'string', maxlength: 24, nullable: true, isHidden: true },
+		published_at: { type: 'dateTime', nullable: true, isHidden: true },
+		published_by: { type: 'string', maxlength: 24, nullable: true, isHidden: true },
 		custom_excerpt: {
 			type: 'string',
 			maxlength: 2000,
 			nullable: true,
 			validations: { isLength: { max: 300 } }
 		},
-		codeinjection_head: { type: 'text', maxlength: 65535, nullable: true },
-		codeinjection_foot: { type: 'text', maxlength: 65535, nullable: true },
-		custom_template: { type: 'string', maxlength: 100, nullable: true },
+		codeinjection_head: { type: 'text', maxlength: 65535, nullable: true, isHidden: true },
+		codeinjection_foot: { type: 'text', maxlength: 65535, nullable: true, isHidden: true },
+		custom_template: { type: 'string', maxlength: 100, nullable: true, isHidden: true },
 		canonical_url: { type: 'text', maxlength: 2000, nullable: true },
-		newsletter_id: { type: 'string', maxlength: 24, nullable: true, references: 'newsletters.id' },
+		newsletter_id: {
+			type: 'string',
+			maxlength: 24,
+			nullable: true,
+			references: 'newsletters.id',
+			isHidden: true
+		},
 		'@@UNIQUE_CONSTRAINTS@@': [['slug', 'type']]
 	},
 	posts_meta: {

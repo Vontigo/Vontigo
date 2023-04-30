@@ -9,7 +9,7 @@
 	import Icon3BottomLeft from '$lib/icons/Icon3BottomLeft.svelte';
 	import IconArrowDown from '$lib/icons/IconArrowDown.svelte';
 	import IconPlusSmall from '$lib/icons/IconPlusSmall.svelte';
-	import { AppBar, AppShell } from '@skeletonlabs/skeleton';
+	import { AppBar, AppShell, InputChip } from '@skeletonlabs/skeleton';
 	import { Drawer, drawerStore } from '@skeletonlabs/skeleton';
 	import type { DrawerSettings } from '@skeletonlabs/skeleton';
 	import type { PageData } from './$types';
@@ -24,6 +24,8 @@
 	let selectedPost: any;
 	let keysJson: string[];
 	let isDrawerSidebar = true;
+	let taglist: string[] = ['foo', 'bar', 'fizz', 'buzz'];
+	let tagWhitelist = ['vanilla', 'chocolate', 'strawberry', 'peach', 'rocky road'];
 
 	// if (data && data.posts) keysJson = Object.keys(data.posts[0]);
 
@@ -241,20 +243,34 @@
 				
 			</svelte:fragment> -->
 			<svelte:fragment slot="sidebarRight">
-				{#if isDrawerSidebar}
-					<div id="sidebar-right" class="hidden lg:block">
-						<div class="card w-[350px] h-screen p-4 px-2">
-							<header class="card-header text-lg font-medium">Post settings</header>
-							<section class="p-4">
-								<RecordCreate
-									{data}
-									table={ENUM_DATABASE_TABLE.posts}
-									bind:dataModal={$recordDataModal}
+				<div id="sidebar-right" class="hidden lg:{isDrawerSidebar ? 'block' : 'hidden'}">
+					<div class="card w-[350px] h-screen p-4 px-2">
+						<header class="card-header text-lg font-medium">Post settings</header>
+						<section class="p-4">
+							<RecordCreate
+								{data}
+								table={ENUM_DATABASE_TABLE.posts}
+								bind:dataModal={$recordDataModal}
+							/>
+
+							<div
+								class="ember-view permalink v-list-data v-post-list-title w-full py-4 w-full capitalize md:grid-cols-1 col-span-2 md:pb-0 flex flex-col gap-4"
+							>
+								<h3
+									class="v-content-entry-title unstyled text-sm font-medium antialiased tracking-wide flex gap-2"
+								>
+									Tags
+								</h3>
+								<InputChip
+									bind:value={taglist}
+									name="tag-chips"
+									placeholder="Enter any value..."
+									whitelist={tagWhitelist}
 								/>
-							</section>
-						</div>
+							</div>
+						</section>
 					</div>
-				{/if}
+				</div>
 			</svelte:fragment>
 			<!-- Router Slot -->
 			<div class="max-w-screen-md m-auto py-14 flex flex-col gap-4">

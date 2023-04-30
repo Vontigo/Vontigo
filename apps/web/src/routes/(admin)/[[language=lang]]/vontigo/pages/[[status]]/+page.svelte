@@ -261,20 +261,18 @@
 				
 			</svelte:fragment> -->
 			<svelte:fragment slot="sidebarRight">
-				{#if isDrawerSidebar}
-					<div id="sidebar-right" class="hidden lg:block">
-						<div class="card w-[350px] h-screen p-4 px-2">
-							<header class="card-header text-lg font-medium">Page settings</header>
-							<section class="p-4">
-								<RecordCreate
-									{data}
-									table={ENUM_DATABASE_TABLE.posts}
-									bind:dataModal={$recordDataModal}
-								/>
-							</section>
-						</div>
+				<div id="sidebar-right" class="hidden lg:{isDrawerSidebar ? 'block' : 'hidden'}">
+					<div class="card w-[350px] h-screen p-4 px-2">
+						<header class="card-header text-lg font-medium">Page settings</header>
+						<section class="p-4">
+							<RecordCreate
+								{data}
+								table={ENUM_DATABASE_TABLE.posts}
+								bind:dataModal={$recordDataModal}
+							/>
+						</section>
 					</div>
-				{/if}
+				</div>
 			</svelte:fragment>
 			<!-- Router Slot -->
 			<div class="max-w-screen-md m-auto py-14 flex flex-col gap-4">

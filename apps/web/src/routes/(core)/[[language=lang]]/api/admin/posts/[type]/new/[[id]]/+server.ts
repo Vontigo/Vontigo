@@ -48,7 +48,7 @@ async function getAllRows(params: any): Promise<any[] | null> {
 				.insert({
 					id: id,
 					uuid: uuidv4(),
-					title: 'Draft title',
+					title: 'Your new post is here...',
 					slug: 'draft-slug-' + id,
 					type: params.type,
 					email_recipient_filter: 'all',
