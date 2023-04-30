@@ -40,8 +40,8 @@ const setup = (async ({ event, resolve }) => {
 }) satisfies Handle;
 // TODO: https://github.com/nextauthjs/next-auth/discussions/3038
 const auth = SvelteKitAuth({
-	trustHost:true,
-	secret: AUTH_SECRET
+	trustHost: true,
+	secret: AUTH_SECRET,
 	providers: [
 		Google({
 			clientId: GOOGLE_ID,
@@ -77,7 +77,7 @@ const auth = SvelteKitAuth({
 			session.user = token.user; // Setting token in session
 			return session;
 		}
-	},
+	}
 	// pages: {
 	// 	signIn: '/login' //Need to define custom login page (if using)
 	// },
