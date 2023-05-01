@@ -29,7 +29,9 @@ export enum ENUM_IMAGE_SIZE {
 }
 export enum ENUM_DATABASE_TABLE {
 	posts = 'posts',
-	tags = 'tags'
+	tags = 'tags',
+	users = 'users',
+	settings = 'settings'
 }
 export enum ENUM_POSTS_STATUS {
 	published = 'published',

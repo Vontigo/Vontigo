@@ -2,6 +2,12 @@
 import { slugify } from 'transliteration';
 import { knexInstance } from '$lib/core/core/server/data/db/connection.js';
 
+export async function genSlug(table: string, input: string) {
+    const asciiSlug = await convertToAsciiSlug(input);
+    const uniqueSlug = await createUniqueSlug(table, asciiSlug);
+
+    return uniqueSlug;
+}
 export async function createUniqueSlug(table: string, slug: string): Promise<string> {
     // console.log('createUniqueSlug: ', slug);
 

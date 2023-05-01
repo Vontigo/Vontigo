@@ -1,5 +1,7 @@
-import { convertToAsciiSlug, createUniqueSlug } from '$lib/core/core/frontend/helpers/slug.js';
+import { genSlug } from '$lib/core/core/frontend/helpers/slug.js';
 import { knexInstance } from '$lib/core/core/server/data/db/connection.js';
+import { dynamicDefault } from '$lib/core/core/server/helpers/settings/settings.js';
+import { ENUM_DATABASE_TABLE } from '$lib/core/shared/enum.js';
 import fs from 'fs';
 
 let setupBody = {
@@ -14,11 +16,22 @@ export async function POST({ url, params, request }) {
 
 	const resJson = await request.json();
 
-	setupBody.siteTitle = resJson.siteTitle;
-	setupBody.fullName = resJson.fullName;
-	setupBody.email = resJson.email;
-	setupBody.password = resJson.password;
-	console.log(setupBody);
+	if (await initDatabase()) {
+		updateUser({
+			name: resJson.fullName,
+			slug: await genSlug(ENUM_DATABASE_TABLE.users, resJson.fullName),
+			email: resJson.email,
+			password: resJson.password
+		});
+		updateSiteInfo({
+			value: resJson.siteTitle
+		});
+		updateSettings();
+	}
+
+	return new Response(JSON.stringify({ message: 'Setup Done!' }), { status: 200 });
+}
+async function initDatabase() {
 
 	try {
 		const dbFilePath = 'database/vontigo.blank.db';
@@ -27,46 +40,53 @@ export async function POST({ url, params, request }) {
 		fs.copyFileSync(dbFilePath, destinationPath);
 
 		console.log('File copied successfully!');
-
-		updateData(setupBody);
+		return true;
+		//updateData(setupBody);
 	} catch (err) {
 		console.error(err);
+		return false;
 	}
-
-	return new Response(JSON.stringify({ message: 'done' }), { status: 200 });
 }
+async function updateUser(userInfo: any) {
 
-async function updateData(setupBody: any) {
-
-
-	// console.log(value);
-
-	// Check if the table exists in the database
-	const tableExists = await knexInstance.schema.hasTable('users');
-	if (!tableExists) {
-		return { status: 404, body: `Table users not found` };
-	}
-	// console.log(value);
-
-
-	const asciiSlug = await convertToAsciiSlug(setupBody.fullName);
-	const uniqueSlug = await createUniqueSlug('users', asciiSlug);
-
-	const count = await knexInstance('users')
+	// Update user info
+	const count = await knexInstance(ENUM_DATABASE_TABLE.users)
 		.where({ id: 1 })
-		.update({ name: setupBody.fullName, slug: uniqueSlug, email: setupBody.email, password: setupBody.password });
-
-	if (setupBody.siteTitle) {
-		await knexInstance('settings')
-			.where({ value: 'Vontigo' })
-			.update({ value: setupBody.siteTitle })
-	}
+		.update(userInfo);
 
 	if (count > 0) {
-		const row = await knexInstance('users').where({ id: 1 }).first();
-		return new Response(JSON.stringify({ row }), { status: 200 });
+		return true;
 	} else {
-		return new Response(JSON.stringify({ error: 'Row not found' }), { status: 404 });
+		return false;
 	}
 }
 
+async function updateSiteInfo(value: any) {
+	// Update site info
+	await knexInstance(ENUM_DATABASE_TABLE.settings)
+		.where({ value: 'Vontigo' }) // vontigo
+		.update(value)
+}
+
+async function updateSettings() {
+	const defaultSettings = {
+		db_hash: dynamicDefault.db_hash(),
+		public_hash: dynamicDefault.public_hash(),
+		admin_session_secret: dynamicDefault.admin_session_secret(),
+		theme_session_secret: dynamicDefault.theme_session_secret(),
+		members_public_key: dynamicDefault.members_public_key(),
+		members_private_key: dynamicDefault.members_private_key(),
+		members_email_auth_secret: dynamicDefault.members_email_auth_secret(),
+		vontigo_public_key: dynamicDefault.vontigo_public_key(),
+		vontigo_private_key: dynamicDefault.vontigo_private_key()
+	}
+	for (const key in defaultSettings) {
+		if (defaultSettings.hasOwnProperty(key)) {
+			const value = defaultSettings[key];
+			console.log(`${key}: ${value}`);
+			await knexInstance(ENUM_DATABASE_TABLE.settings)
+				.where({ key: key })
+				.update({ value: value })
+		}
+	}
+}

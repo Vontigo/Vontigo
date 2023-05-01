@@ -1,1 +1,17 @@
 export const CONST_DEFAULT_LANGUAGE = 'en-us';
+export const CONST_ONE_HOUR_S = 3600;
+export const CONST_ONE_DAY_S = 86400;
+export const CONST_ONE_WEEK_S = 604800;
+export const CONST_ONE_MONTH_S = 2628000;
+export const CONST_SIX_MONTH_S = 15768000;
+export const CONST_ONE_YEAR_S = 31536000;
+export const CONST_FIVE_MINUTES_MS = 300000;
+export const CONST_ONE_HOUR_MS = 3600000;
+export const CONST_ONE_DAY_MS = 86400000;
+export const CONST_ONE_WEEK_MS = 604800000;
+export const CONST_ONE_MONTH_MS = 2628000000;
+export const CONST_SIX_MONTH_MS = 15768000000;
+export const CONST_ONE_YEAR_MS = 31536000000;
+export const CONST_STATIC_IMAGES_URL_PREFIX = 'content/images';
+export const CONST_STATIC_MEDIA_URL_PREFIX = 'content/media';
+export const CONST_STATIC_FILES_URL_PREFIX = 'content/files';

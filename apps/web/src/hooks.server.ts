@@ -10,18 +10,19 @@ import Credentials from '@auth/core/providers/credentials';
 import { AUTH_SECRET, GOOGLE_ID, GOOGLE_SECRET } from '$env/static/private';
 import fs from 'fs';
 import { redirect } from '@sveltejs/kit';
+import { dynamicDefault } from '$lib/core/core/server/helpers/settings/settings';
 
 const setup = (async ({ event, resolve }) => {
 	// Do something
-	console.log(event.url);
+	// console.log(event.url);
 	const dbFilePath = 'database/vontigo.db';
 
 	let isDbExist = false;
 	if (fs.existsSync(dbFilePath)) {
-		console.log('File exists!');
+		// console.log('File exists!');
 		isDbExist = true;
 	} else {
-		console.log('File does not exist.');
+		// console.log('File does not exist.');
 		isDbExist = false;
 	}
 	// try {
@@ -46,20 +47,23 @@ const setup = (async ({ event, resolve }) => {
 
 	return await resolve(event);
 }) satisfies Handle;
+
 // TODO: https://github.com/nextauthjs/next-auth/discussions/3038
 const auth = SvelteKitAuth({
 	// trustHost: true,
 	providers: [
-		Google({
-			clientId: GOOGLE_ID,
-			clientSecret: GOOGLE_SECRET
-		}),
+		// Google({
+		// 	clientId: GOOGLE_ID,
+		// 	clientSecret: GOOGLE_SECRET
+		// }),
 		Credentials({
 			credentials: {
 				username: { label: 'Username' },
 				password: { label: 'Password', type: 'password' }
 			},
-			async authorize({ request }) {
+			async authorize({ username, password }) {
+				console.log('SvelteKitAuth', username);
+
 				//const response = await fetch(request);
 				//if (!response.ok) return null;
 				//return (await response.json()) ?? null;
