@@ -11,6 +11,9 @@ import { AUTH_SECRET, GOOGLE_ID, GOOGLE_SECRET } from '$env/static/private';
 import fs from 'fs';
 import { redirect } from '@sveltejs/kit';
 import { dynamicDefault } from '$lib/core/core/server/helpers/settings/settings';
+import { knexInstance } from '$lib/core/core/server/data/db/connection.js';
+import { ENUM_DATABASE_TABLE } from '$lib/core/shared/enum';
+// import { KnexAdapter } from '$lib/core/core/server/services/auth/authjs';
 
 const setup = (async ({ event, resolve }) => {
 	// Do something
@@ -51,6 +54,7 @@ const setup = (async ({ event, resolve }) => {
 // TODO: https://github.com/nextauthjs/next-auth/discussions/3038
 const auth = SvelteKitAuth({
 	// trustHost: true,
+	// adapter: KnexAdapter(knexInstance),
 	providers: [
 		// Google({
 		// 	clientId: GOOGLE_ID,
@@ -63,19 +67,31 @@ const auth = SvelteKitAuth({
 			},
 			async authorize({ username, password }) {
 				console.log('SvelteKitAuth', username);
+				const user = await knexInstance(ENUM_DATABASE_TABLE.users + ' as u')
+					.select('u.*', 'r.name as role')
+					.leftJoin(ENUM_DATABASE_TABLE.roles_users + ' as ru', 'ru.user_id', 'u.id')
+					.leftJoin(ENUM_DATABASE_TABLE.roles + ' as r', 'ru.role_id', 'r.id')
+					.where({
+						email: username,
+						password: password
+					}).first();
+				// const user = userReq.json();
+
+				return user;
+
 
 				//const response = await fetch(request);
 				//if (!response.ok) return null;
 				//return (await response.json()) ?? null;
 				//https://webkul.com/blog/how-to-implement-authentication-in-nextjs-with-magento2-using-credentials-provider/
-				return {
-					id: 1,
-					name: 'Huy Nguyen',
-					email: 'i.love.to.smile.around@gmail.com',
-					role: 'Administrator',
-					image:
-						'https://lh3.googleusercontent.com/a/AGNmyxbKXTS_H0ATpH89eMRUsFJZwMCtVVJAkPoMjanW8pY=s96-c'
-				};
+				// return {
+				// 	id: 1,
+				// 	name: 'Huy Nguyen',
+				// 	email: 'i.love.to.smile.around@gmail.com',
+				// 	role: 'Administrator',
+				// 	image:
+				// 		'https://lh3.googleusercontent.com/a/AGNmyxbKXTS_H0ATpH89eMRUsFJZwMCtVVJAkPoMjanW8pY=s96-c'
+				// };
 			}
 		})
 	],

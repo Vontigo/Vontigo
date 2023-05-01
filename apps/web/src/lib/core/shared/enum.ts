@@ -31,6 +31,8 @@ export enum ENUM_DATABASE_TABLE {
 	posts = 'posts',
 	tags = 'tags',
 	users = 'users',
+	roles = 'roles',
+	roles_users = 'roles_users',
 	settings = 'settings'
 }
 export enum ENUM_POSTS_STATUS {

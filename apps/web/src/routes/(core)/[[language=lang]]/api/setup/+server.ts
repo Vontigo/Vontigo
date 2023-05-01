@@ -1,6 +1,8 @@
 import { genSlug } from '$lib/core/core/frontend/helpers/slug.js';
 import { knexInstance } from '$lib/core/core/server/data/db/connection.js';
+import { generateHash } from '$lib/core/core/server/helpers/security/token.js';
 import { dynamicDefault } from '$lib/core/core/server/helpers/settings/settings.js';
+import { CONST_ONE_DAY_MS, CONST_ONE_HOUR_MS } from '$lib/core/shared/const.js';
 import { ENUM_DATABASE_TABLE } from '$lib/core/shared/enum.js';
 import fs from 'fs';
 
@@ -17,16 +19,17 @@ export async function POST({ url, params, request }) {
 	const resJson = await request.json();
 
 	if (await initDatabase()) {
+		updateSiteInfo({
+			value: resJson.siteTitle
+		});
+		const defaultSettings = updateSettings();
+
 		updateUser({
 			name: resJson.fullName,
 			slug: await genSlug(ENUM_DATABASE_TABLE.users, resJson.fullName),
 			email: resJson.email,
 			password: resJson.password
-		});
-		updateSiteInfo({
-			value: resJson.siteTitle
-		});
-		updateSettings();
+		}, defaultSettings);
 	}
 
 	return new Response(JSON.stringify({ message: 'Setup Done!' }), { status: 200 });
@@ -44,19 +47,6 @@ async function initDatabase() {
 		//updateData(setupBody);
 	} catch (err) {
 		console.error(err);
-		return false;
-	}
-}
-async function updateUser(userInfo: any) {
-
-	// Update user info
-	const count = await knexInstance(ENUM_DATABASE_TABLE.users)
-		.where({ id: 1 })
-		.update(userInfo);
-
-	if (count > 0) {
-		return true;
-	} else {
 		return false;
 	}
 }
@@ -88,5 +78,28 @@ async function updateSettings() {
 				.where({ key: key })
 				.update({ value: value })
 		}
+	}
+	return defaultSettings;
+}
+
+async function updateUser(userInfo: any, defaultSettings: any) {
+	const options = {
+		expires: Date.now() + CONST_ONE_DAY_MS, // expires in 1 day
+		email: userInfo.email,
+		dbHash: 'abc123',
+		password: userInfo.password,
+	};
+
+	userInfo.password = generateHash(options);
+
+	// Update user info
+	const count = await knexInstance(ENUM_DATABASE_TABLE.users)
+		.where({ id: 1 })
+		.update(userInfo);
+
+	if (count > 0) {
+		return true;
+	} else {
+		return false;
 	}
 }
