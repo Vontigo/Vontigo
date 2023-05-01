@@ -19,6 +19,11 @@
 // 	}
 // }
 
+export enum ENUM_USER_ROLE {
+	Owner = 'Owner',
+	Administrator = 'Administrator'
+}
+
 export enum ENUM_IMAGE_SIZE {
 	XXS = 'xxs',
 	XS = 'xs',
