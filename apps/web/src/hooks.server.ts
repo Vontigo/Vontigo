@@ -47,7 +47,6 @@ const setup = (async ({ event, resolve }) => {
 		if (event.url.pathname.indexOf('/setup') < 0) throw redirect(303, '/setup');
 	}
 
-
 	return await resolve(event);
 }) satisfies Handle;
 
@@ -56,10 +55,10 @@ const auth = SvelteKitAuth({
 	// trustHost: true,
 	// adapter: KnexAdapter(knexInstance),
 	providers: [
-		// Google({
-		// 	clientId: GOOGLE_ID,
-		// 	clientSecret: GOOGLE_SECRET
-		// }),
+		Google({
+			clientId: GOOGLE_ID,
+			clientSecret: GOOGLE_SECRET
+		}),
 		Credentials({
 			credentials: {
 				username: { label: 'Username' },
@@ -74,11 +73,11 @@ const auth = SvelteKitAuth({
 					.where({
 						email: username,
 						password: password
-					}).first();
+					})
+					.first();
 				// const user = userReq.json();
 
 				return user;
-
 
 				//const response = await fetch(request);
 				//if (!response.ok) return null;
@@ -105,6 +104,16 @@ const auth = SvelteKitAuth({
 			return session;
 		}
 	},
+	// pages: {
+	// 	signIn: '/account/signin'
+	// },
+	theme: {
+		colorScheme: 'light', //"auto" | "dark" | "light"
+		logo: 'https://authjs.dev/img/logo/logo-xs.webp'
+		// brandColor?: string
+		// buttonText?: string
+	},
+	useSecureCookies: true,
 	secret: AUTH_SECRET
 	// pages: {
 	// 	signIn: '/login' //Need to define custom login page (if using)

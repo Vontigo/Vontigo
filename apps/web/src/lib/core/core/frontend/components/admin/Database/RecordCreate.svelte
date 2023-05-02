@@ -378,7 +378,7 @@
 										alt=""
 									/>
 								</div>
-							{:else if dataModal[key].type == 'boolean'}
+							<!-- {:else if dataModal[key].type == 'boolean'}
 								<RadioGroup
 									active="variant-filled-primary"
 									hover="hover:variant-soft-primary"
@@ -402,7 +402,7 @@
 											updateField(dataModal[key].id, dataModal[key].key, dataModal[key].value);
 										}}>FALSE</RadioItem
 									>
-								</RadioGroup>
+								</RadioGroup> -->
 							{:else if dataModal[key].key == 'id' || dataModal[key].key == 'uuid'}
 								<input
 									class="input p-2 w-full text-sm"

@@ -22,12 +22,17 @@ export const load: LayoutServerLoad = async (event) => {
 	const session = await event.locals.getSession();
 	// if (!session?.user) throw redirect(303, '/auth/signin');
 
+	if (!session?.user) {
+		throw redirect(303, '/auth/signin');
+	}
+
 	if (
-		!session?.user &&
+		session?.user &&
 		session?.user.role != ENUM_USER_ROLE.Administrator &&
 		session?.user.role != ENUM_USER_ROLE.Owner
 	) {
 		throw redirect(303, '/auth/signin');
+		// throw redirect(303, '/account/signin');
 	}
 
 	// console.log(event.url.pathname);
