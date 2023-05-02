@@ -379,16 +379,11 @@
 									/>
 								</div>
 							{:else if dataModal[key].type == 'boolean'}
-<<<<<<< HEAD
-								{dataModal[key].value}
-								<RadioGroup active="variant-filled-primary" hover="hover:variant-soft-primary">
-=======
 								<RadioGroup
 									active="variant-filled-primary"
 									hover="hover:variant-soft-primary"
 									class="text-sm"
 								>
->>>>>>> cbed4c1509b0252986637f4a07b9b9e0a29a5d74
 									<RadioItem
 										bind:group={dataModal[key].value}
 										id={dataModal[key].key}
