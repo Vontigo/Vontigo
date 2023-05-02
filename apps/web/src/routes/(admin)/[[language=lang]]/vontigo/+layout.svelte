@@ -189,7 +189,9 @@
 					<ul class="sidebar-left__bottom p-8 flex flex-row">
 						<li class="w-full mt-1 flex">
 							<div class=" relative inline-block my-auto">
-								<span class="badge-icon bg-green-400 absolute -top-0 -right-0 z-10 w-2 h-2" />
+								<span
+									class="badge-icon bg-green-400 absolute -top-0 -right-0 z-10 w-2 h-2 border"
+								/>
 								{#if $page?.data?.session?.user?.profile_image}
 									<Avatar
 										src={$page?.data?.session?.user?.profile_image}
