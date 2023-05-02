@@ -8,7 +8,7 @@
 		<form action="/auth/callback/credentials" method="POST" class="flex flex-col gap-4">
 			<input type="hidden" name="csrfToken" value={data.csrfToken} />
 			<div>
-				<label class="section-header" for="input-username-for-credentials-provider">Username</label
+				<label class="section-header" for="input-username-for-credentials-provider">Email</label
 				><input
 					name="username"
 					id="input-username-for-credentials-provider"
