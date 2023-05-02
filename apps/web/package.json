@@ -51,6 +51,7 @@
 		"@floating-ui/dom": "^1.2.7",
 		"@sveltejs/adapter-node": "^1.2.4",
 		"@sveltejs/adapter-vercel": "^2.4.3",
+		"@tailwindcss/forms": "^0.5.3",
 		"@tailwindcss/nesting": "0.0.0-insiders.565cd3e",
 		"@tiptap/core": "^2.0.3",
 		"@tiptap/extension-bubble-menu": "^2.0.3",

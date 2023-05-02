@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { InputChip } from '@skeletonlabs/skeleton';
 	import ObjectID from 'bson-objectid';
 	import { onMount } from 'svelte';
 	import Tags from 'svelte-tags-input';
@@ -87,4 +88,21 @@
 	onlyAutocomplete={true}
 	onlyUnique={true}
 	placeholder={'Type to add...'}
+	class="text-black dark:text-white"
 />
+
+<InputChip
+	name="chips"
+	bind:value={taglist}
+	autoComplete={tagWhitelist}
+	onlyAutocomplete={true}
+	onlyUnique={true}
+	class="text-sm"
+	placeholder={'Type to add...'}
+/>
+
+<style lang="postcss">
+	input {
+		@apply text-sm;
+	}
+</style>

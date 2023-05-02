@@ -329,7 +329,7 @@
 								/>
 							{:else if row.type == 'varchar' && tableSchema[row.key]?.validations?.isIn}
 								<select
-									class="select rounded-3xl w-1/3"
+									class="select rounded-3xl w-1/3 text-base"
 									bind:value={row.value}
 									on:change={() => {
 										updateField(recordId, row.key, row.value);
