@@ -15,9 +15,9 @@ body {
 	/* font-family: 'Outfit', sans-serif; */
 }
 
-.sidebar-left {
+/* .sidebar-left {
 	background-color: rgb(var(--color-surface-100));
-}
+} */
 .page-content {
 	background-color: rgb(var(--color-surface-100));
 }
@@ -83,25 +83,42 @@ body {
 	}
 }
 
-.dark #page-content .app-bar {
-	background-color: rgb(var(--color-surface-900));
-}
-.dark .sidebar-left {
-	border-color: rgb(var(--color-surface-500));
-}
+.dark {
+	body,
+	#editorElement,
+	input,
+	select {
+		@apply text-white;
+	}
 
-.dark .table thead {
-	background-color: rgb(var(--color-surface-900));
+	#page-content .app-bar {
+		background-color: rgb(var(--color-surface-900));
+	}
+
+	.sidebar-left {
+		border-color: rgb(var(--color-surface-500));
+	}
+
+	.table {
+		thead {
+			background-color: rgb(var(--color-surface-900));
+		}
+		tbody {
+			tr {
+				background-color: rgb(var(--color-surface-900));
+			}
+			tr:nth-child(even) {
+				background-color: rgb(var(--color-surface-900));
+			}
+			tr:hover,
+			tr:hover:nth-child(even) {
+				background-color: #111;
+			}
+		}
+	}
 }
-.dark .table tbody tr {
-	background-color: rgb(var(--color-surface-900));
-}
-.dark .table tbody tr:nth-child(even) {
-	background-color: rgb(var(--color-surface-900));
-}
-.dark .table-hover tbody tr:hover {
-	background-color: #111;
-}
-.dark .table-hover tbody tr:hover:nth-child(even) {
-	background-color: #111;
-}
+/* .dark body,
+.dark #editorElement,
+.dark input {
+	@apply text-white;
+} */

@@ -119,7 +119,7 @@
 				</li>
 				{#each data.posts as row, i}
 					<li
-						class="v-list-row v-posts-list-item grid grid-cols-4 border-b hover:bg-slate-100 {i ==
+						class="v-list-row v-posts-list-item px-2 grid grid-cols-4 border-b hover:bg-secondary-500/20 {i ==
 						data.posts.length - 1
 							? ' border-b'
 							: ''}"
@@ -132,14 +132,12 @@
 							}}
 						>
 							<h3
-								class="v-content-entry-title unstyled text-sm font-medium antialiased tracking-wide"
+								class="v-content-entry-title unstyled text-sm font-bold antialiased tracking-wide"
 							>
 								{row.title}
 							</h3>
 							<p>
-								<span
-									class="v-content-entry-meta unstyled text-xs font-light mt-1 text-slate-500 tracking-wide"
-								>
+								<span class="v-content-entry-meta unstyled text-xs font-light mt-1 tracking-wide">
 									By <span class="font-medium">{row.author_name}</span>
 									{#if row.primary_tag_name}
 										in
@@ -186,7 +184,7 @@
 <Drawer>
 	{#if $drawerStore.id === 'postEditorDrawer'}
 		<button
-			class="absolute left-2 top-2 btn btn-sm variant-filled rounded"
+			class="absolute left-2 top-2 btn btn-sm border-none bg-transparent hover:variant-filled dark:text-white rounded"
 			on:click={() => {
 				closeDrawer();
 			}}
@@ -207,8 +205,8 @@
 					/>
 				</svg>
 			</span>
-			<span>Back</span></button
-		>
+			<span>Back</span>
+		</button>
 		<button
 			class="absolute right-2 top-2 rounded border-none p-2"
 			on:click={() => {
@@ -222,7 +220,7 @@
 					viewBox="0 0 24 24"
 					stroke-width="1.5"
 					stroke="currentColor"
-					class="w-6 h-6"
+					class="w-6 h-6 stroke-black dark:stroke-white"
 				>
 					<path
 						stroke-linecap="round"
@@ -237,7 +235,7 @@
 					viewBox="0 0 24 24"
 					stroke-width="1.5"
 					stroke="currentColor"
-					class="w-6 h-6"
+					class="w-6 h-6 stroke-black dark:stroke-white"
 				>
 					<path
 						stroke-linecap="round"
@@ -294,7 +292,7 @@
 				<div class="parent font-bold text-4xl">
 					<AutoResizableTextarea
 						bind:value={$recordDataModal.title.value}
-						classes={'input border-none focus:border-none active:border-none rounded-xl overflow-hidden bg-white'}
+						classes={'input border-none rounded-none focus:border-none active:border-none overflow-hidden bg-white resize-none dark:bg-transparent'}
 						placeholder={'Page title...'}
 					/>
 				</div>

@@ -635,9 +635,10 @@
 			</div>
 		{/if}
 	</div>
+	<!-- svelte-ignore a11y-no-noninteractive-tabindex -->
 	<div
 		id="postContent"
-		class="p-0 overflow-x-hidden overflow-y-auto"
+		class="p-0 overflow-x-hidden overflow-y-auto text-black dark:text-white"
 		style="height: calc(100vh - {stickyEditorHeight}px - 2rem);"
 		bind:this={element}
 		tabindex="0"
@@ -653,9 +654,9 @@
 	p.is-empty.is-editor-empty {
 		content: attr(data-placeholder);
 	}
-	#editorElement #postContent {
+	/* #editorElement #postContent {
 		@apply text-black;
-	}
+	} */
 	.bubble-menu {
 		display: flex;
 		background-color: #0d0d0d;

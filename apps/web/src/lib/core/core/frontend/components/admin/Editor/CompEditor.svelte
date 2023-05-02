@@ -781,7 +781,4 @@
 	p.is-empty.is-editor-empty {
 		content: attr(data-placeholder);
 	}
-	#editorElement #postContent {
-		@apply text-black;
-	}
 </style>

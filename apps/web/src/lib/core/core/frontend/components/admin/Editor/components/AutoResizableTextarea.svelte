@@ -13,8 +13,8 @@
 
 	const handleInput = () => {
 		textareaRef.style.height = '0px';
-		textareaHeight = `${textareaRef.scrollHeight}px`;
-		textareaRef.style.height = textareaHeight;
+		textareaHeight = textareaRef.scrollHeight + 8;
+		textareaRef.style.height = `${textareaHeight}px`;
 		rows = Math.ceil(textareaRef.scrollHeight / (parentFontSize * 1.2));
 		dispatch('input');
 	};
@@ -46,3 +46,9 @@
 	{placeholder}
 	tabindex="0"
 />
+
+<style>
+	textarea:focus-visible {
+		@apply outline-none;
+	}
+</style>
