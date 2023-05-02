@@ -30,6 +30,12 @@
 				/>
 			</div>
 			<button id="submitButton" type="submit" class="btn variant-filled">Signin -></button>
+			{#if data.error}
+				<em> ⚠️ Error: {data.error} error! <br />Please try again.</em>
+			{/if}
+			<div class="text-center">
+				<a data-sveltekit-reload href="/">Back to home.</a>
+			</div>
 		</form>
 	</div>
 </div>

@@ -362,8 +362,8 @@
 									{#if dataModal[key].value}
 										<em>
 											⚠️ Warning: Old file will be deleted from the server whenever new file has
-											been uploaded.</em
-										>
+											been uploaded.
+										</em>
 									{/if}
 									<input
 										id={dataModal[key].key + `-base64`}
@@ -378,7 +378,7 @@
 										alt=""
 									/>
 								</div>
-							<!-- {:else if dataModal[key].type == 'boolean'}
+								<!-- {:else if dataModal[key].type == 'boolean'}
 								<RadioGroup
 									active="variant-filled-primary"
 									hover="hover:variant-soft-primary"

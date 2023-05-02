@@ -7,14 +7,9 @@
 	// Finally, your application's global stylesheet (sometimes labeled 'app.css')
 	import './app.postcss';
 
-	import {
-		Accordion,
-		AccordionItem,
-		AppBar,
-		AppShell,
-		Avatar,
-		filter
-	} from '@skeletonlabs/skeleton';
+	import { signOut } from '@auth/sveltekit/client';
+
+	import { AppShell, Avatar, filter, popup } from '@skeletonlabs/skeleton';
 	import { LightSwitch } from '@skeletonlabs/skeleton';
 	import { page } from '$app/stores';
 	import { PUBLIC_DEFAULT_LANG } from '$env/static/public';
@@ -42,6 +37,13 @@
 	let href: string;
 
 	origin.set($page.url.host);
+
+	let popupSettings: PopupSettings = {
+		// Set the event as: click | hover | hover-click | focus | focus-click
+		event: 'click',
+		// Provide a matching 'data-popup' value.
+		target: 'examplePopup'
+	};
 
 	if ($page.params) {
 		language.set($page.params.language ? $page.params.language : PUBLIC_DEFAULT_LANG);
@@ -188,7 +190,7 @@
 					<ul class="h-full" />
 					<ul class="sidebar-left__bottom p-8 flex flex-row">
 						<li class="w-full mt-1 flex">
-							<div class=" relative inline-block my-auto">
+							<div class=" relative inline-block my-auto cursor-pointer" use:popup={popupSettings}>
 								<span
 									class="badge-icon bg-green-400 absolute -top-0 -right-0 z-10 w-2 h-2 border"
 								/>
@@ -239,6 +241,36 @@
 						<li class="w-auto text-end content-end py-2">
 							<span class="flex-auto text-base"><LightSwitch height="h-5" width="w-10" /></span>
 						</li>
+					</ul>
+				</nav>
+			</div>
+
+			<div class="card p-2 shadow text-base" data-popup="examplePopup">
+				<nav class="list-nav">
+					<!-- (optionally you can provide a label here) -->
+					<ul>
+						<li>
+							<a href="#" on:click={() => signOut()} class="p-1">
+								<span class="bg-primary-500"
+									><svg
+										xmlns="http://www.w3.org/2000/svg"
+										fill="none"
+										viewBox="0 0 24 24"
+										stroke-width="1.5"
+										stroke="currentColor"
+										class="w-5 h-5"
+									>
+										<path
+											stroke-linecap="round"
+											stroke-linejoin="round"
+											d="M5.636 5.636a9 9 0 1012.728 0M12 3v9"
+										/>
+									</svg>
+								</span>
+								<span class="flex-auto">Signout</span>
+							</a>
+						</li>
+						<!-- ... -->
 					</ul>
 				</nav>
 			</div>

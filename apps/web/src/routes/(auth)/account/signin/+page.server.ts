@@ -7,9 +7,11 @@ import type { PageServerLoad } from './$types';
 export const load = (async ({ fetch, parent, url, params, cookies }) => {
 	const cookieCsrfToken = cookies.get('__Host-next-auth.csrf-token');
 	let csrfToken = cookieCsrfToken?.split('|')[0];
-	console.log(csrfToken);
+
+	const error = url.searchParams.get('error');
 
 	return {
-		csrfToken: csrfToken
+		csrfToken: csrfToken,
+		error: error
 	};
 }) satisfies PageServerLoad;
