@@ -305,7 +305,7 @@
 									bind:group={dataModal[key].value}
 									id={dataModal[key].key}
 									name={dataModal[key].key}
-									value={'true'}
+									value={1}
 									on:change={() => {
 										updateField(dataModal[key].id, dataModal[key].key, dataModal[key].value);
 									}}>TRUE</RadioItem
@@ -314,7 +314,7 @@
 									bind:group={dataModal[key].value}
 									id={dataModal[key].key}
 									name={dataModal[key].key}
-									value={'false'}
+									value={0}
 									on:change={() => {
 										updateField(dataModal[key].id, dataModal[key].key, dataModal[key].value);
 									}}>FALSE</RadioItem
@@ -375,12 +375,13 @@
 									/>
 								</div>
 							{:else if dataModal[key].type == 'boolean'}
+								{dataModal[key].value}
 								<RadioGroup active="variant-filled-primary" hover="hover:variant-soft-primary">
 									<RadioItem
 										bind:group={dataModal[key].value}
 										id={dataModal[key].key}
 										name={dataModal[key].key}
-										value={'true'}
+										value={'1'}
 										on:change={() => {
 											updateField(dataModal[key].id, dataModal[key].key, dataModal[key].value);
 										}}>TRUE</RadioItem
@@ -389,7 +390,7 @@
 										bind:group={dataModal[key].value}
 										id={dataModal[key].key}
 										name={dataModal[key].key}
-										value={'false'}
+										value={'0'}
 										on:change={() => {
 											updateField(dataModal[key].id, dataModal[key].key, dataModal[key].value);
 										}}>FALSE</RadioItem
