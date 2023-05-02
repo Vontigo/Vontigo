@@ -55,13 +55,13 @@ const auth = SvelteKitAuth({
 	// trustHost: true,
 	// adapter: KnexAdapter(knexInstance),
 	providers: [
-		Google({
-			clientId: GOOGLE_ID,
-			clientSecret: GOOGLE_SECRET
-		}),
+		// Google({
+		// 	clientId: GOOGLE_ID,
+		// 	clientSecret: GOOGLE_SECRET
+		// }),
 		Credentials({
 			credentials: {
-				username: { label: 'Username' },
+				username: { label: 'Email' },
 				password: { label: 'Password', type: 'password' }
 			},
 			async authorize({ username, password }) {
@@ -78,19 +78,6 @@ const auth = SvelteKitAuth({
 				// const user = userReq.json();
 
 				return user;
-
-				//const response = await fetch(request);
-				//if (!response.ok) return null;
-				//return (await response.json()) ?? null;
-				//https://webkul.com/blog/how-to-implement-authentication-in-nextjs-with-magento2-using-credentials-provider/
-				// return {
-				// 	id: 1,
-				// 	name: 'Huy Nguyen',
-				// 	email: 'i.love.to.smile.around@gmail.com',
-				// 	role: 'Administrator',
-				// 	image:
-				// 		'https://lh3.googleusercontent.com/a/AGNmyxbKXTS_H0ATpH89eMRUsFJZwMCtVVJAkPoMjanW8pY=s96-c'
-				// };
 			}
 		})
 	],
@@ -104,14 +91,14 @@ const auth = SvelteKitAuth({
 			return session;
 		}
 	},
-	// pages: {
-	// 	signIn: '/account/signin'
-	// },
+	pages: {
+		signIn: '/account/signin'
+	},
 	theme: {
 		colorScheme: 'light', //"auto" | "dark" | "light"
 		logo: 'https://authjs.dev/img/logo/logo-xs.webp'
 		// brandColor?: string
-		// buttonText?: string
+		// buttonText: 'Signin'
 	},
 	useSecureCookies: true,
 	secret: AUTH_SECRET
