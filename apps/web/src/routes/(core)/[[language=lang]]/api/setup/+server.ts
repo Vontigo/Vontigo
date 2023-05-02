@@ -82,14 +82,14 @@ async function updateSettings() {
 }
 
 async function updateUser(userInfo: any, defaultSettings: any) {
-	const options = {
-		expires: Date.now() + CONST_ONE_DAY_MS, // expires in 1 day
-		email: userInfo.email,
-		dbHash: 'abc123',
-		password: userInfo.password
-	};
+	// const options = {
+	// 	expires: Date.now() + CONST_ONE_DAY_MS, // expires in 1 day
+	// 	email: userInfo.email,
+	// 	dbHash: 'abc123',
+	// 	password: userInfo.password
+	// };
 
-	userInfo.password = generateHash(options);
+	// userInfo.password = generateHash(options);
 
 	// Update user info
 	const count = await knexInstance(ENUM_DATABASE_TABLE.users).where({ id: 1 }).update(userInfo);
