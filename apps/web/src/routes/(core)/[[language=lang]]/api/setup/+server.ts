@@ -94,6 +94,28 @@ async function updateUser(userInfo: any, defaultSettings: any) {
 	// Update user info
 	const count = await knexInstance(ENUM_DATABASE_TABLE.users).where({ id: 1 }).update(userInfo);
 
+	const navigation = [
+		{
+			label: 'Home',
+			url: '/'
+		},
+		{
+			label: 'About us',
+			url: '/about-us/'
+		},
+		{
+			label: 'Collection',
+			url: '/tag/getting-started/'
+		},
+		{
+			label: 'Author',
+			url: `/author/${userInfo.slug}/`
+		}
+	];
+	await knexInstance(ENUM_DATABASE_TABLE.settings)
+		.where({ key: 'navigation' })
+		.update({ value: JSON.stringify(navigation) });
+
 	if (count > 0) {
 		return true;
 	} else {

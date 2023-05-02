@@ -35,6 +35,7 @@
 	import { computePosition, autoUpdate, flip, shift, offset, arrow } from '@floating-ui/dom';
 	import { storePopup, type PopupSettings } from '@skeletonlabs/skeleton';
 	import IconDatabase from '$lib/icons/IconDatabase.svelte';
+	import CompGravatar from '$lib/core/core/frontend/components/shared/CompGravatar/CompGravatar.svelte';
 	storePopup.set({ computePosition, autoUpdate, flip, shift, offset, arrow });
 	origin.set($page.url.host);
 
@@ -189,12 +190,21 @@
 						<li class="w-full mt-1 flex">
 							<div class=" relative inline-block my-auto">
 								<span class="badge-icon bg-green-400 absolute -top-0 -right-0 z-10 w-2 h-2" />
-								<Avatar
-									src={$page?.data?.session?.user?.image}
-									action={filter}
-									actionParams="#Apollo"
-									width="w-8"
-								/>
+								{#if $page?.data?.session?.user?.profile_image}
+									<Avatar
+										src={$page?.data?.session?.user?.profile_image}
+										action={filter}
+										actionParams="#Apollo"
+										width="w-8"
+									/>
+								{:else}
+									<CompGravatar
+										email={$page?.data?.session?.user?.email}
+										size={32}
+										default="robohash"
+										class="rounded-full"
+									/>
+								{/if}
 							</div>
 						</li>
 						<li class="w-full" />
