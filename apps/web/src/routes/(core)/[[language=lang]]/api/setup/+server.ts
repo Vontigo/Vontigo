@@ -15,7 +15,6 @@ let setupBody = {
 
 /** @type {import('./$types').RequestHandler} */
 export async function POST({ url, params, request }) {
-
 	const resJson = await request.json();
 
 	if (await initDatabase()) {
@@ -24,18 +23,20 @@ export async function POST({ url, params, request }) {
 		});
 		const defaultSettings = updateSettings();
 
-		updateUser({
-			name: resJson.fullName,
-			slug: await genSlug(ENUM_DATABASE_TABLE.users, resJson.fullName),
-			email: resJson.email,
-			password: resJson.password
-		}, defaultSettings);
+		updateUser(
+			{
+				name: resJson.fullName,
+				slug: await genSlug(ENUM_DATABASE_TABLE.users, resJson.fullName),
+				email: resJson.email,
+				password: resJson.password
+			},
+			defaultSettings
+		);
 	}
 
-	return new Response(JSON.stringify({ message: 'Setup Done!' }), { status: 200 });
+	return new Response(JSON.stringify({ message: 'Setup Done!', code: 2000 }), { status: 200 });
 }
 async function initDatabase() {
-
 	try {
 		const dbFilePath = 'database/vontigo.blank.db';
 		const destinationPath = 'database/vontigo.db';
@@ -55,7 +56,7 @@ async function updateSiteInfo(value: any) {
 	// Update site info
 	await knexInstance(ENUM_DATABASE_TABLE.settings)
 		.where({ value: 'Vontigo' }) // vontigo
-		.update(value)
+		.update(value);
 }
 
 async function updateSettings() {
@@ -69,14 +70,12 @@ async function updateSettings() {
 		members_email_auth_secret: dynamicDefault.members_email_auth_secret(),
 		vontigo_public_key: dynamicDefault.vontigo_public_key(),
 		vontigo_private_key: dynamicDefault.vontigo_private_key()
-	}
+	};
 	for (const key in defaultSettings) {
 		if (defaultSettings.hasOwnProperty(key)) {
 			const value = defaultSettings[key];
 			console.log(`${key}: ${value}`);
-			await knexInstance(ENUM_DATABASE_TABLE.settings)
-				.where({ key: key })
-				.update({ value: value })
+			await knexInstance(ENUM_DATABASE_TABLE.settings).where({ key: key }).update({ value: value });
 		}
 	}
 	return defaultSettings;
@@ -87,15 +86,13 @@ async function updateUser(userInfo: any, defaultSettings: any) {
 		expires: Date.now() + CONST_ONE_DAY_MS, // expires in 1 day
 		email: userInfo.email,
 		dbHash: 'abc123',
-		password: userInfo.password,
+		password: userInfo.password
 	};
 
 	userInfo.password = generateHash(options);
 
 	// Update user info
-	const count = await knexInstance(ENUM_DATABASE_TABLE.users)
-		.where({ id: 1 })
-		.update(userInfo);
+	const count = await knexInstance(ENUM_DATABASE_TABLE.users).where({ id: 1 }).update(userInfo);
 
 	if (count > 0) {
 		return true;
