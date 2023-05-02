@@ -264,7 +264,7 @@
 							{/await}
 						{:else if dataModal[key].type == 'text'}
 							<textarea
-								class="textarea w-full rounded-xl p-2"
+								class="textarea w-full rounded-xl p-2 text-sm"
 								id={dataModal[key].key}
 								name={dataModal[key].key}
 								rows="6"
@@ -279,7 +279,7 @@
 							/>
 						{:else if dataModal[key].type == 'datetime'}
 							<input
-								class="input p-2 w-1/3 md:w-full"
+								class="input p-2 w-1/3 md:w-full text-sm"
 								type="datetime-local"
 								id={dataModal[key].key}
 								name={dataModal[key].key}
@@ -290,7 +290,7 @@
 							/>
 						{:else if dataModal[key].type == 'integer'}
 							<input
-								class="input p-2 w-1/3 md:w-full"
+								class="input p-2 w-1/3 md:w-full text-sm"
 								type="number"
 								id={dataModal[key].key}
 								name={dataModal[key].key}
@@ -300,7 +300,11 @@
 								}}
 							/>
 						{:else if dataModal[key].type == 'boolean'}
-							<RadioGroup active="variant-filled-primary" hover="hover:variant-soft-primary">
+							<RadioGroup
+								active="variant-filled-primary"
+								hover="hover:variant-soft-primary"
+								class="text-sm"
+							>
 								<RadioItem
 									bind:group={dataModal[key].value}
 									id={dataModal[key].key}
@@ -324,7 +328,7 @@
 							{#if dataModal[key].key.indexOf('color') >= 0}
 								<div class="grid grid-cols-[auto_1fr] gap-2">
 									<input
-										class="input"
+										class="input text-sm"
 										type="color"
 										id={dataModal[key].key}
 										name={dataModal[key].key}
@@ -334,7 +338,7 @@
 										}}
 									/>
 									<input
-										class="input w-1/3 p-2 md:w-full"
+										class="input w-1/3 p-2 md:w-full text-sm"
 										type="text"
 										bind:value={dataModal[key].value}
 										readonly
@@ -351,7 +355,7 @@
 									/>
 									<input
 										id={dataModal[key].key + `-input`}
-										class="input w-full"
+										class="input w-full text-sm"
 										type="file"
 										on:change={(e) => onFileSelected(e, dataModal[key].key)}
 									/>
@@ -375,8 +379,16 @@
 									/>
 								</div>
 							{:else if dataModal[key].type == 'boolean'}
+<<<<<<< HEAD
 								{dataModal[key].value}
 								<RadioGroup active="variant-filled-primary" hover="hover:variant-soft-primary">
+=======
+								<RadioGroup
+									active="variant-filled-primary"
+									hover="hover:variant-soft-primary"
+									class="text-sm"
+								>
+>>>>>>> cbed4c1509b0252986637f4a07b9b9e0a29a5d74
 									<RadioItem
 										bind:group={dataModal[key].value}
 										id={dataModal[key].key}
@@ -398,7 +410,7 @@
 								</RadioGroup>
 							{:else if dataModal[key].key == 'id' || dataModal[key].key == 'uuid'}
 								<input
-									class="input p-2 w-full"
+									class="input p-2 w-full text-sm"
 									type="text"
 									id={dataModal[key].key}
 									name={dataModal[key].key}
@@ -412,7 +424,7 @@
 								<select
 									id={dataModal[key].key}
 									name={dataModal[key].key}
-									class="select rounded-3xl w-1/3 md:w-full"
+									class="select rounded-3xl w-1/3 md:w-full text-sm"
 									bind:value={dataModal[key].value}
 									on:change={() => {
 										updateField(recordId, dataModal[key].key, dataModal[key].value);
@@ -427,7 +439,7 @@
 								</select>
 							{:else if dataModal[key].key.indexOf('description') >= 0 || dataModal[key].key.indexOf('excerpt') >= 0}
 								<textarea
-									class="textarea w-full rounded-xl p-2"
+									class="textarea w-full rounded-xl p-2 text-sm"
 									rows="3"
 									placeholder="Enter some long form content."
 									id={dataModal[key].key}
@@ -443,7 +455,7 @@
 							{:else}
 								<!-- {tableSchema[recordDataModal[key].key]?.validations?.matches?.toString().slice(1, -1)} -->
 								<input
-									class="input p-2 w-full"
+									class="input p-2 w-full text-sm"
 									type="text"
 									id={dataModal[key].key}
 									name={dataModal[key].key}

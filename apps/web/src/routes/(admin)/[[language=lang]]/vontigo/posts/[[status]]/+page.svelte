@@ -23,12 +23,13 @@
 	import { onMount } from 'svelte';
 	import CompTagsInput from '$lib/core/core/frontend/components/admin/TagsInput/CompTagsInput.svelte';
 	import CompAuthorsInput from '$lib/core/core/frontend/components/admin/TagsInput/CompAuthorsInput.svelte';
-
+	import { fade } from 'svelte/transition';
 	export let data: PageData;
 	let selectedPost: any;
 	let keysJson: string[];
 	let isDrawerSidebar = true;
-
+	let lastPosition: number;
+	let showBackbutton = true;
 	onMount(async () => {});
 
 	// if (data && data.posts) keysJson = Object.keys(data.posts[0]);
@@ -183,30 +184,33 @@
 
 <Drawer>
 	{#if $drawerStore.id === 'postEditorDrawer'}
-		<button
-			class="absolute left-2 top-2 btn btn-sm border-none bg-transparent hover:variant-filled dark:text-white rounded"
-			on:click={() => {
-				closeDrawer();
-			}}
-		>
-			<span>
-				<svg
-					xmlns="http://www.w3.org/2000/svg"
-					fill="none"
-					viewBox="0 0 24 24"
-					stroke-width="1.5"
-					stroke="currentColor"
-					class="w-4 h-4"
-				>
-					<path
-						stroke-linecap="round"
-						stroke-linejoin="round"
-						d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"
-					/>
-				</svg>
-			</span>
-			<span>Back</span>
-		</button>
+		{#if showBackbutton}
+			<button
+				class="absolute left-2 top-2 btn btn-sm border-none bg-white hover:variant-filled dark:text-white rounded z-10 shadow-md"
+				transition:fade
+				on:click={() => {
+					closeDrawer();
+				}}
+			>
+				<span>
+					<svg
+						xmlns="http://www.w3.org/2000/svg"
+						fill="none"
+						viewBox="0 0 24 24"
+						stroke-width="1.5"
+						stroke="currentColor"
+						class="w-4 h-4"
+					>
+						<path
+							stroke-linecap="round"
+							stroke-linejoin="round"
+							d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"
+						/>
+					</svg>
+				</span>
+				<span>Back</span>
+			</button>
+		{/if}
 		<button
 			class="absolute right-2 top-2 rounded border-none p-2"
 			on:click={() => {
@@ -245,7 +249,18 @@
 				</svg>
 			{/if}
 		</button>
-		<AppShell>
+		<AppShell
+			on:scroll={(e) => {
+				if (e.target && e.target.scrollTop > 0) {
+					if (lastPosition >= e.target.scrollTop) {
+						showBackbutton = true;
+					} else {
+						showBackbutton = false;
+					}
+					lastPosition = e.target.scrollTop;
+				}
+			}}
+		>
 			<!-- <svelte:fragment slot="sidebarLeft">
 				
 			</svelte:fragment> -->
@@ -292,7 +307,7 @@
 				<div class="parent font-bold text-4xl">
 					<AutoResizableTextarea
 						bind:value={$recordDataModal.title.value}
-						classes={'input border-none rounded-none focus:border-none active:border-none overflow-hidden bg-white resize-none dark:bg-transparent'}
+						classes={'input p-0 text-4xl border-none rounded-none focus:border-none active:border-none overflow-hidden bg-white resize-none dark:bg-transparent'}
 						placeholder={'Page title...'}
 					/>
 				</div>
