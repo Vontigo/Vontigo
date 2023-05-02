@@ -3,9 +3,21 @@ import type { LayoutServerLoad } from './$types';
 import { isSignedIn } from '$lib/core/shared/stores/site';
 import { get } from 'svelte/store';
 import { ENUM_USER_ROLE } from '$lib/core/shared/enum';
+import { decode } from '@auth/core/jwt';
+import { AUTH_SECRET } from '$env/static/private';
 
 export const load: LayoutServerLoad = async (event) => {
 	console.log('______LayoutServerLoad (admin): ', await event.locals.getSession());
+	console.log(
+		'______LayoutServerLoad (admin): ',
+		event.cookies.get('__Secure-next-auth.session-token')
+	);
+
+	const decoded = await decode({
+		token: event.cookies.get('__Secure-next-auth.session-token'),
+		secret: AUTH_SECRET
+	});
+	console.log('decoded', decoded);
 
 	const session = await event.locals.getSession();
 	// if (!session?.user) throw redirect(303, '/auth/signin');
