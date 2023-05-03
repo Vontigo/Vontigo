@@ -266,7 +266,7 @@
 			</svelte:fragment> -->
 			<svelte:fragment slot="sidebarRight">
 				<div id="sidebar-right" class="hidden lg:{isDrawerSidebar ? 'block' : 'hidden'}">
-					<div class="card w-[350px] h-screen p-4 px-2">
+					<div class="card w-[350px] h-full p-4 px-2">
 						<header class="card-header text-lg font-medium">Post settings</header>
 						<section class="p-4 pb-20">
 							<RecordCreate
