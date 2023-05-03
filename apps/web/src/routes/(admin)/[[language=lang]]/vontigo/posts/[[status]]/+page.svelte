@@ -302,7 +302,7 @@
 			<!-- Router Slot -->
 			<div class="max-w-screen-md m-auto py-14 flex flex-col gap-4">
 				<div>
-					<img src={$recordDataModal.feature_image.value} class="w-full" alt="" />
+					<img src={$recordDataModal.feature_image.value} class="w-full rounded" alt="" />
 				</div>
 				<div class="parent font-bold text-4xl">
 					<AutoResizableTextarea

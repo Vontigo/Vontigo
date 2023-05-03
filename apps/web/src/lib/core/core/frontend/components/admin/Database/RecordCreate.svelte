@@ -13,7 +13,7 @@
 	import type { ReferenceStructure, TableStructure } from '$lib/core/shared/types';
 	import { onMount } from 'svelte';
 	import { tables } from '$lib/core/core/server/data/schema/schema';
-	import { each } from 'svelte/internal';
+	import { each, empty } from 'svelte/internal';
 	import { get } from 'svelte/store';
 
 	export let data: PageData;
@@ -386,14 +386,37 @@
 											name={dataModal[key].key + `-img`}
 											src={dataModal[key].value}
 											style="max-width: 50ch;"
-											class="w-full"
+											class="w-full rounded"
 											alt=""
 										/>
-										<button
-											class="btn absolute top-0 right-0 h-4 w-4 p-2 text-xs bg-black text-white justify-center items-center content-center"
-										>
-											x
-										</button>
+										{#if dataModal[key].value}
+											<!-- {dataModal[key].value} -->
+											<button
+												class="btn-icon variant-soft absolute top-1 right-1 h-4 w-4 p-3 text-white justify-center items-center content-center border-none rounded"
+												on:click={() => {
+													deletePrevFile(dataModal[key].key);
+													dataModal[key].value = '';
+													updateField(recordId, dataModal[key].key, dataModal[key].value);
+												}}
+											>
+												<span>
+													<svg
+														xmlns="http://www.w3.org/2000/svg"
+														fill="none"
+														viewBox="0 0 24 24"
+														stroke-width="1.5"
+														stroke="currentColor"
+														class="w-5 h-5"
+													>
+														<path
+															stroke-linecap="round"
+															stroke-linejoin="round"
+															d="M6 18L18 6M6 6l12 12"
+														/>
+													</svg>
+												</span>
+											</button>
+										{/if}
 									</div>
 								</div>
 								<!-- {:else if dataModal[key].type == 'boolean'}
