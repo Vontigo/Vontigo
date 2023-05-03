@@ -186,7 +186,7 @@
 	{#if $drawerStore.id === 'postEditorDrawer'}
 		{#if showBackbutton}
 			<button
-				class="absolute left-2 top-2 btn btn-sm border-none bg-white hover:variant-filled dark:text-white rounded z-10 shadow-md"
+				class="absolute left-2 top-2 btn btn-sm border-none bg-white hover:variant-filled rounded z-10 shadow-md"
 				transition:fade
 				on:click={() => {
 					closeDrawer();

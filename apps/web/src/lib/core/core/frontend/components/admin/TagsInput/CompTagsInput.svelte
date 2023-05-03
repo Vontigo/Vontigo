@@ -1,8 +1,10 @@
 <script lang="ts">
-	import { InputChip } from '@skeletonlabs/skeleton';
+	import { InputChip, popup, type PopupSettings } from '@skeletonlabs/skeleton';
 	import ObjectID from 'bson-objectid';
 	import { onMount } from 'svelte';
-	import Tags from 'svelte-tags-input';
+	// import Tags from 'svelte-tags-input';
+	import { Autocomplete } from '@skeletonlabs/skeleton';
+	import type { AutocompleteOption } from '@skeletonlabs/skeleton';
 
 	const table: string = 'posts_tags';
 	export let postId: string;
@@ -10,8 +12,10 @@
 	let data: any;
 	let oldTaglist: string[] = [];
 	let taglist: string[] = [];
+	let tagWhitelist: AutocompleteOption[] = [];
+	let inputChip = '';
 
-	let tagWhitelist: string[] = [];
+	let showAutocomplete = false;
 
 	onMount(async () => {
 		getAllTags();
@@ -23,7 +27,7 @@
 		const tagsData = await tagsResponse.json();
 		data = tagsData;
 		tagWhitelist = tagsData.map((tag: string) => {
-			return tag.name;
+			return { label: tag.name, value: tag.name, keywords: tag.slug, meta: { healthy: true } };
 		});
 	}
 
@@ -79,27 +83,60 @@
 			}
 		}, 2500);
 	}
+	function onInputChipSelect(event: any): void {
+		console.log('onInputChipSelect', event.detail);
+		if (taglist.includes(event.detail.value) === false) {
+			taglist = [...taglist, event.detail.value];
+			inputChip = '';
+		}
+		showAutocomplete = false;
+	}
 </script>
 
 <!-- {JSON.stringify(taglist)} -->
-<Tags
+<!-- <Tags
 	bind:tags={taglist}
 	autoComplete={tagWhitelist}
 	onlyAutocomplete={true}
 	onlyUnique={true}
 	placeholder={'Type to add...'}
 	class="text-black dark:text-white"
-/>
+/> -->
 
 <InputChip
-	name="chips"
+	bind:input={inputChip}
 	bind:value={taglist}
-	autoComplete={tagWhitelist}
-	onlyAutocomplete={true}
-	onlyUnique={true}
+	name="chips"
 	class="text-sm"
-	placeholder={'Type to add...'}
+	on:input={(e) => {
+		if (e.target.value.length > 0) {
+			showAutocomplete = true;
+		} else {
+			showAutocomplete = false;
+		}
+	}}
 />
+
+<!-- <div data-popup="popupAutocomplete">
+	<Autocomplete
+		class="text-sm"
+		bind:input={inputChip}
+		options={flavorOptions}
+		denylist={taglist}
+		on:selection={onInputChipSelect}
+	/>
+</div> -->
+
+<div class="w-full max-w-sm max-h-48 px-2 overflow-y-auto {showAutocomplete ? '' : 'hidden'}">
+	<Autocomplete
+		emptyState="No tags found."
+		class="text-sm border-none "
+		bind:input={inputChip}
+		options={tagWhitelist}
+		denylist={taglist}
+		on:selection={onInputChipSelect}
+	/>
+</div>
 
 <style lang="postcss">
 	input {
