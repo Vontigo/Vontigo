@@ -222,18 +222,21 @@
 				<li
 					class="v-list-row v-records-list-item grid md:grid-cols-1 border-b grid-cols-6
 					{i == dataModal.length - 1 ? ' border-b' : ''}
-					{tableSchema[dataModal[key].key].isHidden == true ? ' hidden' : ''}
-						"
+					{tableSchema[dataModal[key].key].isHidden == true ? ' hidden' : ''}"
 				>
 					<div
 						class="ember-view permalink v-list-data v-post-list-title w-full py-4 w-full capitalize md:grid-cols-1 col-span-2 md:pb-0"
 					>
 						<h3
-							class="v-content-entry-title unstyled text-sm font-medium antialiased tracking-wide flex gap-2"
+							class="v-content-entry-title unstyled text-sm font-medium antialiased tracking-wide flex w-full"
 						>
-							{dataModal[key].key.replace(/_/g, ' ')}<span class="text-red-700 font-bold"
-								>{tableSchema[dataModal[key].key].nullable == false ? '*' : ''}</span
-							>
+							<span class="">
+								{dataModal[key].key.replace(/_/g, ' ')}
+								<i class="text-red-700 font-bold">
+									{tableSchema[dataModal[key].key].nullable == false ? '*' : ''}
+								</i>
+							</span>
+
 							{#if dataModal[key].reference}
 								<svg
 									xmlns="http://www.w3.org/2000/svg"
@@ -250,11 +253,18 @@
 									/>
 								</svg>
 							{/if}
+							<i class="ml-2 font-light text-sm text-slate-400">({dataModal[key].type})</i>
 						</h3>
+
+						<!-- <div class="ember-view permalink v-list-data v-post-list-status px-2 py-6 md:pt-0"> -->
+						<!-- <div class="grid justify-items-end w-full text-sm text-slate-500">
+							{dataModal[key].type}
+						</div> -->
+						<!-- </div> -->
 					</div>
 					<div
 						href={$adminSiteUrl + `/tags/${$page.params.visibility}/${dataModal[key].slug}`}
-						class="ember-view permalink v-list-data v-post-list-title w-full py-4 w-full text-xs tracking-wide text-slate-500 col-span-3 md:pb-0"
+						class="ember-view permalink v-list-data v-post-list-title w-full text-xs tracking-wide text-slate-500 col-span-3 py-4"
 					>
 						{#if dataModal[key].reference && dataModal[key].value}
 							{#await getReferenceValue(dataModal[key])}
@@ -346,7 +356,7 @@
 									/>
 								</div>
 							{:else if dataModal[key].key.indexOf('image') >= 0 || dataModal[key].key.indexOf('logo') >= 0 || dataModal[key].key.indexOf('icon') >= 0}
-								<div class="flex flex-col gap-2">
+								<div class="flex flex-col gap-2 relative">
 									<input
 										id={dataModal[key].key}
 										class="prevFileHidden"
@@ -370,13 +380,21 @@
 										name={dataModal[key].key + `-base64`}
 										type="hidden"
 									/>
-									<img
-										id={dataModal[key].key + `-img`}
-										name={dataModal[key].key + `-img`}
-										src={dataModal[key].value}
-										style="max-width: 50ch;"
-										alt=""
-									/>
+									<div class="w-full relative">
+										<img
+											id={dataModal[key].key + `-img`}
+											name={dataModal[key].key + `-img`}
+											src={dataModal[key].value}
+											style="max-width: 50ch;"
+											class="w-full"
+											alt=""
+										/>
+										<button
+											class="btn absolute top-0 right-0 h-4 w-4 p-2 text-xs bg-black text-white justify-center items-center content-center"
+										>
+											x
+										</button>
+									</div>
 								</div>
 								<!-- {:else if dataModal[key].type == 'boolean'}
 								<RadioGroup
@@ -480,12 +498,6 @@
 								/>
 							{/if}
 						{/if}
-					</div>
-
-					<div class="ember-view permalink v-list-data v-post-list-status px-2 py-6 md:pt-0">
-						<div class="grid justify-items-end w-full text-sm text-slate-500">
-							{dataModal[key].type}
-						</div>
 					</div>
 				</li>
 			{/each}
