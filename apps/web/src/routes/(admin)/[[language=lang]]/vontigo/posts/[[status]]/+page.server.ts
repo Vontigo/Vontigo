@@ -13,7 +13,7 @@ export const load = (async ({ fetch, url, params }) => {
 	// }
 
 	const response = await fetch(
-		`/api/admin/posts/post/${params.status != 'drafts' ? params.status : 'draft'}`
+		`/api/admin/posts/post/${params.status != 'drafts' ? params.status : 'draft'}/1`
 	);
 	const data = await response.json();
 
