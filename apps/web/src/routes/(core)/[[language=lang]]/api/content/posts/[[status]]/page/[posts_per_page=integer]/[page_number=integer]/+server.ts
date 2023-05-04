@@ -4,7 +4,7 @@ import { get } from 'svelte/store';
 
 /** @type {import('./$types').RequestHandler} */
 export async function GET({ url, params }) {
-	console.log(params);
+	// console.log(params);
 
 	const PAGE_SIZE = params.posts_per_page;
 
@@ -26,9 +26,10 @@ export async function GET({ url, params }) {
 			.from('posts as p')
 			.leftJoin('posts_tags as pt', 'p.id', 'pt.post_id')
 			.leftJoin('tags as t', 't.id', 'pt.tag_id')
-			.where({ 'p.type': 'post', 'p.status': 'published', 'p.locale': get(language) });
+			.where({ 'p.type': 'post', 'p.status': 'published', 'p.locale': get(language) })
+			.orderBy('p.published_at', 'desc');
 
-		console.log(posts);
+		// console.log(posts);
 
 
 		const [totalRowsResult, results] = await Promise.all([

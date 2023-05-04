@@ -1193,7 +1193,7 @@ make sure this only happens on large viewports / desktop-ish devices.
 /* ---------------------------------------------------------- */
 
 .pagination {
-	display: none;
+	/* display: none; */
 	grid-template-columns: 1fr auto 1fr;
 	align-items: center;
 	margin-top: 8vmin;

@@ -10,11 +10,10 @@
 
 	export let site: any;
 	export let posts: any;
-	export let pagination:any;
-	export let theme:any;
+	export let pagination: any;
+	export let theme: any;
 
-
-		$templateType = 'home';
+	$templateType = 'home';
 
 	// export let data: PageData;
 	// const {session, settings, theme} = data;
@@ -90,7 +89,14 @@
 				No posts found...
 			{/if}
 		</div>
-
-		<!-- <Pagination page={posts.} /> -->
+		{JSON.stringify(pagination)}
+		<Pagination
+			page={pagination.page}
+			pages={pagination.totalPages}
+			next={pagination.page < pagination.totalPages}
+			page_url_next={`/page/${pagination.page+1}`}
+			prev={pagination.page-1>0}
+			page_url_prev={`/page/${pagination.page-1}`}
+		/>
 	</div>
 </main>
