@@ -324,7 +324,7 @@
 										updateField(dataModal[key].id, dataModal[key].key, dataModal[key].value);
 									}}
 								>
-									<span class="text-sm">TRUE</span>
+									<span class="text-sm">True</span>
 								</RadioItem>
 								<RadioItem
 									bind:group={dataModal[key].value}

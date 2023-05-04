@@ -157,7 +157,7 @@
 				</li>
 				{#each data.records as row, i}
 					<li
-						class="v-list-row v-posts-list-item grid grid-cols-5 border-b hover:bg-slate-100 {i ==
+						class="v-list-row v-posts-list-item grid grid-cols-5 border-b hover:bg-secondary-500/20 {i ==
 						data.records.length - 1
 							? ' border-b'
 							: ''}"
@@ -174,20 +174,20 @@
 						</a>
 						<a
 							href={$adminSiteUrl + `/tags/${$page.params.visibility}/${row.slug}`}
-							class="ember-view permalink v-list-data v-post-list-title w-full py-4 w-full text-sm tracking-wide text-slate-500"
+							class="ember-view permalink v-list-data v-post-list-title w-full py-4 w-full text-sm tracking-wide font-light"
 						>
 							{row.slug}
 						</a>
 
 						<a
 							href={$adminSiteUrl + `/tags/${$page.params.visibility}/${row.slug}`}
-							class="ember-view permalink v-list-data v-post-list-status px-2 py-6"
+							class="ember-view permalink v-list-data v-post-list-status px-2 py-4"
 							on:click={() => {
 								selectedPost = row;
 								drawerStore.open(settings);
 							}}
 						>
-							<div class="grid justify-items-end w-full text-sm text-slate-500">
+							<div class="grid justify-items-end w-full text-sm font-light">
 								{row.total_posts} post{row.total_posts > 1 ? 's' : ''}
 							</div>
 						</a>
