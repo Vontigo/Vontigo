@@ -89,14 +89,14 @@
 				No posts found...
 			{/if}
 		</div>
-		{JSON.stringify(pagination)}
+		
 		<Pagination
 			page={pagination.page}
 			pages={pagination.totalPages}
 			next={pagination.page < pagination.totalPages}
-			page_url_next={`/page/${pagination.page+1}`}
-			prev={pagination.page-1>0}
-			page_url_prev={`/page/${pagination.page-1}`}
+			page_url_next={`/page/${pagination.page + 1}`}
+			prev={pagination.page - 1 > 0}
+			page_url_prev={`/page/${pagination.page - 1}`}
 		/>
 	</div>
 </main>
