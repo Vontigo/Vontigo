@@ -91,7 +91,7 @@
 								<span class="flex-auto text-base">Dashboard</span>
 							</a>
 						</li>
-						<li class="w-auto flex">
+						<li class="w-auto  flex gap-2">
 							<a
 								class="w-full {classesActive($adminSiteUrl + '/site')}"
 								href={$adminSiteUrl + '/site'}
@@ -104,9 +104,9 @@
 									xmlns="http://www.w3.org/2000/svg"
 									fill="none"
 									viewBox="0 0 24 24"
-									stroke-width="1.5"
+									stroke-width="2"
 									stroke="currentColor"
-									class="w-5 h-5"
+									class="w-6 h-5"
 								>
 									<path
 										stroke-linecap="round"
