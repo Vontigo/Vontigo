@@ -8,5 +8,10 @@
 {#await data}
 	Loading...
 {:then data} 
-	<Index {data} />
+	<Index
+		site={data.settings.site}
+		posts={data.posts.items}
+		pagination={data.posts.pagination}
+		theme={data.theme}
+	/>
 {/await}

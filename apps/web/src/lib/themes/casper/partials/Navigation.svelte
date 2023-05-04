@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { page } from '$app/stores';
-	import { language, site, siteUrl, origin, custom, member } from '$lib/core/shared/stores/site';
+	import { language, site, siteUrl, origin } from '$lib/core/shared/stores/site';
 	import { get } from 'svelte/store';
 
 	export let type: string = '';

@@ -6,7 +6,7 @@
 		siteUrl,
 		origin,
 		site,
-		custom,
+		theme,
 		templateType,
 		access
 	} from '$lib/core/shared/stores/site';
@@ -24,7 +24,7 @@
 	// 	$access = true;
 	// }
 
-	if ($custom.feed_layout.default == 'Classic') {
+	if ($theme.custom.feed_layout.default == 'Classic') {
 		if ($templateType == 'home') {
 			if (index == 0) {
 				post_class += ' post-card-large';
@@ -32,9 +32,9 @@
 				post_class += ' dynamic';
 			}
 		}
-	} else if ($custom.feed_layout.default == 'Grid') {
+	} else if ($theme.custom.feed_layout.default == 'Grid') {
 		post_class += ' keep-ratio';
-	} else if ($custom.feed_layout.default == 'List') {
+	} else if ($theme.custom.feed_layout.default == 'List') {
 		if ($templateType == 'home' || $templateType == 'paged') {
 			post_class += ' post-card-large';
 		}

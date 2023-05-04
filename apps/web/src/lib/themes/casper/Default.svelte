@@ -7,8 +7,7 @@
 		siteUrl,
 		site,
 		templateType,
-		themeConfig,
-		custom
+		theme
 	} from '$lib/core/shared/stores/site';
 
 	/*-- Theme assets - use the {asset} helper to reference styles & scripts,
@@ -17,23 +16,23 @@
 
 	let bodyClass = '';
 
-	if ($custom.navigation_layout.default == 'Logo on cover') {
+	if ($theme.custom.navigation_layout.default == 'Logo on cover') {
 		bodyClass += ` is-head-left-logo`;
-	} else if ($custom.navigation_layout.default == 'Logo in the middle') {
+	} else if ($theme.custom.navigation_layout.default == 'Logo in the middle') {
 		bodyClass += ' is-head-middle-logo';
 	} else {
 		bodyClass += ' stacked';
 	}
 
-	if ($custom.title_font.default == 'Elegant serif') {
+	if ($theme.custom.title_font.default == 'Elegant serif') {
 		bodyClass += ` has-serif-title`;
 	}
 
-	if ($custom.body_font.default == 'Modern sans-serif') {
+	if ($theme.custom.body_font.default == 'Modern sans-serif') {
 		bodyClass += `  has-sans-body`;
 	}
 
-	if ($custom.show_publication_cover.default) {
+	if ($theme.custom.show_publication_cover.default) {
 		bodyClass += ` has-cover`;
 	}
 </script>

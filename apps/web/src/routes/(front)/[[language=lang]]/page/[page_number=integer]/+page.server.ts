@@ -21,9 +21,9 @@ export const load = (async ({ fetch, parent, url, params }) => {
 	// 	};
 	// }
 
-	const response = await fetch(`/api/content/posts/public/page/${_parent.themeConfig.posts_per_page}/${params.page_number}`);
-	const posts = await response.json();
+	const response = await fetch(`/api/content/posts/public/page/${_parent.theme.posts_per_page}/${params.page_number}`);
+	const query = await response.json();
 	return {
-		posts: posts
+		query
 	};
 }) satisfies PageLoad;

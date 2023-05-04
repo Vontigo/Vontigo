@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import { signIn, signOut } from '@auth/sveltekit/client';
-	import { language, site, siteUrl, origin, custom, member } from '$lib/core/shared/stores/site';
+	import { language, site, siteUrl, origin, theme, member } from '$lib/core/shared/stores/site';
 	import Navigation from './Navigation.svelte';
 	import IconSearch from './icons/IconSearch.svelte';
 	// let postUrl = $siteUrl + '/' + post.slug;
@@ -9,7 +9,7 @@
 
 <header
 	id="gh-head"
-	class="gh-head outer{$custom.header_style.default == 'Hidden' ? 'is-header-hidden' : ''}"
+	class="gh-head outer{$theme.custom.header_style.default == 'Hidden' ? 'is-header-hidden' : ''}"
 >
 	<div class="gh-head-inner inner">
 		<div class="gh-head-brand">
@@ -30,7 +30,7 @@
 			<Navigation />
 
 			{#if !$site.members_enabled}
-				{#if $custom.navigation_layout.default == 'Stacked'}
+				{#if $theme.custom.navigation_layout.default == 'Stacked'}
 					<button class="gh-search gh-icon-btn" aria-label="Search this site" data-ghost-search
 						><IconSearch /></button
 					>
@@ -66,7 +66,7 @@
 				{($page.params.language ? $page.params.language : 'en-us').toUpperCase()}
 			</li> -->
 			{#if !$site.members_enabled}
-				{#if $custom.navigation_layout.default != 'Stacked'}
+				{#if $theme.custom.navigation_layout.default != 'Stacked'}
 					<button class="gh-search gh-icon-btn" data-ghost-search><IconSearch /></button>
 				{/if}
 			{:else}

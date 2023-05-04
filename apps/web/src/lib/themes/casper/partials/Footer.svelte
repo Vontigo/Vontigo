@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { language, site, siteUrl, origin, custom, member } from '$lib/core/shared/stores/site';
+	import { site } from '$lib/core/shared/stores/site';
 	import Navigation from './Navigation.svelte';
 </script>
 

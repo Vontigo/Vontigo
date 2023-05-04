@@ -10,8 +10,8 @@ export const isEditorOpen = writable(false);
 export const site = writable({});
 export const member = writable({});
 
-export const themeConfig = writable({});
-export const custom = writable({});
+export const theme = writable({});
+// export const custom = writable({});
 
 export const templateType = writable('');
 

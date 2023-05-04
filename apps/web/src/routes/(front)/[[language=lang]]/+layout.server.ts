@@ -22,7 +22,7 @@ export const load: LayoutServerLoad = async (event) => {
 	return {
 		session: await event.locals.getSession(),
 		settings: output,
-		themeConfig: config
+		theme: config
 	};
 };
 

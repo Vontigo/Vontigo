@@ -2,13 +2,9 @@
 	import type { PageData } from './$types';
 	import { img_url } from '$lib/core/core/frontend/helpers/img_url';
 	import {
-		language,
-		siteUrl,
-		origin,
 		templateType,
-		custom,
 		site,
-		access
+		access,theme
 	} from '$lib/core/shared/stores/site';
 	import { ENUM_IMAGE_SIZE } from '$lib/core/shared/enum';
 	import IconFire from './partials/icons/IconFire.svelte';
@@ -98,7 +94,7 @@
 					</section>
 				</div>
 
-				{#if $custom.post_image_style != 'Hidden'}
+				{#if $theme.custom.post_image_style != 'Hidden'}
 					{#if post.feature_image}
 						<figure class="article-image">
 							<!-- This is a responsive image, it loads different sizes depending on device

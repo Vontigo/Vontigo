@@ -1,6 +1,6 @@
 import type { Handle } from '@sveltejs/kit';
 import { config } from '$lib/themes/casper/config.json';
-import { language, site, origin, themeConfig, custom } from '$lib/core/shared/stores/site';
+import { language, site, origin, theme, custom } from '$lib/core/shared/stores/site';
 import { get } from 'svelte/store';
 import { sequence } from '@sveltejs/kit/hooks';
 import { CONST_DEFAULT_LANGUAGE } from '$lib/core/shared/const';

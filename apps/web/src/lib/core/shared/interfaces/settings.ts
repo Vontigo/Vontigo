@@ -40,4 +40,5 @@ interface SiteData {
 
 interface SiteGroup {
     [group: string]: SiteData;
+    theme: any;
 }

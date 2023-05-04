@@ -3,12 +3,11 @@
 	import { PUBLIC_DEFAULT_LANG } from '$env/static/public';
 	import { page } from '$app/stores';
 	import {
-		custom,
 		language,
 		origin,
 		site,
 		siteUrl,
-		themeConfig
+		theme
 	} from '$lib/core/shared/stores/site';
 
 	if ($page.params) {
@@ -16,8 +15,7 @@
 		siteUrl.set($page.params.language ? '/' + $page.params.language : '');
 	}
 	$site = $page.data.settings.site;
-	$themeConfig = $page.data.themeConfig;
-	$custom = $page.data.themeConfig.custom;
+	$theme = $page.data.theme;
 </script>
 
 {#key $page.url}

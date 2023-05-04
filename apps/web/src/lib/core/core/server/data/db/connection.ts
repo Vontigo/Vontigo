@@ -7,7 +7,7 @@
 // import { config } from '../../../../shared/config/env/config.json';
 import knex, { Knex } from 'knex';
 
-export const knexInstance: Knex = knex({
+export const knexInstance: Knex = await knex({
 	client: 'sqlite3',
 	connection: {
 		filename: './database/vontigo.db'
