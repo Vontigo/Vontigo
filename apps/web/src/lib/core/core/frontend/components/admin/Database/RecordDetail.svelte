@@ -345,7 +345,7 @@
 							{:else if row.key.indexOf('description') >= 0}
 								<textarea
 									class="textarea w-full rounded-xl p-2"
-									rows="3"
+									rows="5"
 									placeholder="Enter some long form content."
 									name={row.key}
 									maxlength={tableSchema[row.key]?.validations?.isLength?.max

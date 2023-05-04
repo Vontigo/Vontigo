@@ -16,14 +16,9 @@
 	import { each, empty } from 'svelte/internal';
 	import { get } from 'svelte/store';
 
-	export let data: PageData;
+	// export let dataX: PageData;
 	export let dataModal: any;
 	export let table: string;
-
-	let selectedPost: any;
-	let keysJson: string[];
-	let colorValue;
-	let formElement: any;
 
 	const tableSchema = tables[table];
 
@@ -49,11 +44,21 @@
 	let recordId = dataModal.id.value; //data.schema.find((obj) => obj.key === 'id').value;
 
 	onMount(async () => {
+
+
 		// Backup all of previous files to delete incase upload new files
 		updateInitialFileValues();
 		initOldValues();
 		// console.log(initialFileValues);
 	});
+
+	async function getTableSchema(){
+		const resPostsSchema = await fetch(`/api/admin/database/${table}/new/${id}`);
+		const dataPostsSchema = await resPostsSchema.json();
+		dataPostsSchema.forEach((value, key) => {
+			$recordDataModal[value.key] = value;
+		});
+	}
 
 	function updateInitialFileValues() {
 		const fileInputs = document.querySelectorAll('.prevFileHidden');
@@ -264,7 +269,7 @@
 					</div>
 					<div
 						href={$adminSiteUrl + `/tags/${$page.params.visibility}/${dataModal[key].slug}`}
-						class="ember-view permalink v-list-data v-post-list-title w-full text-xs tracking-wide col-span-3 pt-2 pb-4"
+						class="ember-view permalink v-list-data v-post-list-title w-full text-xs tracking-wide text-slate-500 col-span-3 py-4"
 					>
 						{#if dataModal[key].reference && dataModal[key].value}
 							{#await getReferenceValue(dataModal[key])}
@@ -322,10 +327,8 @@
 									value={1}
 									on:change={() => {
 										updateField(dataModal[key].id, dataModal[key].key, dataModal[key].value);
-									}}
+									}}>TRUE</RadioItem
 								>
-									<span class="text-sm">True</span>
-								</RadioItem>
 								<RadioItem
 									bind:group={dataModal[key].value}
 									id={dataModal[key].key}
@@ -333,10 +336,8 @@
 									value={0}
 									on:change={() => {
 										updateField(dataModal[key].id, dataModal[key].key, dataModal[key].value);
-									}}
+									}}>FALSE</RadioItem
 								>
-									<span class="text-sm">False</span>
-								</RadioItem>
 							</RadioGroup>
 						{:else if dataModal[key].type == 'varchar'}
 							{#if dataModal[key].key.indexOf('color') >= 0}
