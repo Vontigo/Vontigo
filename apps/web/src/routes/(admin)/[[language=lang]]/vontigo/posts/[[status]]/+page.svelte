@@ -170,7 +170,7 @@
 					</li>
 				{/each}
 			</ol>
-			<div class="infinity-loader reached-infinity py-10" />
+			<div class="infinity-loader reached-infinity p-2 py-4">Loading more..</div>
 		</section>
 	{:else}
 		<div class="w-full flex my-60">

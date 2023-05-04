@@ -89,13 +89,13 @@
 				<table class="table table-hover">
 					<thead>
 						<tr>
-							<th class="uppercase">ACTIVE USERS</th>
-							<th class="w-1 uppercase text-right" />
+							<th class="uppercase bg-white">ACTIVE USERS</th>
+							<th class="w-1 uppercase text-right bg-white" />
 							<!-- <th>Symbol</th>
 						<th>Weight</th> -->
 						</tr>
 					</thead>
-					<tbody>
+					<tbody class="px-2">
 						{#each data.staff as row, i}
 							<!-- <tr>
 							{#if keysJson}
@@ -125,7 +125,7 @@
 											<p class="unstyled text-sm font-medium antialiased tracking-wide">
 												{row.name}
 											</p>
-											<p class="unstyled text-xs mt-1 text-slate-500">
+											<p class="unstyled text-xs mt-1">
 												<span>{row.email}</span>
 											</p>
 										</div>
@@ -162,3 +162,10 @@
 		</div>
 	{/if}
 </div>
+
+<style lang="postcss">
+	.table thead th,
+	.table tbody tr td {
+		@apply px-2;
+	}
+</style>

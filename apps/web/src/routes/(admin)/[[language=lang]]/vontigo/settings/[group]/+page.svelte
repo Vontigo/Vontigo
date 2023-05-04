@@ -177,22 +177,22 @@
 				</li>
 				{#each data.records as row, i}
 					<li
-						class="v-list-row v-records-list-item grid md:grid-cols-6 border-b hover:bg-slate-100 grid-cols-1 {i ==
+						class="v-list-row v-records-list-item grid md:grid-cols-6 border-b p-2 hover:bg-secondary-500/20 grid-cols-1 {i ==
 						data.records.length - 1
 							? ' border-b'
 							: ''}"
 					>
 						<div
-							class="ember-view permalink v-list-data v-post-list-title w-full py-4 w-full capitalize col-span-2"
+							class="ember-view permalink v-list-data v-post-list-title w-full py-4 capitalize col-span-2"
 						>
 							<h3
-								class="v-content-entry-title unstyled text-sm font-medium antialiased tracking-wide flex gap-2"
+								class="v-content-entry-title unstyled font-medium antialiased tracking-wide flex gap-2"
 							>
 								{row.key.replace(/_/g, ' ')}
 							</h3>
 						</div>
 						<div
-							class="ember-view permalink v-list-data v-post-list-title w-full py-4 w-full text-xs tracking-wide text-slate-500 col-span-3"
+							class="ember-view permalink v-list-data v-post-list-title w-full py-4 text-xs tracking-wide col-span-3"
 						>
 							{#if row.type == 'string'}
 								{#if row.key.indexOf('color') >= 0}
@@ -300,7 +300,7 @@
 						</div>
 
 						<div class="ember-view permalink v-list-data v-post-list-status px-2 py-6">
-							<div class="grid justify-items-end w-full text-sm text-slate-500">
+							<div class="grid justify-items-end w-full text-sm">
 								{row.type}
 							</div>
 						</div>

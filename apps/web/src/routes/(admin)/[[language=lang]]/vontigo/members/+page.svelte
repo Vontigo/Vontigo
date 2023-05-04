@@ -132,7 +132,7 @@
 											<p class="unstyled text-sm font-medium antialiased tracking-wide">
 												{row.name}
 											</p>
-											<p class="unstyled text-xs mt-1 text-slate-500">
+											<p class="unstyled text-xs mt-1">
 												<span>{row.email}</span>
 											</p>
 										</div>

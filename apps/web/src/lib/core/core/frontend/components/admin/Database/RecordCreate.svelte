@@ -264,7 +264,7 @@
 					</div>
 					<div
 						href={$adminSiteUrl + `/tags/${$page.params.visibility}/${dataModal[key].slug}`}
-						class="ember-view permalink v-list-data v-post-list-title w-full text-xs tracking-wide text-slate-500 col-span-3 pt-2 pb-4"
+						class="ember-view permalink v-list-data v-post-list-title w-full text-xs tracking-wide col-span-3 pt-2 pb-4"
 					>
 						{#if dataModal[key].reference && dataModal[key].value}
 							{#await getReferenceValue(dataModal[key])}
