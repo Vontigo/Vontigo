@@ -276,7 +276,7 @@
 							/>
 
 							<div
-								class="ember-view permalink v-list-data v-post-list-title w-full py-4 w-full capitalize md:grid-cols-1 col-span-2 md:pb-0 flex flex-col gap-4"
+								class="ember-view permalink v-list-data v-post-list-title w-full py-4 w-full capitalize md:grid-cols-1 col-span-2 md:pb-0 flex flex-col gap-2"
 							>
 								<h3
 									class="v-content-entry-title unstyled text-sm font-medium antialiased tracking-wide flex gap-2"
@@ -286,7 +286,7 @@
 								<CompTagsInput postId={$recordDataModal.id.value} />
 							</div>
 							<div
-								class="ember-view permalink v-list-data v-post-list-title w-full py-4 w-full capitalize md:grid-cols-1 col-span-2 md:pb-0 flex flex-col gap-4"
+								class="ember-view permalink v-list-data v-post-list-title w-full py-4 w-full capitalize md:grid-cols-1 col-span-2 md:pb-0 flex flex-col gap-2"
 							>
 								<h3
 									class="v-content-entry-title unstyled text-sm font-medium antialiased tracking-wide flex gap-2"

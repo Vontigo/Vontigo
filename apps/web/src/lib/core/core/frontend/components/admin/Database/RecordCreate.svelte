@@ -264,7 +264,7 @@
 					</div>
 					<div
 						href={$adminSiteUrl + `/tags/${$page.params.visibility}/${dataModal[key].slug}`}
-						class="ember-view permalink v-list-data v-post-list-title w-full text-xs tracking-wide text-slate-500 col-span-3 py-4"
+						class="ember-view permalink v-list-data v-post-list-title w-full text-xs tracking-wide text-slate-500 col-span-3 pt-2 pb-4"
 					>
 						{#if dataModal[key].reference && dataModal[key].value}
 							{#await getReferenceValue(dataModal[key])}
@@ -322,8 +322,10 @@
 									value={1}
 									on:change={() => {
 										updateField(dataModal[key].id, dataModal[key].key, dataModal[key].value);
-									}}>TRUE</RadioItem
+									}}
 								>
+									<span class="text-sm">TRUE</span>
+								</RadioItem>
 								<RadioItem
 									bind:group={dataModal[key].value}
 									id={dataModal[key].key}
@@ -331,8 +333,10 @@
 									value={0}
 									on:change={() => {
 										updateField(dataModal[key].id, dataModal[key].key, dataModal[key].value);
-									}}>FALSE</RadioItem
+									}}
 								>
+									<span class="text-sm">False</span>
+								</RadioItem>
 							</RadioGroup>
 						{:else if dataModal[key].type == 'varchar'}
 							{#if dataModal[key].key.indexOf('color') >= 0}
