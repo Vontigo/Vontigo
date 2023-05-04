@@ -7,6 +7,8 @@ import type { PageLoad } from './$types';
 export const load = (async ({ fetch, parent, url, params }) => {
 	//console.log(params);
 	const _parent = await parent();
+	// console.log(_parent);
+
 
 	// if (!session?.user) {
 	// 	throw redirect(302, '/');
@@ -19,7 +21,7 @@ export const load = (async ({ fetch, parent, url, params }) => {
 	// 	};
 	// }
 
-	const response = await fetch(`/api/content/posts/public/page/${_parent.themeConfig.posts_per_page}/1`);
+	const response = await fetch(`/api/content/posts/public/page/${_parent.themeConfig.posts_per_page}/${params.page_number}`);
 	const posts = await response.json();
 	return {
 		posts: posts
