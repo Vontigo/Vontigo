@@ -8,6 +8,7 @@
 	import Post from './Post.svelte';
 	import PostCard from './partials/PostCard.svelte';
 	import Pagination from '$lib/core/core/frontend/helpers/components/Pagination.svelte';
+	import { page } from '$app/stores';
 
 	$templateType = 'tag';
 
@@ -74,9 +75,9 @@
 			page={pagination.page}
 			pages={pagination.totalPages}
 			next={pagination.page < pagination.totalPages}
-			page_url_next={`/page/${pagination.page + 1}`}
+			page_url_next={`/tag/${tag.slug}/page/${pagination.page + 1}`}
 			prev={pagination.page - 1 > 0}
-			page_url_prev={`/page/${pagination.page - 1}`}
+			page_url_prev={`/tag/${tag.slug}/page/${pagination.page - 1}`}
 		/>
 	</div>
 </main>
