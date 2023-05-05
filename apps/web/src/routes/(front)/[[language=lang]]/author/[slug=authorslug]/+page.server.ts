@@ -4,7 +4,8 @@
 import { error } from '@sveltejs/kit';
 import type { PageLoad } from './$types';
 
-export const load = (async ({ fetch, url, params }) => {
+export const load = (async ({ fetch, url, params, parent }) => {
+	const _parent = await parent();
 	// if (params.slug === 'hello-world') {
 	// 	return {
 	// 		title: 'Hello world!',
@@ -12,11 +13,13 @@ export const load = (async ({ fetch, url, params }) => {
 	// 	};
 	// }
 
-	const response = await fetch(`/api/content/author/` + params.slug);
-	const author = response.json();
+	const response = await fetch(
+		`/api/content/author/${params.slug}/page/${_parent.theme.posts_per_page}/1`
+	);
+	const result = response.json();
 	// console.log(await tag);
 
 	return {
-		author: author
+		result
 	};
 }) satisfies PageLoad;
