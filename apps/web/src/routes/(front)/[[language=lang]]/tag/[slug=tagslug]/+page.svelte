@@ -5,4 +5,10 @@
 	export let data: PageData;
 </script>
 
-<Tag {data} />
+<Tag
+	site={data.settings.site}
+	tag={data.result.tag}
+	posts={data.result.posts.items}
+	pagination={data.result.posts.pagination}
+	theme={data.theme}
+/>

@@ -11,8 +11,13 @@
 
 	$templateType = 'tag';
 
-	export let data: PageData;
-	let tag = data.tag.content;
+	// export let data: PageData;
+	export let site: any;
+	export let tag: any;
+	export let posts: any;
+	export let pagination: any;
+	export let theme: any;
+	// let tag = data.result.tag;
 	// console.log(data);
 </script>
 
@@ -23,12 +28,12 @@
 		<div class="post-feed">
 			{#if tag}
 				<section class="post-card post-card-large">
-
 					{#if tag.feature_image}
 						<div class="post-card-image-link">
 							<!-- This is a responsive image, it loads different sizes depending on device
                 https://medium.freecodecamp.org/a-guide-to-responsive-images-with-ready-to-use-templates-c400bd65c433 -->
-							<img class="post-card-image"
+							<img
+								class="post-card-image"
 								srcset="{img_url(tag.feature_image, ENUM_IMAGE_SIZE.S)} 300w,
                                         {img_url(tag.feature_image, ENUM_IMAGE_SIZE.M)} 600w,
                                         {img_url(tag.feature_image, ENUM_IMAGE_SIZE.L)} 1000w,
@@ -49,7 +54,9 @@
 								{#if tag.description}
 									{tag.description}
 								{:else}
-									A collection of {`plural ../pagination.total empty='zero posts' singular='% post' plural='% posts'`}
+									A collection of {pagination.totalRows > 0
+										? pagination.totalRows + ` posts`
+										: `zero posts`}.
 								{/if}
 							</div>
 						</div>
@@ -57,12 +64,19 @@
 				</section>
 			{/if}
 
-			{#each data.tag.posts as post}
+			{#each posts as post, index}
 				<!-- The tag below includes the markup for each post - partials/post-card.hbs -->
-				<PostCard {post} />
+				<PostCard {post} {index} />
 			{/each}
 		</div>
 
-		<Pagination />
+		<Pagination
+			page={pagination.page}
+			pages={pagination.totalPages}
+			next={pagination.page < pagination.totalPages}
+			page_url_next={`/page/${pagination.page + 1}`}
+			prev={pagination.page - 1 > 0}
+			page_url_prev={`/page/${pagination.page - 1}`}
+		/>
 	</div>
 </main>
