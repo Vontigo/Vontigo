@@ -15,6 +15,7 @@
 	import './assets/css/screen.css';
 
 	let bodyClass = '';
+	let isNavOpen: boolean = false;
 
 	if ($theme.custom.navigation_layout.default == 'Logo on cover') {
 		bodyClass += ` is-head-left-logo`;
@@ -43,9 +44,9 @@
 	}</style>`}
 </svelte:head>
 
-<div class="{$templateType}-template {bodyClass}">
+<div class="{$templateType}-template {bodyClass} {isNavOpen ? 'gh-head-open' : ''}">
 	<!-- {$origin} | {$language} -->
-	<Header />
+	<Header bind:isNavOpen />
 	<div class="site-content">
 		<!-- All other templates get inserted here, index.hbs, post.hbs, etc -->
 		<slot />

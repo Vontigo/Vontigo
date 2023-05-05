@@ -5,6 +5,7 @@
 	import Navigation from './Navigation.svelte';
 	import IconSearch from './icons/IconSearch.svelte';
 	// let postUrl = $siteUrl + '/' + post.slug;
+	export let isNavOpen: boolean = false;
 </script>
 
 <header
@@ -23,7 +24,12 @@
 			<button class="gh-search gh-icon-btn" aria-label="Search this site" data-ghost-search
 				><IconSearch /></button
 			>
-			<button class="gh-burger" />
+			<button
+				class="gh-burger"
+				on:click={() => {
+					isNavOpen = !isNavOpen;
+				}}
+			/>
 		</div>
 
 		<nav class="gh-head-menu">
