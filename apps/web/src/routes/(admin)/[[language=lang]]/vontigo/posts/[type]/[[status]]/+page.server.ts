@@ -2,7 +2,7 @@
 // it so that it gets served as a static asset in production
 // export const prerender = true;
 import { error } from '@sveltejs/kit';
-import type { PageLoad } from '../../$types';
+import type { PageLoad } from '../../../$types';
 
 export const load = (async ({ fetch, url, params }) => {
 	// if (params.slug === 'hello-world') {
@@ -13,18 +13,18 @@ export const load = (async ({ fetch, url, params }) => {
 	// }
 
 	const response = await fetch(
-		`/api/admin/posts/page/${params.status != 'drafts' ? params.status : 'draft'}/1`
+		`/api/admin/posts/${params.type}/${params.status != 'drafts' ? params.status : 'draft'}/1`
 	);
 	const data = await response.json();
-	// console.log(data);
-	//if (data) console.log(data[0]);
 
-	//const resPostsSchema = await fetch(`/api/admin/pages/new`);
-	//const dataPostsSchema = await resPostsSchema.json();
-	// console.log(dataPostsSchema)
+	const tagsResponse = await fetch(`/api/admin/tags/public`);
+	const tagsData = await tagsResponse.json();
+
+	// console.log(tagsData);
+	// if (data) console.log(data[0]);
 
 	return {
-		posts: data
-		//schema: dataPostsSchema
+		posts: data,
+		tags: tagsData
 	};
 }) satisfies PageLoad;

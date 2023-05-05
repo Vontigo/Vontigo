@@ -91,7 +91,7 @@
 								<span class="flex-auto text-base">Dashboard</span>
 							</a>
 						</li>
-						<li class="w-auto  flex gap-2">
+						<li class="w-auto flex gap-2">
 							<a
 								class="w-full {classesActive($adminSiteUrl + '/site')}"
 								href={$adminSiteUrl + '/site'}
@@ -122,8 +122,8 @@
 							<ul>
 								<li class="w-auto">
 									<a
-										class={classesActive($adminSiteUrl + '/posts')}
-										href={$adminSiteUrl + '/posts'}
+										class={classesActive($adminSiteUrl + '/posts/post')}
+										href={$adminSiteUrl + '/posts/post'}
 									>
 										<Icon3BottomLeft />
 										<span class="flex-auto text-base">Posts</span>
@@ -131,16 +131,16 @@
 								</li>
 								<li class="w-auto">
 									<a
-										class={classesActive($adminSiteUrl + '/posts/drafts')}
-										href={$adminSiteUrl + '/posts/drafts'}
+										class={classesActive($adminSiteUrl + '/posts/post/drafts')}
+										href={$adminSiteUrl + '/posts/post/drafts'}
 									>
 										<span class="pl-10 flex-auto text-sm">Drafts</span>
 									</a>
 								</li>
 								<li class="w-auto">
 									<a
-										class={classesActive($adminSiteUrl + '/posts/scheduled')}
-										href={$adminSiteUrl + '/posts/scheduled'}
+										class={classesActive($adminSiteUrl + '/posts/post/scheduled')}
+										href={$adminSiteUrl + '/posts/post/scheduled'}
 									>
 										<!-- <span class="badge bg-primary-500 w-10 h-10 bg-none">LOGO</span> -->
 										<span class="pl-10 flex-auto text-sm">Scheduled</span>
@@ -148,8 +148,8 @@
 								</li>
 								<li class="w-auto">
 									<a
-										class={classesActive($adminSiteUrl + '/posts/published')}
-										href={$adminSiteUrl + '/posts/published'}
+										class={classesActive($adminSiteUrl + '/posts/post/published')}
+										href={$adminSiteUrl + '/posts/post/published'}
 									>
 										<!-- <span class="badge bg-primary-500 w-10 h-10 bg-none">LOGO</span> -->
 										<span class="pl-10 flex-auto text-sm">Published</span>
@@ -160,7 +160,10 @@
 					</ul>
 					<ul class="p-2 px-6">
 						<li class="w-auto">
-							<a class={classesActive($adminSiteUrl + '/pages')} href={$adminSiteUrl + '/pages'}>
+							<a
+								class={classesActive($adminSiteUrl + '/posts/page')}
+								href={$adminSiteUrl + '/posts/page'}
+							>
 								<IconContent />
 								<span class="flex-auto text-base">Pages</span>
 							</a>

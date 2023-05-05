@@ -9,31 +9,33 @@
 	import Icon3BottomLeft from '$lib/icons/Icon3BottomLeft.svelte';
 	import IconArrowDown from '$lib/icons/IconArrowDown.svelte';
 	import IconPlusSmall from '$lib/icons/IconPlusSmall.svelte';
-	import { AppBar, AppShell, FileDropzone } from '@skeletonlabs/skeleton';
+	import { AppBar, AppShell } from '@skeletonlabs/skeleton';
 	import { Drawer, drawerStore } from '@skeletonlabs/skeleton';
 	import type { DrawerSettings } from '@skeletonlabs/skeleton';
 	import type { PageData } from './$types';
 	import { adminSiteUrl, isEditorOpen, recordDataModal } from '$lib/core/shared/stores/site';
-	import { goto } from '$app/navigation';
 	import { format } from 'timeago.js';
-	import CompPostEditor from '$lib/core/core/frontend/components/admin/Editor/CompPostEditor.svelte';
-	import AutoResizableTextarea from '$lib/core/core/frontend/components/admin/Editor/components/AutoResizableTextarea.svelte';
 	import RecordCreate from '$lib/core/core/frontend/components/admin/Database/RecordCreate.svelte';
+	import AutoResizableTextarea from '$lib/core/core/frontend/components/admin/Editor/components/AutoResizableTextarea.svelte';
+	import CompPostEditor from '$lib/core/core/frontend/components/admin/Editor/CompPostEditor.svelte';
 	import { ENUM_DATABASE_TABLE } from '$lib/core/shared/enum';
-
+	import ObjectID from 'bson-objectid';
+	import { onMount } from 'svelte';
+	import CompTagsInput from '$lib/core/core/frontend/components/admin/TagsInput/CompTagsInput.svelte';
+	import CompAuthorsInput from '$lib/core/core/frontend/components/admin/TagsInput/CompAuthorsInput.svelte';
+	import { fade } from 'svelte/transition';
 	export let data: PageData;
-
 	let selectedPost: any;
 	let keysJson: string[];
 	let isDrawerSidebar = true;
-	// let dataSchema: any = {};
-
-	let demoBinding = '';
+	let lastPosition: number;
+	let showBackbutton = true;
+	onMount(async () => {});
 
 	// if (data && data.posts) keysJson = Object.keys(data.posts[0]);
 
 	const createPageDrawer: DrawerSettings = {
-		id: 'pageEditorDrawer',
+		id: 'postEditorDrawer',
 		position: 'right',
 		width: 'w-full lg:w-[100%]',
 		height: 'h-full',
@@ -42,22 +44,19 @@
 		shadow: 'shadow-md',
 		regionDrawer: 'overflow-y-hidden'
 	};
-
-	// async function createNewRecord() {
-	// 	const resPostsSchema = await fetch(`/api/admin/pages/new`);
-	// 	const dataPostsSchema = await resPostsSchema.json();
-	// 	dataPostsSchema.forEach((value, key) => {
-	// 		$recordDataModal[value.key] = value;
-	// 	});
-	// 	drawerStore.open(createPageDrawer);
-	// }
 	async function openDrawer(id: string = '') {
-		const resPostsSchema = await fetch(`/api/admin/posts/page/new/${id}`);
+		const resPostsSchema = await fetch(`/api/admin/posts/${$page.params.type}/new/${id}`);
 		const dataPostsSchema = await resPostsSchema.json();
 		dataPostsSchema.forEach((value, key) => {
 			$recordDataModal[value.key] = value;
 		});
+		// await getPostsTags($recordDataModal.id.value);
 		drawerStore.open(createPageDrawer);
+	}
+	async function closeDrawer() {
+		// taglist = [];
+		$recordDataModal = {};
+		drawerStore.close();
 	}
 
 	$: if (selectedPost) {
@@ -69,12 +68,12 @@
 	<!-- <svelte:fragment slot="lead">
 		<Icon3BottomLeft />
 	</svelte:fragment> -->
-
 	<ol class="breadcrumb">
-		<li class="crumb"><h2 class="text-xl font-bold py-1">Pages</h2></li>
-		<!-- <li class="crumb-separator" aria-hidden>&rsaquo;</li>
-		<li class="crumb font-bold capitalize">{$page.params.status || 'all status'}</li> -->
+		<li class="crumb"><h2 class="text-xl font-bold py-1">Posts</h2></li>
+		<li class="crumb-separator" aria-hidden>&rsaquo;</li>
+		<li class="crumb font-bold capitalize">{$page.params.status || 'all status'}</li>
 	</ol>
+
 	<svelte:fragment slot="trail">
 		<!-- <div class="w-full "> -->
 		<div class="hidden md:flex md:flex-row-reverse w-full items-center gap-6">
@@ -82,40 +81,35 @@
 				type="button"
 				class="btn btn-sm variant-filled rounded"
 				on:click={() => {
-					//selectedPost = null;
-					//drawerStore.open(createPageDrawer);
 					openDrawer();
 				}}
 			>
 				<span><IconPlusSmall /></span>
-				<span>New page</span>
+				<span>New post</span>
 			</button>
 			<div class="filter-bar flex gap-4">
-				<span><CompMenuPosts /></span>
-				<span><CompMenuMembersAccess /></span>
-				<span><CompMenuAuthors /></span>
-				<span><CompMenuTags /></span>
-				<span><CompMenuSortBy /></span>
+				<!-- <span><CompMenuPosts /></span> -->
+				<!-- <span><CompMenuMembersAccess /></span> -->
+				<!-- <span><CompMenuAuthors /></span> -->
+				<!-- <span><CompMenuTags /></span> -->
+				<!-- <span><CompMenuSortBy /></span> -->
 			</div>
 		</div>
 		<button
 			type="button"
 			class="md:hidden btn btn-sm variant-filled rounded"
 			on:click={() => {
-				//selectedPost = {};
-				//drawerStore.open(createPageDrawer);
 				openDrawer();
 			}}
 		>
 			<span><IconPlusSmall /></span>
-			<span>New page</span>
+			<span>New post</span>
 		</button>
 		<!-- </div> -->
 	</svelte:fragment>
 
 	<!-- <svelte:fragment slot="trail">(actions)</svelte:fragment> -->
 </AppBar>
-
 <div class="max-w-screen-xl mx-auto px-12">
 	{#if data.posts.length > 0}
 		<section class="view-container content-list">
@@ -126,7 +120,7 @@
 				</li>
 				{#each data.posts as row, i}
 					<li
-						class="v-list-row v-posts-list-item grid grid-cols-4 px-2 border-b hover:bg-secondary-500/20 {i ==
+						class="v-list-row v-posts-list-item px-2 grid grid-cols-4 border-b hover:bg-secondary-500/20 {i ==
 						data.posts.length - 1
 							? ' border-b'
 							: ''}"
@@ -159,8 +153,7 @@
 							href="#"
 							class="ember-view permalink v-list-data v-post-list-status px-2 py-6"
 							on:click={() => {
-								selectedPost = row;
-								drawerStore.open(createPageDrawer);
+								openDrawer(row.id);
 							}}
 						>
 							<div class="grid justify-items-end w-full">
@@ -177,45 +170,49 @@
 					</li>
 				{/each}
 			</ol>
-			<div class="infinity-loader reached-infinity py-10" />
+			<div class="infinity-loader reached-infinity p-2 py-4">Loading more..</div>
 		</section>
 	{:else}
-		<div class="w-full my-60 flex">
+		<div class="w-full flex my-60">
 			<div class="flex flex-col w-2/4 m-auto">
-				<div class="w-full m-auto text-center">No pages match the current filter</div>
-				<a href={$adminSiteUrl + '/pages'} class="button text-center">Show all pages</a>
+				<div class="w-full h-full m-auto text-center">No posts match the current filter</div>
+				<a href={`${$adminSiteUrl}/posts/${$page.params.type}`} class="button text-center"
+					>Show all posts</a
+				>
 			</div>
 		</div>
 	{/if}
 </div>
 
 <Drawer>
-	{#if $drawerStore.id === 'pageEditorDrawer'}
-		<button
-			class="absolute left-2 top-2 btn btn-sm border-none bg-transparent hover:variant-filled dark:text-white rounded"
-			on:click={() => {
-				$recordDataModal = {};
-				drawerStore.close();
-			}}
-		>
-			<span>
-				<svg
-					xmlns="http://www.w3.org/2000/svg"
-					fill="none"
-					viewBox="0 0 24 24"
-					stroke-width="1.5"
-					stroke="currentColor"
-					class="w-4 h-4"
-				>
-					<path
-						stroke-linecap="round"
-						stroke-linejoin="round"
-						d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"
-					/>
-				</svg>
-			</span>
-			<span>Back</span>
-		</button>
+	{#if $drawerStore.id === 'postEditorDrawer'}
+		{#if showBackbutton}
+			<button
+				class="absolute left-2 top-2 btn btn-sm border-none bg-white hover:variant-filled rounded z-10 shadow-md"
+				transition:fade
+				on:click={() => {
+					closeDrawer();
+				}}
+			>
+				<span>
+					<svg
+						xmlns="http://www.w3.org/2000/svg"
+						fill="none"
+						viewBox="0 0 24 24"
+						stroke-width="1.5"
+						stroke="currentColor"
+						class="w-4 h-4"
+					>
+						<path
+							stroke-linecap="round"
+							stroke-linejoin="round"
+							d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"
+						/>
+					</svg>
+				</span>
+				<span>Back</span>
+			</button>
+		{/if}
 		<button
 			class="absolute right-2 top-2 rounded border-none p-2"
 			on:click={() => {
@@ -254,20 +251,52 @@
 				</svg>
 			{/if}
 		</button>
-		<AppShell>
+		<AppShell
+			on:scroll={(e) => {
+				if (e.target && e.target.scrollTop > 0) {
+					if (lastPosition >= e.target.scrollTop) {
+						showBackbutton = true;
+					} else {
+						showBackbutton = false;
+					}
+					lastPosition = e.target.scrollTop;
+				}
+			}}
+		>
 			<!-- <svelte:fragment slot="sidebarLeft">
 				
 			</svelte:fragment> -->
 			<svelte:fragment slot="sidebarRight">
 				<div id="sidebar-right" class="hidden lg:{isDrawerSidebar ? 'block' : 'hidden'}">
-					<div class="card w-[350px] h-screen p-4 px-2">
-						<header class="card-header text-lg font-medium">Page settings</header>
-						<section class="p-4">
+					<div class="card w-[350px] h-full p-4 px-2">
+						<header class="card-header text-lg font-medium">Post settings</header>
+						<section class="p-4 pb-20">
 							<RecordCreate
 								{data}
 								table={ENUM_DATABASE_TABLE.posts}
 								bind:dataModal={$recordDataModal}
 							/>
+
+							<div
+								class="ember-view permalink v-list-data v-post-list-title w-full py-4 w-full capitalize md:grid-cols-1 col-span-2 md:pb-0 flex flex-col gap-2"
+							>
+								<h3
+									class="v-content-entry-title unstyled text-sm font-medium antialiased tracking-wide flex gap-2"
+								>
+									Tags
+								</h3>
+								<CompTagsInput postId={$recordDataModal.id.value} />
+							</div>
+							<div
+								class="ember-view permalink v-list-data v-post-list-title w-full py-4 w-full capitalize md:grid-cols-1 col-span-2 md:pb-0 flex flex-col gap-2"
+							>
+								<h3
+									class="v-content-entry-title unstyled text-sm font-medium antialiased tracking-wide flex gap-2"
+								>
+									Authors
+								</h3>
+								<CompAuthorsInput postId={$recordDataModal.id.value} />
+							</div>
 						</section>
 					</div>
 				</div>
@@ -275,19 +304,14 @@
 			<!-- Router Slot -->
 			<div class="max-w-screen-md m-auto py-14 flex flex-col gap-4">
 				<div>
-					<img src={$recordDataModal.feature_image.value} class="w-full" alt="" />
+					<img src={$recordDataModal.feature_image.value} class="w-full rounded" alt="" />
 				</div>
 				<div class="parent font-bold text-4xl">
 					<AutoResizableTextarea
 						bind:value={$recordDataModal.title.value}
-						classes={'input border-none rounded-none focus:border-none active:border-none overflow-hidden bg-white resize-none dark:bg-transparent'}
+						classes={'input p-0 text-4xl border-none rounded-none focus:border-none active:border-none overflow-hidden bg-white resize-none dark:bg-transparent'}
 						placeholder={'Page title...'}
 					/>
-					<!-- <AutoResizableTextarea
-						bind:value={$recordDataModal.title.value}
-						classes={'input border-none focus:border-none active:border-none rounded-none overflow-hidden'}
-						placeholder={'Page title...'}
-					/> -->
 				</div>
 				<div class="mb-20">
 					<CompPostEditor {data} bind:dataModal={$recordDataModal} />
