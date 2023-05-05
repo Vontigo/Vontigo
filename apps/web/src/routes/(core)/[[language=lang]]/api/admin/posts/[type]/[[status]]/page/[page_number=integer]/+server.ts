@@ -1,7 +1,7 @@
 import { knexInstance } from '$lib/core/core/server/data/db/connection';
 import { ENUM_DATABASE_TABLE, ENUM_POSTS_STATUS } from '$lib/core/shared/enum.js';
 import { language } from '$lib/core/shared/stores/site';
-import type { RequestHandler } from '../$types';
+import type { RequestHandler } from '../../$types';
 import ObjectID from 'bson-objectid';
 import { get } from 'svelte/store';
 import { v4 as uuidv4 } from 'uuid';

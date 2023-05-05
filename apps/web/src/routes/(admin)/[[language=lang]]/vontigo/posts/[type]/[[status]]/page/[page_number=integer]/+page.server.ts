@@ -13,7 +13,9 @@ export const load = (async ({ fetch, url, params }) => {
 	// }
 
 	const response = await fetch(
-		`/api/admin/posts/${params.type}/${params.status != 'drafts' ? params.status : 'draft'}/page/1`
+		`/api/admin/posts/${params.type}/${params.status != 'drafts' ? params.status : 'draft'}/page/${
+			params.page_number
+		}`
 	);
 	const data = await response.json();
 
