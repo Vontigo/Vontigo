@@ -21,9 +21,10 @@
 					{$site.title}
 				{/if}
 			</a>
-			<button class="gh-search gh-icon-btn" aria-label="Search this site" data-ghost-search
+			<!-- <button class="gh-search gh-icon-btn" aria-label="Search this site" data-ghost-search
 				><IconSearch /></button
-			>
+			> -->
+			<div />
 			<button
 				class="gh-burger"
 				on:click={() => {
