@@ -18,7 +18,8 @@ export const templateType = writable('');
 export const access = writable(false);
 
 // Data
-export const recordDataModal = writable({});
+export const recordPostsDataModal = writable({});
+export const recordTagsDataModal = writable({});
 
 // Auth
 export const isSignedIn = writable(true);

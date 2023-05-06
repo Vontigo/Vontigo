@@ -9,7 +9,7 @@
 	import { Drawer, drawerStore } from '@skeletonlabs/skeleton';
 	import type { DrawerSettings } from '@skeletonlabs/skeleton';
 	import type { PageData } from './$types';
-	import { adminSiteUrl, isEditorOpen, recordDataModal } from '$lib/core/shared/stores/site';
+	import { adminSiteUrl, isEditorOpen, recordPostsDataModal } from '$lib/core/shared/stores/site';
 	import type { ReferenceStructure, TableStructure } from '$lib/core/shared/types';
 	import { onMount } from 'svelte';
 	import { tables } from '$lib/core/core/server/data/schema/schema';

@@ -9,12 +9,19 @@
 	import { Drawer, drawerStore } from '@skeletonlabs/skeleton';
 	import type { DrawerSettings } from '@skeletonlabs/skeleton';
 	import type { PageData } from './$types';
-	import { adminSiteUrl, isEditorOpen } from '$lib/core/shared/stores/site';
+	import { adminSiteUrl, isEditorOpen, recordTagsDataModal } from '$lib/core/shared/stores/site';
 	import type { ReferenceStructure, TableStructure } from '$lib/core/shared/types';
 	import { onMount } from 'svelte';
 	import RecordDetail from '$lib/core/core/frontend/components/admin/Database/RecordDetail.svelte';
 	import { ENUM_DATABASE_TABLE } from '$lib/core/shared/enum';
+	import RecordCreate from '$lib/core/core/frontend/components/admin/Database/RecordCreate.svelte';
 	export let data: PageData;
+
+	// Reset
+	$recordTagsDataModal = {};
+	data.record.forEach((value, key) => {
+		$recordTagsDataModal[value.key] = value;
+	});
 </script>
 
 <AppBar class="sticky top-0 z-10 p-6 bg-white max-w-screen-xl mx-auto px-12">
@@ -64,6 +71,7 @@
 </AppBar>
 <div class="max-w-screen-xl mx-auto px-12">
 	{#if data.record}
-		<RecordDetail {data} table={ENUM_DATABASE_TABLE.tags} />
+		<!-- <RecordDetail {data} table={ENUM_DATABASE_TABLE.tags} /> -->
+		<RecordCreate {data} table={ENUM_DATABASE_TABLE.tags} bind:dataModal={$recordTagsDataModal} />
 	{/if}
 </div>

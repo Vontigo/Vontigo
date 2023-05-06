@@ -13,7 +13,7 @@
 	import { Drawer, drawerStore } from '@skeletonlabs/skeleton';
 	import type { DrawerSettings } from '@skeletonlabs/skeleton';
 	import type { PageData } from './$types';
-	import { adminSiteUrl, isEditorOpen, recordDataModal } from '$lib/core/shared/stores/site';
+	import { adminSiteUrl, isEditorOpen, recordPostsDataModal } from '$lib/core/shared/stores/site';
 	import { format } from 'timeago.js';
 	import RecordCreate from '$lib/core/core/frontend/components/admin/Database/RecordCreate.svelte';
 	import AutoResizableTextarea from '$lib/core/core/frontend/components/admin/Editor/components/AutoResizableTextarea.svelte';
@@ -52,14 +52,14 @@
 		const resPostsSchema = await fetch(`/api/admin/posts/${$page.params.type}/new/${id}`);
 		const dataPostsSchema = await resPostsSchema.json();
 		dataPostsSchema.forEach((value, key) => {
-			$recordDataModal[value.key] = value;
+			$recordPostsDataModal[value.key] = value;
 		});
-		// await getPostsTags($recordDataModal.id.value);
+		// await getPostsTags($recordPostsDataModal.id.value);
 		drawerStore.open(createPageDrawer);
 	}
 	async function closeDrawer() {
 		// taglist = [];
-		$recordDataModal = {};
+		$recordPostsDataModal = {};
 		drawerStore.close();
 	}
 
@@ -291,7 +291,7 @@
 							<RecordCreate
 								{data}
 								table={ENUM_DATABASE_TABLE.posts}
-								bind:dataModal={$recordDataModal}
+								bind:dataModal={$recordPostsDataModal}
 							/>
 
 							<div
@@ -302,7 +302,7 @@
 								>
 									Tags
 								</h3>
-								<CompTagsInput postId={$recordDataModal.id.value} />
+								<CompTagsInput postId={$recordPostsDataModal.id.value} />
 							</div>
 							<div
 								class="ember-view permalink v-list-data v-post-list-title w-full py-4 w-full capitalize md:grid-cols-1 col-span-2 md:pb-0 flex flex-col gap-2"
@@ -312,7 +312,7 @@
 								>
 									Authors
 								</h3>
-								<CompAuthorsInput postId={$recordDataModal.id.value} />
+								<CompAuthorsInput postId={$recordPostsDataModal.id.value} />
 							</div>
 						</section>
 					</div>
@@ -321,17 +321,17 @@
 			<!-- Router Slot -->
 			<div class="max-w-screen-md m-auto py-14 flex flex-col gap-4">
 				<div>
-					<img src={$recordDataModal.feature_image.value} class="w-full rounded" alt="" />
+					<img src={$recordPostsDataModal.feature_image.value} class="w-full rounded" alt="" />
 				</div>
 				<div class="parent font-bold text-4xl">
 					<AutoResizableTextarea
-						bind:value={$recordDataModal.title.value}
+						bind:value={$recordPostsDataModal.title.value}
 						classes={'input p-0 text-4xl border-none rounded-none focus:border-none active:border-none overflow-hidden bg-white resize-none dark:bg-transparent'}
 						placeholder={'Page title...'}
 					/>
 				</div>
 				<div class="mb-20">
-					<CompPostEditor {data} bind:dataModal={$recordDataModal} />
+					<CompPostEditor {data} bind:dataModal={$recordPostsDataModal} />
 				</div>
 			</div>
 			<!-- ---- / ---- -->
