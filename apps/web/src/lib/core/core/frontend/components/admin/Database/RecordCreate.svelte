@@ -532,4 +532,3 @@
 		<!-- <div class="infinity-loader reached-infinity py-10" /> -->
 	</section>
 {/if}
-<Toast />

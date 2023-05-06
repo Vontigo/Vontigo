@@ -9,7 +9,7 @@
 
 	import { signOut } from '@auth/sveltekit/client';
 
-	import { AppShell, Avatar, filter, popup } from '@skeletonlabs/skeleton';
+	import { AppShell, Avatar, Toast, filter, popup } from '@skeletonlabs/skeleton';
 	import { LightSwitch } from '@skeletonlabs/skeleton';
 	import { page } from '$app/stores';
 	import { PUBLIC_DEFAULT_LANG } from '$env/static/public';
@@ -289,3 +289,5 @@
 	<!-- <svelte:fragment slot="pageFooter">Page Footer</svelte:fragment> -->
 	<!-- <svelte:fragment slot="footer">Footer</svelte:fragment> -->
 </AppShell>
+
+<Toast position={'tr'} width={'max-w-[350px]'} />

@@ -133,5 +133,5 @@
 			</div>
 		</div>
 	{/if}
-	<Toast />
+	<!-- <Toast position={'tr'} /> -->
 </div>

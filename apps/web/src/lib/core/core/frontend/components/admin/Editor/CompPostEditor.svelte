@@ -645,7 +645,7 @@
 	/>
 </div>
 <Modal />
-<Toast />
+<!-- <Toast position={'tr'} /> -->
 
 <style lang="postcss">
 	button.is-active {

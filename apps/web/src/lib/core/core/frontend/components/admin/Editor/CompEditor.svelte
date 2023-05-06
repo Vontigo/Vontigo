@@ -772,7 +772,7 @@
 	{/if}
 </div>
 <Modal />
-<Toast />
+<!-- <Toast position={'tr'} /> -->
 
 <style lang="postcss" global>
 	button.is-active {
