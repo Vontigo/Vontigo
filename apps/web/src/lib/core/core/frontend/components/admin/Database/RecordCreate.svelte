@@ -132,8 +132,9 @@
 		const resDataJson = await resData.json();
 		if (resDataJson.row) {
 			const t: ToastSettings = {
-				message: `New value for [ ${field} ] key setting saved!`,
-				timeout: 2000
+				message: `New value for [ ${field.toUpperCase()} ] setting saved!`,
+				timeout: 2000,
+				background: 'variant-filled-success'
 			};
 			toastStore.trigger(t);
 		}
