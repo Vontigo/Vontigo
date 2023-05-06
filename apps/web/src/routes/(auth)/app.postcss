@@ -1,0 +1,136 @@
+/* Write your global styles here, in PostCSS syntax */
+/* @tailwind base;
+@tailwind components;
+@tailwind utilities; */
+/* body {
+	@apply bg-surface-50-900-token;
+} */
+
+/* @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100;200;300;400;500;600;700;800;900&display=swap'); */
+
+html,
+body {
+	@apply h-full overflow-hidden;
+	background-color: rgb(var(--color-surface-100));
+	/* font-family: 'Outfit', sans-serif; */
+}
+
+/* .sidebar-left {
+	background-color: rgb(var(--color-surface-100));
+} */
+.page-content {
+	background-color: rgb(var(--color-surface-100));
+}
+
+.input,
+.textarea,
+.select,
+.input-group {
+}
+
+#page-content .app-bar-row-main {
+	gap: 0;
+	.btn {
+		border: 0;
+	}
+}
+
+#page-content .app-bar {
+	background-color: rgb(var(--color-surface-100));
+	.filter-bar {
+		button {
+			background: transparent;
+			padding: 0;
+			font-size: 0.8rem;
+			&:focus {
+				border: 0;
+			}
+		}
+	}
+}
+.sidebar-left__bottom {
+	a {
+		padding: 0.5rem;
+	}
+}
+
+.table {
+	border-radius: 0;
+	thead {
+		/* background-color: #fafafb; */
+		th {
+			font-weight: 500;
+			font-size: 0.8rem;
+			padding-left: 0;
+		}
+	}
+	tbody {
+		tr {
+			/* background-color: #fafafb; */
+			&:nth-child(even) {
+				/* background-color: #fafafb; */
+			}
+			&:hover {
+				background-color: #eee;
+			}
+			&:hover:nth-child(even) {
+				background-color: #eee;
+			}
+			td {
+				padding-left: 0;
+			}
+		}
+	}
+}
+
+.dark {
+	body,
+	#editorElement,
+	input,
+	select {
+		@apply text-white;
+	}
+
+	#page-content .app-bar {
+		background-color: rgb(var(--color-surface-900));
+	}
+
+	.sidebar-left {
+		border-color: rgb(var(--color-surface-500));
+	}
+
+	.table {
+		thead {
+			background-color: rgb(var(--color-surface-900));
+		}
+		tbody {
+			tr {
+				background-color: rgb(var(--color-surface-900));
+			}
+			tr:nth-child(even) {
+				background-color: rgb(var(--color-surface-900));
+			}
+			tr:hover,
+			tr:hover:nth-child(even) {
+				background-color: #111;
+			}
+		}
+	}
+}
+/* .dark body,
+.dark #editorElement,
+.dark input {
+	@apply text-white;
+} */
+
+.autocomplete-list {
+	@apply space-y-1;
+
+	button {
+		@apply p-1 px-2 w-fit;
+	}
+}
+
+#sidebar-right select {
+	padding-left: 15px !important;
+}
