@@ -7,7 +7,7 @@
     background: url('/bg-ai-head.gif');
     background-size: cover;"
 >
-	<div class="backdrop-blur-sm bg-white/10">
+	<div class="backdrop-blur-sm bg-white/80">
 		<div class="max-w-screen-sm m-auto flex h-screen">
 			<div class="m-auto flex flex-col gap-6 px-20">
 				<h3>Hi! : )</h3>
