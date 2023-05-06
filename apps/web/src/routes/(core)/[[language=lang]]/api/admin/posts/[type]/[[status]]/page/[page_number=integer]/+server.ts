@@ -25,6 +25,16 @@ async function getAllRows(params: any): Promise<any[] | null> {
 	const PAGE_SIZE = 10; // number of results per page
 
 	try {
+		const countQuery = await knexInstance('posts as p')
+			.count('id as totalRows')
+			.where({
+				'p.type': params.type,
+				'p.visibility': 'public'
+			})
+			.where('p.status', params.status != 'undefined' ? '=' : '<>', params.status)
+			.where({ 'p.locale': get(language) })
+			.orderBy('updated_at', 'desc');
+
 		const rows: any[] = await knexInstance
 			.limit(PAGE_SIZE)
 			.offset((params.page_number - 1) * PAGE_SIZE)
@@ -55,7 +65,20 @@ async function getAllRows(params: any): Promise<any[] | null> {
 			.where('p.status', params.status != 'undefined' ? '=' : '<>', params.status)
 			.where({ 'p.locale': get(language) })
 			.orderBy('updated_at', 'desc');
-		return rows;
+
+		const [totalRowsResult, results] = await Promise.all([countQuery, rows]);
+
+		const totalRows = totalRowsResult[0].totalRows;
+		const totalPages = Math.ceil(totalRows / PAGE_SIZE);
+
+		return {
+			items: await rows,
+			pagination: {
+				page: Number.parseInt(params.page_number),
+				totalRows: totalRows,
+				totalPages: totalPages
+			}
+		};
 	} catch (error) {
 		console.error(error);
 		return null;

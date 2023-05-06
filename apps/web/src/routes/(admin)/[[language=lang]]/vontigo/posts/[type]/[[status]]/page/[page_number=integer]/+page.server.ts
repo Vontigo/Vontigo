@@ -22,6 +22,8 @@ export const load = (async ({ fetch, url, params }) => {
 	const tagsResponse = await fetch(`/api/admin/tags/public`);
 	const tagsData = await tagsResponse.json();
 
+	console.log(data);
+
 	// console.log(tagsData);
 	// if (data) console.log(data[0]);
 

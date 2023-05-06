@@ -24,6 +24,7 @@
 	import CompTagsInput from '$lib/core/core/frontend/components/admin/TagsInput/CompTagsInput.svelte';
 	import CompAuthorsInput from '$lib/core/core/frontend/components/admin/TagsInput/CompAuthorsInput.svelte';
 	import { fade } from 'svelte/transition';
+	import Pagination from '$lib/core/core/frontend/helpers/components/Pagination.svelte';
 	export let data: PageData;
 	let selectedPost: any;
 	let keysJson: string[];
@@ -111,14 +112,14 @@
 	<!-- <svelte:fragment slot="trail">(actions)</svelte:fragment> -->
 </AppBar>
 <div class="max-w-screen-xl mx-auto px-12">
-	{#if data.posts.length > 0}
+	{#if data.posts.items.length > 0}
 		<section class="view-container content-list">
 			<ol class="posts-list v-list flex flex-col">
 				<li class="v-list-row header grid grid-cols-4 uppercase text-xs border-b">
 					<div class="v-list-header v-posts-title-header w-full p-2 ps-0 col-span-3">Title</div>
 					<div class="v-list-header v-posts-status-header p-2 text-end">Status</div>
 				</li>
-				{#each data.posts as row, i}
+				{#each data.posts.items as row, i}
 					<li
 						class="v-list-row v-posts-list-item grid grid-cols-4 border-b hover:bg-secondary-500/20 {i ==
 						data.posts.length - 1
@@ -170,7 +171,20 @@
 					</li>
 				{/each}
 			</ol>
-			<div class="infinity-loader reached-infinity p-2 py-4">Loading more..</div>
+
+			<div class="text-sm py-4 text-end">
+				<Pagination
+					page={data.posts.pagination.page}
+					pages={data.posts.pagination.totalPages}
+					next={data.posts.pagination.page < data.posts.pagination.totalPages}
+					next_title={'Next'}
+					page_url_next={`/vontigo/posts/post/page/${data.posts.pagination.page + 1}`}
+					prev={data.posts.pagination.page - 1 > 0}
+					prev_title={'Previous'}
+					page_url_prev={`/vontigo/posts/post/page/${data.posts.pagination.page - 1}`}
+				/>
+			</div>
+			<!-- <div class="infinity-loader reached-infinity p-2 py-4">Loading more..</div> -->
 		</section>
 	{:else}
 		<div class="w-full flex my-60">

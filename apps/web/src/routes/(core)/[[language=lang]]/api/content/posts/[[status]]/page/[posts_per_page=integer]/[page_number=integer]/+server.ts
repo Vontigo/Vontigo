@@ -9,7 +9,6 @@ export async function GET({ url, params }) {
 	const PAGE_SIZE = params.posts_per_page;
 
 	try {
-
 		const countQuery = await knexInstance('posts as p')
 			.count('id as totalRows')
 			.where({ 'p.type': 'post', 'p.status': 'published', 'p.locale': get(language) });
@@ -31,23 +30,22 @@ export async function GET({ url, params }) {
 
 		// console.log(posts);
 
-
-		const [totalRowsResult, results] = await Promise.all([
-			countQuery,
-			posts,
-		]);
+		const [totalRowsResult, results] = await Promise.all([countQuery, posts]);
 
 		const totalRows = totalRowsResult[0].totalRows;
 		const totalPages = Math.ceil(totalRows / PAGE_SIZE);
 
-		return new Response(JSON.stringify({
-			items: await posts,
-			pagination: {
-				page: Number.parseInt(params.page_number),
-				totalRows: totalRows,
-				totalPages: totalPages
-			}
-		}), { status: 200 });;
+		return new Response(
+			JSON.stringify({
+				items: await posts,
+				pagination: {
+					page: Number.parseInt(params.page_number),
+					totalRows: totalRows,
+					totalPages: totalPages
+				}
+			}),
+			{ status: 200 }
+		);
 	} catch (error) {
 		console.error(error);
 		return null;
