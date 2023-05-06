@@ -317,8 +317,16 @@
 							</div>
 							<div class="py-4 text-end">
 								<button
-									class="btn btn-sm variant-filled-primary border-none"
+									class="btn variant-filled-primary border-none"
 									on:click={async () => {
+										const requestOptions = {
+											method: 'PUT',
+											headers: { 'Content-Type': 'application/json' },
+											body: JSON.stringify({ body: $recordPostsDataModal.feature_image.value })
+										};
+
+										const resData = await fetch(`/api/admin/file/delete`, requestOptions);
+
 										const delReq = await fetch(
 											`/api/database/posts/remove/${$recordPostsDataModal.id.value}`
 										);
