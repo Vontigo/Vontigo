@@ -1,11 +1,11 @@
 <script lang="ts">
 	// Your selected Skeleton theme:
-	import '@skeletonlabs/skeleton/themes/theme-crimson.css';
-	// import './vontigo.css';
+	// import '@skeletonlabs/skeleton/themes/theme-crimson.css';
+	import './vontigo.css';
 	// This contains the bulk of Skeletons required styles:
 	import '@skeletonlabs/skeleton/styles/all.css';
 	// Finally, your application's global stylesheet (sometimes labeled 'app.css')
-	// import './app.postcss';
+	import './app.postcss';
 
 	import {
 		Accordion,
@@ -58,7 +58,16 @@
 		<AppBar class="text-3xl font-bold">Dashboard</AppBar>
 	</svelte:fragment> -->
 	<!-- Router Slot -->
-	<slot />
+
+	<div
+		style="
+    background: url('/bg-ai-head.gif');
+    background-size: cover;"
+	>
+		<div class="backdrop-blur-sm bg-white/80">
+			<slot />
+		</div>
+	</div>
 	<!-- ---- / ---- -->
 	<!-- <svelte:fragment slot="pageFooter">Page Footer</svelte:fragment> -->
 	<!-- <svelte:fragment slot="footer">Footer</svelte:fragment> -->
