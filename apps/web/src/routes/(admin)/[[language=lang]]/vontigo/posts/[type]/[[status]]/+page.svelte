@@ -33,6 +33,7 @@
 	let isDrawerSidebar = true;
 	let lastPosition: number;
 	let showBackbutton = true;
+	let _compPostEditor:any;
 
 	onMount(async () => {});
 
@@ -57,6 +58,8 @@
 			
 			if(chatGptResJson?.Choices[0]?.Message?.Content){
 				$recordPostsDataModal.mobiledoc.value = await chatGptResJson?.Choices[0]?.Message?.Content;
+
+				_compPostEditor.updateContent();
 				
 				toastStore.trigger({
 					message: 'AI content generated!',
@@ -423,7 +426,7 @@
 					/>
 				</div>
 				<div class="mb-20">
-					<CompPostEditor {data} bind:dataModal={$recordPostsDataModal} />
+					<CompPostEditor bind:this={_compPostEditor} {data} bind:dataModal={$recordPostsDataModal} />
 				</div>
 			</div>
 			<!-- ---- / ---- -->

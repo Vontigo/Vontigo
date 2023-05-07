@@ -294,6 +294,12 @@
 	// 		toastStore.trigger(t);
 	// 	}
 	// }
+
+	export const updateContent = () =>{
+		editor.commands.setContent(
+			JSON.parse(dataModal.mobiledoc.value)
+		);
+	}
 	async function submitPost(id: string, body: any) {
 		if (data && data.id) {
 			const title = editor.getJSON().content[0];
@@ -426,6 +432,8 @@
 	}
 	let editorHeight;
 	let stickyEditorHeight;
+
+	
 </script>
 
 <div id="editorElement">
