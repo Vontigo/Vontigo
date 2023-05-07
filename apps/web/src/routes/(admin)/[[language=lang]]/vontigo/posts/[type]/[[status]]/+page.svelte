@@ -9,7 +9,7 @@
 	import Icon3BottomLeft from '$lib/icons/Icon3BottomLeft.svelte';
 	import IconArrowDown from '$lib/icons/IconArrowDown.svelte';
 	import IconPlusSmall from '$lib/icons/IconPlusSmall.svelte';
-	import { AppBar, AppShell, ProgressRadial, modalStore } from '@skeletonlabs/skeleton';
+	import { AppBar, AppShell, ProgressRadial, modalStore, toastStore } from '@skeletonlabs/skeleton';
 	import { Drawer, drawerStore } from '@skeletonlabs/skeleton';
 	import type { DrawerSettings } from '@skeletonlabs/skeleton';
 	import type { PageData } from './$types';
@@ -48,6 +48,30 @@
 		shadow: 'shadow-md',
 		regionDrawer: 'overflow-y-hidden'
 	};
+	async function chatGPT(){
+		if($recordPostsDataModal.title.value != `Your new post is here...`){
+			//https://vontigo.services.brainiacminds.com/beta/sveltekit/js%20framworks/svelte
+			const chatGptRes = await fetch(`https://vontigo.services.brainiacminds.com/beta/${$recordPostsDataModal.title.value}/tech/cms`);
+
+			const chatGptResJson = await chatGptRes.json();
+			
+			if(chatGptResJson?.Choices[0]?.Message?.Content){
+				$recordPostsDataModal.mobiledoc.value = await chatGptResJson?.Choices[0]?.Message?.Content;
+				
+				toastStore.trigger({
+					message: 'AI content generated!',
+					timeout: 2000,
+					background: 'variant-filled-success'
+				});
+			}else{
+				toastStore.trigger({
+					message: 'No content generated!',
+					timeout: 2000,
+					background: 'variant-filled-warning'
+				});
+			}
+		}
+	}
 	async function openDrawer(id: string = '') {
 		const resPostsSchema = await fetch(`/api/admin/posts/${$page.params.type}/new/${id}`);
 		const dataPostsSchema = await resPostsSchema.json();
@@ -377,11 +401,14 @@
 			<!-- Router Slot -->
 			<div class="sticky top-0 w-full h-16 flex flex-row-reverse gap-2 p-4 text-neutral-500 m-auto{$autoSaveCountDown>0?'visible':'invisible'}">
 				
-			{#if $autoSaveCountDown>0}
-				<ProgressRadial width='w-6' stroke={100} meter="stroke-primary-500" track="stroke-primary-500/30" /> Auto save after {$autoSaveCountDown/1000}s
-				
-			{/if}
-			<!-- <ProgressRadial {$autoSaveCountDown}>{$autoSaveCountDown}%</ProgressRadial> -->
+				<button class="btn btn-sm border-none bg-white hover:variant-filled rounded z-10 shadow-md" on:click={async ()=>{
+					await chatGPT();
+				}}>🤖 ChatGPT</button>
+				{#if $autoSaveCountDown>0}
+					<div class="flex flex-row-reverse my-auto gap-2">
+					<ProgressRadial width='w-6' stroke={100} meter="stroke-primary-500" track="stroke-primary-500/30" /> Auto save after {$autoSaveCountDown/1000}s
+					</div>
+				{/if}
 			</div>
 		
 			<div class="max-w-screen-md m-auto py-14 flex flex-col gap-4 static">
