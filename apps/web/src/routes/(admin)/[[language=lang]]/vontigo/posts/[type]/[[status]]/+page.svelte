@@ -404,9 +404,14 @@
 			<!-- Router Slot -->
 			<div class="sticky top-0 w-full h-16 flex flex-row-reverse gap-2 p-4 text-neutral-500 m-auto{$autoSaveCountDown>0?'visible':'invisible'}">
 				
-				<button class="btn btn-sm border-none bg-white hover:variant-filled rounded z-10 shadow-md" on:click={async ()=>{
+				<button class="btn border-none p-4 bg-white hover:variant-filled rounded z-10 shadow-md" on:click={async ()=>{
 					await chatGPT();
-				}}>🤖 ChatGPT</button>
+				}}>
+				<span class="w-6 h-6">
+					<img src="/brainiacminds-logo.png" title="BrainiacMinds" class="w-6 h-6"/>
+				</span> 
+				<span>BrainiacMinds</span>
+			</button>
 				{#if $autoSaveCountDown>0}
 					<div class="flex flex-row-reverse my-auto gap-2">
 					<ProgressRadial width='w-6' stroke={100} meter="stroke-primary-500" track="stroke-primary-500/30" /> Auto save after {$autoSaveCountDown/1000}s
