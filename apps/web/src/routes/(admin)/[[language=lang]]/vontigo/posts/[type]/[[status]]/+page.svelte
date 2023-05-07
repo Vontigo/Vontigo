@@ -425,10 +425,10 @@
 				<div>
 					<img src={$recordPostsDataModal.feature_image.value} class="w-full rounded" alt="" />
 				</div>
-				<div class="parent font-bold text-4xl">
+				<div class="parent font-light text-6xl">
 					<AutoResizableTextarea
 						bind:value={$recordPostsDataModal.title.value}
-						classes={'input p-0 text-4xl border-none rounded-none focus:border-none active:border-none overflow-hidden bg-white resize-none dark:bg-transparent'}
+						classes={'input p-0 font-light text-6xl border-none rounded-none focus:border-none active:border-none overflow-hidden bg-white resize-none dark:bg-transparent'}
 						placeholder={'Page title...'}
 					/>
 				</div>
