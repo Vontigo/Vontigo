@@ -16,21 +16,22 @@
 	import { Drawer, drawerStore } from '@skeletonlabs/skeleton';
 	import type { DrawerSettings } from '@skeletonlabs/skeleton';
 	import type { PageData } from './$types';
-	import { adminSiteUrl, isEditorOpen, recordPostsDataModal } from '$lib/core/shared/stores/site';
+	import { adminSiteUrl, autoSaveCountDown, isEditorOpen, recordPostsDataModal } from '$lib/core/shared/stores/site';
 	import type { ReferenceStructure, TableStructure } from '$lib/core/shared/types';
 	import { onMount } from 'svelte';
 	import { tables } from '$lib/core/core/server/data/schema/schema';
 	import { each, empty } from 'svelte/internal';
 	import { get } from 'svelte/store';
+	import { CONST_AUTOSAVE_COUNTDOWN_MS } from '$lib/core/shared/const';
 
 	export let data: PageData;
 	export let dataModal: any;
 	export let table: string;
 
-	let selectedPost: any;
-	let keysJson: string[];
-	let colorValue;
-	let formElement: any;
+	// let selectedPost: any;
+	// let keysJson: string[];
+	// let colorValue;
+	// let formElement: any;
 
 	const tableSchema = tables[table];
 
@@ -186,6 +187,18 @@
 	let oldValues: any = {};
 	let timeoutId: any;
 	$: if (dataModal) {
+		
+		autoSaveCountDown.set(0);
+		Object.keys(dataModal).forEach(async (key) => {
+			if (dataModal[key].value !== null && dataModal[key].value !== oldValues[key]) {
+				if (key == 'title' || key == 'mobiledoc' || key == 'html' || key == 'plaintext') {
+					autoSaveCountDown.set(CONST_AUTOSAVE_COUNTDOWN_MS);
+					clearTimeout(setTimeout(() => {
+						autoSaveCountDown.set($autoSaveCountDown-1000);
+					}, 1000));
+				}
+			}
+		})
 		clearTimeout(timeoutId);
 		timeoutId = setTimeout(() => {
 			Object.keys(dataModal).forEach(async (key) => {
@@ -206,10 +219,11 @@
 							updateField(recordId, dataModal['slug'].key, dataModal['slug'].value);
 							oldValues['slug'] = dataModal['slug'].value;
 						}
+						autoSaveCountDown.set(0);
 					}
 				}
 			});
-		}, 5000);
+		}, CONST_AUTOSAVE_COUNTDOWN_MS);
 	}
 </script>
 

@@ -15,3 +15,4 @@ export const CONST_ONE_YEAR_MS = 31536000000;
 export const CONST_STATIC_IMAGES_URL_PREFIX = 'content/images';
 export const CONST_STATIC_MEDIA_URL_PREFIX = 'content/media';
 export const CONST_STATIC_FILES_URL_PREFIX = 'content/files';
+export const CONST_AUTOSAVE_COUNTDOWN_MS = 5000;

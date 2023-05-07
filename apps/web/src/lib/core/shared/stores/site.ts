@@ -1,4 +1,5 @@
 import { writable } from 'svelte/store';
+import { CONST_AUTOSAVE_COUNTDOWN_MS } from '../const';
 
 export const origin = writable('');
 export const language = writable('');
@@ -18,6 +19,7 @@ export const templateType = writable('');
 export const access = writable(false);
 
 // Data
+export const autoSaveCountDown = writable(0);
 export const recordPostsDataModal = writable({});
 export const recordTagsDataModal = writable({});
 export const recordUsersDataModal = writable({});

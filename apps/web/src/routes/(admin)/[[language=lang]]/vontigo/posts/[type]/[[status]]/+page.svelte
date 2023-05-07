@@ -9,11 +9,11 @@
 	import Icon3BottomLeft from '$lib/icons/Icon3BottomLeft.svelte';
 	import IconArrowDown from '$lib/icons/IconArrowDown.svelte';
 	import IconPlusSmall from '$lib/icons/IconPlusSmall.svelte';
-	import { AppBar, AppShell, modalStore } from '@skeletonlabs/skeleton';
+	import { AppBar, AppShell, ProgressRadial, modalStore } from '@skeletonlabs/skeleton';
 	import { Drawer, drawerStore } from '@skeletonlabs/skeleton';
 	import type { DrawerSettings } from '@skeletonlabs/skeleton';
 	import type { PageData } from './$types';
-	import { adminSiteUrl, isEditorOpen, recordPostsDataModal } from '$lib/core/shared/stores/site';
+	import { adminSiteUrl, autoSaveCountDown, isEditorOpen, recordPostsDataModal } from '$lib/core/shared/stores/site';
 	import { format } from 'timeago.js';
 	import RecordCreate from '$lib/core/core/frontend/components/admin/Database/RecordCreate.svelte';
 	import AutoResizableTextarea from '$lib/core/core/frontend/components/admin/Editor/components/AutoResizableTextarea.svelte';
@@ -28,8 +28,8 @@
 
 	export let data: PageData;
 
-	let selectedPost: any;
-	let keysJson: string[];
+	// let selectedPost: any;
+	// let keysJson: string[];
 	let isDrawerSidebar = true;
 	let lastPosition: number;
 	let showBackbutton = true;
@@ -63,9 +63,9 @@
 		drawerStore.close();
 	}
 
-	$: if (selectedPost) {
-		selectedPost = selectedPost;
-	}
+	// $: if (selectedPost) {
+	// 	selectedPost = selectedPost;
+	// }
 </script>
 
 <AppBar class="sticky top-0 z-10 p-6 bg-white max-w-screen-xl mx-auto px-12">
@@ -230,6 +230,7 @@
 				<span>Back</span>
 			</button>
 		{/if}
+				
 		<button
 			class="absolute right-2 top-2 rounded border-none p-2 bg-white z-10"
 			on:click={() => {
@@ -374,7 +375,16 @@
 				</div>
 			</svelte:fragment>
 			<!-- Router Slot -->
-			<div class="max-w-screen-md m-auto py-14 flex flex-col gap-4">
+			<div class="sticky top-0 w-full h-16 flex flex-row-reverse gap-2 p-4 text-neutral-500 m-auto{$autoSaveCountDown>0?'visible':'invisible'}">
+				
+			{#if $autoSaveCountDown>0}
+				<ProgressRadial width='w-6' stroke={100} meter="stroke-primary-500" track="stroke-primary-500/30" /> Auto save after {$autoSaveCountDown/1000}s
+				
+			{/if}
+			<!-- <ProgressRadial {$autoSaveCountDown}>{$autoSaveCountDown}%</ProgressRadial> -->
+			</div>
+		
+			<div class="max-w-screen-md m-auto py-14 flex flex-col gap-4 static">
 				<div>
 					<img src={$recordPostsDataModal.feature_image.value} class="w-full rounded" alt="" />
 				</div>
