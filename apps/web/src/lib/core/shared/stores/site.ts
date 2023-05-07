@@ -20,6 +20,7 @@ export const access = writable(false);
 // Data
 export const recordPostsDataModal = writable({});
 export const recordTagsDataModal = writable({});
+export const recordUsersDataModal = writable({});
 
 // Auth
 export const isSignedIn = writable(true);

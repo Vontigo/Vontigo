@@ -15,6 +15,7 @@
 	import type { PageData } from './$types';
 	import { adminSiteUrl, isEditorOpen } from '$lib/core/shared/stores/site';
 	import { goto } from '$app/navigation';
+	import CompGravatar from '$lib/core/core/frontend/components/shared/CompGravatar/CompGravatar.svelte';
 	export let data: PageData;
 	let selectedPost: any;
 	let keysJson: string[];
@@ -37,16 +38,17 @@
 	}
 </script>
 
-<div class="max-w-screen-xl mx-auto px-12">
-	<AppBar class="sticky top-0 z-10 p-4 bg-white">
-		<!-- <svelte:fragment slot="lead">
+<AppBar class="sticky top-0 z-10 p-6 bg-white max-w-screen-xl mx-auto px-12">
+	<!-- <svelte:fragment slot="lead">
 			<Icon3BottomLeft />
 		</svelte:fragment> -->
-		<h2 class="text-xl font-bold">Staff</h2>
-		<!-- <span class="text-xs uppercase font-semibold">{$page.params.status || 'all status'}</span> -->
-		<svelte:fragment slot="trail">
-			<!-- <div class="w-full "> -->
-			<!-- <div class="hidden md:flex md:flex-row-reverse w-full items-center gap-6">
+	<ol class="breadcrumb">
+		<li class="crumb"><h2 class="text-xl font-bold mb-1">Staff</h2></li>
+	</ol>
+	<!-- <span class="text-xs uppercase font-semibold">{$page.params.status || 'all status'}</span> -->
+	<svelte:fragment slot="trail">
+		<!-- <div class="w-full "> -->
+		<!-- <div class="hidden md:flex md:flex-row-reverse w-full items-center gap-6">
 				<button
 					type="button"
 					class="btn btn-sm variant-filled rounded"
@@ -70,89 +72,72 @@
 				<span><IconPlusSmall /></span>
 				<span>Invite people</span>
 			</button> -->
-			<!-- </div> -->
-		</svelte:fragment>
+		<!-- </div> -->
+	</svelte:fragment>
 
-		<!-- <svelte:fragment slot="trail">(actions)</svelte:fragment> -->
-	</AppBar>
-
+	<!-- <svelte:fragment slot="trail">(actions)</svelte:fragment> -->
+</AppBar>
+<div class="max-w-screen-xl mx-auto px-12">
 	<Drawer>
 		{#if $drawerStore.id === 'postEditorDrawer'}
 			<CompEditor postData={selectedPost} />
 		{/if}
 	</Drawer>
-	{#if data.staff.length > 0}
-		<div class="postsList">
-			<!-- Responsive Container (recommended) -->
-			<div class="table-container rounded-none w-full">
-				<!-- Native Table Element -->
-				<table class="table table-hover">
-					<thead>
-						<tr>
-							<th class="uppercase bg-white">ACTIVE USERS</th>
-							<th class="w-1 uppercase text-right bg-white" />
-							<!-- <th>Symbol</th>
-						<th>Weight</th> -->
-						</tr>
-					</thead>
-					<tbody class="px-2">
-						{#each data.staff as row, i}
-							<!-- <tr>
-							{#if keysJson}
-								{#each keysJson as column}
-									<td>{row[column]}</td>
-								{/each}
-							{/if}</tr
-						> -->
-							<tr>
-								<!-- svelte-ignore a11y-click-events-have-key-events -->
-								<td
-									class="cursor-pointer"
-									on:click={() => {
-										goto($adminSiteUrl + `/settings/staff/${row.slug}`);
-									}}
-								>
-									<div class="flex gap-4">
-										<div>
-											<Avatar
-												src="https://i.pravatar.cc/"
-												action={filter}
-												actionParams="#Apollo"
-												width="w-10"
-											/>
-										</div>
-										<div>
-											<p class="unstyled text-sm font-medium antialiased tracking-wide">
-												{row.name}
-											</p>
-											<p class="unstyled text-xs mt-1">
-												<span>{row.email}</span>
-											</p>
-										</div>
-									</div>
-								</td>
-								<td>
-									<span
-										class="badge uppercase text-xs font-light pb-[1px] pt-[2px] px-3 {row.status ==
-										'published'
-											? 'variant-filled-success'
-											: 'variant-filled-surface'}"
-									>
-										{row.role_name}
-									</span>
-								</td>
-							</tr>
-						{/each}
-					</tbody>
-					<!-- <tfoot>
-					<tr>
-						<th colspan="2">Calculated Total Weight</th>
-						<td>{data.posts.length}</td>
-					</tr>
-				</tfoot> -->
-				</table>
-			</div>
-		</div>
+	{#if data.records.length > 0}
+		<section class="view-container content-list">
+			<ol class="posts-list v-list flex flex-col">
+				<li class="v-list-row header grid grid-cols-5 uppercase text-xs border-b">
+					<div class="v-list-header v-posts-title-header w-full p-2 ps-0 col-span-3">
+						ACTIVE USERS
+					</div>
+					<!-- <div class="v-list-header v-posts-status-header py-2">Slug</div>
+					<div class="v-list-header v-posts-status-header p-2 text-end">No. of post</div> -->
+				</li>
+				{#each data.records as row, i}
+					<li
+						class="v-list-row v-posts-list-item grid grid-cols-5 border-b hover:bg-secondary-500/20 {i ==
+						data.records.length - 1
+							? ' border-b'
+							: ''}"
+					>
+						<a
+							href={$adminSiteUrl + `/settings/staff/${row.slug}`}
+							class="ember-view permalink v-list-data v-post-list-title w-full py-4 col-span-4 flex gap-4"
+						>
+							{#if row.profile_image}
+								<Avatar
+									src={row.profile_image}
+									action={filter}
+									actionParams="#Apollo"
+									width="w-10 h-10"
+								/>
+							{:else}
+								<CompGravatar email={row.email} size={32} default="robohash" class="rounded-full" />
+							{/if}
+							<div>
+								<p class="unstyled text-sm font-medium antialiased tracking-wide">
+									{row.name}
+								</p>
+								<p class="unstyled text-xs mt-1">
+									<span>{row.email}</span>
+								</p>
+							</div>
+						</a>
+						<div class=" m-auto">
+							<span
+								class="badge uppercase text-xs font-light pb-[1px] pt-[2px] px-3 {row.status ==
+								'published'
+									? 'variant-filled-success'
+									: 'variant-filled-surface'}"
+							>
+								{row.role_name}
+							</span>
+						</div>
+					</li>
+				{/each}
+			</ol>
+			<div class="infinity-loader reached-infinity py-10" />
+		</section>
 	{:else}
 		<div class="w-full justify-center">
 			<div class="flex flex-col w-2/4 m-auto">

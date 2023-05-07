@@ -18,6 +18,6 @@ export const load = (async ({ fetch, url, params }) => {
 	//if (data) console.log(data[0]);
 
 	return {
-		staff: data
+		records: data
 	};
 }) satisfies PageLoad;

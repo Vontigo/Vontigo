@@ -242,7 +242,9 @@
 							</a>
 						</li>
 						<li class="w-auto text-end content-end py-2">
-							<span class="flex-auto text-base"><LightSwitch height="h-5" width="w-10" /></span>
+							<span class="flex-auto text-base"
+								><LightSwitch height="h-5" width="w-10" rounded="rounded-full" /></span
+							>
 						</li>
 					</ul>
 				</nav>

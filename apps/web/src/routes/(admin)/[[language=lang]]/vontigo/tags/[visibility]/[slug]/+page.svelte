@@ -71,7 +71,6 @@
 </AppBar>
 <div class="max-w-screen-xl mx-auto px-12">
 	{#if data.record}
-		<!-- <RecordDetail {data} table={ENUM_DATABASE_TABLE.tags} /> -->
 		<RecordCreate {data} table={ENUM_DATABASE_TABLE.tags} bind:dataModal={$recordTagsDataModal} />
 	{/if}
 </div>

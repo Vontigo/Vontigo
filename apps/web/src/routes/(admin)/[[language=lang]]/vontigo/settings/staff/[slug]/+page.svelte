@@ -9,24 +9,39 @@
 	import { Drawer, drawerStore } from '@skeletonlabs/skeleton';
 	import type { DrawerSettings } from '@skeletonlabs/skeleton';
 	import type { PageData } from './$types';
-	import { adminSiteUrl, isEditorOpen } from '$lib/core/shared/stores/site';
+	import { adminSiteUrl, recordUsersDataModal } from '$lib/core/shared/stores/site';
 	import type { ReferenceStructure, TableStructure } from '$lib/core/shared/types';
 	import { onMount } from 'svelte';
 	import RecordDetail from '$lib/core/core/frontend/components/admin/Database/RecordDetail.svelte';
+	import { ENUM_DATABASE_TABLE } from '$lib/core/shared/enum';
+	import RecordCreate from '$lib/core/core/frontend/components/admin/Database/RecordCreate.svelte';
 	export let data: PageData;
+
+	// Reset
+	$recordUsersDataModal = {};
+	data.record.forEach((value, key) => {
+		$recordUsersDataModal[value.key] = value;
+	});
 </script>
 
-<div class="max-w-screen-xl mx-auto px-12">
-	<AppBar class="sticky top-0 z-10 p-4 bg-white">
-		<!-- <svelte:fragment slot="lead">
+<AppBar class="sticky top-0 z-10 p-6 bg-white max-w-screen-xl mx-auto px-12">
+	<!-- <svelte:fragment slot="lead">
 			<Icon3BottomLeft />
 		</svelte:fragment> -->
-		<h2 class="text-xl font-bold">User</h2>
-		<span class="uppercase text-sm font-semibold">{$page.params.slug || ''}</span>
-		<svelte:fragment slot="trail">
-			<!-- <div class="w-full "> -->
-			<div class="hidden md:flex md:flex-row-reverse w-full items-center gap-6">
-				<!-- <button
+
+	<ol class="breadcrumb">
+		<li class="crumb"><h2 class="text-xl font-bold mb-1">User</h2></li>
+		<li class="crumb-separator" aria-hidden>&rsaquo;</li>
+		<li class="crumb font-bold capitalize">
+			<a href={$adminSiteUrl + `/settings/staff/${$page.params.visibility}`}>All users</a>
+		</li>
+		<li class="crumb-separator" aria-hidden>&rsaquo;</li>
+		<li class="crumb font-bold capitalize">{$page.params.slug || ''}</li>
+	</ol>
+	<svelte:fragment slot="trail">
+		<!-- <div class="w-full "> -->
+		<div class="hidden md:flex md:flex-row-reverse w-full items-center gap-6">
+			<!-- <button
 					type="button"
 					class="btn btn-sm variant-filled rounded"
 					on:click={() => {
@@ -44,18 +59,18 @@
 					<span><CompMenuTags /></span>
 					<span><CompMenuSortBy /></span>
 				</div> -->
-			</div>
-			<button type="button" class="md:hidden btn btn-sm variant-filled rounded">
-				<span><IconPlusSmall /></span>
-				<span>New post</span>
-			</button>
-			<!-- </div> -->
-		</svelte:fragment>
+		</div>
+		<button type="button" class="md:hidden btn btn-sm variant-filled rounded">
+			<span><IconPlusSmall /></span>
+			<span>New post</span>
+		</button>
+		<!-- </div> -->
+	</svelte:fragment>
 
-		<!-- <svelte:fragment slot="trail">(actions)</svelte:fragment> -->
-	</AppBar>
-
+	<!-- <svelte:fragment slot="trail">(actions)</svelte:fragment> -->
+</AppBar>
+<div class="max-w-screen-xl mx-auto px-12">
 	{#if data.record}
-		<RecordDetail {data} table={'users'} />
+		<RecordCreate {data} table={ENUM_DATABASE_TABLE.users} bind:dataModal={$recordUsersDataModal} />
 	{/if}
 </div>
