@@ -1,6 +1,13 @@
 <script lang="ts">
 	import { page } from '$app/stores';
-	import { toastStore, type ToastSettings, Toast, ProgressRadial } from '@skeletonlabs/skeleton';
+	import {
+		toastStore,
+		type ToastSettings,
+		Toast,
+		ProgressRadial,
+		clipboard,
+		modalStore
+	} from '@skeletonlabs/skeleton';
 	import CompEditor from '$lib/core/core/frontend/components/admin/Editor/CompEditor.svelte';
 	import Icon3BottomLeft from '$lib/icons/Icon3BottomLeft.svelte';
 	import IconArrowDown from '$lib/icons/IconArrowDown.svelte';
@@ -214,10 +221,10 @@
 {#if dataModal}
 	<section class="view-container content-list @container">
 		<ol class="records-list v-list flex flex-col">
-			<li class="v-list-row header grid grid-cols-6 uppercase text-xs border-b md:hidden">
+			<li class="v-list-row header @xs:grid grid-cols-6 uppercase text-xs border-b hidden">
 				<div class="v-list-header v-posts-title-header w-full p-2 ps-0 col-span-2">Key</div>
 				<div class="v-list-header v-posts-status-header py-2 col-span-3">Value</div>
-				<div class="v-list-header v-posts-status-header p-2 text-end">Type</div>
+				<!-- <div class="v-list-header v-posts-status-header p-2 text-end">Type</div> -->
 			</li>
 			{#each Object.keys(dataModal) as key, i}
 				<li
@@ -226,36 +233,38 @@
 					{tableSchema[dataModal[key].key].isHidden == true ? ' hidden' : ''}"
 				>
 					<div
-						class="ember-view permalink v-list-data v-post-list-title w-full py-4 w-full capitalize md:grid-cols-1 col-span-2 md:pb-0"
+						class="ember-view permalink v-list-data v-post-list-title w-full py-4 w-full capitalize md:grid-cols-1 col-span-2 md:pb-0 flex"
 					>
-						<h3
-							class="v-content-entry-title unstyled text-sm font-medium antialiased tracking-wide flex w-full"
+						<div
+							class="v-content-entry-title unstyled text-sm font-medium antialiased tracking-wide flex @xs:flex-col w-full gap-2"
 						>
-							<span class="">
-								{dataModal[key].key.replace(/_/g, ' ')}
-								<i class="text-red-700 font-bold">
-									{tableSchema[dataModal[key].key].nullable == false ? '*' : ''}
-								</i>
-							</span>
+							<div class="flex flex-1 @xs:flex-none gap-2">
+								<label class="" for={dataModal[key].key}>
+									{dataModal[key].key.replace(/_/g, ' ')}
+									<i class="text-red-700 font-bold">
+										{tableSchema[dataModal[key].key].nullable == false ? '*' : ''}
+									</i>
+								</label>
 
-							{#if dataModal[key].reference}
-								<svg
-									xmlns="http://www.w3.org/2000/svg"
-									fill="none"
-									viewBox="0 0 24 24"
-									stroke-width="1.5"
-									stroke="currentColor"
-									class="w-4 h-4"
-								>
-									<path
-										stroke-linecap="round"
-										stroke-linejoin="round"
-										d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244"
-									/>
-								</svg>
-							{/if}
-							<i class="ml-2 font-light text-sm text-slate-400">({dataModal[key].type})</i>
-						</h3>
+								{#if dataModal[key].reference}
+									<svg
+										xmlns="http://www.w3.org/2000/svg"
+										fill="none"
+										viewBox="0 0 24 24"
+										stroke-width="1.5"
+										stroke="currentColor"
+										class="w-4 h-4"
+									>
+										<path
+											stroke-linecap="round"
+											stroke-linejoin="round"
+											d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244"
+										/>
+									</svg>
+								{/if}
+							</div>
+							<i class="font-light text-xs text-slate-400">[ {dataModal[key].type} ]</i>
+						</div>
 
 						<!-- <div class="ember-view permalink v-list-data v-post-list-status px-2 py-6 md:pt-0"> -->
 						<!-- <div class="grid justify-items-end w-full text-sm text-slate-500">
@@ -265,7 +274,7 @@
 					</div>
 					<div
 						href={$adminSiteUrl + `/tags/${$page.params.visibility}/${dataModal[key].slug}`}
-						class="ember-view permalink v-list-data v-post-list-title w-full text-xs tracking-wide col-span-3 pt-2 pb-4"
+						class="ember-view permalink v-list-data v-post-list-title w-full tracking-wide col-span-3 pt-2 pb-4"
 					>
 						{#if dataModal[key].reference && dataModal[key].value}
 							{#await getReferenceValue(dataModal[key])}
@@ -375,7 +384,7 @@
 										on:change={(e) => onFileSelected(e, dataModal[key].key)}
 									/>
 									{#if dataModal[key].value}
-										<em>
+										<em class="text-sm">
 											⚠️ Warning: Old file will be deleted from the server whenever new file has
 											been uploaded.
 										</em>
@@ -395,32 +404,89 @@
 											alt=""
 										/>
 										{#if dataModal[key].value}
-											<!-- {dataModal[key].value} -->
-											<button
-												class="btn-icon variant-soft absolute top-1 right-1 h-4 w-4 p-3 text-white justify-center items-center content-center border-none rounded"
-												on:click={() => {
-													deletePrevFile(dataModal[key].key);
-													dataModal[key].value = '';
-													updateField(recordId, dataModal[key].key, dataModal[key].value);
-												}}
-											>
-												<span>
-													<svg
-														xmlns="http://www.w3.org/2000/svg"
-														fill="none"
-														viewBox="0 0 24 24"
-														stroke-width="1.5"
-														stroke="currentColor"
-														class="w-5 h-5"
-													>
-														<path
+											<div class="absolute top-1 right-1 flex flex-row-reverse">
+												<!-- {dataModal[key].value} -->
+												<button
+													class="btn-icon variant-soft h-4 w-4 p-3 text-white justify-center items-center content-center border-none rounded"
+													on:click={() => {
+														modalStore.trigger({
+															type: 'confirm',
+															// Data
+															title: 'Please Confirm',
+															body: 'Are you sure you wish to proceed?',
+															// TRUE if confirm pressed, FALSE if cancel pressed
+															response: (r) => {
+																if (r) {
+																	deletePrevFile(dataModal[key].key);
+																	dataModal[key].value = '';
+																	updateField(recordId, dataModal[key].key, dataModal[key].value);
+																	toastStore.trigger({
+																		message: 'Image deleted!',
+																		timeout: 2000,
+																		background: 'variant-filled-success'
+																	});
+																}
+															}
+														});
+													}}
+												>
+													<span>
+														<svg
+															xmlns="http://www.w3.org/2000/svg"
+															class="icon icon-tabler icon-tabler-trash"
+															width="24"
+															height="24"
+															viewBox="0 0 24 24"
+															stroke-width="2"
+															stroke="currentColor"
+															fill="none"
 															stroke-linecap="round"
 															stroke-linejoin="round"
-															d="M6 18L18 6M6 6l12 12"
-														/>
-													</svg>
-												</span>
-											</button>
+														>
+															<path stroke="none" d="M0 0h24v24H0z" fill="none" />
+															<path d="M4 7l16 0" />
+															<path d="M10 11l0 6" />
+															<path d="M14 11l0 6" />
+															<path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" />
+															<path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
+														</svg>
+													</span>
+												</button>
+												<button
+													class="btn-icon variant-soft h-4 w-4 p-3 text-white justify-center items-center content-center border-none rounded"
+													use:clipboard={dataModal[key].value}
+													on:click={() => {
+														toastStore.trigger({
+															message: 'Link coppied!',
+															timeout: 2000,
+															background: 'variant-filled-success'
+														});
+													}}
+												>
+													<span>
+														<svg
+															xmlns="http://www.w3.org/2000/svg"
+															class="icon icon-tabler icon-tabler-copy"
+															width="24"
+															height="24"
+															viewBox="0 0 24 24"
+															stroke-width="2"
+															stroke="currentColor"
+															fill="none"
+															stroke-linecap="round"
+															stroke-linejoin="round"
+														>
+															<path stroke="none" d="M0 0h24v24H0z" fill="none" />
+															<path
+																d="M8 8m0 2a2 2 0 0 1 2 -2h8a2 2 0 0 1 2 2v8a2 2 0 0 1 -2 2h-8a2 2 0 0 1 -2 -2z"
+															/>
+															<path
+																d="M16 8v-2a2 2 0 0 0 -2 -2h-8a2 2 0 0 0 -2 2v8a2 2 0 0 0 2 2h2"
+															/>
+														</svg>
+													</span>
+												</button>
+											</div>
 										{/if}
 									</div>
 								</div>

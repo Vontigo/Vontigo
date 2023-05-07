@@ -9,7 +9,7 @@
 	import Icon3BottomLeft from '$lib/icons/Icon3BottomLeft.svelte';
 	import IconArrowDown from '$lib/icons/IconArrowDown.svelte';
 	import IconPlusSmall from '$lib/icons/IconPlusSmall.svelte';
-	import { AppBar, AppShell } from '@skeletonlabs/skeleton';
+	import { AppBar, AppShell, modalStore } from '@skeletonlabs/skeleton';
 	import { Drawer, drawerStore } from '@skeletonlabs/skeleton';
 	import type { DrawerSettings } from '@skeletonlabs/skeleton';
 	import type { PageData } from './$types';
@@ -322,19 +322,32 @@
 								<button
 									class="btn variant-filled-primary border-none"
 									on:click={async () => {
-										const requestOptions = {
-											method: 'PUT',
-											headers: { 'Content-Type': 'application/json' },
-											body: JSON.stringify({ body: $recordPostsDataModal.feature_image.value })
-										};
+										modalStore.trigger({
+											type: 'confirm',
+											// Data
+											title: 'Please Confirm',
+											body: 'Are you sure you wish to proceed?',
+											// TRUE if confirm pressed, FALSE if cancel pressed
+											response: async (r) => {
+												if (r) {
+													const requestOptions = {
+														method: 'PUT',
+														headers: { 'Content-Type': 'application/json' },
+														body: JSON.stringify({
+															body: $recordPostsDataModal.feature_image.value
+														})
+													};
 
-										const resData = await fetch(`/api/admin/file/delete`, requestOptions);
+													const resData = await fetch(`/api/admin/file/delete`, requestOptions);
 
-										const delReq = await fetch(
-											`/api/database/posts/remove/${$recordPostsDataModal.id.value}`
-										);
-										closeDrawer();
-										console.log(delReq);
+													const delReq = await fetch(
+														`/api/database/posts/remove/${$recordPostsDataModal.id.value}`
+													);
+													closeDrawer();
+													console.log(delReq);
+												}
+											}
+										});
 									}}
 								>
 									<span
