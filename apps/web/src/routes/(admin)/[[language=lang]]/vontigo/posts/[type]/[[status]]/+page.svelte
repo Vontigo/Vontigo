@@ -34,6 +34,7 @@
 	let lastPosition: number;
 	let showBackbutton = true;
 	let _compPostEditor:any;
+	let brainiacmindsJson:any;
 
 	onMount(async () => {});
 
@@ -52,12 +53,12 @@
 	async function chatGPT(){
 		if($recordPostsDataModal.title.value != `Your new post is here...`){
 			//https://vontigo.services.brainiacminds.com/beta/sveltekit/js%20framworks/svelte
-			const chatGptRes = await fetch(`https://vontigo.services.brainiacminds.com/beta/${$recordPostsDataModal.title.value}/tech/cms`);
+			const chatBrainiacMindsRes = await fetch(`https://vontigo.services.brainiacminds.com/beta/${$recordPostsDataModal.title.value}/tech/cms`);
 
-			const chatGptResJson = await chatGptRes.json();
+			brainiacmindsJson = await chatBrainiacMindsRes.json();
 			
-			if(chatGptResJson?.Choices[0]?.Message?.Content){
-				$recordPostsDataModal.mobiledoc.value = await chatGptResJson?.Choices[0]?.Message?.Content;
+			if(brainiacmindsJson?.Choices[0]?.Message?.Content){
+				$recordPostsDataModal.mobiledoc.value = await brainiacmindsJson?.Choices[0]?.Message?.Content;
 
 				_compPostEditor.updateContent();
 				
@@ -402,6 +403,7 @@
 				</div>
 			</svelte:fragment>
 			<!-- Router Slot -->
+			<slot>
 			<div class="sticky top-0 w-full h-16 flex flex-row-reverse gap-2 p-4 text-neutral-500 m-auto{$autoSaveCountDown>0?'visible':'invisible'}">
 				
 				<button class="btn border-none p-4 bg-white hover:variant-filled rounded z-10 shadow-md" on:click={async ()=>{
@@ -418,7 +420,7 @@
 					</div>
 				{/if}
 			</div>
-		
+			
 			<div class="max-w-screen-md m-auto py-14 flex flex-col gap-4 static">
 				<div>
 					<img src={$recordPostsDataModal.feature_image.value} class="w-full rounded" alt="" />
@@ -434,6 +436,13 @@
 					<CompPostEditor bind:this={_compPostEditor} {data} bind:dataModal={$recordPostsDataModal} />
 				</div>
 			</div>
+			
+				<div class="sticky bottom-0 w-full flex flex-row-reverse gap-2 p-4 text-neutral-500 m-auto">
+					<div class="{brainiacmindsJson?.Usage?.TotalTokens?'visible':'invisible'}">
+						Tokens Usage: {JSON.stringify(brainiacmindsJson?.Usage.TotalTokens)}
+					</div>
+				</div>
+			</slot>
 			<!-- ---- / ---- -->
 		</AppShell>
 	{/if}
