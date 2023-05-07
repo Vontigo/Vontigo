@@ -231,7 +231,7 @@
 			</button>
 		{/if}
 		<button
-			class="absolute right-2 top-2 rounded border-none p-2"
+			class="absolute right-2 top-2 rounded border-none p-2 bg-white z-10"
 			on:click={() => {
 				isDrawerSidebar = !isDrawerSidebar;
 			}}

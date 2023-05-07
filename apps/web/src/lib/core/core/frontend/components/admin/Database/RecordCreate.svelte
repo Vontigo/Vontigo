@@ -212,7 +212,7 @@
 {/each} -->
 <!-- {recordDataModal.title.value} -->
 {#if dataModal}
-	<section class="view-container content-list">
+	<section class="view-container content-list @container">
 		<ol class="records-list v-list flex flex-col">
 			<li class="v-list-row header grid grid-cols-6 uppercase text-xs border-b md:hidden">
 				<div class="v-list-header v-posts-title-header w-full p-2 ps-0 col-span-2">Key</div>
@@ -221,7 +221,7 @@
 			</li>
 			{#each Object.keys(dataModal) as key, i}
 				<li
-					class="v-list-row v-records-list-item grid md:grid-cols-1 border-b grid-cols-6
+					class="v-list-row v-records-list-item grid grid-cols-1 @lg:grid-cols-6 border-b
 					{i == dataModal.length - 1 ? ' border-b' : ''}
 					{tableSchema[dataModal[key].key].isHidden == true ? ' hidden' : ''}"
 				>
