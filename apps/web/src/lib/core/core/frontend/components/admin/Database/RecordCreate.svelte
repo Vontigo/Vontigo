@@ -16,7 +16,12 @@
 	import { Drawer, drawerStore } from '@skeletonlabs/skeleton';
 	import type { DrawerSettings } from '@skeletonlabs/skeleton';
 	import type { PageData } from './$types';
-	import { adminSiteUrl, autoSaveCountDown, isEditorOpen, recordPostsDataModal } from '$lib/core/shared/stores/site';
+	import {
+		adminSiteUrl,
+		autoSaveCountDown,
+		isEditorOpen,
+		recordPostsDataModal
+	} from '$lib/core/shared/stores/site';
 	import type { ReferenceStructure, TableStructure } from '$lib/core/shared/types';
 	import { onMount } from 'svelte';
 	import { tables } from '$lib/core/core/server/data/schema/schema';
@@ -27,6 +32,7 @@
 	export let data: PageData;
 	export let dataModal: any;
 	export let table: string;
+	let isInitDone: boolean = false;
 
 	// let selectedPost: any;
 	// let keysJson: string[];
@@ -181,6 +187,7 @@
 		Object.keys(dataModal).forEach(async (key) => {
 			oldValues[key] = dataModal[key].value;
 		});
+		isInitDone = true;
 		return '';
 	}
 
@@ -188,41 +195,41 @@
 	let timeoutId: any;
 
 	// Conditions for each kind of value on change
-	$: if (dataModal) {
-		console.log(dataModal);
-		
+	$: if (dataModal && isInitDone) {
+		// console.log(dataModal);
+
 		// Show / Hide autosave status
 		autoSaveCountDown.set(0);
 		Object.keys(dataModal).forEach(async (key) => {
 			if (dataModal[key].value !== null && dataModal[key].value !== oldValues[key]) {
 				if (key == 'title' || key == 'mobiledoc' || key == 'html' || key == 'plaintext') {
 					autoSaveCountDown.set(CONST_AUTOSAVE_COUNTDOWN_MS);
-					clearTimeout(setTimeout(() => {
-						autoSaveCountDown.set($autoSaveCountDown-1000);
-					}, 1000));
+					clearTimeout(
+						setTimeout(() => {
+							autoSaveCountDown.set($autoSaveCountDown - 1000);
+						}, 1000)
+					);
 				}
-				
-				// 
-				if (key == 'status'){
-					if(dataModal[key].value == 'published'){
+
+				//
+				if (key == 'status') {
+					if (dataModal[key].value == 'published') {
 						dataModal['published_at'].value = new Date().toISOString().slice(0, 16);
 						dataModal['published_by'].value = $page?.data?.session?.user?.id;
 					}
 				}
 
-				if (key == 'published_at' || key == 'published_by'){
+				if (key == 'published_at' || key == 'published_by') {
 					updateField(recordId, dataModal[key].key, dataModal[key].value);
 					oldValues[key] = dataModal[key].value;
 				}
 			}
-		})
+		});
 
 		clearTimeout(timeoutId);
 		timeoutId = setTimeout(() => {
 			Object.keys(dataModal).forEach(async (key) => {
 				if (dataModal[key].value !== null && dataModal[key].value !== oldValues[key]) {
-					
-		
 					// Update editor values
 					if (key == 'title' || key == 'mobiledoc' || key == 'html' || key == 'plaintext') {
 						// console.log(`${key} value changed:`, dataModal[key].value);
@@ -242,7 +249,6 @@
 						}
 						autoSaveCountDown.set(0);
 					}
-
 				}
 			});
 		}, CONST_AUTOSAVE_COUNTDOWN_MS);
