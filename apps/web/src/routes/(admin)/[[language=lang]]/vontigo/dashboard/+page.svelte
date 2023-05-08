@@ -5,16 +5,21 @@
 
 	let repo: any;
 	let releases: any;
+	let contributors: any;
 
 	onMount(async () => {
-		const reqRepo = await fetch(`https://api.github.com/repos/mixcore/mix.core`);
+		const reqRepo = await fetch(`https://api.github.com/repos/vontigo/vontigo`);
 		repo = await reqRepo.json();
 
-		// https://api.github.com/repos/mixcore/mix.core/releases
 		const reqReleases = await fetch(
-			`https://api.github.com/repos/mixcore/mix.core/releases?per_page=5`
+			`https://api.github.com/repos/vontigo/vontigo/releases?per_page=5`
 		);
 		releases = await reqReleases.json();
+
+		const reqContributors = await fetch(
+			`https://api.github.com/repos/vontigo/vontigo/contributors`
+		);
+		contributors = await reqContributors.json();
 	});
 </script>
 
@@ -85,8 +90,18 @@
 		</div>
 		<div class="card">
 			<header class="card-header uppercase">Contributors</header>
-			<section class="p-4">(content)</section>
-			<footer class="card-footer">(footer)</footer>
+			<section class="p-4">
+				{#await contributors}
+					loading...
+				{:then items}
+					<!-- {JSON.stringify(items)} -->
+					{#if items}
+						{#each items as item}
+							{item.login} <br />
+						{/each}
+					{/if}
+				{/await}
+			</section>
 		</div>
 	</div>
 </div>
