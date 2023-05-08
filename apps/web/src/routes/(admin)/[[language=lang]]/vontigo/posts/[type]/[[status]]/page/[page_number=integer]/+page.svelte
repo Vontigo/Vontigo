@@ -9,11 +9,17 @@
 	import Icon3BottomLeft from '$lib/icons/Icon3BottomLeft.svelte';
 	import IconArrowDown from '$lib/icons/IconArrowDown.svelte';
 	import IconPlusSmall from '$lib/icons/IconPlusSmall.svelte';
-	import { AppBar, AppShell } from '@skeletonlabs/skeleton';
+	import { AppBar, AppShell, ProgressRadial, modalStore, toastStore } from '@skeletonlabs/skeleton';
 	import { Drawer, drawerStore } from '@skeletonlabs/skeleton';
 	import type { DrawerSettings } from '@skeletonlabs/skeleton';
 	import type { PageData } from './$types';
-	import { adminSiteUrl, isEditorOpen, recordPostsDataModal } from '$lib/core/shared/stores/site';
+	import {
+		adminSiteUrl,
+		autoSaveCountDown,
+		isEditorOpen,
+		recordPostsDataModal,
+		wordsCount
+	} from '$lib/core/shared/stores/site';
 	import { format } from 'timeago.js';
 	import RecordCreate from '$lib/core/core/frontend/components/admin/Database/RecordCreate.svelte';
 	import AutoResizableTextarea from '$lib/core/core/frontend/components/admin/Editor/components/AutoResizableTextarea.svelte';
@@ -25,12 +31,17 @@
 	import CompAuthorsInput from '$lib/core/core/frontend/components/admin/TagsInput/CompAuthorsInput.svelte';
 	import { fade } from 'svelte/transition';
 	import Pagination from '$lib/core/core/frontend/helpers/components/Pagination.svelte';
+
 	export let data: PageData;
-	let selectedPost: any;
-	let keysJson: string[];
+
+	// let selectedPost: any;
+	// let keysJson: string[];
 	let isDrawerSidebar = true;
 	let lastPosition: number;
 	let showBackbutton = true;
+	let _compPostEditor: any;
+	let brainiacmindsJson: any;
+
 	onMount(async () => {});
 
 	// if (data && data.posts) keysJson = Object.keys(data.posts[0]);
@@ -45,6 +56,35 @@
 		shadow: 'shadow-md',
 		regionDrawer: 'overflow-y-hidden'
 	};
+	async function chatGPT() {
+		if ($recordPostsDataModal.title.value != `Your new post is here...`) {
+			//https://vontigo.services.brainiacminds.com/beta/sveltekit/js%20framworks/svelte
+			const chatBrainiacMindsRes = await fetch(
+				`https://vontigo.services.brainiacminds.com/beta/${$recordPostsDataModal.title.value}/tech/cms`
+			);
+
+			brainiacmindsJson = await chatBrainiacMindsRes.json();
+
+			if (brainiacmindsJson?.Choices[0]?.Message?.Content) {
+				$recordPostsDataModal.mobiledoc.value = await brainiacmindsJson?.Choices[0]?.Message
+					?.Content;
+
+				_compPostEditor.updateContent();
+
+				toastStore.trigger({
+					message: 'AI content generated!',
+					timeout: 2000,
+					background: 'variant-filled-success'
+				});
+			} else {
+				toastStore.trigger({
+					message: 'No content generated!',
+					timeout: 2000,
+					background: 'variant-filled-warning'
+				});
+			}
+		}
+	}
 	async function openDrawer(id: string = '') {
 		const resPostsSchema = await fetch(`/api/admin/posts/${$page.params.type}/new/${id}`);
 		const dataPostsSchema = await resPostsSchema.json();
@@ -237,8 +277,9 @@
 				<span>Back</span>
 			</button>
 		{/if}
+
 		<button
-			class="absolute right-2 top-2 rounded border-none p-2"
+			class="absolute right-2 top-2 rounded border-none p-2 z-10"
 			on:click={() => {
 				isDrawerSidebar = !isDrawerSidebar;
 			}}
@@ -329,19 +370,32 @@
 								<button
 									class="btn variant-filled-primary border-none"
 									on:click={async () => {
-										const requestOptions = {
-											method: 'PUT',
-											headers: { 'Content-Type': 'application/json' },
-											body: JSON.stringify({ body: $recordPostsDataModal.feature_image.value })
-										};
+										modalStore.trigger({
+											type: 'confirm',
+											// Data
+											title: 'Please Confirm',
+											body: 'Are you sure you wish to proceed?',
+											// TRUE if confirm pressed, FALSE if cancel pressed
+											response: async (r) => {
+												if (r) {
+													const requestOptions = {
+														method: 'PUT',
+														headers: { 'Content-Type': 'application/json' },
+														body: JSON.stringify({
+															body: $recordPostsDataModal.feature_image.value
+														})
+													};
 
-										const resData = await fetch(`/api/admin/file/delete`, requestOptions);
+													const resData = await fetch(`/api/admin/file/delete`, requestOptions);
 
-										const delReq = await fetch(
-											`/api/database/posts/remove/${$recordPostsDataModal.id.value}`
-										);
-										closeDrawer();
-										console.log(delReq);
+													const delReq = await fetch(
+														`/api/database/posts/remove/${$recordPostsDataModal.id.value}`
+													);
+													closeDrawer();
+													console.log(delReq);
+												}
+											}
+										});
 									}}
 								>
 									<span
@@ -368,21 +422,66 @@
 				</div>
 			</svelte:fragment>
 			<!-- Router Slot -->
-			<div class="max-w-screen-md m-auto py-14 flex flex-col gap-4">
+			<slot>
+				<div
+					class="sticky top-0 w-full h-16 flex flex-row-reverse gap-2 p-4 text-neutral-500 m-auto"
+				>
+					<button
+						class="btn border-none p-4 bg-white hover:variant-filled rounded z-20 shadow-md"
+						on:click={async () => {
+							await chatGPT();
+						}}
+					>
+						<span class="w-6 h-6">
+							<img src="/brainiacminds-logo.png" title="BrainiacMinds" class="w-6 h-6" />
+						</span>
+						<span>BrainiacMinds</span>
+					</button>
+					{#if $autoSaveCountDown > 0}
+						<div class="flex flex-row-reverse my-auto gap-2">
+							<ProgressRadial
+								width="w-6"
+								stroke={100}
+								meter="stroke-primary-500"
+								track="stroke-primary-500/30"
+							/> Auto save after {$autoSaveCountDown / 1000}s
+						</div>
+					{/if}
+				</div>
 				<div>
-					<img src={$recordPostsDataModal.feature_image.value} class="w-full rounded" alt="" />
+					<div class="max-w-screen-md m-auto flex flex-col gap-4 relative">
+						<div>
+							<img src={$recordPostsDataModal.feature_image.value} class="w-full rounded" alt="" />
+						</div>
+						<div class="parent font-light text-6xl">
+							<AutoResizableTextarea
+								bind:value={$recordPostsDataModal.title.value}
+								classes={'input p-0 font-light text-6xl border-none rounded-none focus:border-none active:border-none overflow-hidden bg-white resize-none dark:bg-transparent'}
+								placeholder={'Page title...'}
+							/>
+						</div>
+						<div class="mb-20">
+							<CompPostEditor
+								bind:this={_compPostEditor}
+								{data}
+								bind:dataModal={$recordPostsDataModal}
+							/>
+						</div>
+					</div>
+					<div
+						class="sticky bottom-0 w-full flex flex-row-reverse gap-2 p-4 text-neutral-500 m-auto"
+					>
+						<!-- {#if $wordsCount} -->
+						<div class="text-sm">
+							{$wordsCount} words
+						</div>
+						<!-- {/if} -->
+						<div class={brainiacmindsJson?.Usage?.TotalTokens ? 'visible' : 'invisible'}>
+							Tokens Usage: {JSON.stringify(brainiacmindsJson?.Usage.TotalTokens)}
+						</div>
+					</div>
 				</div>
-				<div class="parent font-bold text-4xl">
-					<AutoResizableTextarea
-						bind:value={$recordPostsDataModal.title.value}
-						classes={'input p-0 text-4xl border-none rounded-none focus:border-none active:border-none overflow-hidden bg-white resize-none dark:bg-transparent'}
-						placeholder={'Page title...'}
-					/>
-				</div>
-				<div class="mb-20">
-					<CompPostEditor {data} bind:dataModal={$recordPostsDataModal} />
-				</div>
-			</div>
+			</slot>
 			<!-- ---- / ---- -->
 		</AppShell>
 	{/if}

@@ -41,6 +41,7 @@
 	import { slugify } from 'transliteration';
 	import { ENUM_POSTS_STATUS } from '$lib/core/shared/enum';
 	import { page } from '$app/stores';
+	import { wordsCount } from '$lib/core/shared/stores/site';
 
 	// VARIABLE DEFINE
 	export let data: any;
@@ -132,6 +133,9 @@
 				})
 			],
 			content: content,
+			onCreate: () => {
+				$wordsCount = 0;
+			},
 			onTransaction: () => {
 				// force re-render so `editor.isActive` works as expected
 				// console.log('Transaction');
@@ -217,52 +221,12 @@
 			autofocus: true,
 
 			onUpdate({ editor }) {
-				// console.log(editor);
+				$wordsCount = editor.storage.characterCount.words();
 
-				// const el = editor.view.dom.children[editor.view.dom.children.length - 1];
 				dataModal.mobiledoc.value = JSON.stringify(editor.getJSON());
 				dataModal.html.value = editor.getHTML();
 				dataModal.plaintext.value = editor.getText();
-				// const focusNode = editor.view.domObserver.currentSelection.focusNode;
-				// console.log(focusNode);
-				// The editor is focused.
-				// const el = editor.view.dom.children[editor.view.dom.children.length - 1];
-				// if (editor.isActive('paragraph') && el.classList.contains('is-empty')) {
-				// 	// console.log(el.innerHTML.indexOf(`<br class="ProseMirror-trailingBreak">`));
-				// 	// console.log(el.innerHTML);
-				// 	// console.log(el.innerHTML.replaceAll(`<br class="ProseMirror-trailingBreak">`, ''));
-				// 	computePosition(el, floatingMenuHTML, {
-				// 		placement: 'left' // 'bottom' by default
-				// 	}).then(({ x, y }) => {
-				// 		Object.assign(floatingMenuHTML.style, {
-				// 			left: `${20}px`,
-				// 			top: `${y}px`
-				// 		});
-				// 	});
-				// 	floatingMenuShow = true;
-				// } else {
-				// 	floatingMenuShow = false;
-				// }
 			}
-			// onUpdate({ editor }) {
-			// 	// The editor is focused.
-			// 	const el = editor.view.dom.children[editor.view.dom.children.length - 1];
-			// 	if (editor.isActive('paragraph')) {
-			// 		if (el.innerHTML.replaceAll(`<br class="ProseMirror-trailingBreak">`, '') === '') {
-			// 			floatingMenuShow = true;
-			// 			computePosition(el, floatingMenuHTML, {
-			// 				placement: 'left' // 'bottom' by default
-			// 			}).then(({ x, y }) => {
-			// 				Object.assign(floatingMenuHTML.style, {
-			// 					left: `${x - 12}px`,
-			// 					top: `${y}px`
-			// 				});
-			// 			});
-			// 		} else {
-			// 			floatingMenuShow = false;
-			// 		}
-			// 	}
-			// }
 		});
 	});
 	// async function updateField(id: string, field: string, value: any) {
@@ -283,11 +247,9 @@
 	// 	}
 	// }
 
-	export const updateContent = () =>{
-		editor.commands.setContent(
-			JSON.parse(dataModal.mobiledoc.value)
-		);
-	}
+	export const updateContent = () => {
+		editor.commands.setContent(JSON.parse(dataModal.mobiledoc.value));
+	};
 	async function submitPost(id: string, body: any) {
 		if (data && data.id) {
 			const title = editor.getJSON().content[0];
@@ -420,8 +382,6 @@
 	}
 	let editorHeight;
 	let stickyEditorHeight;
-
-	
 </script>
 
 <div id="editorElement">
@@ -641,6 +601,7 @@
 	/>
 </div>
 <Modal />
+
 <!-- <Toast position={'tr'} /> -->
 
 <style lang="postcss">
