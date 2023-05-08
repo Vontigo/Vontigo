@@ -39,6 +39,7 @@
 	let isDrawerSidebar = true;
 	let lastPosition: number;
 	let showBackbutton = true;
+	let showChatGPTButton = true;
 	let _compPostEditor: any;
 	let brainiacmindsJson: any;
 
@@ -252,7 +253,7 @@
 	{#if $drawerStore.id === 'postEditorDrawer'}
 		{#if showBackbutton}
 			<button
-				class="absolute left-2 top-2 btn btn-sm border-none bg-white hover:variant-filled rounded z-10 shadow-md"
+				class="absolute left-2 top-3 btn btn-sm border-none bg-white hover:variant-filled rounded z-10 shadow-md"
 				transition:fade
 				on:click={() => {
 					closeDrawer();
@@ -319,10 +320,12 @@
 		<AppShell
 			on:scroll={(e) => {
 				if (e.target && e.target.scrollTop > 0) {
-					if (lastPosition >= e.target.scrollTop) {
+					if (lastPosition > e.target.scrollTop) {
 						showBackbutton = true;
+						showChatGPTButton = true;
 					} else {
 						showBackbutton = false;
+						showChatGPTButton = false;
 					}
 					lastPosition = e.target.scrollTop;
 				}
@@ -423,33 +426,36 @@
 			</svelte:fragment>
 			<!-- Router Slot -->
 			<slot>
-				<div
-					class="sticky top-0 w-full h-16 flex flex-row-reverse gap-2 p-4 text-neutral-500 m-auto"
-				>
-					<button
-						class="btn border-none p-4 bg-white hover:variant-filled rounded z-20 shadow-md"
-						on:click={async () => {
-							await chatGPT();
-						}}
-					>
-						<span class="w-6 h-6">
-							<img src="/brainiacminds-logo.png" title="BrainiacMinds" class="w-6 h-6" />
-						</span>
-						<span>BrainiacMinds</span>
-					</button>
-					{#if $autoSaveCountDown > 0}
-						<div class="flex flex-row-reverse my-auto gap-2">
-							<ProgressRadial
-								width="w-6"
-								stroke={100}
-								meter="stroke-primary-500"
-								track="stroke-primary-500/30"
-							/> Auto save after {$autoSaveCountDown / 1000}s
-						</div>
-					{/if}
+				<div class="sticky top-0 max-w-screen-md m-auto flex flex-col gap-4 z-20">
+					<div class=" w-full h-16 flex flex-row-reverse p-2 text-neutral-500 m-auto">
+						{#if showChatGPTButton}
+							<button
+								transition:fade
+								class="right-0 btn border-none p-2 bg-white hover:variant-filled rounded z-20 shadow-md"
+								on:click={async () => {
+									await chatGPT();
+								}}
+							>
+								<span class="w-6 h-6">
+									<img src="/brainiacminds-logo.png" title="BrainiacMinds" class="w-6 h-6" />
+								</span>
+								<span>BrainiacMinds</span>
+							</button>
+						{/if}
+						{#if $autoSaveCountDown > 0}
+							<div class="flex flex-row-reverse my-auto gap-2">
+								<ProgressRadial
+									width="w-6"
+									stroke={100}
+									meter="stroke-primary-500"
+									track="stroke-primary-500/30"
+								/> Auto save after {$autoSaveCountDown / 1000}s
+							</div>
+						{/if}
+					</div>
 				</div>
-				<div>
-					<div class="max-w-screen-md m-auto flex flex-col gap-4 relative">
+				<div id="editorBodySection" style="height: calc(100vh - 64px);">
+					<div class="max-w-screen-md m-auto flex flex-col gap-4 relative h-full">
 						<div>
 							<img src={$recordPostsDataModal.feature_image.value} class="w-full rounded" alt="" />
 						</div>
@@ -460,24 +466,24 @@
 								placeholder={'Page title...'}
 							/>
 						</div>
-						<div class="mb-20">
+						<div class="mb-20 h-full">
 							<CompPostEditor
 								bind:this={_compPostEditor}
 								{data}
 								bind:dataModal={$recordPostsDataModal}
 							/>
 						</div>
-					</div>
-					<div
-						class="sticky bottom-0 w-full flex flex-row-reverse gap-2 p-4 text-neutral-500 m-auto"
-					>
-						<!-- {#if $wordsCount} -->
-						<div class="text-sm">
-							{$wordsCount} words
-						</div>
-						<!-- {/if} -->
-						<div class={brainiacmindsJson?.Usage?.TotalTokens ? 'visible' : 'invisible'}>
-							Tokens Usage: {JSON.stringify(brainiacmindsJson?.Usage.TotalTokens)}
+						<div
+							class="sticky bottom-0 w-full flex flex-row-reverse gap-2 p-4 text-neutral-500 m-auto"
+						>
+							<!-- {#if $wordsCount} -->
+							<div class="">
+								{$wordsCount} words
+							</div>
+							<!-- {/if} -->
+							<div class={brainiacmindsJson?.Usage?.TotalTokens ? 'visible' : 'invisible'}>
+								Tokens Usage: {JSON.stringify(brainiacmindsJson?.Usage.TotalTokens)}
+							</div>
 						</div>
 					</div>
 				</div>
@@ -486,3 +492,9 @@
 		</AppShell>
 	{/if}
 </Drawer>
+<!-- 
+<style>
+	#editorBodySection{
+		
+	}
+</style> -->

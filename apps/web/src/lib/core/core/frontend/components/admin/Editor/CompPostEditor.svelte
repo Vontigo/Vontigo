@@ -411,7 +411,7 @@
 	{/if} -->
 	<div class="bubble-menu" bind:this={bubbleMenu}>
 		{#if editor}
-			<div class="grid grid-cols-4 gap-2 p-2 bg-black opacity-100 w-full">
+			<div class="grid grid-cols-4 gap-2 p-2 bg-black opacity-100 w-full h-full">
 				<!-- <div class="flex flex-row"> -->
 				<button
 					on:click={() => editor.chain().focus().toggleBold().run()}
