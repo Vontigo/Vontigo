@@ -178,7 +178,7 @@ export let tables = {
 		updated_at: { type: 'dateTime', nullable: true, isHidden: true },
 		updated_by: { type: 'string', maxlength: 24, nullable: true, isHidden: true },
 		published_at: { type: 'dateTime', nullable: true, isHidden: false },
-		published_by: { type: 'string', maxlength: 24, nullable: true, isHidden: false },
+		published_by: { type: 'string', maxlength: 24, nullable: true, isHidden: true },
 		custom_excerpt: {
 			type: 'string',
 			maxlength: 2000,

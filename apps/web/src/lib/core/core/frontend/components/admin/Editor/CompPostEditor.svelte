@@ -34,31 +34,19 @@
 	import IconH4 from '$lib/icons/IconH4.svelte';
 	import IconH5 from '$lib/icons/IconH5.svelte';
 	import IconH6 from '$lib/icons/IconH6.svelte';
-	import IconBulletList from '$lib/icons/IconBulletList.svelte';
-	import IconOrderedList from '$lib/icons/IconOrderedList.svelte';
-	import IconCodeBlock from '$lib/icons/IconCodeBlock.svelte';
-	import IconQuotes from '$lib/icons/IconQuotes.svelte';
-	import IconSeparator from '$lib/icons/IconSeparator.svelte';
-	import IconImage from '$lib/icons/IconImage.svelte';
-	import IconUndo from '$lib/icons/IconUndo.svelte';
-	import IconRedo from '$lib/icons/IconRedo.svelte';
-	import IconTerminal from '$lib/icons/IconTerminal.svelte';
-	import Author from '$lib/themes/casper/Author.svelte';
 	import CompAlignRight from '$lib/icons/IconAlignRight.svelte';
 	import CompAlignLeft from '$lib/icons/IconAlignLeft.svelte';
 	import CompAlignCenter from '$lib/icons/IconAlignCenter.svelte';
 	import CompAlignJustify from '$lib/icons/IconAlignJustify.svelte';
-	import IconFloatingMenuAdd from '$lib/icons/IconFloatingMenuAdd.svelte';
-	import IconSave from '$lib/icons/IconSave.svelte';
-	import IconPlusSmall from '$lib/icons/IconPlusSmall.svelte';
 	import { slugify } from 'transliteration';
 	import { ENUM_POSTS_STATUS } from '$lib/core/shared/enum';
+	import { page } from '$app/stores';
 
 	// VARIABLE DEFINE
 	export let data: any;
 	export let dataModal: any;
 
-	// console.log(dataModal);
+	// console.log(data);
 
 	let element: HTMLDivElement;
 	let floatingMenuHTML: HTMLDivElement;
@@ -352,7 +340,7 @@
 				visibility: 'public',
 				email_recipient_filter: 'all',
 				created_at: new Date(),
-				created_by: '1'
+				created_by: $page?.data?.session?.user?.id
 			};
 			const requestOptions = {
 				method: 'POST',

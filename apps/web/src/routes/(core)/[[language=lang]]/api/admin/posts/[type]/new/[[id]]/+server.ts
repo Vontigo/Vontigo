@@ -1,3 +1,4 @@
+import { page } from '$app/stores';
 import { knexInstance } from '$lib/core/core/server/data/db/connection';
 import { ENUM_DATABASE_TABLE, ENUM_POSTS_STATUS, ENUM_POST_TYPE } from '$lib/core/shared/enum.js';
 import { language } from '$lib/core/shared/stores/site';
@@ -11,9 +12,14 @@ import { get } from 'svelte/store';
 import { v4 as uuidv4 } from 'uuid';
 
 /** @type {import('./$types').RequestHandler} */
-export async function GET({ url, params }) {
+export async function GET({ url, params, locals }) {
+	// console.log(locals.getSession());
+	const session = await locals.getSession();
+	console.log(session);
+
+
 	let returnRows: any;
-	await getAllRows(params)
+	await getAllRows(params, session)
 		.then((rows) => {
 			// console.log(rows);
 			returnRows = rows;
@@ -32,7 +38,7 @@ function mapForeignKey(json: ForeignKey): Record<string, ForeignKey> {
 	return { [from]: { ...rest, from } };
 }
 
-async function getAllRows(params: any): Promise<any[] | null> {
+async function getAllRows(params: any, session: any): Promise<any[] | null> {
 	const table = ENUM_DATABASE_TABLE.posts;
 	let records: any;
 	try {
@@ -54,9 +60,9 @@ async function getAllRows(params: any): Promise<any[] | null> {
 					email_recipient_filter: 'all',
 					locale: get(language),
 					created_at: new Date().toISOString().slice(0, 16),
-					created_by: 1,
+					created_by: session.user.id,
 					updated_at: new Date().toISOString().slice(0, 16),
-					updated_by: 1,
+					updated_by: session.user.id,
 					comment_id: new ObjectID().toHexString()
 				})
 				.returning('*');

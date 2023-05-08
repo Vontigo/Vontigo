@@ -186,8 +186,12 @@
 
 	let oldValues: any = {};
 	let timeoutId: any;
+
+	// Conditions for each kind of value on change
 	$: if (dataModal) {
+		console.log(dataModal);
 		
+		// Show / Hide autosave status
 		autoSaveCountDown.set(0);
 		Object.keys(dataModal).forEach(async (key) => {
 			if (dataModal[key].value !== null && dataModal[key].value !== oldValues[key]) {
@@ -197,12 +201,29 @@
 						autoSaveCountDown.set($autoSaveCountDown-1000);
 					}, 1000));
 				}
+				
+				// 
+				if (key == 'status'){
+					if(dataModal[key].value == 'published'){
+						dataModal['published_at'].value = new Date().toISOString().slice(0, 16);
+						dataModal['published_by'].value = $page?.data?.session?.user?.id;
+					}
+				}
+
+				if (key == 'published_at' || key == 'published_by'){
+					updateField(recordId, dataModal[key].key, dataModal[key].value);
+					oldValues[key] = dataModal[key].value;
+				}
 			}
 		})
+
 		clearTimeout(timeoutId);
 		timeoutId = setTimeout(() => {
 			Object.keys(dataModal).forEach(async (key) => {
 				if (dataModal[key].value !== null && dataModal[key].value !== oldValues[key]) {
+					
+		
+					// Update editor values
 					if (key == 'title' || key == 'mobiledoc' || key == 'html' || key == 'plaintext') {
 						// console.log(`${key} value changed:`, dataModal[key].value);
 						updateField(recordId, dataModal[key].key, dataModal[key].value);
@@ -221,6 +242,7 @@
 						}
 						autoSaveCountDown.set(0);
 					}
+
 				}
 			});
 		}, CONST_AUTOSAVE_COUNTDOWN_MS);
