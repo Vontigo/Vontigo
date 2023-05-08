@@ -13,7 +13,12 @@
 	import { Drawer, drawerStore } from '@skeletonlabs/skeleton';
 	import type { DrawerSettings } from '@skeletonlabs/skeleton';
 	import type { PageData } from './$types';
-	import { adminSiteUrl, autoSaveCountDown, isEditorOpen, recordPostsDataModal } from '$lib/core/shared/stores/site';
+	import {
+		adminSiteUrl,
+		autoSaveCountDown,
+		isEditorOpen,
+		recordPostsDataModal
+	} from '$lib/core/shared/stores/site';
 	import { format } from 'timeago.js';
 	import RecordCreate from '$lib/core/core/frontend/components/admin/Database/RecordCreate.svelte';
 	import AutoResizableTextarea from '$lib/core/core/frontend/components/admin/Editor/components/AutoResizableTextarea.svelte';
@@ -33,8 +38,8 @@
 	let isDrawerSidebar = true;
 	let lastPosition: number;
 	let showBackbutton = true;
-	let _compPostEditor:any;
-	let brainiacmindsJson:any;
+	let _compPostEditor: any;
+	let brainiacmindsJson: any;
 
 	onMount(async () => {});
 
@@ -50,24 +55,27 @@
 		shadow: 'shadow-md',
 		regionDrawer: 'overflow-y-hidden'
 	};
-	async function chatGPT(){
-		if($recordPostsDataModal.title.value != `Your new post is here...`){
+	async function chatGPT() {
+		if ($recordPostsDataModal.title.value != `Your new post is here...`) {
 			//https://vontigo.services.brainiacminds.com/beta/sveltekit/js%20framworks/svelte
-			const chatBrainiacMindsRes = await fetch(`https://vontigo.services.brainiacminds.com/beta/${$recordPostsDataModal.title.value}/tech/cms`);
+			const chatBrainiacMindsRes = await fetch(
+				`https://vontigo.services.brainiacminds.com/beta/${$recordPostsDataModal.title.value}/tech/cms`
+			);
 
 			brainiacmindsJson = await chatBrainiacMindsRes.json();
-			
-			if(brainiacmindsJson?.Choices[0]?.Message?.Content){
-				$recordPostsDataModal.mobiledoc.value = await brainiacmindsJson?.Choices[0]?.Message?.Content;
+
+			if (brainiacmindsJson?.Choices[0]?.Message?.Content) {
+				$recordPostsDataModal.mobiledoc.value = await brainiacmindsJson?.Choices[0]?.Message
+					?.Content;
 
 				_compPostEditor.updateContent();
-				
+
 				toastStore.trigger({
 					message: 'AI content generated!',
 					timeout: 2000,
 					background: 'variant-filled-success'
 				});
-			}else{
+			} else {
 				toastStore.trigger({
 					message: 'No content generated!',
 					timeout: 2000,
@@ -89,6 +97,16 @@
 		// taglist = [];
 		$recordPostsDataModal = {};
 		drawerStore.close();
+		await updateList();
+	}
+	async function updateList() {
+		const response = await fetch(
+			`/api/admin/posts/${$page.params.type}/${
+				$page.params.status != 'drafts' ? $page.params.status : 'draft'
+			}/page/1`
+		);
+		const posts = await response.json();
+		data.posts = posts;
 	}
 
 	// $: if (selectedPost) {
@@ -258,9 +276,9 @@
 				<span>Back</span>
 			</button>
 		{/if}
-				
+
 		<button
-			class="absolute right-2 top-2 rounded border-none p-2 bg-white z-10"
+			class="absolute right-2 top-2 rounded border-none p-2 z-10"
 			on:click={() => {
 				isDrawerSidebar = !isDrawerSidebar;
 			}}
@@ -404,41 +422,57 @@
 			</svelte:fragment>
 			<!-- Router Slot -->
 			<slot>
-			<div class="sticky top-0 w-full h-16 flex flex-row-reverse gap-2 p-4 text-neutral-500 m-auto{$autoSaveCountDown>0?'visible':'invisible'}">
-				
-				<button class="btn border-none p-4 bg-white hover:variant-filled rounded z-10 shadow-md" on:click={async ()=>{
-					await chatGPT();
-				}}>
-				<span class="w-6 h-6">
-					<img src="/brainiacminds-logo.png" title="BrainiacMinds" class="w-6 h-6"/>
-				</span> 
-				<span>BrainiacMinds</span>
-			</button>
-				{#if $autoSaveCountDown>0}
-					<div class="flex flex-row-reverse my-auto gap-2">
-					<ProgressRadial width='w-6' stroke={100} meter="stroke-primary-500" track="stroke-primary-500/30" /> Auto save after {$autoSaveCountDown/1000}s
+				<div
+					class="sticky top-0 w-full h-16 flex flex-row-reverse gap-2 p-4 text-neutral-500 m-auto{$autoSaveCountDown >
+					0
+						? 'visible'
+						: 'invisible'}"
+				>
+					<button
+						class="btn border-none p-4 bg-white hover:variant-filled rounded z-10 shadow-md"
+						on:click={async () => {
+							await chatGPT();
+						}}
+					>
+						<span class="w-6 h-6">
+							<img src="/brainiacminds-logo.png" title="BrainiacMinds" class="w-6 h-6" />
+						</span>
+						<span>BrainiacMinds</span>
+					</button>
+					{#if $autoSaveCountDown > 0}
+						<div class="flex flex-row-reverse my-auto gap-2">
+							<ProgressRadial
+								width="w-6"
+								stroke={100}
+								meter="stroke-primary-500"
+								track="stroke-primary-500/30"
+							/> Auto save after {$autoSaveCountDown / 1000}s
+						</div>
+					{/if}
+				</div>
+
+				<div class="max-w-screen-md m-auto py-14 flex flex-col gap-4 static">
+					<div>
+						<img src={$recordPostsDataModal.feature_image.value} class="w-full rounded" alt="" />
 					</div>
-				{/if}
-			</div>
-			
-			<div class="max-w-screen-md m-auto py-14 flex flex-col gap-4 static">
-				<div>
-					<img src={$recordPostsDataModal.feature_image.value} class="w-full rounded" alt="" />
+					<div class="parent font-light text-6xl">
+						<AutoResizableTextarea
+							bind:value={$recordPostsDataModal.title.value}
+							classes={'input p-0 font-light text-6xl border-none rounded-none focus:border-none active:border-none overflow-hidden bg-white resize-none dark:bg-transparent'}
+							placeholder={'Page title...'}
+						/>
+					</div>
+					<div class="mb-20">
+						<CompPostEditor
+							bind:this={_compPostEditor}
+							{data}
+							bind:dataModal={$recordPostsDataModal}
+						/>
+					</div>
 				</div>
-				<div class="parent font-light text-6xl">
-					<AutoResizableTextarea
-						bind:value={$recordPostsDataModal.title.value}
-						classes={'input p-0 font-light text-6xl border-none rounded-none focus:border-none active:border-none overflow-hidden bg-white resize-none dark:bg-transparent'}
-						placeholder={'Page title...'}
-					/>
-				</div>
-				<div class="mb-20">
-					<CompPostEditor bind:this={_compPostEditor} {data} bind:dataModal={$recordPostsDataModal} />
-				</div>
-			</div>
-			
+
 				<div class="sticky bottom-0 w-full flex flex-row-reverse gap-2 p-4 text-neutral-500 m-auto">
-					<div class="{brainiacmindsJson?.Usage?.TotalTokens?'visible':'invisible'}">
+					<div class={brainiacmindsJson?.Usage?.TotalTokens ? 'visible' : 'invisible'}>
 						Tokens Usage: {JSON.stringify(brainiacmindsJson?.Usage.TotalTokens)}
 					</div>
 				</div>

@@ -58,11 +58,21 @@
 		// taglist = [];
 		$recordPostsDataModal = {};
 		drawerStore.close();
+		await updateList();
+	}
+	async function updateList() {
+		const response = await fetch(
+			`/api/admin/posts/${$page.params.type}/${
+				$page.params.status != 'drafts' ? $page.params.status : 'draft'
+			}/page/${$page.params.page_number}`
+		);
+		const posts = await response.json();
+		data.posts = posts;
 	}
 
-	$: if (selectedPost) {
-		selectedPost = selectedPost;
-	}
+	// $: if (selectedPost) {
+	// 	selectedPost = selectedPost;
+	// }
 </script>
 
 <AppBar class="sticky top-0 z-10 p-6 bg-white max-w-screen-xl mx-auto px-12">
