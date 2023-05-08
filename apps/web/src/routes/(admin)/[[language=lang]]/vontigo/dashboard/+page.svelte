@@ -1,6 +1,21 @@
-<script>
+<script lang="ts">
 	import { AppBar, AppShell } from '@skeletonlabs/skeleton';
 	import { page } from '$app/stores';
+	import { onMount } from 'svelte';
+
+	let repo: any;
+	let releases: any;
+
+	onMount(async () => {
+		const reqRepo = await fetch(`https://api.github.com/repos/mixcore/mix.core`);
+		repo = await reqRepo.json();
+
+		// https://api.github.com/repos/mixcore/mix.core/releases
+		const reqReleases = await fetch(
+			`https://api.github.com/repos/mixcore/mix.core/releases?per_page=5`
+		);
+		releases = await reqReleases.json();
+	});
 </script>
 
 <AppBar class="sticky top-0 z-10 p-6 bg-white max-w-screen-xl mx-auto px-12">
@@ -11,7 +26,7 @@
 	</ol>
 </AppBar>
 <div class="max-w-screen-xl mx-auto px-12 flex gap-8">
-	<div class="w-[50%] flex flex-col gap-4">
+	<div class="w-[60%] flex flex-col gap-4">
 		<div class="card">
 			<header class="card-header">Start creating content</header>
 			<section class="p-4">
@@ -40,19 +55,36 @@
 			<footer class="card-footer">(footer)</footer>
 		</div>
 	</div>
-	<div class="w-[50%] flex flex-col gap-4">
+	<div class="w-[40%] flex flex-col gap-4">
 		<div class="card">
-			<header class="card-header">ACTIVITY</header>
-			<section class="p-4">(content)</section>
-			<footer class="card-footer">(footer)</footer>
+			<header class="card-header uppercase">Vontigo</header>
+			<section class="p-4">
+				{#await repo}
+					loading...
+				{:then item}
+					{#if item?.description}
+						{item.description}
+					{/if}
+				{/await}
+			</section>
 		</div>
 		<div class="card">
-			<header class="card-header">(header)</header>
-			<section class="p-4">(content)</section>
-			<footer class="card-footer">(footer)</footer>
+			<header class="card-header uppercase">Releases</header>
+			<section class="p-4">
+				{#await releases}
+					loading...
+				{:then items}
+					<!-- {JSON.stringify(items)} -->
+					{#if items}
+						{#each items as item}
+							{item.tag_name} <br />
+						{/each}
+					{/if}
+				{/await}
+			</section>
 		</div>
 		<div class="card">
-			<header class="card-header">(header)</header>
+			<header class="card-header uppercase">Contributors</header>
 			<section class="p-4">(content)</section>
 			<footer class="card-footer">(footer)</footer>
 		</div>
