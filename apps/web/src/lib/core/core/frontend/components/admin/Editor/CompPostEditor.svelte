@@ -108,6 +108,7 @@
 				// 		return editor.isActive('paragraph');
 				// 	}
 				// }),
+
 				BubbleMenu.configure({
 					element: bubbleMenu
 					// tippyOptions: { duration: 100 },
@@ -217,6 +218,7 @@
 				} else {
 					floatingMenuShow = false;
 				}
+				$wordsCount = editor.storage.characterCount.words();
 			},
 			autofocus: true,
 
