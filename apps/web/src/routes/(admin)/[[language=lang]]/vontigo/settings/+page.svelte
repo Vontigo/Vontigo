@@ -104,11 +104,24 @@
 				<!-- ... -->
 			</dl>
 		</div>
-		<!-- <h6>Website</h6>
+
+		<h6 class="py-4">3rd Services</h6>
 		<hr />
-		<h6>Website</h6>
-		<hr />
-		<h6>Website</h6>
-		<hr /> -->
+		<div class="flex flex-wrap gap-10 mb-6">
+			<dl class="list-dl p-4">
+				<div>
+					<span class="w-10 h-10">
+						<img src="/brainiacminds-logo.png" />
+					</span>
+					<span class="flex-auto">
+						<dt class="font-semibold">
+							<a href={$adminSiteUrl + `/settings/brainiacminds`}>BrainiacMinds</a>
+						</dt>
+						<dd class="text-sm">ChatGPT service for content auto generation</dd>
+					</span>
+				</div>
+				<!-- ... -->
+			</dl>
+		</div>
 	</div>
 </div>
