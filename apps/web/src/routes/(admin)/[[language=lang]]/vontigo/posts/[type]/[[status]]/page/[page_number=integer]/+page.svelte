@@ -491,7 +491,7 @@
 								{$wordsCount} words
 							</div>
 							<!-- {/if} -->
-							<div class={brainiacmindsJson?.Usage?.TotalTokens ? 'visible' : 'invisible'}>
+							<div class="pt-1 {brainiacmindsJson?.Usage?.TotalTokens ? 'visible' : 'invisible'}">
 								Tokens Usage: {JSON.stringify(brainiacmindsJson?.Usage.TotalTokens)} /
 							</div>
 						</div>
