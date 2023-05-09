@@ -72,7 +72,9 @@
 						</svg>
 					</span>
 					<span class="flex-auto">
-						<dt class="font-semibold"><a href={$adminSiteUrl + `/settings/site`}>General</a></dt>
+						<dt class="font-semibold">
+							<a href={$adminSiteUrl + `/settings/site`} class="unstyled">General</a>
+						</dt>
 						<dd class="text-sm">Basic publication details and site metadata</dd>
 					</span>
 				</div>
@@ -97,7 +99,9 @@
 						</svg>
 					</span>
 					<span class="flex-auto">
-						<dt class="font-semibold"><a href={$adminSiteUrl + `/settings/staff`}>Staff</a></dt>
+						<dt class="font-semibold">
+							<a href={$adminSiteUrl + `/settings/staff`} class="unstyled">Staff</a>
+						</dt>
 						<dd class="text-sm">Manage authors, editor and collaborators</dd>
 					</span>
 				</div>
@@ -115,7 +119,7 @@
 					</span>
 					<span class="flex-auto">
 						<dt class="font-semibold">
-							<a href={$adminSiteUrl + `/settings/brainiacminds`}>BrainiacMinds</a>
+							<a href={$adminSiteUrl + `/settings/brainiacminds`} class="unstyled">BrainiacMinds</a>
 						</dt>
 						<dd class="text-sm">ChatGPT service for content auto generation</dd>
 					</span>

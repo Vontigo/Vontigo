@@ -126,7 +126,7 @@ const api = (async ({ event, resolve }) => {
 			});
 			// console.log('HOOK decoded', decoded);
 			const session = await event.locals.getSession();
-			console.log('_________ user', session?.user);
+			// console.log('_________ user', session?.user);
 			if (
 				!session?.user &&
 				session?.user.role != ENUM_USER_ROLE.Administrator &&

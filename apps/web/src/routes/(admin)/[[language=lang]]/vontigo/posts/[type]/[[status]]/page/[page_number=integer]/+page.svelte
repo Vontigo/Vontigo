@@ -197,7 +197,7 @@
 							}}
 						>
 							<h3
-								class="v-content-entry-title unstyled text-sm font-semibold antialiased tracking-wide"
+								class="v-content-entry-title unstyled text-sm font-semibold antialiased tracking-wider"
 							>
 								{row.title}
 							</h3>
