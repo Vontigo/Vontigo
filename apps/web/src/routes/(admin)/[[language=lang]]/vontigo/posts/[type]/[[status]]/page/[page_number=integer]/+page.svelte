@@ -67,7 +67,7 @@
 
 			aimResJson = await aimRes.json();
 
-			console.log(aimResJson);
+			// console.log(aimResJson);
 
 			if (aimResJson?.brainiacminds?.Choices[0]?.Message?.Content) {
 				$recordPostsDataModal.mobiledoc.value = await aimResJson?.brainiacminds?.Choices[0]?.Message

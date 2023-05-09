@@ -26,7 +26,7 @@ export const GET = (async ({ fetch, request, url, params }) => {
 		aimSettings[item.group][item.key] = item.value;
 	}
 
-	console.log(aimSettings);
+	// console.log(aimSettings);
 
 	if (aimSettings.brainiacminds.aim_key != 'YOUR_OPENAI_KEY') {
 		const requestOptions = {

@@ -12,7 +12,8 @@ import fs from 'fs';
 import { redirect } from '@sveltejs/kit';
 import { dynamicDefault } from '$lib/core/core/server/helpers/settings/settings';
 import { knexInstance } from '$lib/core/core/server/data/db/connection.js';
-import { ENUM_DATABASE_TABLE } from '$lib/core/shared/enum';
+import { ENUM_DATABASE_TABLE, ENUM_USER_ROLE } from '$lib/core/shared/enum';
+import { decode } from '@auth/core/jwt';
 // import { KnexAdapter } from '$lib/core/core/server/services/auth/authjs';
 
 const setup = (async ({ event, resolve }) => {
@@ -107,7 +108,64 @@ const auth = SvelteKitAuth({
 	// },
 });
 
-export const handle = sequence(setup, auth);
+const api = (async ({ event, resolve }) => {
+	// console.log('______LayoutServerLoad (admin): ', await event.locals.getSession());
+	// console.log(
+	// 	'______LayoutServerLoad (admin): ',
+	// 	event.cookies.get('__Secure-next-auth.session-token')
+	// );
+
+	if (event.url.pathname.indexOf('/api') > -1) {
+		if (
+			event.url.pathname.indexOf('/api/admin') > -1 ||
+			event.url.pathname.indexOf('/api/database') > -1
+		) {
+			const decoded = await decode({
+				token: event.cookies.get('__Secure-next-auth.session-token'),
+				secret: AUTH_SECRET
+			});
+			// console.log('HOOK decoded', decoded);
+			const session = await event.locals.getSession();
+			console.log('_________ user', session?.user);
+			if (
+				!session?.user &&
+				session?.user.role != ENUM_USER_ROLE.Administrator &&
+				session?.user.role != ENUM_USER_ROLE.Owner
+			) {
+				console.log(event.url.pathname);
+				//throw redirect(303, '/auth/signin');
+				throw redirect(303, '/account/signin');
+				//return null;
+			} else {
+			}
+		}
+
+		if (event.url.pathname.indexOf('/api/shared/settings') > -1) {
+			if (event.url.pathname.indexOf('/api/shared/settings/site') < 0) {
+				throw redirect(303, '/account/signin');
+			}
+		}
+	}
+
+	return await resolve(event);
+	// const session = await event.locals.getSession();
+	// // if (!session?.user) throw redirect(303, '/auth/signin');
+
+	// if (!session?.user) {
+	// 	throw redirect(303, '/auth/signin');
+	// }
+
+	// if (
+	// 	session?.user &&
+	// 	session?.user.role != ENUM_USER_ROLE.Administrator &&
+	// 	session?.user.role != ENUM_USER_ROLE.Owner
+	// ) {
+	// 	throw redirect(303, '/auth/signin');
+	// 	// throw redirect(303, '/account/signin');
+	// }
+}) satisfies Handle;
+
+export const handle = sequence(setup, auth, api);
 
 // const secondHandle = (async ({ event, resolve }) => {
 // 	const response = await resolve(event);
