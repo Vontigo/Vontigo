@@ -214,6 +214,17 @@
 											tabindex="-1"
 										/>
 									</div>
+								{:else if row.key.indexOf('codeinjection') >= 0}
+									<textarea
+										class="textarea w-full rounded-xl p-2"
+										rows="6"
+										placeholder="Enter some HTML code here..."
+										name={row.key}
+										bind:value={row.value}
+										on:change={() => {
+											updateField(row.id, 'value', row.value, row.key);
+										}}
+									/>
 								{:else if row.key.indexOf('image') >= 0 || row.key.indexOf('logo') >= 0 || row.key.indexOf('icon') >= 0}
 									<!-- <input
 									class="input w-full"

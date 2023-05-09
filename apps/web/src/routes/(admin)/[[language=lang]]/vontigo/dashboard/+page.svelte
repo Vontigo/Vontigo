@@ -21,6 +21,8 @@
 		);
 		contributors = (await reqContributors.json()) || [];
 	});
+
+	// TODO: https://developers.google.com/analytics/devguides/reporting/core/v4/quickstart/web-js
 </script>
 
 <AppBar class="sticky top-0 z-10 p-6 bg-white max-w-screen-xl mx-auto px-12">
