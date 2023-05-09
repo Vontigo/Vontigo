@@ -5,7 +5,7 @@ import { error } from '@sveltejs/kit';
 import type { PageLoad } from '../../../../$types';
 // import type { PageLoad } from '../../../$types';
 
-export const load = (async ({ fetch, url, params }) => {
+export const load = (async ({ fetch, url, params, parent }) => {
 	// if (params.slug === 'hello-world') {
 	// 	return {
 	// 		title: 'Hello world!',
@@ -23,12 +23,31 @@ export const load = (async ({ fetch, url, params }) => {
 	const tagsResponse = await fetch(`/api/admin/tags/public`);
 	const tagsData = await tagsResponse.json();
 
-	// console.log(data);
+	const aimResponse = await fetch(`/api/shared/settings/brainiacminds`);
+	const aimResponseJson = aimResponse.json();
+
+	let aimSettings: any = {};
+	for (const item of await aimResponseJson) {
+		// if (!parent.settings[item.group]) {
+		// 	parent.settings[item.group] = {};
+		// }
+		// const newGroup = item.group;
+		// const newKey = item.key;
+
+		if (!aimSettings[item.group]) {
+			aimSettings[item.group] = {};
+		}
+
+		aimSettings[item.group][item.key] = item.value;
+	}
+
+	// console.log(aimSettings);
 
 	// console.log(tagsData);
 	// if (data) console.log(data[0]);
 
 	return {
+		brainiacminds: aimSettings,
 		posts: data,
 		tags: tagsData
 	};

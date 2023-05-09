@@ -275,7 +275,7 @@
 										}}
 									/>
 								{/if}
-							{:else if row.type == 'array'}
+							{:else if row.type == 'array' || row.type == 'text'}
 								<textarea
 									class="textarea w-full rounded-xl p-2"
 									rows="6"

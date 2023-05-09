@@ -34,6 +34,8 @@
 
 	export let data: PageData;
 
+	console.log(data.brainiacminds);
+
 	// let selectedPost: any;
 	// let keysJson: string[];
 	let isDrawerSidebar = true;
@@ -62,7 +64,7 @@
 		if ($recordPostsDataModal.title.value != `Your new post is here...`) {
 			//https://vontigo.services.brainiacminds.com/beta/sveltekit/js%20framworks/svelte
 			const chatBrainiacMindsRes = await fetch(
-				`https://vontigo.services.brainiacminds.com/beta/${$recordPostsDataModal.title.value}/tech/cms`
+				`${data.brainiacminds.aim_url}/beta/${data.brainiacminds.aim_key}/${$recordPostsDataModal.title.value}/${data.brainiacminds.aim_mainpoints}/${data.brainiacminds.aim_topics}`
 			);
 
 			brainiacmindsJson = await chatBrainiacMindsRes.json();
@@ -181,13 +183,13 @@
 					>
 						<a
 							href="#"
-							class="ember-view permalink v-list-data v-post-list-title w-full py-4 col-span-3 w-full"
+							class="ember-view permalink v-list-data v-post-list-title w-full py-5 col-span-3 w-full"
 							on:click={() => {
 								openDrawer(row.id);
 							}}
 						>
 							<h3
-								class="v-content-entry-title unstyled text-sm font-bold antialiased tracking-wide"
+								class="v-content-entry-title unstyled text-sm font-semibold antialiased tracking-wide"
 							>
 								{row.title}
 							</h3>
@@ -205,7 +207,7 @@
 
 						<a
 							href="#"
-							class="ember-view permalink v-list-data v-post-list-status px-2 py-6"
+							class="ember-view permalink v-list-data v-post-list-status px-2 py-6 my-auto"
 							on:click={() => {
 								openDrawer(row.id);
 							}}
@@ -213,11 +215,13 @@
 							<div class="grid justify-items-end w-full">
 								<span class="v-content-status-draft v-badge v-badge-pink nowrap">
 									<span
-										class="badge my-auto uppercase text-xs font-light pb-[1px] pt-[2px] px-3 {row.status ==
+										class="badge m-auto uppercase text-xs font-light pb-[1px] pt-[2px] px-3 {row.status ==
 										'published'
 											? 'variant-filled-success'
-											: 'variant-filled-surface'}">{row.status}</span
+											: 'variant-filled-surface'}"
 									>
+										<span> {row.status}</span>
+									</span>
 								</span>
 							</div>
 						</a>
