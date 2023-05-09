@@ -44,7 +44,7 @@
 	let showChatGPTButton = true;
 	let generatingContent = false;
 	let _compPostEditor: any;
-	let brainiacmindsJson: any;
+	let aimResJson: any;
 
 	onMount(async () => {});
 
@@ -63,15 +63,14 @@
 	async function chatGPT() {
 		if ($recordPostsDataModal.title.value != `Your new post is here...`) {
 			//https://vontigo.services.brainiacminds.com/beta/sveltekit/js%20framworks/svelte
-			const chatBrainiacMindsRes = await fetch(
-				`/api/brainiacminds/${$recordPostsDataModal.title.value}`
-			);
+			const aimRes = await fetch(`/api/brainiacminds/${$recordPostsDataModal.title.value}`);
 
-			brainiacmindsJson = await chatBrainiacMindsRes.json();
+			aimResJson = await aimRes.json();
 
-			if (brainiacmindsJson?.Choices[0]?.Message?.Content) {
-				generatingContent = false;
-				$recordPostsDataModal.mobiledoc.value = await brainiacmindsJson?.Choices[0]?.Message
+			console.log(aimResJson);
+
+			if (aimResJson?.brainiacminds?.Choices[0]?.Message?.Content) {
+				$recordPostsDataModal.mobiledoc.value = await aimResJson?.brainiacminds?.Choices[0]?.Message
 					?.Content;
 
 				_compPostEditor.updateContent();
@@ -88,9 +87,18 @@
 					background: 'variant-filled-warning'
 				});
 			}
+			generatingContent = false;
+		} else {
+			toastStore.trigger({
+				message: 'Please ensure you has input your title idea!',
+				timeout: 2000,
+				background: 'variant-filled-warning'
+			});
+			generatingContent = false;
 		}
 	}
 	async function openDrawer(id: string = '') {
+		generatingContent = false;
 		const resPostsSchema = await fetch(`/api/admin/posts/${$page.params.type}/new/${id}`);
 		const dataPostsSchema = await resPostsSchema.json();
 		dataPostsSchema.forEach((value, key) => {
@@ -495,8 +503,12 @@
 								{$wordsCount} words
 							</div>
 							<!-- {/if} -->
-							<div class="pt-1 {brainiacmindsJson?.Usage?.TotalTokens ? 'visible' : 'invisible'}">
-								Tokens Usage: {JSON.stringify(brainiacmindsJson?.Usage.TotalTokens)} /
+							<div
+								class="pt-1 {aimResJson?.brainiacminds?.Usage?.TotalTokens
+									? 'visible'
+									: 'invisible'}"
+							>
+								Tokens Usage: {JSON.stringify(aimResJson?.brainiacminds.Usage.TotalTokens)} /
 							</div>
 						</div>
 					</div>
