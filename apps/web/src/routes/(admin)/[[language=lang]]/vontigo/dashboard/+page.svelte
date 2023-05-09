@@ -146,7 +146,9 @@
 								rounded="rounded-full"
 							/>
 						</span>
-						<span class="flex-auto">Opencollective</span>
+						<a href="https://opencollective.com/vontigo" target="_blank" class="flex-auto">
+							Open Collective
+						</a>
 					</li>
 					<li>
 						<span>
@@ -166,7 +168,7 @@
 								rounded="rounded-full"
 							/>
 						</span>
-						<span class="flex-auto">Patreon</span>
+						<a href="https://patreon.com/vontigo" target="_blank" class="flex-auto">Patreon</a>
 					</li>
 					<li>
 						<span>
@@ -176,7 +178,7 @@
 								rounded="rounded-full"
 							/>
 						</span>
-						<span class="flex-auto">Paypal</span>
+						<a href="https://www.paypal.me/vontigo" target="_blank" class="flex-auto">Paypal</a>
 					</li>
 					<li>
 						<span>
@@ -186,7 +188,9 @@
 								rounded="rounded-full"
 							/></span
 						>
-						<span class="flex-auto">Buymeacoffee</span>
+						<a href="https://www.buymeacoffee.com/vontigo" target="_blank" class="flex-auto">
+							Buy me a ☕
+						</a>
 					</li>
 					<!-- ... -->
 				</ul>
