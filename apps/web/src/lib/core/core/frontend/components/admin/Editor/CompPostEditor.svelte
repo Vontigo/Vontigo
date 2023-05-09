@@ -251,6 +251,8 @@
 
 	export const updateContent = () => {
 		editor.commands.setContent(JSON.parse(dataModal.mobiledoc.value));
+		dataModal.html.value = editor.getHTML();
+		dataModal.plaintext.value = editor.getText();
 	};
 	async function submitPost(id: string, body: any) {
 		if (data && data.id) {
