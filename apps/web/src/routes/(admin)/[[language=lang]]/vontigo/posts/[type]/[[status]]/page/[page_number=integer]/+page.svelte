@@ -64,7 +64,7 @@
 		if ($recordPostsDataModal.title.value != `Your new post is here...`) {
 			//https://vontigo.services.brainiacminds.com/beta/sveltekit/js%20framworks/svelte
 			const chatBrainiacMindsRes = await fetch(
-				`${data.brainiacminds.aim_url}/beta/${data.brainiacminds.aim_key}/${$recordPostsDataModal.title.value}/${data.brainiacminds.aim_mainpoints}/${data.brainiacminds.aim_topics}`
+				`/api/brainiacminds/${$recordPostsDataModal.title.value}`
 			);
 
 			brainiacmindsJson = await chatBrainiacMindsRes.json();

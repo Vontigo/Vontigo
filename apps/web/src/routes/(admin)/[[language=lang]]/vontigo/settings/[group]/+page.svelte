@@ -286,6 +286,16 @@
 										updateField(row.id, 'value', row.value, row.key);
 									}}
 								/>
+							{:else if row.type == 'number'}
+								<input
+									class="input p-2 w-full"
+									type="number"
+									name={row.key}
+									bind:value={row.value}
+									on:change={() => {
+										updateField(row.id, 'value', row.value, row.key);
+									}}
+								/>
 							{:else if row.type == 'boolean'}
 								<RadioGroup active="variant-filled-primary" hover="hover:variant-soft-primary">
 									<RadioItem
