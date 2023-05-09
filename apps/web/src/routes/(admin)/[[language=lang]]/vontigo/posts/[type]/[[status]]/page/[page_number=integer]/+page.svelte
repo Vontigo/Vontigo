@@ -429,7 +429,7 @@
 			<!-- Router Slot -->
 			<slot>
 				<div class="sticky top-0 max-w-screen-md m-auto flex flex-col gap-4 z-20">
-					<div class=" w-full h-16 flex flex-row-reverse p-2 text-neutral-500 m-auto">
+					<div class=" w-full h-16 flex flex-row-reverse py-2 text-neutral-500 m-auto">
 						{#if showChatGPTButton}
 							<button
 								transition:fade

@@ -127,7 +127,7 @@
 	/>
 </div> -->
 
-<div class="w-full max-w-sm max-h-48 px-2 overflow-y-auto {showAutocomplete ? '' : 'hidden'}">
+<div class="w-full max-w-sm max-h-48 px-2 mt-2 overflow-y-auto {showAutocomplete ? '' : 'hidden'}">
 	<Autocomplete
 		emptyState="No tags found."
 		class="text-sm border-none "
