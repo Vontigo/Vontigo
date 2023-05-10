@@ -332,6 +332,8 @@
 			{/if}
 		</button>
 		<AppShell
+			regionPage="relative"
+			slotPageFooter="sticky bottom-0 z-10"
 			on:scroll={(e) => {
 				if (e.target && e.target.scrollTop > 0) {
 					if (lastPosition > e.target.scrollTop) {
@@ -345,6 +347,44 @@
 				}
 			}}
 		>
+			<svelte:fragment slot="pageHeader">
+				<div class="sticky top-0">
+					<div class=" w-full h-16 flex flex-row-reverse py-2 text-neutral-500 m-auto">
+						{#if showChatGPTButton}
+							<button
+								transition:fade
+								class="right-0 mr-10 btn border-none p-2 bg-white hover:variant-filled rounded z-20 shadow-md"
+								on:click={async () => {
+									generatingContent = true;
+									await chatGPT();
+								}}
+							>
+								{#if generatingContent}
+									<span class="w-6 h-6">
+										<ProgressRadial value={undefined} class="h-6 w-6 hover:" />
+									</span>
+									<span>Generating content ..</span>
+								{:else}
+									<span class="w-6 h-6">
+										<img src="/brainiacminds-logo.png" title="BrainiacMinds" class="w-6 h-6" />
+									</span>
+									<span>BrainiacMinds</span>
+								{/if}
+							</button>
+						{/if}
+						{#if $autoSaveCountDown > 0}
+							<div class="flex flex-row-reverse my-auto gap-2 mr-2">
+								<ProgressRadial
+									width="w-6"
+									stroke={100}
+									meter="stroke-primary-500"
+									track="stroke-primary-500/30"
+								/> Auto save after {$autoSaveCountDown / 1000}s
+							</div>
+						{/if}
+					</div>
+				</div>
+			</svelte:fragment>
 			<!-- <svelte:fragment slot="sidebarLeft">
 				
 			</svelte:fragment> -->
@@ -440,43 +480,7 @@
 			</svelte:fragment>
 			<!-- Router Slot -->
 			<slot>
-				<div class="sticky top-0 max-w-screen-md m-auto flex flex-col gap-4 z-20">
-					<div class=" w-full h-16 flex flex-row-reverse py-2 text-neutral-500 m-auto">
-						{#if showChatGPTButton}
-							<button
-								transition:fade
-								class="right-0 btn border-none p-2 bg-white hover:variant-filled rounded z-20 shadow-md"
-								on:click={async () => {
-									generatingContent = true;
-									await chatGPT();
-								}}
-							>
-								{#if generatingContent}
-									<span class="w-6 h-6">
-										<ProgressRadial value={undefined} class="h-6 w-6 hover:" />
-									</span>
-									<span>Generating content ..</span>
-								{:else}
-									<span class="w-6 h-6">
-										<img src="/brainiacminds-logo.png" title="BrainiacMinds" class="w-6 h-6" />
-									</span>
-									<span>BrainiacMinds</span>
-								{/if}
-							</button>
-						{/if}
-						{#if $autoSaveCountDown > 0}
-							<div class="flex flex-row-reverse my-auto gap-2 mr-2">
-								<ProgressRadial
-									width="w-6"
-									stroke={100}
-									meter="stroke-primary-500"
-									track="stroke-primary-500/30"
-								/> Auto save after {$autoSaveCountDown / 1000}s
-							</div>
-						{/if}
-					</div>
-				</div>
-				<div id="editorBodySection" style="height: calc(100vh - 64px);">
+				<div id="editorBodySection" class="relative">
 					<div class="max-w-screen-md m-auto flex flex-col gap-4 relative h-auto">
 						<div>
 							<img src={$recordPostsDataModal.feature_image.value} class="w-full rounded" alt="" />
@@ -495,25 +499,22 @@
 								bind:dataModal={$recordPostsDataModal}
 							/>
 						</div>
-						<div
-							class="sticky bottom-0 w-full flex flex-row-reverse gap-2 p-4 text-neutral-500 m-auto"
-						>
-							<!-- {#if $wordsCount} -->
-							<div class="btn btn-sm border-none bg-white rounded z-10 shadow-md">
-								{$wordsCount} words
-							</div>
-							<!-- {/if} -->
-							<div
-								class="pt-1 {aimResJson?.brainiacminds?.Usage?.TotalTokens
-									? 'visible'
-									: 'invisible'}"
-							>
-								Tokens Usage: {JSON.stringify(aimResJson?.brainiacminds.Usage.TotalTokens)} /
-							</div>
-						</div>
 					</div>
 				</div>
 			</slot>
+			<svelte:fragment slot="pageFooter">
+				<div class="bottom-0 mr-3 mb-3 float-right w-fit">
+					<!-- {#if $wordsCount} -->
+					<div class="">
+						{$wordsCount} words
+					</div>
+					<!-- {/if} -->
+					<div class="pt-1 {aimResJson?.brainiacminds?.Usage?.TotalTokens ? '' : 'hidden'}">
+						Tokens Usage: {JSON.stringify(aimResJson?.brainiacminds.Usage.TotalTokens)} /
+					</div>
+				</div>
+			</svelte:fragment>
+
 			<!-- ---- / ---- -->
 		</AppShell>
 	{/if}
