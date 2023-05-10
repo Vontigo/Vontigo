@@ -9,17 +9,16 @@ export const GET = (async ({ request, params }) => {
 	const asciiSlug = await convertToAsciiSlug(params.name);
 
 	const uniqueSlug = await createUniqueSlug(params.table, asciiSlug);
-	console.log(uniqueSlug);
+	// console.log(uniqueSlug);
 	return new Response(
 		JSON.stringify({
-			"slugs": [
+			slugs: [
 				{
-					"slug": uniqueSlug
+					slug: uniqueSlug
 				}
 			]
 		})
-	)
-
+	);
 
 	// for (const slugObj of slugs) {
 	// 	knexInstance(ENUM_DATABASE_TABLE.posts).insert({
@@ -31,7 +30,6 @@ export const GET = (async ({ request, params }) => {
 	// 		console.error(error);
 	// 	});
 	// }
-
 }) satisfies RequestHandler;
 
 async function createUniqueSlug(table: string, slug: string): Promise<string> {

@@ -66,7 +66,7 @@ const auth = SvelteKitAuth({
 				password: { label: 'Password', type: 'password' }
 			},
 			async authorize({ username, password }) {
-				console.log('SvelteKitAuth', username);
+				// console.log('SvelteKitAuth', username);
 				const user = await knexInstance(ENUM_DATABASE_TABLE.users + ' as u')
 					.select('u.*', 'r.name as role')
 					.leftJoin(ENUM_DATABASE_TABLE.roles_users + ' as ru', 'ru.user_id', 'u.id')
@@ -132,7 +132,7 @@ const api = (async ({ event, resolve }) => {
 				session?.user.role != ENUM_USER_ROLE.Administrator &&
 				session?.user.role != ENUM_USER_ROLE.Owner
 			) {
-				console.log(event.url.pathname);
+				// console.log(event.url.pathname);
 				//throw redirect(303, '/auth/signin');
 				throw redirect(303, '/account/signin');
 				//return null;

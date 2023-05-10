@@ -79,7 +79,7 @@
 		}, 2500);
 	}
 	function onInputChipSelect(event: any): void {
-		console.log('onInputChipSelect', event.detail);
+		// console.log('onInputChipSelect', event.detail);
 		if (taglist.includes(event.detail.value) === false) {
 			taglist = [...taglist, event.detail.value];
 			inputChip = '';

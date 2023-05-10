@@ -73,7 +73,7 @@
 		valueAttr: { type: 'text', required: true },
 		// Returns the updated response value
 		response: (r: string) => {
-			console.log('response:', r);
+			// console.log('response:', r);
 			if (r) {
 				editor.chain().focus().setImage({ src: r }).run();
 			}

@@ -4,7 +4,7 @@ import { knexInstance } from '$lib/core/core/server/data/db/connection';
 
 export const PUT = (async ({ url, params, request }) => {
 	const resJson = await request.json();
-	console.log(resJson);
+	// console.log(resJson);
 	const id = params.id;
 	const field = params.field;
 	const value = resJson.body;

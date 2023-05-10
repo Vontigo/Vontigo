@@ -34,7 +34,7 @@
 
 	export let data: PageData;
 
-	console.log(data.brainiacminds);
+	// console.log(data.brainiacminds);
 
 	// let selectedPost: any;
 	// let keysJson: string[];
@@ -409,7 +409,7 @@
 														`/api/database/posts/remove/${$recordPostsDataModal.id.value}`
 													);
 													closeDrawer();
-													console.log(delReq);
+													// console.log(delReq);
 												}
 											}
 										});
