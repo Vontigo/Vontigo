@@ -13,10 +13,14 @@ export const GET = (async ({ url, params }) => {
 	const resDiscussion = await octokit.graphql(`query($owner: String!, $repo: String!) {
 		repository(owner: $owner, name: $repo) {
 			discussions(first: 10) {
-			nodes {
-				title
-				url
-			}
+				nodes {
+					title
+					url
+					author {
+						login
+						avatarUrl(size: 50)
+					}
+				}
 			}
 		}
 	}`, {

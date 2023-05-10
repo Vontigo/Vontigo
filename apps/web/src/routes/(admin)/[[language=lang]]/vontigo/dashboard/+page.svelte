@@ -28,7 +28,7 @@
 
 		const reqIssues = await fetch(`/api/admin/3rd/github/vontigo/vontigo/contributors`);
 		issues = (await reqIssues.json()) || [];
-		
+
 		const reqDiscussion = await fetch(`/api/admin/3rd/github/vontigo/vontigo/discussions`);
 		discussions = (await reqDiscussion.json()) || [];
 	});
@@ -198,30 +198,47 @@
 
 		<div class="card">
 			<header class="card-header font-medium flex gap-2 uppercase">
-				<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-  <path stroke-linecap="round" stroke-linejoin="round" d="M20.25 8.511c.884.284 1.5 1.128 1.5 2.097v4.286c0 1.136-.847 2.1-1.98 2.193-.34.027-.68.052-1.02.072v3.091l-3-3c-1.354 0-2.694-.055-4.02-.163a2.115 2.115 0 01-.825-.242m9.345-8.334a2.126 2.126 0 00-.476-.095 48.64 48.64 0 00-8.048 0c-1.131.094-1.976 1.057-1.976 2.192v4.286c0 .837.46 1.58 1.155 1.951m9.345-8.334V6.637c0-1.621-1.152-3.026-2.76-3.235A48.455 48.455 0 0011.25 3c-2.115 0-4.198.137-6.24.402-1.608.209-2.76 1.614-2.76 3.235v6.226c0 1.621 1.152 3.026 2.76 3.235.577.075 1.157.14 1.74.194V21l4.155-4.155" />
-</svg>
-
+				<svg
+					xmlns="http://www.w3.org/2000/svg"
+					fill="none"
+					viewBox="0 0 24 24"
+					stroke-width="1.5"
+					stroke="currentColor"
+					class="w-6 h-6"
+				>
+					<path
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						d="M20.25 8.511c.884.284 1.5 1.128 1.5 2.097v4.286c0 1.136-.847 2.1-1.98 2.193-.34.027-.68.052-1.02.072v3.091l-3-3c-1.354 0-2.694-.055-4.02-.163a2.115 2.115 0 01-.825-.242m9.345-8.334a2.126 2.126 0 00-.476-.095 48.64 48.64 0 00-8.048 0c-1.131.094-1.976 1.057-1.976 2.192v4.286c0 .837.46 1.58 1.155 1.951m9.345-8.334V6.637c0-1.621-1.152-3.026-2.76-3.235A48.455 48.455 0 0011.25 3c-2.115 0-4.198.137-6.24.402-1.608.209-2.76 1.614-2.76 3.235v6.226c0 1.621 1.152 3.026 2.76 3.235.577.075 1.157.14 1.74.194V21l4.155-4.155"
+					/>
+				</svg>
 
 				Let's have fun with us!
 			</header>
 			<section class="p-4">
 				<ul class="list">
-					{#if discussions?.data.repository.discussions.nodes.length>0}
+					{#if discussions?.data.repository.discussions.nodes.length > 0}
 						{#each discussions?.data.repository.discussions.nodes as item}
 							<li>
 								<span>
-									<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor" class="w-5 h-5">
-  <path stroke-linecap="round" stroke-linejoin="round" d="M12 20.25c4.97 0 9-3.694 9-8.25s-4.03-8.25-9-8.25S3 7.444 3 12c0 2.104.859 4.023 2.273 5.48.432.447.74 1.04.586 1.641a4.483 4.483 0 01-.923 1.785A5.969 5.969 0 006 21c1.282 0 2.47-.402 3.445-1.087.81.22 1.668.337 2.555.337z" />
-</svg>
-
+									<svg
+										xmlns="http://www.w3.org/2000/svg"
+										fill="none"
+										viewBox="0 0 24 24"
+										stroke-width="1"
+										stroke="currentColor"
+										class="w-5 h-5"
+									>
+										<path
+											stroke-linecap="round"
+											stroke-linejoin="round"
+											d="M12 20.25c4.97 0 9-3.694 9-8.25s-4.03-8.25-9-8.25S3 7.444 3 12c0 2.104.859 4.023 2.273 5.48.432.447.74 1.04.586 1.641a4.483 4.483 0 01-.923 1.785A5.969 5.969 0 006 21c1.282 0 2.47-.402 3.445-1.087.81.22 1.668.337 2.555.337z"
+										/>
+									</svg>
 								</span>
-								<a
-									href={item.url}
-									target="_blank"
-									class="flex-auto unstyled hover:underline"
-								>
-									{item.title}
+								<a href={item.url} target="_blank" class="flex gap-2 flex-auto unstyled hover:underline">
+									<div class="flex-auto">{item.title}</div>
+									<Avatar src={item.author.avatarUrl} action={filter} actionParams="#Apollo" width="w-6" />
 								</a>
 							</li>
 						{/each}
@@ -381,13 +398,8 @@
 				{#if contributors?.data.length}
 					{#each contributors.data as item}
 						<a href={item.html_url} target="_blank">
-							<Avatar
-								src={item.avatar_url}
-								action={filter}
-								actionParams="#Apollo"
-								width="w-10"
-							/></a
-						>
+							<Avatar src={item.avatar_url} action={filter} actionParams="#Apollo" width="w-10" />
+						</a>
 					{/each}
 				{/if}
 			</section>
