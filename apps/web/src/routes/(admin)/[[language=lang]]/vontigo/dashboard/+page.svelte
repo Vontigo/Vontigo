@@ -13,24 +13,22 @@
 	let discussions: any[];
 
 	onMount(async () => {
-		const reqDraftPosts = await fetch(`/api/admin/posts/post/draft/page/1`);
-		draftPosts = (await reqDraftPosts.json()) || [];
-		console.log(draftPosts);
+		const [draftPostsRes, repoRes, releasesRes, contributorsRes, issuesRes, discussionRes] =
+			await Promise.all([
+				fetch('/api/admin/posts/post/draft/page/1'),
+				fetch('/api/admin/3rd/github/vontigo/vontigo'),
+				fetch('/api/admin/3rd/github/vontigo/vontigo/releases?per_page=3'),
+				fetch('/api/admin/3rd/github/vontigo/vontigo/contributors'),
+				fetch('/api/admin/3rd/github/vontigo/vontigo/issues'),
+				fetch('/api/admin/3rd/github/vontigo/vontigo/discussions')
+			]);
 
-		const reqRepo = await fetch(`/api/admin/3rd/github/vontigo/vontigo`);
-		repo = await reqRepo.json();
-
-		const reqReleases = await fetch(`/api/admin/3rd/github/vontigo/vontigo/releases?per_page=3`);
-		releases = (await reqReleases.json()) || [];
-
-		const reqContributors = await fetch(`/api/admin/3rd/github/vontigo/vontigo/contributors`);
-		contributors = (await reqContributors.json()) || [];
-
-		const reqIssues = await fetch(`/api/admin/3rd/github/vontigo/vontigo/contributors`);
-		issues = (await reqIssues.json()) || [];
-
-		const reqDiscussion = await fetch(`/api/admin/3rd/github/vontigo/vontigo/discussions`);
-		discussions = (await reqDiscussion.json()) || [];
+		draftPosts = (await draftPostsRes.json()) || [];
+		repo = await repoRes.json();
+		releases = (await releasesRes.json()) || [];
+		contributors = (await contributorsRes.json()) || [];
+		issues = (await issuesRes.json()) || [];
+		discussions = (await discussionRes.json()) || [];
 	});
 
 	// TODO: https://developers.google.com/analytics/devguides/reporting/core/v4/quickstart/web-js
@@ -236,14 +234,23 @@
 										/>
 									</svg>
 								</span>
-								<a href={item.url} target="_blank" class="flex gap-2 flex-auto unstyled hover:underline">
+								<a
+									href={item.url}
+									target="_blank"
+									class="flex gap-2 flex-auto unstyled hover:underline"
+								>
 									<div class="flex-auto">{item.title}</div>
-									<Avatar src={item.author.avatarUrl} action={filter} actionParams="#Apollo" width="w-6" />
+									<Avatar
+										src={item.author.avatarUrl}
+										action={filter}
+										actionParams="#Apollo"
+										width="w-6"
+									/>
 								</a>
 							</li>
 						{/each}
 					{:else}
-					<ProgressBar />
+						<ProgressBar />
 					{/if}
 
 					<!-- ... -->
@@ -265,31 +272,32 @@
 					<path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
 				</svg>
 				Vontigo
+				
 				{#if repo?.data.stargazers_count}
-				<div class="flex gap-2 ml-auto">
-					<svg
-										aria-hidden="true"
-										viewBox="0 0 16 16"
-										version="1.1"
-										data-view-component="true"
-										class="w-5 h-5 mt-1"
-									>
-										<path
-											d="M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.751.751 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25Z"
-										/>
-									</svg>
-					{repo?.data.stargazers_count}
-				</div>
+					<div class="flex gap-2 ml-auto">
+						<svg
+							aria-hidden="true"
+							viewBox="0 0 16 16"
+							version="1.1"
+							data-view-component="true"
+							class="w-5 h-5 mt-1"
+						>
+							<path
+								d="M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.751.751 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25Z"
+							/>
+						</svg>
+						{repo?.data.stargazers_count}
+					</div>
 				{/if}
 			</header>
 			<section class="p-4">
-					{#if repo?.data.description}
-						<div>
-							{repo.data.description}
-						</div>
-						{:else}
-						<ProgressBar />
-					{/if}
+				{#if repo?.data.description}
+					<div>
+						{repo.data.description}
+					</div>
+				{:else}
+					<ProgressBar />
+				{/if}
 			</section>
 		</div>
 		<div class="card">
@@ -339,7 +347,7 @@
 							<span class="">({format(item.published_at)})</span>
 						</div>
 					{/each}
-					{:else}
+				{:else}
 					<ProgressBar />
 				{/if}
 			</section>
@@ -369,7 +377,7 @@
 							<Avatar src={item.avatar_url} action={filter} actionParams="#Apollo" width="w-10" />
 						</a>
 					{/each}
-					{:else}
+				{:else}
 					<ProgressBar />
 				{/if}
 			</section>
