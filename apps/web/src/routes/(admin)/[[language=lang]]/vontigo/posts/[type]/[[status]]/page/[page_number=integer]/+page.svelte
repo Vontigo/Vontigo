@@ -503,14 +503,15 @@
 				</div>
 			</slot>
 			<svelte:fragment slot="pageFooter">
-				<div class="bottom-0 mr-3 mb-3 float-right w-fit">
+				<div class="pt-1 bottom-0 mr-3 mb-3 float-right w-fit flex flex-row-reverse gap-2">
 					<!-- {#if $wordsCount} -->
 					<div class="">
 						{$wordsCount} words
 					</div>
 					<!-- {/if} -->
-					<div class="pt-1 {aimResJson?.brainiacminds?.Usage?.TotalTokens ? '' : 'hidden'}">
-						Tokens Usage: {JSON.stringify(aimResJson?.brainiacminds.Usage.TotalTokens)} /
+					<div class="{aimResJson?.brainiacminds?.Usage?.TotalTokens ? '' : 'hidden'}">
+						Tokens Usage: {JSON.stringify(aimResJson?.brainiacminds.Usage.TotalTokens)}
+					/
 					</div>
 				</div>
 			</svelte:fragment>
