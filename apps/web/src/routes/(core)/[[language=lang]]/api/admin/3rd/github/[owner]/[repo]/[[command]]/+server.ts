@@ -1,7 +1,7 @@
 import { error } from '@sveltejs/kit';
 import type { RequestHandler } from '../../../$types';
 import { App } from 'octokit';
-import { privateKey } from './config';
+import { privateKey } from '../../../config';
 
 export const GET = (async ({ url, params }) => {
 	const app = new App({

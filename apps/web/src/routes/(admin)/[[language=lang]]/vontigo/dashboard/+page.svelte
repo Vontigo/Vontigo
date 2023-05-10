@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { AppBar, AppShell, Avatar, filter } from '@skeletonlabs/skeleton';
+	import { AppBar, AppShell, Avatar, ProgressBar, filter } from '@skeletonlabs/skeleton';
 	import { page } from '$app/stores';
 	import { onMount } from 'svelte';
 	import { adminSiteUrl } from '$lib/core/shared/stores/site';
@@ -10,6 +10,7 @@
 	let contributors: any[];
 	let issues: any[];
 	let draftPosts: any[];
+	let discussions: any[];
 
 	onMount(async () => {
 		const reqDraftPosts = await fetch(`/api/admin/posts/post/draft/page/1`);
@@ -27,6 +28,9 @@
 
 		const reqIssues = await fetch(`/api/admin/3rd/github/vontigo/vontigo/contributors`);
 		issues = (await reqIssues.json()) || [];
+
+		const reqDiscussion = await fetch(`/api/admin/3rd/github/vontigo/vontigo/discussions`);
+		discussions = (await reqDiscussion.json()) || [];
 	});
 
 	// TODO: https://developers.google.com/analytics/devguides/reporting/core/v4/quickstart/web-js
@@ -191,6 +195,61 @@
 				</ul>
 			</section>
 		</div>
+
+		<div class="card">
+			<header class="card-header font-medium flex gap-2 uppercase">
+				<svg
+					xmlns="http://www.w3.org/2000/svg"
+					fill="none"
+					viewBox="0 0 24 24"
+					stroke-width="1.5"
+					stroke="currentColor"
+					class="w-6 h-6"
+				>
+					<path
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						d="M20.25 8.511c.884.284 1.5 1.128 1.5 2.097v4.286c0 1.136-.847 2.1-1.98 2.193-.34.027-.68.052-1.02.072v3.091l-3-3c-1.354 0-2.694-.055-4.02-.163a2.115 2.115 0 01-.825-.242m9.345-8.334a2.126 2.126 0 00-.476-.095 48.64 48.64 0 00-8.048 0c-1.131.094-1.976 1.057-1.976 2.192v4.286c0 .837.46 1.58 1.155 1.951m9.345-8.334V6.637c0-1.621-1.152-3.026-2.76-3.235A48.455 48.455 0 0011.25 3c-2.115 0-4.198.137-6.24.402-1.608.209-2.76 1.614-2.76 3.235v6.226c0 1.621 1.152 3.026 2.76 3.235.577.075 1.157.14 1.74.194V21l4.155-4.155"
+					/>
+				</svg>
+
+				Let's have fun with us!
+			</header>
+			<section class="p-4">
+				<ul class="list">
+					{#if discussions?.data.repository.discussions.nodes.length > 0}
+						{#each discussions?.data.repository.discussions.nodes as item}
+							<li>
+								<span>
+									<svg
+										xmlns="http://www.w3.org/2000/svg"
+										fill="none"
+										viewBox="0 0 24 24"
+										stroke-width="1"
+										stroke="currentColor"
+										class="w-5 h-5"
+									>
+										<path
+											stroke-linecap="round"
+											stroke-linejoin="round"
+											d="M12 20.25c4.97 0 9-3.694 9-8.25s-4.03-8.25-9-8.25S3 7.444 3 12c0 2.104.859 4.023 2.273 5.48.432.447.74 1.04.586 1.641a4.483 4.483 0 01-.923 1.785A5.969 5.969 0 006 21c1.282 0 2.47-.402 3.445-1.087.81.22 1.668.337 2.555.337z"
+										/>
+									</svg>
+								</span>
+								<a href={item.url} target="_blank" class="flex gap-2 flex-auto unstyled hover:underline">
+									<div class="flex-auto">{item.title}</div>
+									<Avatar src={item.author.avatarUrl} action={filter} actionParams="#Apollo" width="w-6" />
+								</a>
+							</li>
+						{/each}
+					{:else}
+					<ProgressBar />
+					{/if}
+
+					<!-- ... -->
+				</ul>
+			</section>
+		</div>
 	</div>
 	<div class="w-[40%] flex flex-col gap-4">
 		<div class="card">
@@ -206,67 +265,31 @@
 					<path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
 				</svg>
 				Vontigo
-			</header>
-			<section class="p-4">
-				{#await repo}
-					loading...
-				{:then item}
-					{#if item?.data.description}
-						<!-- <div class="btn-group btn-group-sm variant-filled w-full">
-							<button>
-								<span>
-									<svg
-										aria-hidden="true"
-										viewBox="0 0 16 16"
-										version="1"
-										data-view-component="true"
-										class="w-5 h-5"
-									>
-										<path
-											d="M8 2c1.981 0 3.671.992 4.933 2.078 1.27 1.091 2.187 2.345 2.637 3.023a1.62 1.62 0 0 1 0 1.798c-.45.678-1.367 1.932-2.637 3.023C11.67 13.008 9.981 14 8 14c-1.981 0-3.671-.992-4.933-2.078C1.797 10.83.88 9.576.43 8.898a1.62 1.62 0 0 1 0-1.798c.45-.677 1.367-1.931 2.637-3.022C4.33 2.992 6.019 2 8 2ZM1.679 7.932a.12.12 0 0 0 0 .136c.411.622 1.241 1.75 2.366 2.717C5.176 11.758 6.527 12.5 8 12.5c1.473 0 2.825-.742 3.955-1.715 1.124-.967 1.954-2.096 2.366-2.717a.12.12 0 0 0 0-.136c-.412-.621-1.242-1.75-2.366-2.717C10.824 4.242 9.473 3.5 8 3.5c-1.473 0-2.825.742-3.955 1.715-1.124.967-1.954 2.096-2.366 2.717ZM8 10a2 2 0 1 1-.001-3.999A2 2 0 0 1 8 10Z"
-										/>
-									</svg></span
-								>
-								<span>Watch {item.data.watchers_count}</span></button
-							>
-							<button>
-								<span>
-									<svg
-										aria-hidden="true"
-										viewBox="0 0 16 16"
-										version="1"
-										data-view-component="true"
-										class="w-5 h-5"
-									>
-										<path
-											d="M5 5.372v.878c0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75v-.878a2.25 2.25 0 1 1 1.5 0v.878a2.25 2.25 0 0 1-2.25 2.25h-1.5v2.128a2.251 2.251 0 1 1-1.5 0V8.5h-1.5A2.25 2.25 0 0 1 3.5 6.25v-.878a2.25 2.25 0 1 1 1.5 0ZM5 3.25a.75.75 0 1 0-1.5 0 .75.75 0 0 0 1.5 0Zm6.75.75a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Zm-3 8.75a.75.75 0 1 0-1.5 0 .75.75 0 0 0 1.5 0Z"
-										/>
-									</svg></span
-								>
-								<span>Fork {item.data.forks_count}</span></button
-							>
-							<button>
-								<span>
-									<svg
+				{#if repo?.data.stargazers_count}
+				<div class="flex gap-2 ml-auto">
+					<svg
 										aria-hidden="true"
 										viewBox="0 0 16 16"
 										version="1.1"
 										data-view-component="true"
-										class="w-5 h-5"
+										class="w-5 h-5 mt-1"
 									>
 										<path
 											d="M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.751.751 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25Z"
 										/>
-									</svg></span
-								>
-								<span>Star {item.data.stargazers_count}</span></button
-							>
-						</div> -->
+									</svg>
+					{repo?.data.stargazers_count}
+				</div>
+				{/if}
+			</header>
+			<section class="p-4">
+					{#if repo?.data.description}
 						<div>
-							{item.data.description}
+							{repo.data.description}
 						</div>
+						{:else}
+						<ProgressBar />
 					{/if}
-				{/await}
 			</section>
 		</div>
 		<div class="card">
@@ -316,6 +339,8 @@
 							<span class="">({format(item.published_at)})</span>
 						</div>
 					{/each}
+					{:else}
+					<ProgressBar />
 				{/if}
 			</section>
 		</div>
@@ -341,14 +366,11 @@
 				{#if contributors?.data.length}
 					{#each contributors.data as item}
 						<a href={item.html_url} target="_blank">
-							<Avatar
-								src={item.avatar_url}
-								action={filter}
-								actionParams="#Apollo"
-								width="w-10"
-							/></a
-						>
+							<Avatar src={item.avatar_url} action={filter} actionParams="#Apollo" width="w-10" />
+						</a>
 					{/each}
+					{:else}
+					<ProgressBar />
 				{/if}
 			</section>
 		</div>
