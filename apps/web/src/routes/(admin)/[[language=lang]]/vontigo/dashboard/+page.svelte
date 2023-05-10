@@ -187,6 +187,8 @@
 								</a>
 							</li>
 						{/each}
+					{:else}
+						<ProgressBar />
 					{/if}
 
 					<!-- ... -->
@@ -272,23 +274,59 @@
 					<path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
 				</svg>
 				Vontigo
-				
-				{#if repo?.data.stargazers_count}
-					<div class="flex gap-2 ml-auto">
-						<svg
-							aria-hidden="true"
-							viewBox="0 0 16 16"
-							version="1.1"
-							data-view-component="true"
-							class="w-5 h-5 mt-1"
-						>
-							<path
-								d="M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.751.751 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25Z"
-							/>
-						</svg>
-						{repo?.data.stargazers_count}
-					</div>
-				{/if}
+				<div class="flex gap-4 ml-auto">
+					{#if repo?.data.watchers_count}
+						<div class="flex gap-2 ml-auto">
+							<svg
+								aria-hidden="true"
+								viewBox="0 0 16 16"
+								version="1.1"
+								data-view-component="true"
+								class="w-5 h-5 mt-1"
+								fill="currentColor"
+							>
+								<path
+									d="M8 2c1.981 0 3.671.992 4.933 2.078 1.27 1.091 2.187 2.345 2.637 3.023a1.62 1.62 0 0 1 0 1.798c-.45.678-1.367 1.932-2.637 3.023C11.67 13.008 9.981 14 8 14c-1.981 0-3.671-.992-4.933-2.078C1.797 10.83.88 9.576.43 8.898a1.62 1.62 0 0 1 0-1.798c.45-.677 1.367-1.931 2.637-3.022C4.33 2.992 6.019 2 8 2ZM1.679 7.932a.12.12 0 0 0 0 .136c.411.622 1.241 1.75 2.366 2.717C5.176 11.758 6.527 12.5 8 12.5c1.473 0 2.825-.742 3.955-1.715 1.124-.967 1.954-2.096 2.366-2.717a.12.12 0 0 0 0-.136c-.412-.621-1.242-1.75-2.366-2.717C10.824 4.242 9.473 3.5 8 3.5c-1.473 0-2.825.742-3.955 1.715-1.124.967-1.954 2.096-2.366 2.717ZM8 10a2 2 0 1 1-.001-3.999A2 2 0 0 1 8 10Z"
+								/>
+							</svg>
+							{repo?.data.watchers_count}
+						</div>
+					{/if}
+					{#if repo?.data.forks_count}
+						<div class="flex gap-2 ml-auto">
+							<svg
+								aria-hidden="true"
+								viewBox="0 0 16 16"
+								version="1.1"
+								data-view-component="true"
+								class="w-5 h-5 mt-1"
+								fill="currentColor"
+							>
+								<path
+									d="M5 5.372v.878c0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75v-.878a2.25 2.25 0 1 1 1.5 0v.878a2.25 2.25 0 0 1-2.25 2.25h-1.5v2.128a2.251 2.251 0 1 1-1.5 0V8.5h-1.5A2.25 2.25 0 0 1 3.5 6.25v-.878a2.25 2.25 0 1 1 1.5 0ZM5 3.25a.75.75 0 1 0-1.5 0 .75.75 0 0 0 1.5 0Zm6.75.75a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Zm-3 8.75a.75.75 0 1 0-1.5 0 .75.75 0 0 0 1.5 0Z"
+								/>
+							</svg>
+							{repo?.data.forks_count}
+						</div>
+					{/if}
+					{#if repo?.data.stargazers_count}
+						<div class="flex gap-2 ml-auto">
+							<svg
+								aria-hidden="true"
+								viewBox="0 0 16 16"
+								version="1.1"
+								data-view-component="true"
+								class="w-5 h-5 mt-1"
+								fill="currentColor"
+							>
+								<path
+									d="M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.751.751 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25Z"
+								/>
+							</svg>
+							{repo?.data.stargazers_count}
+						</div>
+					{/if}
+				</div>
 			</header>
 			<section class="p-4">
 				{#if repo?.data.description}
