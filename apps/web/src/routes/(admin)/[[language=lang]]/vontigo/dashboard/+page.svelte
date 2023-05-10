@@ -1,26 +1,27 @@
 <script lang="ts">
-	import { AppBar, AppShell, Avatar } from '@skeletonlabs/skeleton';
+	import { AppBar, AppShell, Avatar, filter } from '@skeletonlabs/skeleton';
 	import { page } from '$app/stores';
 	import { onMount } from 'svelte';
 	import { adminSiteUrl } from '$lib/core/shared/stores/site';
+	import { format } from 'timeago.js';
 
 	let repo: any;
 	let releases: any[];
 	let contributors: any[];
+	let issues: any[];
 
 	onMount(async () => {
-		const reqRepo = await fetch(`https://api.github.com/repos/vontigo/vontigo`);
+		const reqRepo = await fetch(`/api/admin/3rd/github/vontigo/vontigo`);
 		repo = await reqRepo.json();
 
-		const reqReleases = await fetch(
-			`https://api.github.com/repos/vontigo/vontigo/releases?per_page=5`
-		);
+		const reqReleases = await fetch(`/api/admin/3rd/github/vontigo/vontigo/releases?per_page=3`);
 		releases = (await reqReleases.json()) || [];
 
-		const reqContributors = await fetch(
-			`https://api.github.com/repos/vontigo/vontigo/contributors`
-		);
+		const reqContributors = await fetch(`/api/admin/3rd/github/vontigo/vontigo/contributors`);
 		contributors = (await reqContributors.json()) || [];
+
+		const reqIssues = await fetch(`/api/admin/3rd/github/vontigo/vontigo/contributors`);
+		issues = (await reqIssues.json()) || [];
 	});
 
 	// TODO: https://developers.google.com/analytics/devguides/reporting/core/v4/quickstart/web-js
@@ -150,8 +151,8 @@
 				{#await repo}
 					loading...
 				{:then item}
-					{#if item?.description}
-						{item.description}
+					{#if item?.data.description}
+						{item.data.description}
 					{/if}
 				{/await}
 			</section>
@@ -174,10 +175,34 @@
 				</svg>
 				Releases
 			</header>
-			<section class="p-4">
-				{#if releases?.length}
-					{#each releases as item}
-						{item.tag_name} <br />
+			<section class="p-4 flex flex-col">
+				{#if releases?.data.length}
+					{#each releases.data as item}
+						<div class="flex gap-2">
+							<a
+								href={item.html_url}
+								target="_blank"
+								class="unstyled hover:underline flex gap-2 font-semibold"
+							>
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									fill="none"
+									viewBox="0 0 24 24"
+									stroke-width="1.5"
+									stroke="currentColor"
+									class="w-5 h-5 m-1"
+								>
+									<path
+										stroke-linecap="round"
+										stroke-linejoin="round"
+										d="M21 7.5l-9-5.25L3 7.5m18 0l-9 5.25m9-5.25v9l-9 5.25M3 7.5l9 5.25M3 7.5v9l9 5.25m0-9v9"
+									/>
+								</svg>
+
+								{item.tag_name}
+							</a>
+							<span class="">({format(item.published_at)})</span>
+						</div>
 					{/each}
 				{/if}
 			</section>
@@ -200,10 +225,17 @@
 				</svg>
 				Contributors
 			</header>
-			<section class="p-4">
-				{#if contributors?.length}
-					{#each contributors as item}
-						{item.login} <br />
+			<section class="p-4 flex gap-2">
+				{#if contributors?.data.length}
+					{#each contributors.data as item}
+						<a href={item.html_url} target="_blank">
+							<Avatar
+								src={item.avatar_url}
+								action={filter}
+								actionParams="#Apollo"
+								width="w-10"
+							/></a
+						>
 					{/each}
 				{/if}
 			</section>
