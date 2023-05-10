@@ -60,18 +60,18 @@
 		shadow: 'shadow-md',
 		regionDrawer: 'overflow-y-hidden'
 	};
-	async function chatGPT() {
+	async function chatGPT() {	
 		if ($recordPostsDataModal.title.value != `Your new post is here...`) {
 			//https://vontigo.services.brainiacminds.com/beta/sveltekit/js%20framworks/svelte
-			const aimRes = await fetch(`/api/brainiacminds/${$recordPostsDataModal.title.value}`);
+			const aimRes = await fetch(`/api/admin/3rd/brainiacminds/${$recordPostsDataModal.title.value}`);
 
 			aimResJson = await aimRes.json();
 
-			// console.log(aimResJson);
+			console.log('_________1',aimResJson);
 
 			if (aimResJson?.brainiacminds?.Choices[0]?.Message?.Content) {
-				$recordPostsDataModal.mobiledoc.value = await aimResJson?.brainiacminds?.Choices[0]?.Message
-					?.Content;
+				$recordPostsDataModal.mobiledoc.value = 
+					await aimResJson?.brainiacminds?.Choices[0]?.Message?.Content;
 
 				_compPostEditor.updateContent();
 
@@ -508,7 +508,7 @@
 									? 'visible'
 									: 'invisible'}"
 							>
-								Tokens Usage: {JSON.stringify(aimResJson?.brainiacminds.Usage.TotalTokens)} /
+								Tokens Usage: {JSON.stringify(aimResJson?.brainiacminds?.Usage?.TotalTokens)} /
 							</div>
 						</div>
 					</div>

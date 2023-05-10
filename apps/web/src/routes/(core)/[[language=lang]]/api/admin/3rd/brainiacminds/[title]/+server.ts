@@ -6,12 +6,14 @@ import { bool } from 'sharp';
 export const GET = (async ({ fetch, request, url, params }) => {
 	// const body = await request.json();
 
-	const aimResponse = await fetch(`/api/shared/settings/brainiacminds`);
+	console.log('_____2');
+	const aimResponse = await fetch(`/api/admin/settings/brainiacminds`);
 	const aimResponseJson = await aimResponse.json();
 
-	// console.log(aimResponseJson);
+	console.log('_____3', aimResponseJson);
 
 	let aimSettings: any = {};
+
 	for (const item of await aimResponseJson) {
 		// if (!parent.settings[item.group]) {
 		// 	parent.settings[item.group] = {};
