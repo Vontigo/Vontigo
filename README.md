@@ -16,7 +16,7 @@ Investors and developers alike will appreciate Vontigo's innovative use of AI te
 
 At Vontigo, we're passionate about building a world-class CMS that empowers users to create and manage content with ease. Our platform draws inspiration from a range of cutting-edge technologies, including BrainiacMinds (powered by ChatGPT), SvelteKit, Mixcore CMS, and Ghost. With Vontigo, you'll enjoy a range of powerful features, including automated content creation, personalized content delivery, predictive analytics, improved search capabilities, chatbots, and social media management. Our open-source platform is cost-effective, easy to use, and endlessly customizable, making it the ideal solution for businesses of all sizes. Whether you're looking to streamline your content strategy, boost engagement, or drive revenue growth, Vontigo has everything you need to succeed. Try it out today and see the difference for yourself!
 
-# Quickstart install
+## Quickstart install
 
 Run with Turborepo.
 
@@ -35,6 +35,17 @@ npm run dev -- --open
 
 Incase you are not able to see the setup screen. Make sure you have deleted the `/apps/web/database/vontigo.db` file.
 
-# Copyright & license
+## Contribution
+
+Please make sure to read the [Contributing Guide](https://github.com/vontigo/vontigo/blob/main/.github/contributing.md) before making a pull request. If you have a Vontigo-related project/component/tool, add it with a pull request to [this curated list](https://github.com/vontigo/awesome-vontigo)!
+
+Thank you to all the people who already contributed to Vue!
+
+<a href="https://github.com/vontigo/vontigo/graphs/contributors"><img src="https://opencollective.com/vontigo/contributors.svg?width=890" /></a>
+
+## Repo analytics
+![Alt](https://repobeats.axiom.co/api/embed/3b17802e07552dafda67897334dfa36a15af04f2.svg "Repobeats analytics image")
+
+## Copyright & license
 
 Copyright (c) 2023-2023 Vontigo Foundation - Released under the MIT license. Vontigo and the Vontigo Logo are trademarks of Vontigo Foundation Ltd. Please see our trademark policy for info on acceptable usage.
