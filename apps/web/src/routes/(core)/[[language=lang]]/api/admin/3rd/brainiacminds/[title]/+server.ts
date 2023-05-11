@@ -6,13 +6,13 @@ import { bool } from 'sharp';
 export const GET = (async ({ fetch, request, url, params }) => {
 	// const body = await request.json();
 
-	console.log('_____2');
+	// console.log('_____2');
 	const aimResponse = await fetch(`/api/admin/settings/brainiacminds`);
 	const aimResponseJson = await aimResponse.json();
 
-	console.log('_____3', aimResponseJson);
+	// console.log('_____3', aimResponseJson);
 
-	let aimSettings: any = {};
+	let settings: any = {};
 
 	for (const item of await aimResponseJson) {
 		// if (!parent.settings[item.group]) {
@@ -21,33 +21,33 @@ export const GET = (async ({ fetch, request, url, params }) => {
 		// const newGroup = item.group;
 		// const newKey = item.key;
 
-		if (!aimSettings[item.group]) {
-			aimSettings[item.group] = {};
+		if (!settings[item.group]) {
+			settings[item.group] = {};
 		}
 
-		aimSettings[item.group][item.key] = item.value;
+		settings[item.group][item.key] = item.value;
 	}
 
 	// console.log(aimSettings);
 
-	if (aimSettings.brainiacminds.aim_key != 'YOUR_OPENAI_KEY') {
+	if (settings.brainiacminds.aim_key != 'YOUR_OPENAI_KEY') {
 		const requestOptions = {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify({
-				key: aimSettings.brainiacminds.aim_key,
-				temperature: Number.parseFloat(aimSettings.brainiacminds.aim_temperature),
-				maxtokens: Number.parseInt(aimSettings.brainiacminds.aim_max_tokens),
+				key: settings.brainiacminds.aim_key,
+				temperature: Number.parseFloat(settings.brainiacminds.aim_temperature),
+				maxtokens: Number.parseInt(settings.brainiacminds.aim_max_tokens),
 				title: params.title,
-				mainpoints: aimSettings.brainiacminds.aim_mainpoints,
-				topics: aimSettings.brainiacminds.aim_topics,
-				maxwords: Number.parseInt(aimSettings.brainiacminds.aim_article_max_words),
-				prompt: aimSettings.brainiacminds.aim_custom_prompt.replace('{{title}}', params.title),
-				isCustomPromp: aimSettings.brainiacminds.aim_using_custom_prompt
+				mainpoints: settings.brainiacminds.aim_mainpoints,
+				topics: settings.brainiacminds.aim_topics,
+				maxwords: Number.parseInt(settings.brainiacminds.aim_article_max_words),
+				prompt: settings.brainiacminds.aim_custom_prompt.replace('{{title}}', params.title),
+				isCustomPromp: settings.brainiacminds.aim_using_custom_prompt
 			})
 		};
 
-		const chatBrainiacMindsRes = await fetch(aimSettings.brainiacminds.aim_url, requestOptions);
+		const chatBrainiacMindsRes = await fetch(settings.brainiacminds.aim_url, requestOptions);
 		const brainiacmindsJson = await chatBrainiacMindsRes.json();
 
 		return new Response(JSON.stringify({ brainiacminds: brainiacmindsJson }));

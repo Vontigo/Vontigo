@@ -1,16 +1,39 @@
 import { error } from '@sveltejs/kit';
 import type { RequestHandler } from '../$types';
 import { google } from 'googleapis';
-import { privateKey } from './config';
 
 const scopes = "https://www.googleapis.com/auth/analytics.readonly";
 
 export const GET = (async ({ fetch, request, url, params }) => {
+
+
+	const googleResponse = await fetch(`/api/admin/settings/google`);
+	const googleResponseJson = await googleResponse.json();
+
+	let settings: any = {};
+
+	for (const item of await googleResponseJson) {
+		// if (!parent.settings[item.group]) {
+		// 	parent.settings[item.group] = {};
+		// }
+		// const newGroup = item.group;
+		// const newKey = item.key;
+
+		if (!settings[item.group]) {
+			settings[item.group] = {};
+		}
+
+		settings[item.group][item.key] = item.value;
+	}
+
+	console.log(settings);
+
+
 	// const body = await request.json();
 	const jwt = new google.auth.JWT(
-		privateKey.client_email,
+		settings.google.iam_service_account_client_email,
 		null,
-		privateKey.private_key.replace(/\\n/g, "\n"),
+		settings.google.iam_service_account_private_key.replace(/\\n/g, "\n"),
 		scopes
 	);
 
