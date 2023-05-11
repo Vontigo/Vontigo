@@ -45,7 +45,7 @@
 </AppBar>
 <div class="max-w-screen-xl mx-auto px-12">
 	<div class="">
-		<h6 class="py-4">Website</h6>
+		<h6 class="py-4 font-semibold">Website</h6>
 		<hr />
 		<div class="flex flex-wrap gap-10 mb-6">
 			<dl class="list-dl p-4">
@@ -109,7 +109,7 @@
 			</dl>
 		</div>
 
-		<h6 class="py-4">3rd Services</h6>
+		<h6 class="py-4 font-semibold">3rd Services</h6>
 		<hr />
 		<div class="flex flex-wrap gap-10 mb-6">
 			<dl class="list-dl p-4">
@@ -122,6 +122,20 @@
 							<a href={$adminSiteUrl + `/settings/brainiacminds`} class="unstyled">BrainiacMinds</a>
 						</dt>
 						<dd class="text-sm">ChatGPT service for content auto generation</dd>
+					</span>
+				</div>
+				<!-- ... -->
+			</dl>
+			<dl class="list-dl p-4">
+				<div>
+					<span class="w-10 h-10">
+						<img src="/img/logo/google.png" />
+					</span>
+					<span class="flex-auto">
+						<dt class="font-semibold">
+							<a href={$adminSiteUrl + `/settings/google`} class="unstyled">Google</a>
+						</dt>
+						<dd class="text-sm">Google services for analytics and keys management</dd>
 					</span>
 				</div>
 				<!-- ... -->
