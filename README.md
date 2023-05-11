@@ -1,5 +1,7 @@
 # Revolutionize Content Creation with Vontigo: The AI-Powered, Full-Stack CMS Built with SvelteKit
 
+![feature-image](https://github.com/Vontigo/Vontigo/assets/3785721/04228bea-f654-44a1-ba16-fa3b22706ba7)
+
 Vontigo is a cutting-edge open-source Content Management System (CMS) that leverages the power of SvelteKit to deliver fast, responsive, and dynamic websites. With its integrated ChatGPT feature, Vontigo takes content creation to the next level by generating high-quality articles automatically, saving time and effort for both developers and content creators.
 
 Vontigo's full-stack SvelteKit architecture enables seamless server-side rendering and client-side routing, allowing for lightning-fast page loads and smooth user experiences. The CMS also includes a range of built-in features, such as customizable themes, page templates, and an intuitive admin dashboard, making it easy for users to create, manage and publish content.
