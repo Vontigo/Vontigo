@@ -533,6 +533,30 @@
 							Buy me a ☕
 						</a>
 					</li>
+					<li>
+						<span>
+							<Avatar src="/img/logo/ko_fi.svg" width="w-8" rounded="rounded-full" /></span
+						>
+						<a
+							href="https://ko-fi.com/vontigo"
+							target="_blank"
+							class="flex-auto unstyled hover:underline"
+						>
+							Ko-fi ☕
+						</a>
+					</li>
+					<li>
+						<span>
+							<Avatar src="/img/logo/liberapay.svg" width="w-8" rounded="rounded-full" /></span
+						>
+						<a
+							href="https://liberapay.com/Vontigo"
+							target="_blank"
+							class="flex-auto unstyled hover:underline"
+						>
+							Liberapay
+						</a>
+					</li>
 					<!-- ... -->
 				</ul>
 			</section>
