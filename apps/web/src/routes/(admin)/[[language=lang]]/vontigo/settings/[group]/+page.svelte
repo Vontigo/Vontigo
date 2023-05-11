@@ -1,6 +1,12 @@
 <script lang="ts">
 	import { page } from '$app/stores';
-	import { toastStore, type ToastSettings, Toast } from '@skeletonlabs/skeleton';
+	import {
+		toastStore,
+		type ToastSettings,
+		Toast,
+		clipboard,
+		modalStore
+	} from '@skeletonlabs/skeleton';
 	import CompEditor from '$lib/core/core/frontend/components/admin/Editor/CompEditor.svelte';
 	import Icon3BottomLeft from '$lib/icons/Icon3BottomLeft.svelte';
 	import IconArrowDown from '$lib/icons/IconArrowDown.svelte';
@@ -91,7 +97,8 @@
 		if (resDataJson.row) {
 			const t: ToastSettings = {
 				message: `New value for [ ${key} ] key setting saved!`,
-				timeout: 2000
+				timeout: 2000,
+				background: 'variant-filled-success'
 			};
 			toastStore.trigger(t);
 		}
@@ -256,13 +263,90 @@
 											>
 										{/if}
 										<input id={row.key + `-base64`} name={row.key + `-base64`} type="hidden" />
-										<img
-											id={row.key + `-img`}
-											name={row.key + `-img`}
-											src={row.value}
-											style="max-width: 50ch;"
-											alt=""
-										/>
+										<div class="w-full relative">
+											<img
+												id={row.key + `-img`}
+												name={row.key + `-img`}
+												src={row.value}
+												style="max-width: 50ch;"
+												class="w-full rounded"
+												alt=""
+											/>
+											{#if row.value}
+												<div class="absolute top-1 right-1 flex flex-row-reverse">
+													<!-- {row.value} -->
+													<button
+														class="btn-icon variant-soft h-4 w-4 p-3 text-white justify-center items-center content-center border-none rounded"
+														on:click={() => {
+															deletePrevFile(row.key);
+															row.value = '';
+															updateField(row.id, 'value', row.value, row.key);
+															toastStore.trigger({
+																message: 'Image deleted!',
+																timeout: 2000,
+																background: 'variant-filled-success'
+															});
+														}}
+													>
+														<span>
+															<svg
+																xmlns="http://www.w3.org/2000/svg"
+																class="icon icon-tabler icon-tabler-trash"
+																width="24"
+																height="24"
+																viewBox="0 0 24 24"
+																stroke-width="2"
+																stroke="currentColor"
+																fill="none"
+																stroke-linecap="round"
+																stroke-linejoin="round"
+															>
+																<path stroke="none" d="M0 0h24v24H0z" fill="none" />
+																<path d="M4 7l16 0" />
+																<path d="M10 11l0 6" />
+																<path d="M14 11l0 6" />
+																<path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" />
+																<path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
+															</svg>
+														</span>
+													</button>
+													<button
+														class="btn-icon variant-soft h-4 w-4 p-3 text-white justify-center items-center content-center border-none rounded"
+														use:clipboard={row.value}
+														on:click={() => {
+															toastStore.trigger({
+																message: 'Link coppied!',
+																timeout: 2000,
+																background: 'variant-filled-success'
+															});
+														}}
+													>
+														<span>
+															<svg
+																xmlns="http://www.w3.org/2000/svg"
+																class="icon icon-tabler icon-tabler-copy"
+																width="24"
+																height="24"
+																viewBox="0 0 24 24"
+																stroke-width="2"
+																stroke="currentColor"
+																fill="none"
+																stroke-linecap="round"
+																stroke-linejoin="round"
+															>
+																<path stroke="none" d="M0 0h24v24H0z" fill="none" />
+																<path
+																	d="M8 8m0 2a2 2 0 0 1 2 -2h8a2 2 0 0 1 2 2v8a2 2 0 0 1 -2 2h-8a2 2 0 0 1 -2 -2z"
+																/>
+																<path
+																	d="M16 8v-2a2 2 0 0 0 -2 -2h-8a2 2 0 0 0 -2 2v8a2 2 0 0 0 2 2h2"
+																/>
+															</svg>
+														</span>
+													</button>
+												</div>
+											{/if}
+										</div>
 									</div>
 								{:else}
 									<input
