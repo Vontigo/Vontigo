@@ -64,7 +64,7 @@
     background: url('/bg-ai-head.gif');
     background-size: cover;"
 	>
-		<div class="backdrop-blur-sm bg-white/80">
+		<div class="backdrop-blur-0 bg-white/80">
 			<slot />
 		</div>
 	</div>
