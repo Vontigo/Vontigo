@@ -8,8 +8,8 @@
     background-size: cover;"
 >
 	<div class="backdrop-blur-sm bg-white/80">
-		<div class="max-w-screen-sm m-auto flex h-screen">
-			<div class="m-auto flex flex-col gap-6 px-20">
+		<div class="max-w-screen-sm ml-auto flex h-screen backdrop-blur-sm">
+			<div class="m-auto flex flex-col gap-6 w-56">
 				<h3>Hi! : )</h3>
 				<form action="/auth/callback/credentials" method="POST" class="flex flex-col gap-4">
 					<input type="hidden" name="csrfToken" value={data.csrfToken} />
@@ -36,7 +36,25 @@
 							class="input p-2 variant-form-material"
 						/>
 					</div>
-					<button id="submitButton" type="submit" class="btn variant-filled">Signin -></button>
+					<button id="submitButton" type="submit" class="btn variant-filled mt-4">
+						<span>Let me in</span>
+						<span
+							><svg
+								xmlns="http://www.w3.org/2000/svg"
+								fill="none"
+								viewBox="0 0 24 24"
+								stroke-width="1.5"
+								stroke="currentColor"
+								class="w-6 h-6"
+							>
+								<path
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3"
+								/>
+							</svg>
+						</span>
+					</button>
 					{#if data.error}
 						<em> ⚠️ Error: {data.error} error! <br />Please try again.</em>
 					{/if}
