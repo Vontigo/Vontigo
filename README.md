@@ -39,7 +39,7 @@ Incase you are not able to see the setup screen. Make sure you have deleted the 
 
 Please make sure to read the [Contributing Guide](https://github.com/vontigo/vontigo/blob/main/.github/contributing.md) before making a pull request. If you have a Vontigo-related project/component/tool, add it with a pull request to [this curated list](https://github.com/vontigo/awesome-vontigo)!
 
-Thank you to all the people who already contributed to Vue!
+Thank you to all the people who already contributed to Vontigo!
 
 <a href="https://github.com/vontigo/vontigo/graphs/contributors"><img src="https://opencollective.com/vontigo/contributors.svg?width=890" /></a>
 
