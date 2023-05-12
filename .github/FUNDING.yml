@@ -2,12 +2,12 @@
 
 github: [Smilefounder, nguyentuansi] # Replace with up to 4 GitHub Sponsors-enabled usernames e.g., [user1, user2]
 patreon: Vontigo # Replace with a single Patreon username
-open_collective: vontigo # Replace with a single Open Collective username
+open_collective: Vontigo # Replace with a single Open Collective username
 ko_fi: vontigo # Replace with a single Ko-fi username
 # tidelift: # Replace with a single Tidelift platform-name/package-name e.g., npm/babel
-community_bridge: vontigo # Replace with a single Community Bridge project-name e.g., cloud-foundry
+community_bridge: Vontigo # Replace with a single Community Bridge project-name e.g., cloud-foundry
 liberapay: Vontigo # Replace with a single Liberapay username
 # issuehunt: # Replace with a single IssueHunt username
 # otechie: # Replace with a single Otechie username
 # lfx_crowdfunding: vontigo # Replace with a single LFX Crowdfunding project-name e.g., cloud-foundry
-custom: ['https://paypal.me/vontigo','https://buymeacoffee.com/vontigo'] # Replace with up to 4 custom sponsorship URLs e.g., ['link1', 'link2']
+custom: ['paypal.me/Vontigo','buymeacoffee.com/Vontigo'] # Replace with up to 4 custom sponsorship URLs e.g., ['link1', 'link2']
