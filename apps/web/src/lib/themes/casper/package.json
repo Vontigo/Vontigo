@@ -1,6 +1,6 @@
 {
 	"name": "casper",
-	"description": "A clean, minimal default theme for the vontigo publishing platform",
+	"description": "A clean, minimal default theme for the Vontigo publishing platform",
 	"demo": "https://demo.vontigo.org",
 	"version": "5.4.9",
 	"engines": {
@@ -45,7 +45,7 @@
 	"bugs": "https://github.com/Vontigo/Casper/issues",
 	"contributors": "https://github.com/Vontigo/Casper/graphs/contributors",
 	"devDependencies": {
-		"@tryvontigo/release-utils": "0.8.1",
+		"@vontigo/release-utils": "0.8.1",
 		"autoprefixer": "10.4.7",
 		"beeper": "2.1.0",
 		"cssnano": "5.1.12",
@@ -173,7 +173,7 @@
 	},
 	"renovate": {
 		"extends": [
-			"@tryvontigo:theme"
+			"@vontigo:theme"
 		]
 	}
 }
