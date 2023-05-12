@@ -1,4 +1,5 @@
-# Revolutionize Content Creation with Vontigo: The AI-Powered, Full-Stack CMS Built with SvelteKit
+### Revolutionize Content Creation with Vontigo:
+# The AI-Powered, Full-Stack CMS & Mobile App Built with SvelteKit
 
 ![feature-image](https://github.com/Vontigo/Vontigo/assets/3785721/04228bea-f654-44a1-ba16-fa3b22706ba7)
 
