@@ -1,7 +1,7 @@
 import { redirect } from '@sveltejs/kit';
 
-export const prerender = true;
+export const prerender = 'auto';
 
 export function load() {
-	//throw redirect(307, '/docs/getting-started/introduction');
+	throw redirect(307, '/getting-started/introduction');
 }
