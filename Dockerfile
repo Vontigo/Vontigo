@@ -13,8 +13,8 @@ COPY pnpm-workspace.yaml ./
 # Copy the web package.json
 COPY apps/web/package.json ./apps/web/package.json
  
-RUN pnpm install
 RUN pnpm -r update
+RUN pnpm install
 RUN pnpm run build
  
 # Copy app source
