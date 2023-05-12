@@ -7,7 +7,7 @@ WORKDIR /usr/src/app
 # Copy root package.json and lockfile
 COPY package.json ./
 # COPY package-lock.json ./
-COPY pnpm-lock.yaml ./
+# COPY pnpm-lock.yaml ./
 COPY pnpm-workspace.yaml ./
  
 # Copy the web package.json
