@@ -1,4 +1,4 @@
-import crypto from 'crypto';
+import crypto from 'node:crypto';
 import ObjectID from 'bson-objectid';
 import { v4 as uuidv4 } from 'uuid';
 

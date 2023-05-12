@@ -122,9 +122,6 @@ importers:
       bson-objectid:
         specifier: ^2.0.4
         version: 2.0.4
-      crypto:
-        specifier: ^1.0.1
-        version: 1.0.1
       d3:
         specifier: ^7.8.4
         version: 7.8.4
@@ -2848,11 +2845,6 @@ packages:
 
   /crypt@0.0.2:
     resolution: {integrity: sha512-mCxBlsHFYh9C+HVpiEacem8FEBnMXgU9gy4zmNC+SXAZNB/1idgp/aulFJ4FgCi7GPEVbfyng092GqL2k2rmow==}
-    dev: false
-
-  /crypto@1.0.1:
-    resolution: {integrity: sha512-VxBKmeNcqQdiUQUW2Tzq0t377b54N2bMtXO/qiLa+6eRRmmC4qT3D4OnTGoT/U6O9aklQ/jTwbOtRMTTY8G0Ig==}
-    deprecated: This package is no longer supported. It's now a built-in Node module. If you've depended on crypto, you should switch to the one that's built-in.
     dev: false
 
   /css-what@6.1.0:
