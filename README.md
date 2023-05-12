@@ -14,7 +14,9 @@ Investors and developers alike will appreciate Vontigo's innovative use of AI te
 - Offers a range of built-in features and customization options to meet the needs of different users and use cases.
 - Open-source codebase allows for flexibility, customization, and community contributions.
 
-At Vontigo, we're passionate about building a world-class CMS that empowers users to create and manage content with ease. Our platform draws inspiration from a range of cutting-edge technologies, including BrainiacMinds (powered by ChatGPT), SvelteKit, Mixcore CMS, and Ghost. With Vontigo, you'll enjoy a range of powerful features, including automated content creation, personalized content delivery, predictive analytics, improved search capabilities, chatbots, and social media management. 
+At Vontigo, we're passionate about building a world-class CMS that empowers users to create and manage content with ease. Our platform draws inspiration from a range of cutting-edge technologies, including BrainiacMinds (powered by ChatGPT), SvelteKit, Capacitor, Mixcore CMS, and Ghost. 
+
+With Vontigo, you'll enjoy a range of powerful features, including automated content creation, personalized content delivery, predictive analytics, improved search capabilities, chatbots, and social media management. 
 
 Our open-source platform is cost-effective, easy to use, and endlessly customizable, making it the ideal solution for businesses of all sizes. Whether you're looking to streamline your content strategy, boost engagement, or drive revenue growth, Vontigo has everything you need to succeed. Try it out today and see the difference for yourself!
 
