@@ -22,7 +22,7 @@
 	const { activeCategory } = createSidebarContext(sidebar);
 
 	$: category = $activeCategory ? `${$activeCategory}: ` : '';
-	$: title = meta ? `${category}${meta.title} | KitDocs` : null;
+	$: title = meta ? `${category}${meta.title} | Vontigo Docs` : null;
 	$: description = meta?.description;
 </script>
 
@@ -39,8 +39,8 @@
 
 <KitDocs {meta}>
 	<KitDocsLayout {navbar} {sidebar}>
-		<div class="logo" slot="navbar-left">
-			<Button href="/">Logo</Button>
+		<div class="logo font-semibold" slot="navbar-left">
+			<Button href="/">Vontigo</Button>
 		</div>
 		<slot />
 	</KitDocsLayout>
