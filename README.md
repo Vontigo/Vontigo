@@ -1,4 +1,5 @@
 ### Revolutionize Content Creation with Vontigo:
+
 # The AI-Powered, Full-Stack CMS & Mobile App Built with SvelteKit
 
 ![feature-image](https://github.com/Vontigo/Vontigo/assets/3785721/04228bea-f654-44a1-ba16-fa3b22706ba7)
@@ -15,18 +16,46 @@ Investors and developers alike will appreciate Vontigo's innovative use of AI te
 - Offers a range of built-in features and customization options to meet the needs of different users and use cases.
 - Open-source codebase allows for flexibility, customization, and community contributions.
 
-At Vontigo, we're passionate about building a world-class CMS that empowers users to create and manage content with ease. Our platform draws inspiration from a range of cutting-edge technologies, including BrainiacMinds (powered by ChatGPT), SvelteKit, Capacitor, Mixcore CMS, and Ghost. 
+At Vontigo, we're passionate about building a world-class CMS that empowers users to create and manage content with ease. Our platform draws inspiration from a range of cutting-edge technologies, including BrainiacMinds (powered by ChatGPT), SvelteKit, Capacitor, Mixcore CMS, and Ghost.
 
-With Vontigo, you'll enjoy a range of powerful features, including automated content creation, personalized content delivery, predictive analytics, improved search capabilities, chatbots, and social media management. 
+With Vontigo, you'll enjoy a range of powerful features, including automated content creation, personalized content delivery, predictive analytics, improved search capabilities, chatbots, and social media management.
 
 Our open-source platform is cost-effective, easy to use, and endlessly customizable, making it the ideal solution for businesses of all sizes. Whether you're looking to streamline your content strategy, boost engagement, or drive revenue growth, Vontigo has everything you need to succeed. Try it out today and see the difference for yourself!
 
 ## Quickstart install
 
-Run with Turborepo.
+### 1. Create GitHub fork
+
+First you’ll need to make a fork of the Vontigo repository. Click on the fork button right at the top, wait for a copy to be created over on your personal GitHub account, and you should be all set!
+
+### 2. Configure repository
+
+The main Ghost repository is a monorepo that using Turborepo containing the full Ghost code, including the Admin client and default theme which will also be automatically set up.
 
 ```bash
+# First clone Ghost with submodules and make it your working dir
+git clone --recurse-submodules git@github.com:Vontigo/Vontigo && cd Vontigo
+```
+
+### 3. Properly rename your references
+
+```bash
+# Rename origin to upstream
+git remote rename origin upstream
+
+# Add your fork as an origin, editing in <YourUsername>!
+git remote add origin git@github.com:<YourUsername>/Vontigo.git
+```
+
+### 4. Run setup & installation
+
+#### 4.1 Run with Turborepo.
+
+```bash
+# Only ever run this once
 pnpm i
+
+# Run Vontigo in development mode
 pnpm dev
 
 # web:dev:      ➜  Local:   https://localhost:5173/
@@ -34,7 +63,10 @@ pnpm dev
 # docs:dev:     ➜  Local:   http://localhost:5175/
 ```
 
-Or, you can direct run as SvelteKit app.
+> 🌐 Vontigo website is now running at `https://localhost:5173/` -
+> 📱 Vontigo mobile app is now running at `http://localhost:5174/`
+
+#### 4.2 Or, run as SvelteKit app.
 
 ```bash
 cd .\apps\web\
@@ -42,9 +74,10 @@ pnpm i
 npm run dev -- --open
 ```
 
-Incase you are not able to see the setup screen. Make sure you have deleted the `/apps/web/database/vontigo.db` file.
+> ⚠️ Incase you are not able to see the `Setup` screen. Make sure you have deleted the `./apps/web/database/vontigo.db` file.
 
 ## Source Tree
+
 ```bash
 ./apps
 ├── docs    # Development docs
@@ -61,7 +94,8 @@ Thank you to all the people who already contributed to Vontigo!
 <a href="https://github.com/vontigo/vontigo/graphs/contributors"><img src="https://opencollective.com/vontigo/contributors.svg?width=890" /></a>
 
 ## Repo analytics
-![Alt](https://repobeats.axiom.co/api/embed/3b17802e07552dafda67897334dfa36a15af04f2.svg "Repobeats analytics image")
+
+![Alt](https://repobeats.axiom.co/api/embed/3b17802e07552dafda67897334dfa36a15af04f2.svg 'Repobeats analytics image')
 
 ## Copyright & license
 
