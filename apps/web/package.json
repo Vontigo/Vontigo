@@ -44,6 +44,9 @@
 		"vite": "^4.3.3",
 		"vitest": "^0.25.8"
 	},
+	"browser": {
+		"crypto": false
+	},
 	"type": "module",
 	"dependencies": {
 		"@auth/core": "^0.7.1",
