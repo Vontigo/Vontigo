@@ -22,6 +22,8 @@ With Vontigo, you'll enjoy a range of powerful features, including automated con
 
 Our open-source platform is cost-effective, easy to use, and endlessly customizable, making it the ideal solution for businesses of all sizes. Whether you're looking to streamline your content strategy, boost engagement, or drive revenue growth, Vontigo has everything you need to succeed. Try it out today and see the difference for yourself!
 
+<a href="https://www.producthunt.com/posts/vontigo?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-vontigo" target="_blank"><img src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=394092&theme=light" alt="Vontigo - 🤖&#0032;The&#0032;AI&#0045;Powered&#0044;&#0032;Full&#0045;Stack&#0032;CMS&#0032;Built&#0032;with&#0032;SvelteKit | Product Hunt" style="width: 250px; height: 54px;" width="250" height="54" /></a>
+
 ## Quickstart install
 
 ### 1. Create GitHub fork
