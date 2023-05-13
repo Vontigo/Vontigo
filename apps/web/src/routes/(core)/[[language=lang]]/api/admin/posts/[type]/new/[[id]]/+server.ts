@@ -15,8 +15,7 @@ import { v4 as uuidv4 } from 'uuid';
 export async function GET({ url, params, locals }) {
 	// console.log(locals.getSession());
 	const session = await locals.getSession();
-	console.log(session);
-
+	// console.log(session);
 
 	let returnRows: any;
 	await getAllRows(params, session)
