@@ -117,7 +117,7 @@ npm run dev -- --open
 
 ## Contribution
 
-Please make sure to read the [Contributing Guide](https://github.com/vontigo/vontigo/blob/main/.github/contributing.md) before making a pull request. If you have a Vontigo-related project/component/tool, add it with a pull request to [this curated list](https://github.com/vontigo/awesome-vontigo)!
+Please make sure to read the [Contributing Guide](https://github.com/Vontigo/Vontigo/blob/main/CODE_OF_CONDUCT.md) before making a pull request. If you have a Vontigo-related project/component/tool, add it with a pull request to [this curated list](https://github.com/vontigo/awesome-vontigo)!
 
 Thank you to all the people who already contributed to Vontigo!
 
