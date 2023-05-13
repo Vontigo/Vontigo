@@ -142,7 +142,7 @@
 		<div class="w-full justify-center">
 			<div class="flex flex-col w-2/4 m-auto">
 				<div class="w-full h-full m-auto text-center">No posts match the current filter</div>
-				<a href={$adminSiteUrl + '/posts'} class="btn">Show all posts</a>
+				<a href={$adminSiteUrl + '/posts/page/1'} class="btn">Show all posts</a>
 			</div>
 		</div>
 	{/if}
