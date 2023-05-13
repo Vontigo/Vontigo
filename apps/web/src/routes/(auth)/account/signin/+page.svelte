@@ -66,6 +66,7 @@
 		</div>
 	</div>
 </div>
+
 <!-- 
 <button
 	type="button"
@@ -91,3 +92,11 @@
 		alert(user);
 	}}>Login</button
 > -->
+<style lang="postcss">
+	input {
+		@apply bg-transparent;
+	}
+	input:focus-visible {
+		@apply outline-none;
+	}
+</style>
