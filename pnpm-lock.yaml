@@ -219,6 +219,9 @@ importers:
       '@tiptap/extension-character-count':
         specifier: ^2.0.3
         version: 2.0.3(@tiptap/core@2.0.3)(@tiptap/pm@2.0.3)
+      '@tiptap/extension-color':
+        specifier: ^2.0.3
+        version: 2.0.3(@tiptap/core@2.0.3)(@tiptap/extension-text-style@2.0.3)
       '@tiptap/extension-floating-menu':
         specifier: ^2.0.3
         version: 2.0.3(@tiptap/core@2.0.3)(@tiptap/pm@2.0.3)
@@ -228,6 +231,9 @@ importers:
       '@tiptap/extension-image':
         specifier: ^2.0.3
         version: 2.0.3(@tiptap/core@2.0.3)
+      '@tiptap/extension-link':
+        specifier: ^2.0.3
+        version: 2.0.3(@tiptap/core@2.0.3)(@tiptap/pm@2.0.3)
       '@tiptap/extension-placeholder':
         specifier: ^2.0.3
         version: 2.0.3(@tiptap/core@2.0.3)(@tiptap/pm@2.0.3)
@@ -1860,6 +1866,16 @@ packages:
       '@tiptap/core': 2.0.3(@tiptap/pm@2.0.3)
     dev: false
 
+  /@tiptap/extension-color@2.0.3(@tiptap/core@2.0.3)(@tiptap/extension-text-style@2.0.3):
+    resolution: {integrity: sha512-LYj3CWahhuJOy4/bwOur+cob8eky7xx7wyyBFIYELuzLcZt9hBmZwXxinQzD7BaQv4YdT+3oqr8BhChuPNj52w==}
+    peerDependencies:
+      '@tiptap/core': ^2.0.0
+      '@tiptap/extension-text-style': ^2.0.0
+    dependencies:
+      '@tiptap/core': 2.0.3(@tiptap/pm@2.0.3)
+      '@tiptap/extension-text-style': 2.0.3(@tiptap/core@2.0.3)
+    dev: false
+
   /@tiptap/extension-document@2.0.3(@tiptap/core@2.0.3):
     resolution: {integrity: sha512-PsYeNQQBYIU9ayz1R11Kv/kKNPFNIV8tApJ9pxelXjzcAhkjncNUazPN/dyho60mzo+WpsmS3ceTj/gK3bCtWA==}
     peerDependencies:
@@ -1959,6 +1975,17 @@ packages:
       '@tiptap/core': ^2.0.0
     dependencies:
       '@tiptap/core': 2.0.3(@tiptap/pm@2.0.3)
+    dev: false
+
+  /@tiptap/extension-link@2.0.3(@tiptap/core@2.0.3)(@tiptap/pm@2.0.3):
+    resolution: {integrity: sha512-H72tXQ5rkVCkAhFaf08fbEU7EBUCK0uocsqOF+4th9sOlrhfgyJtc8Jv5EXPDpxNgG5jixSqWBo0zKXQm9s9eg==}
+    peerDependencies:
+      '@tiptap/core': ^2.0.0
+      '@tiptap/pm': ^2.0.0
+    dependencies:
+      '@tiptap/core': 2.0.3(@tiptap/pm@2.0.3)
+      '@tiptap/pm': 2.0.3(@tiptap/core@2.0.3)
+      linkifyjs: 4.1.1
     dev: false
 
   /@tiptap/extension-list-item@2.0.3(@tiptap/core@2.0.3):
@@ -4397,6 +4424,10 @@ packages:
     resolution: {integrity: sha512-C7bfi1UZmoj8+PQx22XyeXCuBlokoyWQL5pWSP+EI6nzRylyThouddufc2c1NDIcP9k5agmN9fLpA7VNJfIiqw==}
     dependencies:
       uc.micro: 1.0.6
+    dev: false
+
+  /linkifyjs@4.1.1:
+    resolution: {integrity: sha512-zFN/CTVmbcVef+WaDXT63dNzzkfRBKT1j464NJQkV7iSgJU0sLBus9W0HBwnXK13/hf168pbrx/V/bjEHOXNHA==}
     dev: false
 
   /local-pkg@0.4.3:

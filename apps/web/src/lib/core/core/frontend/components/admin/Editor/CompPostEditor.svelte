@@ -19,6 +19,9 @@
 	import FloatingMenu from '@tiptap/extension-floating-menu';
 	import Placeholder from '@tiptap/extension-placeholder';
 	import TextAlign from '@tiptap/extension-text-align';
+	import TextStyle from '@tiptap/extension-text-style';
+	import { Color } from '@tiptap/extension-color';
+	import Link from '@tiptap/extension-link';
 	import { generateHTML } from '@tiptap/html';
 	import './CompEditor.css';
 	import './ProseMirror.css';
@@ -42,6 +45,8 @@
 	import { ENUM_POSTS_STATUS } from '$lib/core/shared/enum';
 	import { page } from '$app/stores';
 	import { wordsCount } from '$lib/core/shared/stores/site';
+	import IconUnlink from '$lib/icons/IconUnlink.svelte';
+	import IconLink from '$lib/icons/IconLink.svelte';
 
 	// VARIABLE DEFINE
 	export let data: any;
@@ -119,7 +124,17 @@
 				}),
 				StarterKit,
 				Image,
+				TextStyle,
+				Link.configure({
+					openOnClick: false,
+					validate: (href) => {
+						return /^https?:\/\//.test(href);
+					}
+				}),
 				CharacterCount,
+				Color.configure({
+					types: ['textStyle']
+				}),
 				Placeholder.configure({
 					placeholder: ({ node }) => {
 						// console.log(node.type);
@@ -386,6 +401,35 @@
 	}
 	let editorHeight;
 	let stickyEditorHeight;
+	const setLink = () => {
+		const previousUrl =
+			editor.getAttributes('link').href === undefined
+				? 'https://domain.com'
+				: editor.getAttributes('link').href;
+		const url = window.prompt('URL', previousUrl);
+
+		// cancelled
+		if (url === null) {
+			return;
+		}
+
+		// empty
+		if (url === '') {
+			editor.chain().focus().extendMarkRange('link').unsetLink().run();
+
+			return;
+		}
+		if (/^(https?:\/\/)?([A-Za-z\d.-]+)\.([A-Za-z.]{2,6})([\/\w .-]*)*\/?$/.test(url) == false) {
+			const t: ToastSettings = {
+				message: `Invalid link!`,
+				timeout: 2000
+			};
+			toastStore.trigger(t);
+			return;
+		}
+		// update link
+		editor.chain().focus().extendMarkRange('link').setLink({ href: url.toLowerCase() }).run();
+	};
 </script>
 
 <div id="editorElement">
@@ -498,7 +542,13 @@
 				>
 					<IconH6 fillColor={editor.isActive('heading', { level: 6 }) ? 'white' : 'white'} />
 				</button>
-				<div />
+				<input
+					type="color"
+					class="bg-transparent rounded-md text-white w-6 p-0 cursor-pointer"
+					on:input={(event) => editor.chain().focus().setColor(event.target.value).run()}
+					value={editor.getAttributes('textStyle').color}
+				/>
+				<!-- <div /> -->
 				<!-- </div> -->
 				<!-- <span class="divider-vertical mx-2 hidden md:block" /> -->
 				<!-- <div class="flex flex-row"> -->
@@ -542,6 +592,19 @@
 						fillColor={editor.isActive({ textAlign: 'justify' }) ? 'white' : 'white'}
 					/>
 				</button>
+				{#if editor.isActive('link')}
+					<button
+						on:click={() => editor.chain().focus().unsetLink().run()}
+						class="btn p-4 rounded-md text-white"
+					>
+						<IconUnlink fillColor={editor.isActive('link') ? 'white' : 'white'} />
+					</button>
+				{:else}
+					<button on:click={setLink} class="btn p-4 rounded-md text-white">
+						<IconLink fillColor={editor.isActive('link') ? 'white' : 'white'} />
+					</button>
+				{/if}
+
 				<!-- <button
 				on:click={() => editor.chain().focus().toggleBulletList().run()}
 				class="btn p-4 rounded-md {editor.isActive('bulletList') ? 'is-active' : ''}"
