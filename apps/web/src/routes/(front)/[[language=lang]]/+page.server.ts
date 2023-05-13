@@ -2,7 +2,7 @@
 // it so that it gets served as a static asset in production
 // export const prerender = true;
 import { error, redirect } from '@sveltejs/kit';
-import type { PageLoad } from './$types';
+import type { PageServerLoad } from './$types';
 
 export const load = (async ({ fetch, parent, url, params }) => {
 	//console.log(params);
@@ -19,13 +19,11 @@ export const load = (async ({ fetch, parent, url, params }) => {
 	// 	};
 	// }
 
-
-
 	const response = await fetch(`/api/content/posts/public/page/${_parent.theme.posts_per_page}/1`);
 	const posts = await response.json();
-	// console.log(posts);
-
-	return {
-		posts: await posts
-	};
-}) satisfies PageLoad;
+	console.log('fetching posts');
+	if (posts) {
+		return { posts: posts };
+	}
+	throw error(404, 'Not found');
+}) satisfies PageServerLoad;

@@ -2,7 +2,7 @@ import { writable } from 'svelte/store';
 import { CONST_AUTOSAVE_COUNTDOWN_MS } from '../const';
 
 export const origin = writable('');
-export const language = writable('');
+export const language = writable('en-us'); //default on English
 export const siteUrl = writable('');
 export const adminSiteUrl = writable('');
 

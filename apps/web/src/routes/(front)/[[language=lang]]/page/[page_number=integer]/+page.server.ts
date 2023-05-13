@@ -9,7 +9,6 @@ export const load = (async ({ fetch, parent, url, params }) => {
 	const _parent = await parent();
 	// console.log(_parent);
 
-
 	// if (!session?.user) {
 	// 	throw redirect(302, '/');
 	// }
@@ -21,7 +20,9 @@ export const load = (async ({ fetch, parent, url, params }) => {
 	// 	};
 	// }
 
-	const response = await fetch(`/api/content/posts/public/page/${_parent.theme.posts_per_page}/${params.page_number}`);
+	const response = await fetch(
+		`/api/content/posts/public/page/${_parent.theme.posts_per_page}/${params.page_number}`
+	);
 	const posts = await response.json();
 	return {
 		posts: await posts

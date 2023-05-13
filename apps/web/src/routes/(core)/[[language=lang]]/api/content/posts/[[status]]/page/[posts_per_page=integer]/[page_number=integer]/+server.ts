@@ -4,7 +4,7 @@ import { get } from 'svelte/store';
 
 /** @type {import('./$types').RequestHandler} */
 export async function GET({ url, params }) {
-	// console.log(params);
+	console.log(params);
 
 	const PAGE_SIZE = params.posts_per_page;
 
@@ -28,7 +28,8 @@ export async function GET({ url, params }) {
 			.where({ 'p.type': 'post', 'p.status': 'published', 'p.locale': get(language) })
 			.orderBy('p.published_at', 'desc');
 
-		// console.log(posts);
+		console.log('api accessing posts');
+		console.log(get(language));
 
 		const [totalRowsResult, results] = await Promise.all([countQuery, posts]);
 
@@ -48,6 +49,8 @@ export async function GET({ url, params }) {
 		);
 	} catch (error) {
 		console.error(error);
+		console.log(error);
+
 		return null;
 	}
 

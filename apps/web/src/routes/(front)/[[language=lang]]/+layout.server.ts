@@ -8,19 +8,20 @@ export const load: LayoutServerLoad = async (event) => {
 	// console.log('______LayoutServerLoad (front): ', await event.locals.getSession());
 
 	const response = await event.fetch(`/api/shared/settings/site`);
-	const settings = response.json();
+	const settings = await response.json();
 	// console.log('_______________', await settings);
+	if (settings) {
+		for (const item of settings) {
+			if (!output[item.group]) {
+				output[item.group] = {};
+			}
 
-	for (const item of await settings) {
-		if (!output[item.group]) {
-			output[item.group] = {};
+			output[item.group][item.key] = item.value;
 		}
-
-		output[item.group][item.key] = item.value;
 	}
 
 	return {
-		session: await event.locals.getSession(),
+		session: event.locals.getSession(),
 		settings: output,
 		theme: config
 	};

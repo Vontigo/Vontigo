@@ -1,11 +1,7 @@
 <script lang="ts">
 	import type { PageData } from './$types';
 	import { img_url } from '$lib/core/core/frontend/helpers/img_url';
-	import {
-		templateType,
-		site,
-		access,theme
-	} from '$lib/core/shared/stores/site';
+	import { templateType, site, access, theme } from '$lib/core/shared/stores/site';
 	import { ENUM_IMAGE_SIZE } from '$lib/core/shared/enum';
 	import IconFire from './partials/icons/IconFire.svelte';
 	import IconAvatar from './partials/icons/IconAvatar.svelte';

@@ -1,18 +1,20 @@
 <script lang="ts">
-	import type { PageData } from './$types';
+	import type { PageServerData } from './$types';
 	import { page } from '$app/stores';
 	import Index from '$lib/themes/casper/Index.svelte';
+	import { onMount } from 'svelte';
 
-	export let data: PageData;	
+	export let data: PageServerData;
+	onMount(() => {
+		if (data) console.log(data);
+	});
 </script>
 
-{#await data}
-	Loading...
-{:then data}
+{#if data.posts.items}
 	<Index
 		site={data.settings.site}
 		posts={data.posts.items}
 		pagination={data.posts.pagination}
 		theme={data.theme}
 	/>
-{/await}
+{/if}
