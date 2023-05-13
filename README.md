@@ -24,6 +24,30 @@ Our open-source platform is cost-effective, easy to use, and endlessly customiza
 
 <a href="https://www.producthunt.com/posts/vontigo?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-vontigo" target="_blank"><img src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=394092&theme=light" alt="Vontigo - 🤖&#0032;The&#0032;AI&#0045;Powered&#0044;&#0032;Full&#0045;Stack&#0032;CMS&#0032;Built&#0032;with&#0032;SvelteKit | Product Hunt" style="width: 250px; height: 54px;" width="250" height="54" /></a>
 
+## Tech stacks & services
+<picture>
+  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/Svelte_Logo.svg/640px-Svelte_Logo.svg.png" alt="sveltekit" height="50px"/></picture>
+<picture>
+  <img src="https://upload.wikimedia.org/wikipedia/commons/d/d5/Tailwind_CSS_Logo.svg" alt="tailwindcss" height="50px"/> 
+</picture>
+<picture>
+ <img alt="skeletonui" src="https://github.com/skeletonlabs/skeleton/blob/f6ae5ae2e96940b6c53dec84fc358835a373194f/static/favicon.png" height="50px">
+</picture>
+<picture>
+ <img alt="capacitorjs" src="https://ionic.io/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Flogo-capacitor.aa4b0dd5.png&w=64&q=75" height="50px">
+</picture>
+<picture>
+ <img alt="turbo" src="https://turbo.build/images/docs/repo/repo-hero-logo-dark.svg" height="50px">
+</picture>
+
+<picture>
+  <img src="https://seeklogo.com/images/O/open-ai-logo-8B9BFEDC26-seeklogo.com.png" alt="openai" height="50px"/> 
+</picture>
+<picture>
+  <img alt="BrainiacMinds.com" src="https://play-lh.googleusercontent.com/2hKdiuS26NkQCdwz6QX46EyLKEfw65PTuDt_yGMaOsDpEImZFH2-JoQLqT89KBorfEs=w480-h960-rw" height="50px">
+</picture>
+
+
 ## Quickstart install
 
 ### 1. Create GitHub fork
