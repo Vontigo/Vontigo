@@ -13,22 +13,29 @@
 	let draftPosts: any[];
 	let discussions: any[];
 	// let gaReportData:[{
-    //     date:string,
-    //     visits:number
-    // }];
-	let gaReport:any;
+	//     date:string,
+	//     visits:number
+	// }];
+	let gaReport: any;
 
 	onMount(async () => {
-		const [draftPostsRes, repoRes, releasesRes, contributorsRes, issuesRes, discussionRes, gaReportRes ] =
-			await Promise.all([
-				fetch('/api/admin/posts/post/draft/page/1'),
-				fetch('/api/admin/3rd/github/vontigo/vontigo'),
-				fetch('/api/admin/3rd/github/vontigo/vontigo/releases?per_page=3'),
-				fetch('/api/admin/3rd/github/vontigo/vontigo/contributors'),
-				fetch('/api/admin/3rd/github/vontigo/vontigo/issues'),
-				fetch('/api/admin/3rd/github/vontigo/vontigo/discussions'),
-				fetch('/api/admin/3rd/google/analytics/90')
-			]);
+		const [
+			draftPostsRes,
+			repoRes,
+			releasesRes,
+			contributorsRes,
+			issuesRes,
+			discussionRes,
+			gaReportRes
+		] = await Promise.all([
+			fetch('/api/admin/posts/post/draft/page/1'),
+			fetch('/api/admin/3rd/github/vontigo/vontigo'),
+			fetch('/api/admin/3rd/github/vontigo/vontigo/releases?per_page=3'),
+			fetch('/api/admin/3rd/github/vontigo/vontigo/contributors'),
+			fetch('/api/admin/3rd/github/vontigo/vontigo/issues'),
+			fetch('/api/admin/3rd/github/vontigo/vontigo/discussions'),
+			fetch('/api/admin/3rd/google/analytics/90')
+		]);
 
 		draftPosts = (await draftPostsRes.json()) || [];
 		repo = await repoRes.json();
@@ -37,7 +44,7 @@
 		issues = (await issuesRes.json()) || [];
 		discussions = (await discussionRes.json()) || [];
 		gaReport = (await gaReportRes.json()) || [];
-		
+
 		// gaReportData = gaReport.data.data.rows.map(row => {
 		// 	const [dateStr, pageviewsStr] = row;
 		// 	const year = dateStr.slice(0, 4);
@@ -47,7 +54,6 @@
 		// 	const visits = parseInt(pageviewsStr);
 		// 	return { date, visits };
 		// });
-		
 	});
 
 	// TODO: https://developers.google.com/analytics/devguides/reporting/core/v4/quickstart/web-js
@@ -62,7 +68,31 @@
 </AppBar>
 <div class="max-w-screen-xl mx-auto px-12 flex gap-8">
 	<div class="w-[60%] flex flex-col gap-4">
-		{#if gaReport?.data?.data?.rows.length>0}
+		{#if gaReport?.data?.data?.rows.length > 0}
+			<div class="card">
+				<header class="card-header font-medium flex gap-2 uppercase">
+					<svg
+						xmlns="http://www.w3.org/2000/svg"
+						fill="none"
+						viewBox="0 0 24 24"
+						stroke-width="1.5"
+						stroke="currentColor"
+						class="w-6 h-6"
+					>
+						<path
+							stroke-linecap="round"
+							stroke-linejoin="round"
+							d="M3.75 3v11.25A2.25 2.25 0 006 16.5h2.25M3.75 3h-1.5m1.5 0h16.5m0 0h1.5m-1.5 0v11.25A2.25 2.25 0 0118 16.5h-2.25m-7.5 0h7.5m-7.5 0l-1 3m8.5-3l1 3m0 0l.5 1.5m-.5-1.5h-9.5m0 0l-.5 1.5m.75-9l3-3 2.148 2.148A12.061 12.061 0 0116.5 7.605"
+						/>
+					</svg>
+
+					Visits
+				</header>
+				<section class="p-4">
+					<Chart data={gaReport.data.data.rows} />
+				</section>
+			</div>
+		{/if}
 		<div class="card">
 			<header class="card-header font-medium flex gap-2 uppercase">
 				<svg
@@ -76,23 +106,9 @@
 					<path
 						stroke-linecap="round"
 						stroke-linejoin="round"
-						d="M3.75 3v11.25A2.25 2.25 0 006 16.5h2.25M3.75 3h-1.5m1.5 0h16.5m0 0h1.5m-1.5 0v11.25A2.25 2.25 0 0118 16.5h-2.25m-7.5 0h7.5m-7.5 0l-1 3m8.5-3l1 3m0 0l.5 1.5m-.5-1.5h-9.5m0 0l-.5 1.5m.75-9l3-3 2.148 2.148A12.061 12.061 0 0116.5 7.605"
+						d="M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.348a1.125 1.125 0 010 1.971l-11.54 6.347a1.125 1.125 0 01-1.667-.985V5.653z"
 					/>
 				</svg>
-
-				Visits
-			</header>
-			<section class="p-4">
-			<Chart data={gaReport.data.data.rows} />
-			</section>
-		</div>
-		{/if}
-		<div class="card">
-			<header class="card-header font-medium flex gap-2 uppercase">
-				<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-  <path stroke-linecap="round" stroke-linejoin="round" d="M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.348a1.125 1.125 0 010 1.971l-11.54 6.347a1.125 1.125 0 01-1.667-.985V5.653z" />
-</svg>
-
 
 				Getting Started
 			</header>
@@ -276,12 +292,14 @@
 									class="flex gap-2 flex-auto unstyled hover:underline"
 								>
 									<div class="flex-auto">{item.title}</div>
-									<Avatar
-										src={item.author.avatarUrl}
-										action={filter}
-										actionParams="#Apollo"
-										width="w-6"
-									/>
+									<div>
+										<Avatar
+											src={item.author.avatarUrl}
+											action={filter}
+											actionParams="#Apollo"
+											width="w-6"
+										/>
+									</div>
 								</a>
 							</li>
 						{/each}
@@ -534,9 +552,7 @@
 						</a>
 					</li>
 					<li>
-						<span>
-							<Avatar src="/img/logo/ko_fi.svg" width="w-8" rounded="rounded-full" /></span
-						>
+						<span> <Avatar src="/img/logo/ko_fi.svg" width="w-8" rounded="rounded-full" /></span>
 						<a
 							href="https://ko-fi.com/vontigo"
 							target="_blank"
