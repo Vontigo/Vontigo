@@ -37,7 +37,7 @@
 			fetch('/api/admin/3rd/google/analytics/90')
 		]);
 
-		draftPosts = (await draftPostsRes.json()) || [];
+		draftPosts = draftPostsRes.json() || [];
 		repo = await repoRes.json();
 		releases = (await releasesRes.json()) || [];
 		contributors = (await contributorsRes.json()) || [];
@@ -189,62 +189,63 @@
 			</section>
 		</div>
 
-		<div class="card">
-			<header class="card-header font-medium flex gap-2 uppercase">
-				<svg
-					xmlns="http://www.w3.org/2000/svg"
-					fill="none"
-					viewBox="0 0 24 24"
-					stroke-width="1.5"
-					stroke="currentColor"
-					class="w-6 h-6"
-				>
-					<path
-						stroke-linecap="round"
-						stroke-linejoin="round"
-						d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487zm0 0L19.5 7.125"
-					/>
-				</svg>
+		{#await draftPosts}
+			<ProgressBar height={'h-1'} />
+		{:then draftPosts}
+			{#if draftPosts?.items.length}
+				<div class="card">
+					<header class="card-header font-medium flex gap-2 uppercase">
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							fill="none"
+							viewBox="0 0 24 24"
+							stroke-width="1.5"
+							stroke="currentColor"
+							class="w-6 h-6"
+						>
+							<path
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487zm0 0L19.5 7.125"
+							/>
+						</svg>
 
-				Continue your drafts
-			</header>
-			<section class="p-4">
-				<ul class="list">
-					{#if draftPosts?.items.length}
-						{#each draftPosts.items as item}
-							<li>
-								<span>
-									<svg
-										xmlns="http://www.w3.org/2000/svg"
-										fill="none"
-										viewBox="0 0 24 24"
-										stroke-width="1"
-										stroke="currentColor"
-										class="w-5 h-5"
+						Continue your drafts
+					</header>
+					<section class="p-4">
+						<ul class="list">
+							{#each draftPosts.items as item}
+								<li>
+									<span>
+										<svg
+											xmlns="http://www.w3.org/2000/svg"
+											fill="none"
+											viewBox="0 0 24 24"
+											stroke-width="1"
+											stroke="currentColor"
+											class="w-5 h-5"
+										>
+											<path
+												stroke-linecap="round"
+												stroke-linejoin="round"
+												d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"
+											/>
+										</svg>
+									</span>
+									<a
+										href={$adminSiteUrl + `/posts/post/drafts/page/1`}
+										class="flex-auto unstyled hover:underline"
 									>
-										<path
-											stroke-linecap="round"
-											stroke-linejoin="round"
-											d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"
-										/>
-									</svg>
-								</span>
-								<a
-									href={$adminSiteUrl + `/posts/post/drafts/page/1`}
-									class="flex-auto unstyled hover:underline"
-								>
-									{item.title}
-								</a>
-							</li>
-						{/each}
-					{:else}
-						<ProgressBar />
-					{/if}
-
-					<!-- ... -->
-				</ul>
-			</section>
-		</div>
+										{item.title}
+									</a>
+								</li>
+							{/each}
+							<!-- ... -->
+						</ul>
+					</section>
+				</div>
+			{/if}
+		{/await}
 
 		<div class="card">
 			<header class="card-header font-medium flex gap-2 uppercase">
@@ -269,8 +270,8 @@
 				<ul class="list">
 					{#if discussions?.data.repository.discussions.nodes.length > 0}
 						{#each discussions?.data.repository.discussions.nodes as item}
-							<li>
-								<span>
+							<li class="py-1 flex">
+								<div>
 									<svg
 										xmlns="http://www.w3.org/2000/svg"
 										fill="none"
@@ -285,13 +286,13 @@
 											d="M12 20.25c4.97 0 9-3.694 9-8.25s-4.03-8.25-9-8.25S3 7.444 3 12c0 2.104.859 4.023 2.273 5.48.432.447.74 1.04.586 1.641a4.483 4.483 0 01-.923 1.785A5.969 5.969 0 006 21c1.282 0 2.47-.402 3.445-1.087.81.22 1.668.337 2.555.337z"
 										/>
 									</svg>
-								</span>
+								</div>
 								<a
 									href={item.url}
 									target="_blank"
 									class="flex gap-2 flex-auto unstyled hover:underline"
 								>
-									<div class="flex-auto">{item.title}</div>
+									<div class="flex-auto text-inherit">{item.title}</div>
 									<div>
 										<Avatar
 											src={item.author.avatarUrl}
@@ -304,7 +305,7 @@
 							</li>
 						{/each}
 					{:else}
-						<ProgressBar />
+						<ProgressBar height={'h-1'} />
 					{/if}
 
 					<!-- ... -->
@@ -328,7 +329,11 @@
 				Vontigo
 				<div class="flex gap-4 ml-auto">
 					{#if repo?.data.watchers_count}
-						<div class="flex gap-2 ml-auto">
+						<a
+							class="flex gap-2 ml-auto unstyled"
+							href="https://github.com/Vontigo/Vontigo/watchers"
+							target="_blank"
+						>
 							<svg
 								aria-hidden="true"
 								viewBox="0 0 16 16"
@@ -342,10 +347,14 @@
 								/>
 							</svg>
 							{repo?.data.watchers_count}
-						</div>
+						</a>
 					{/if}
 					{#if repo?.data.forks_count}
-						<div class="flex gap-2 ml-auto">
+						<a
+							class="flex gap-2 ml-auto unstyled"
+							href="https://github.com/Vontigo/Vontigo/forks"
+							target="_blank"
+						>
 							<svg
 								aria-hidden="true"
 								viewBox="0 0 16 16"
@@ -359,24 +368,28 @@
 								/>
 							</svg>
 							{repo?.data.forks_count}
-						</div>
+						</a>
 					{/if}
 					{#if repo?.data.stargazers_count}
-						<div class="flex gap-2 ml-auto">
+						<a
+							class="flex gap-2 ml-auto unstyled"
+							href="https://github.com/Vontigo/Vontigo/stargazers"
+							target="_blank"
+						>
 							<svg
 								aria-hidden="true"
 								viewBox="0 0 16 16"
 								version="1.1"
 								data-view-component="true"
 								class="w-5 h-5 mt-1"
-								fill="currentColor"
+								fill="#e3b341"
 							>
 								<path
 									d="M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.751.751 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25Z"
 								/>
 							</svg>
 							{repo?.data.stargazers_count}
-						</div>
+						</a>
 					{/if}
 				</div>
 			</header>
@@ -386,7 +399,7 @@
 						{repo.data.description}
 					</div>
 				{:else}
-					<ProgressBar />
+					<ProgressBar height={'h-1'} />
 				{/if}
 			</section>
 		</div>
@@ -408,14 +421,14 @@
 				</svg>
 				Releases
 			</header>
-			<section class="p-4 flex flex-col">
+			<section class="p-4 flex flex-col gap-2">
 				{#if releases?.data.length}
 					{#each releases.data as item}
 						<div class="flex gap-2">
 							<a
 								href={item.html_url}
 								target="_blank"
-								class="unstyled hover:underline flex gap-2 font-semibold"
+								class="unstyled hover:underline flex flex-auto gap-2 font-semibold"
 							>
 								<svg
 									xmlns="http://www.w3.org/2000/svg"
@@ -434,11 +447,11 @@
 
 								{item.tag_name}
 							</a>
-							<span class="">({format(item.published_at)})</span>
+							<span class="text-xs">{format(item.published_at)}</span>
 						</div>
 					{/each}
 				{:else}
-					<ProgressBar />
+					<ProgressBar height={'h-1'} />
 				{/if}
 			</section>
 		</div>
@@ -461,6 +474,9 @@
 				Contributors
 			</header>
 			<section class="p-4 flex gap-2">
+				<!-- <a href="https://github.com/vontigo/vontigo/graphs/contributors" target="_blank">
+					<img src="https://opencollective.com/vontigo/contributors.svg?width=890" />
+				</a> -->
 				{#if contributors?.data.length}
 					{#each contributors.data as item}
 						<a href={item.html_url} target="_blank">
@@ -468,7 +484,7 @@
 						</a>
 					{/each}
 				{:else}
-					<ProgressBar />
+					<ProgressBar height={'h-1'} />
 				{/if}
 			</section>
 		</div>
