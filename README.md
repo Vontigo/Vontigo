@@ -101,7 +101,7 @@ pnpm dev
 ```bash
 cd .\apps\web\
 pnpm i
-npm run dev -- --open
+pnpm run dev -- --open
 ```
 
 > ⚠️ Incase you are not able to see the `Setup` screen. Make sure you have deleted the `./apps/web/database/vontigo.db` file.
