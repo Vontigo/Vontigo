@@ -17,7 +17,11 @@
 	/** @type {import('@svelteness/kit-docs').NavbarConfig} */
 	const navbar = {
 		//links: [{ title: 'Documentation', slug: '/docs', match: /\/docs/ }]
-		links: [{ title: 'Documentation', slug: '/', match: /\// }]
+		links: [
+			{ title: 'Documentation', slug: '/', match: /\// },
+			{ title: 'Github', slug: 'https://github.com/Vontigo/Vontigo', match: /\// },
+			{ title: 'Home', slug: 'https://vontigo.org', match: /\// }
+		]
 	};
 
 	const { activeCategory } = createSidebarContext(sidebar);
