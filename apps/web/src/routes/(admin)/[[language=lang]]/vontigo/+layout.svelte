@@ -74,7 +74,7 @@
 			>
 				<nav class="list-nav space-y-4 h-full flex flex-col">
 					<!-- (optionally you can provde a label here) -->
-					<ul class="p-2 pl-11 px-6 pt-6">
+					<ul class="p-2 pl-10 px-6 pt-6">
 						<li class="w-auto">
 							<span class="unstyled flex-auto font-bold antialiased"
 								><span class="font-black text-4xl text-primary-500">V</span>ontigo</span
