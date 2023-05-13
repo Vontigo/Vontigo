@@ -19,4 +19,4 @@
 	</Default>
 {/key}
 
-<CompAimChat />
+<!-- <CompAimChat /> -->

@@ -5,9 +5,6 @@
 	import { onMount } from 'svelte';
 
 	export let data: PageServerData;
-	onMount(() => {
-		if (data) console.log(data);
-	});
 </script>
 
 {#if data.posts.items}
