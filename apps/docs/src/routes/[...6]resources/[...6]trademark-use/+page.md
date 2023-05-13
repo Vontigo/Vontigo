@@ -1,8 +1,8 @@
 ---
-title: Page Title
+title: Trademark
 description: Page description.
 ---
 
-# {$frontmatter.title}
+# Trademark Usage Policy
 
 {$frontmatter.description}

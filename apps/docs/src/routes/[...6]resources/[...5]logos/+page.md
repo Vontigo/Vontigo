@@ -1,5 +1,5 @@
 ---
-title: Page Title
+title: Logos
 description: Page description.
 ---
 

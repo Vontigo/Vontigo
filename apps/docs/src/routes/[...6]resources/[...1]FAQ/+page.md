@@ -1,5 +1,5 @@
 ---
-title: Page Title
+title: FAQ
 description: Page description.
 ---
 

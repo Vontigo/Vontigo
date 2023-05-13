@@ -1,5 +1,5 @@
 ---
-title: Page Title
+title: Memberships
 description: Page description.
 ---
 

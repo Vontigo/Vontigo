@@ -1,8 +1,8 @@
 ---
-title: Page Title
+title: Contributing
 description: Page description.
 ---
 
-# {$frontmatter.title}
+# Contributing to Ghost
 
 {$frontmatter.description}

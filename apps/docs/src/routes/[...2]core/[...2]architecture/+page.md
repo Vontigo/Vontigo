@@ -1,5 +1,5 @@
 ---
-title: Page Title
+title: Architecture
 description: Page description.
 ---
 

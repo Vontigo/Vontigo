@@ -1,8 +1,8 @@
 ---
-title: Page Title
+title: Newsletters
 description: Page description.
 ---
 
-# {$frontmatter.title}
+# Email Newsletters
 
 {$frontmatter.description}
