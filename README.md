@@ -16,7 +16,7 @@ Investors and developers alike will appreciate Vontigo's innovative use of AI te
 - Offers a range of built-in features and customization options to meet the needs of different users and use cases.
 - Open-source codebase allows for flexibility, customization, and community contributions.
 
-At Vontigo, we're passionate about building a world-class CMS that empowers users to create and manage content with ease. Our platform draws inspiration from a range of cutting-edge technologies, including BrainiacMinds (powered by ChatGPT), SvelteKit, Capacitor, Mixcore CMS, and Ghost.
+At Vontigo, we're passionate about building a world-class CMS that empowers users to create and manage content with ease. Our platform draws inspiration from a range of cutting-edge technologies, including [BrainiacMinds](https://brainiacminds.com/) (powered by ChatGPT), SvelteKit, Capacitor, [Mixcore CMS](https://mixcore.org/), and Ghost.
 
 With Vontigo, you'll enjoy a range of powerful features, including automated content creation, personalized content delivery, predictive analytics, improved search capabilities, chatbots, and social media management.
 
@@ -46,11 +46,10 @@ We warmly invite you to discover the exciting world of Vontigo with us and kindl
   <img src="https://seeklogo.com/images/O/open-ai-logo-8B9BFEDC26-seeklogo.com.png" alt="openai" height="50px"/> 
 </picture>
 <picture>
-  <img alt="BrainiacMinds.com" src="https://play-lh.googleusercontent.com/2hKdiuS26NkQCdwz6QX46EyLKEfw65PTuDt_yGMaOsDpEImZFH2-JoQLqT89KBorfEs=w480-h960-rw" height="50px">
-</picture>
-
-<picture>
   <img alt="AuthJS" src="https://authjs.dev/img/logo/logo-sm.webp" height="50px">
+</picture>
+<picture>
+  <img alt="BrainiacMinds.com" src="https://play-lh.googleusercontent.com/2hKdiuS26NkQCdwz6QX46EyLKEfw65PTuDt_yGMaOsDpEImZFH2-JoQLqT89KBorfEs=w480-h960-rw" height="50px">
 </picture>
 
 
