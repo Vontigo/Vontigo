@@ -60,18 +60,20 @@
 		shadow: 'shadow-md',
 		regionDrawer: 'overflow-y-hidden'
 	};
-	async function chatGPT() {	
+	async function chatGPT() {
 		if ($recordPostsDataModal.title.value != `Your new post is here...`) {
 			//https://vontigo.services.brainiacminds.com/beta/sveltekit/js%20framworks/svelte
-			const aimRes = await fetch(`/api/admin/3rd/brainiacminds/${$recordPostsDataModal.title.value}`);
+			const aimRes = await fetch(
+				`/api/admin/3rd/brainiacminds/${$recordPostsDataModal.title.value}`
+			);
 
 			aimResJson = await aimRes.json();
 
-			console.log('_________1',aimResJson);
+			console.log('_________1', aimResJson);
 
 			if (aimResJson?.brainiacminds?.Choices[0]?.Message?.Content) {
-				$recordPostsDataModal.mobiledoc.value = 
-					await aimResJson?.brainiacminds?.Choices[0]?.Message?.Content;
+				$recordPostsDataModal.mobiledoc.value = await aimResJson?.brainiacminds?.Choices[0]?.Message
+					?.Content;
 
 				_compPostEditor.updateContent();
 
@@ -255,7 +257,7 @@
 		<div class="w-full flex my-60">
 			<div class="flex flex-col w-2/4 m-auto">
 				<div class="w-full h-full m-auto text-center">No posts match the current filter</div>
-				<a href={`${$adminSiteUrl}/posts/${$page.params.type}`} class="button text-center"
+				<a href={`${$adminSiteUrl}/posts/${$page.params.type}/page/1`} class="button text-center"
 					>Show all posts</a
 				>
 			</div>
@@ -509,9 +511,9 @@
 						{$wordsCount} words
 					</div>
 					<!-- {/if} -->
-					<div class="{aimResJson?.brainiacminds?.Usage?.TotalTokens ? '' : 'hidden'}">
+					<div class={aimResJson?.brainiacminds?.Usage?.TotalTokens ? '' : 'hidden'}>
 						Tokens Usage: {JSON.stringify(aimResJson?.brainiacminds.Usage.TotalTokens)}
-					/
+						/
 					</div>
 				</div>
 			</svelte:fragment>
