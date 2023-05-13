@@ -45,7 +45,7 @@
 <KitDocs {meta}>
 	<KitDocsLayout {navbar} {sidebar}>
 		<div class="logo font-semibold" slot="navbar-left">
-			<Button href="/">Vontigo</Button>
+			<Button href="/">Vontigo [WIP]</Button>
 		</div>
 		<slot />
 	</KitDocsLayout>
