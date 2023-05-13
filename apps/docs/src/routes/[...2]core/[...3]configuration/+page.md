@@ -1,5 +1,5 @@
 ---
-title: Page Title
+title: Configuration
 description: Page description.
 ---
 

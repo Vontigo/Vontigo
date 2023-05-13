@@ -1,8 +1,8 @@
 ---
-title: Page Title
+title: Overview
 description: Page description.
 ---
 
-# {$frontmatter.title}
+# Vontigo Themes
 
 {$frontmatter.description}

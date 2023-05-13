@@ -1,5 +1,5 @@
 ---
-title: Page Title
+title: Admin API
 description: Page description.
 ---
 

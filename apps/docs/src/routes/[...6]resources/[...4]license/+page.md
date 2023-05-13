@@ -1,5 +1,5 @@
 ---
-title: Page Title
+title: License
 description: Page description.
 ---
 

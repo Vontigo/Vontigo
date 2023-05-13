@@ -1,5 +1,5 @@
 ---
-title: Page Title
+title: Search
 description: Page description.
 ---
 

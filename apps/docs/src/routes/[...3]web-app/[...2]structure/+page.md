@@ -1,5 +1,5 @@
 ---
-title: Page Title
+title: Structure
 description: Page description.
 ---
 

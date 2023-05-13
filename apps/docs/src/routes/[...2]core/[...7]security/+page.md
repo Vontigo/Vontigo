@@ -1,8 +1,8 @@
 ---
-title: Page Title
+title: Security
 description: Page description.
 ---
 
-# {$frontmatter.title}
+# Ghost Security
 
 {$frontmatter.description}

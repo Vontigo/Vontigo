@@ -1,8 +1,8 @@
 ---
-title: Page Title
+title: JAMstack
 description: Page description.
 ---
 
-# {$frontmatter.title}
+# Ghost on the JAMstack
 
 {$frontmatter.description}
