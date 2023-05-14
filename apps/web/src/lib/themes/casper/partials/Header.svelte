@@ -62,7 +62,9 @@
 				{/if}
 				<span class="signedInText">
 					<small>Signed in as</small><br />
-					<strong>{$page.data.session.user?.name ?? 'User'}</strong>
+					<a data-sveltekit-reload href="/vontigo">
+						<strong>{$page.data.session.user?.name ?? 'User'}</strong>
+					</a>
 				</span>
 				<a href="#signout" on:click={() => signOut()} class="gh-head-link">Sign out</a>
 			{:else}
