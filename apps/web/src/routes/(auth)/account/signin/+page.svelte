@@ -7,7 +7,7 @@
     background: url('/bg-ai-head.gif');
     background-size: cover;"
 >
-	<div class="backdrop-blur-sm bg-white/80">
+	<div class="backdrop-blur-0 bg-white/80">
 		<div class="max-w-screen-sm ml-auto flex h-screen backdrop-blur-sm">
 			<div class="m-auto flex flex-col gap-6 w-56">
 				<h3>Hi! : )</h3>
@@ -59,7 +59,7 @@
 						<em> ⚠️ Error: {data.error} error! <br />Please try again.</em>
 					{/if}
 					<div class="text-center">
-						<a data-sveltekit-reload href="/">Back to home.</a>
+						<a data-sveltekit-reload href="/" class="unstyled">Back to home</a>
 					</div>
 				</form>
 			</div>
