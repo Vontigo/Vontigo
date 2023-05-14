@@ -14,7 +14,7 @@
 		{#each navigation as item}
 			<li class="nav-{item.label}">
 				{#if item.url == '/vontigo' || item.url == '/vontigo/'}
-					<a data-sveltekit-reload href={$siteUrl + item.url}>{item.label}</a>
+					<a data-sveltekit-reload href={$siteUrl + item.url}>Portal</a>
 				{:else}
 					<a href={$siteUrl + item.url}>{item.label}</a>
 				{/if}
