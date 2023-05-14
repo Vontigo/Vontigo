@@ -32,18 +32,23 @@ First you’ll need to make a fork of the Vontigo repository. Click on the fork 
 
 The main Ghost repository is a monorepo that using Turborepo containing the full Ghost code, including the Admin client and default theme which will also be automatically set up.
 
+First clone Ghost with submodules and make it your working dir
+
 ```bash
-# First clone Ghost with submodules and make it your working dir
 git clone --recurse-submodules git@github.com:Vontigo/Vontigo && cd Vontigo
 ```
 
 ### Properly rename your references
 
-```bash
-# Rename origin to upstream
-git remote rename origin upstream
+Rename origin to upstream
 
-# Add your fork as an origin, editing in <YourUsername>!
+```bash
+git remote rename origin upstream
+```
+
+Add your fork as an origin, editing in \<YourUsername\>!
+
+```bash
 git remote add origin git@github.com:<YourUsername>/Vontigo.git
 ```
 
@@ -52,15 +57,8 @@ git remote add origin git@github.com:<YourUsername>/Vontigo.git
 #### Run with Turborepo.
 
 ```bash
-# Only ever run this once
 pnpm i
-
-# Run Vontigo in development mode
 pnpm dev
-
-# web:dev:      ➜  Local:   https://localhost:5173/
-# mobile:dev:   ➜  Local:   http://localhost:5174/
-# docs:dev:     ➜  Local:   http://localhost:5175/
 ```
 
 > 🌐 Vontigo website is now running at `https://localhost:5173/` -
@@ -71,7 +69,7 @@ pnpm dev
 ```bash
 cd .\apps\web\
 pnpm i
-pnpm run dev -- --open
+pnpm dev -- --open
 ```
 
 ### Setup
