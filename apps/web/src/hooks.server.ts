@@ -11,15 +11,15 @@ import { AUTH_SECRET, GOOGLE_ID, GOOGLE_SECRET } from '$env/static/private';
 import fs from 'fs';
 import { redirect } from '@sveltejs/kit';
 import { dynamicDefault } from '$lib/core/core/server/helpers/settings/settings';
-import { knexInstance } from '$lib/core/core/server/data/db/connection.js';
+import { knexInstance } from '$lib/core/core/server/data/db/connection';
 import { ENUM_DATABASE_TABLE, ENUM_USER_ROLE } from '$lib/core/shared/enum';
 import { decode } from '@auth/core/jwt';
 // import { KnexAdapter } from '$lib/core/core/server/services/auth/authjs';
 
 const setup = (async ({ event, resolve }) => {
-	if (process.env.NODE_ENV === 'development') {
-		console.log('development');
+	console.log(process.env.NODE_ENV);
 
+	if (process.env.NODE_ENV === 'development') {
 		// Do something
 		const dbFilePath = 'database/vontigo.db';
 
@@ -38,8 +38,7 @@ const setup = (async ({ event, resolve }) => {
 			if (event.url.pathname.indexOf('/setup') < 0) throw redirect(303, '/setup');
 		}
 	} else {
-		console.log('production');
-		checkTableExists('settings')
+		await checkTableExists('settings')
 			.then((tableExists) => {
 				console.log(`Table exists: ${tableExists}`);
 				knexInstance.destroy();
