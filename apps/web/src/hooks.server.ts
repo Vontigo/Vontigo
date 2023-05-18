@@ -15,8 +15,11 @@ import { knexInstance } from '$lib/core/core/server/data/db/connection';
 import { ENUM_DATABASE_TABLE, ENUM_USER_ROLE } from '$lib/core/shared/enum';
 import { decode } from '@auth/core/jwt';
 // import { KnexAdapter } from '$lib/core/core/server/services/auth/authjs';
+import { globalConfig } from '$lib/core/shared/config/env/config';
 
 const setup = (async ({ event, resolve }) => {
+	console.log(globalConfig);
+
 	console.log(process.env.NODE_ENV);
 
 	if (process.env.NODE_ENV === 'development') {
