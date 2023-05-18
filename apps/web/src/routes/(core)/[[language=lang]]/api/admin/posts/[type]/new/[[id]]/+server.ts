@@ -54,6 +54,25 @@ function typeMapping(type: string) {
 	return returnType;
 }
 
+function valueMapping(type: string, value: string) {
+	let returnValue = value;
+
+	//if (!process.env.NODE_ENV === 'development') {
+	switch (type) {
+		case 'boolean':
+			returnValue = value == false ? 0 : 1;
+			break;
+		case 'timestamp without time zone':
+			const dateObj = new Date(value);
+			const formattedDateTime = dateObj.toISOString().slice(0, -5);
+			returnValue = formattedDateTime;
+			break;
+	}
+	//}
+
+	return returnValue;
+}
+
 async function getAllRows(params: any, session: any): Promise<any[] | null> {
 	const table = ENUM_DATABASE_TABLE.posts;
 	let records: any;
@@ -127,7 +146,7 @@ async function getAllRows(params: any, session: any): Promise<any[] | null> {
 				// console.log(info);
 				const tableStructure: TableStructure = Object.keys(info).map((key) => ({
 					key,
-					value: records[0][key], //valueRows[key],
+					value: valueMapping(info[key].type, records[0][key]), //valueRows[key],
 					type: typeMapping(info[key].type),
 					maxLength: info[key].maxLength,
 					nullable: info[key].nullable,
