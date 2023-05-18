@@ -45,11 +45,11 @@ const setup = (async ({ event, resolve }) => {
 		const tableExists = await _knexInstance.schema.hasTable(ENUM_DATABASE_TABLE.settings);
 
 		if (tableExists) {
-			// console.log(`Table exists: ${tableExists}`);
+			console.log(`Table exists: ${tableExists}`);
 			// knexInstance.destroy();
 			if (event.url.pathname.indexOf('/setup') > -1) throw redirect(303, '/');
 		} else {
-			// console.error(`Error checking table existence: ${error}`);
+			console.error(`Table not exists: ${tableExists}`);
 			// knexInstance.destroy();
 			if (event.url.pathname.indexOf('/setup') < 0) throw redirect(303, '/setup');
 		};
