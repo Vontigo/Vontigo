@@ -19,6 +19,7 @@ import { globalConfig } from '$lib/core/shared/config/env/config';
 import knex, { Knex } from 'knex';
 
 const setup = (async ({ event, resolve }) => {
+	console.log(globalConfig.database[process.env.NODE_ENV]);
 
 
 	if (process.env.NODE_ENV === 'development') {
