@@ -114,7 +114,7 @@ async function getAllRows(params: any, session: any): Promise<any[] | null> {
 					defaultValue: info[key].defaultValue?.toString().replace('::character varying', '').replace('\'', ''),
 					reference: foreignKeyMap[key]
 				}));
-				console.log(tableStructure);
+				// console.log(tableStructure);
 
 				row = tableStructure;
 			});

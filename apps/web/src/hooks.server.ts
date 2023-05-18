@@ -18,6 +18,8 @@ import { decode } from '@auth/core/jwt';
 
 const setup = (async ({ event, resolve }) => {
 	if (process.env.NODE_ENV === 'development') {
+		console.log('development');
+
 		// Do something
 		const dbFilePath = 'database/vontigo.db';
 
@@ -36,6 +38,7 @@ const setup = (async ({ event, resolve }) => {
 			if (event.url.pathname.indexOf('/setup') < 0) throw redirect(303, '/setup');
 		}
 	} else {
+		console.log('production');
 		checkTableExists('settings')
 			.then((tableExists) => {
 				console.log(`Table exists: ${tableExists}`);
