@@ -1,53 +1,51 @@
-/* Write your global styles here, in PostCSS syntax */
-/* @tailwind base;
-@tailwind components;
-@tailwind utilities; */
-/* body {
-	@apply bg-surface-50-900-token;
-} */
-
-/* @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100;200;300;400;500;600;700;800;900&display=swap'); */
-
 html,
 body {
 	@apply h-full overflow-hidden;
-	background-color: rgb(var(--color-surface-100));
-	/* font-family: 'Outfit', sans-serif; */
 }
 
-/* .sidebar-left {
-	background-color: rgb(var(--color-surface-100));
-} */
+body {
+	@apply bg-surface-50-900-token;
+}
+
 .page-content {
-	background-color: rgb(var(--color-surface-100));
+	background-color: rgb(var(--color-surface-50));
 }
 
 .input,
 .textarea,
 .select,
-.input-group {
+.input-group {}
+
+.card {
+	background-color: rgb(var(--color-surface-50));
 }
 
 #page-content .app-bar-row-main {
 	gap: 0;
+
 	.btn {
 		border: 0;
 	}
 }
 
 #page-content .app-bar {
-	background-color: rgb(var(--color-surface-100));
+	background-color: rgb(var(--color-surface-50));
+
 	.filter-bar {
 		button {
 			background: transparent;
 			padding: 0;
 			font-size: 0.8rem;
+
 			&:focus {
 				border: 0;
 			}
 		}
 	}
+
 }
+
+
 .sidebar-left__bottom {
 	a {
 		padding: 0.5rem;
@@ -56,7 +54,9 @@ body {
 
 .table {
 	border-radius: 0;
+
 	thead {
+
 		/* background-color: #fafafb; */
 		th {
 			font-weight: 500;
@@ -64,18 +64,23 @@ body {
 			padding-left: 0;
 		}
 	}
+
 	tbody {
 		tr {
+
 			/* background-color: #fafafb; */
 			&:nth-child(even) {
 				/* background-color: #fafafb; */
 			}
+
 			&:hover {
 				background-color: #eee;
 			}
+
 			&:hover:nth-child(even) {
 				background-color: #eee;
 			}
+
 			td {
 				padding-left: 0;
 			}
@@ -84,6 +89,7 @@ body {
 }
 
 .dark {
+
 	body,
 	#editorElement,
 	input,
@@ -103,6 +109,7 @@ body {
 		border-color: rgb(var(--color-surface-500));
 	}
 }
+
 /* .dark body,
 .dark #editorElement,
 .dark input {
@@ -122,6 +129,7 @@ body {
 }
 
 .autocomplete {
+
 	button,
 	[type='button'],
 	[type='reset'],

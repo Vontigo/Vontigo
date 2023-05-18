@@ -42,7 +42,7 @@ const setup = (async ({ event, resolve }) => {
 	} else {
 		const _knexInstance: Knex = await knex(globalConfig.database[process.env.NODE_ENV]);
 		const tableExists = await _knexInstance.schema.hasTable(ENUM_DATABASE_TABLE.settings);
-		console.log('________________', tableExists);
+
 		if (tableExists) {
 			// console.log(`Table exists: ${tableExists}`);
 			// knexInstance.destroy();

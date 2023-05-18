@@ -37,18 +37,31 @@ export async function POST({ url, params, request }) {
 	return new Response(JSON.stringify({ message: 'Setup Done!', code: 2000 }), { status: 200 });
 }
 async function initDatabase() {
-	try {
-		const dbFilePath = 'database/vontigo.blank.db';
-		const destinationPath = 'database/vontigo.db';
+	if (process.env.NODE_ENV === 'development') {
+		try {
+			const dbFilePath = 'database/vontigo.blank.db';
+			const destinationPath = 'database/vontigo.db';
 
-		fs.copyFileSync(dbFilePath, destinationPath);
+			fs.copyFileSync(dbFilePath, destinationPath);
 
-		console.log('File copied successfully!');
-		return true;
-		//updateData(setupBody);
-	} catch (err) {
-		console.error(err);
-		return false;
+			console.log('File copied successfully!');
+			return true;
+			//updateData(setupBody);
+		} catch (err) {
+			console.error(err);
+			return false;
+		}
+	} else {
+		const sqlFile = fs.readFileSync('database/migration/pg/1-create-tables.sql', 'utf8');
+		await knexInstance.raw(sqlFile)
+			.then(() => {
+				console.log('Migration complete');
+				knexInstance.destroy();
+			})
+			.catch((error) => {
+				console.error('Error during migration:', error);
+				knexInstance.destroy();
+			});
 	}
 }
 
