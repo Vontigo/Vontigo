@@ -1,5 +1,6 @@
 import { page } from '$app/stores';
 import { knexInstance } from '$lib/core/core/server/data/db/connection';
+import { typeMapping, valueMapping } from '$lib/core/core/server/helpers/database/dbHelper';
 import { ENUM_DATABASE_TABLE, ENUM_POSTS_STATUS, ENUM_POST_TYPE } from '$lib/core/shared/enum.js';
 import { language } from '$lib/core/shared/stores/site';
 import type {
@@ -32,46 +33,6 @@ export async function GET({ url, params, locals }) {
 	return new Response(JSON.stringify(returnRows), { status: 200 });
 }
 
-function mapForeignKey(json: ForeignKey): Record<string, ForeignKey> {
-	const { from, ...rest } = json;
-	return { [from]: { ...rest, from } };
-}
-
-function typeMapping(type: string) {
-	let returnType = type;
-
-	//if (!process.env.NODE_ENV === 'development') {
-	switch (type) {
-		case 'character varying':
-			returnType = 'varchar';
-			break;
-		case 'timestamp without time zone':
-			returnType = 'datetime';
-			break;
-	}
-	//}
-
-	return returnType;
-}
-
-function valueMapping(type: string, value: string) {
-	let returnValue = value;
-
-	//if (!process.env.NODE_ENV === 'development') {
-	switch (type) {
-		case 'boolean':
-			returnValue = value == false ? 0 : 1;
-			break;
-		case 'timestamp without time zone':
-			const dateObj = new Date(value);
-			const formattedDateTime = dateObj.toISOString().slice(0, -5);
-			returnValue = formattedDateTime;
-			break;
-	}
-	//}
-
-	return returnValue;
-}
 
 async function getAllRows(params: any, session: any): Promise<any[] | null> {
 	const table = ENUM_DATABASE_TABLE.posts;
@@ -107,7 +68,7 @@ async function getAllRows(params: any, session: any): Promise<any[] | null> {
 		let foreignKeyMap: any[];
 
 		if (process.env.NODE_ENV === 'development') {
-			console.log('development');
+			// console.log('development');
 
 			await knexInstance.raw(`PRAGMA foreign_key_list(${table});`).then(function (info) {
 				// console.log(info);
@@ -117,7 +78,7 @@ async function getAllRows(params: any, session: any): Promise<any[] | null> {
 				}, {});
 			});
 		} else {
-			console.log('production');
+			// console.log('production');
 
 			await knexInstance.raw(`SELECT conname AS "constraint_name",
                                conrelid::regclass AS "table_name",
@@ -135,7 +96,7 @@ async function getAllRows(params: any, session: any): Promise<any[] | null> {
 						result[obj.column_indexes[0]] = obj;
 						return result;
 					}, {});
-					console.log(foreignKeyMap);
+					// console.log(foreignKeyMap);
 				});
 		}
 
