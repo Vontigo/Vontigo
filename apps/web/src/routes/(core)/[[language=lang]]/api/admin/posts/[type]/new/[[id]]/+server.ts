@@ -37,6 +37,23 @@ function mapForeignKey(json: ForeignKey): Record<string, ForeignKey> {
 	return { [from]: { ...rest, from } };
 }
 
+function typeMapping(type: string) {
+	let returnType = type;
+
+	//if (!process.env.NODE_ENV === 'development') {
+	switch (type) {
+		case 'character varying':
+			returnType = 'varchar';
+			break;
+		case 'timestamp without time zone':
+			returnType = 'datetime';
+			break;
+	}
+	//}
+
+	return returnType;
+}
+
 async function getAllRows(params: any, session: any): Promise<any[] | null> {
 	const table = ENUM_DATABASE_TABLE.posts;
 	let records: any;
@@ -69,16 +86,39 @@ async function getAllRows(params: any, session: any): Promise<any[] | null> {
 		// console.log(records);
 
 		let foreignKeyMap: any[];
-		// console.log(await knexInstance.raw('PRAGMA table_info(users);'));
-		await knexInstance.raw(`PRAGMA foreign_key_list(${table});`).then(function (info) {
-			// foreignKeyMap = info.map(mapForeignKey);
-			// console.log(foreignKeyMap.find(key => key.from === 'created_by'));
-			foreignKeyMap = info.reduce((result, obj) => {
-				result[obj.from] = obj;
-				return result;
-			}, {});
-			// console.log(foreignKeyMap['created_by']);
-		});
+
+		if (process.env.NODE_ENV === 'development') {
+			console.log('development');
+
+			await knexInstance.raw(`PRAGMA foreign_key_list(${table});`).then(function (info) {
+				// console.log(info);
+				foreignKeyMap = info.reduce((result, obj) => {
+					result[obj.from] = obj;
+					return result;
+				}, {});
+			});
+		} else {
+			console.log('production');
+
+			await knexInstance.raw(`SELECT conname AS "constraint_name",
+                               conrelid::regclass AS "table_name",
+                               conkey AS "column_indexes",
+                               confrelid::regclass AS "referenced_table_name",
+                               confkey AS "referenced_column_indexes",
+                               confdeltype AS "on_delete",
+                               confupdtype AS "on_update"
+                        FROM pg_constraint
+                        WHERE confrelid = '${table}'::regclass;`)
+				.then(function (info) {
+					// console.log(info);
+
+					foreignKeyMap = info.rows.reduce((result, obj) => {
+						result[obj.column_indexes[0]] = obj;
+						return result;
+					}, {});
+					console.log(foreignKeyMap);
+				});
+		}
 
 		let row: any;
 		await knexInstance(table)
@@ -88,13 +128,13 @@ async function getAllRows(params: any, session: any): Promise<any[] | null> {
 				const tableStructure: TableStructure = Object.keys(info).map((key) => ({
 					key,
 					value: records[0][key], //valueRows[key],
-					type: info[key].type,
+					type: typeMapping(info[key].type),
 					maxLength: info[key].maxLength,
 					nullable: info[key].nullable,
-					defaultValue: info[key].defaultValue,
+					defaultValue: info[key].defaultValue?.toString().replace('::character varying', '').replace('\'', ''),
 					reference: foreignKeyMap[key]
 				}));
-				// console.log(tableStructure);
+				console.log(tableStructure);
 
 				row = tableStructure;
 			});

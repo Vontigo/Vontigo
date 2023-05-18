@@ -18,7 +18,6 @@ import { decode } from '@auth/core/jwt';
 
 const setup = (async ({ event, resolve }) => {
 	// Do something
-	// console.log(event.url);
 	const dbFilePath = 'database/vontigo.db';
 
 	let isDbExist = false;
@@ -29,18 +28,6 @@ const setup = (async ({ event, resolve }) => {
 		// console.log('File does not exist.');
 		isDbExist = false;
 	}
-	// try {
-	// 	// Check if the file exists
-	// 	await fs.promises.access(dbFilePath);
-
-	// 	// File exists
-	// 	console.log('Database file exists!');
-	// 	isDbExist = true;
-	// } catch (error) {
-	// 	// File doesn't exist
-	// 	console.error('Database file does not exist!', error);
-	// 	isDbExist = false;
-	// }
 
 	if (isDbExist) {
 		if (event.url.pathname.indexOf('/setup') > -1) throw redirect(303, '/');

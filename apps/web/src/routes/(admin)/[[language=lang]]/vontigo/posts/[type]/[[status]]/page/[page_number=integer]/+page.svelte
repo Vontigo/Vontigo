@@ -103,6 +103,8 @@
 		generatingContent = false;
 		const resPostsSchema = await fetch(`/api/admin/posts/${$page.params.type}/new/${id}`);
 		const dataPostsSchema = await resPostsSchema.json();
+		console.log(dataPostsSchema);
+		
 		dataPostsSchema.forEach((value, key) => {
 			$recordPostsDataModal[value.key] = value;
 		});

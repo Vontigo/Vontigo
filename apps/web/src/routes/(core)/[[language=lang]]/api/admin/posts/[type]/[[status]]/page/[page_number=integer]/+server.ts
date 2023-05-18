@@ -32,8 +32,7 @@ async function getAllRows(params: any): Promise<any[] | null> {
 				'p.visibility': 'public'
 			})
 			.where('p.status', params.status != 'undefined' ? '=' : '<>', params.status)
-			.where({ 'p.locale': get(language) })
-			.orderBy('updated_at', 'desc');
+			.where({ 'p.locale': get(language) });
 
 		const rows: any[] = await knexInstance
 			.limit(PAGE_SIZE)
@@ -64,7 +63,7 @@ async function getAllRows(params: any): Promise<any[] | null> {
 			})
 			.where('p.status', params.status != 'undefined' ? '=' : '<>', params.status)
 			.where({ 'p.locale': get(language) })
-			.orderBy('updated_at', 'desc');
+			.orderBy('p.updated_at', 'desc');
 
 		const [totalRowsResult, results] = await Promise.all([countQuery, rows]);
 
