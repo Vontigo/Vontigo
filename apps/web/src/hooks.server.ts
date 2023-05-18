@@ -18,7 +18,7 @@ import { decode } from '@auth/core/jwt';
 import { globalConfig } from '$lib/core/shared/config/env/config';
 
 const setup = (async ({ event, resolve }) => {
-	console.log(globalConfig);
+	console.log(globalConfig.database.production.connection);
 
 	console.log(process.env.NODE_ENV);
 
