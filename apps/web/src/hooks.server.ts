@@ -17,22 +17,36 @@ import { decode } from '@auth/core/jwt';
 // import { KnexAdapter } from '$lib/core/core/server/services/auth/authjs';
 
 const setup = (async ({ event, resolve }) => {
-	// Do something
-	const dbFilePath = 'database/vontigo.db';
+	if (process.env.NODE_ENV === 'development') {
+		// Do something
+		const dbFilePath = 'database/vontigo.db';
 
-	let isDbExist = false;
-	if (fs.existsSync(dbFilePath)) {
-		// console.log('File exists!');
-		isDbExist = true;
-	} else {
-		// console.log('File does not exist.');
-		isDbExist = false;
-	}
+		let isDbExist = false;
+		if (fs.existsSync(dbFilePath)) {
+			// console.log('File exists!');
+			isDbExist = true;
+		} else {
+			// console.log('File does not exist.');
+			isDbExist = false;
+		}
 
-	if (isDbExist) {
-		if (event.url.pathname.indexOf('/setup') > -1) throw redirect(303, '/');
+		if (isDbExist) {
+			if (event.url.pathname.indexOf('/setup') > -1) throw redirect(303, '/');
+		} else {
+			if (event.url.pathname.indexOf('/setup') < 0) throw redirect(303, '/setup');
+		}
 	} else {
-		if (event.url.pathname.indexOf('/setup') < 0) throw redirect(303, '/setup');
+		checkTableExists('settings')
+			.then((tableExists) => {
+				console.log(`Table exists: ${tableExists}`);
+				knexInstance.destroy();
+				if (event.url.pathname.indexOf('/setup') > -1) throw redirect(303, '/');
+			})
+			.catch((error) => {
+				console.error(`Error checking table existence: ${error}`);
+				knexInstance.destroy();
+				if (event.url.pathname.indexOf('/setup') < 0) throw redirect(303, '/setup');
+			});
 	}
 
 	return await resolve(event);
@@ -153,6 +167,11 @@ const api = (async ({ event, resolve }) => {
 }) satisfies Handle;
 
 export const handle = sequence(setup, auth, api);
+
+async function checkTableExists(tableName) {
+	const tableExists = await knexInstance.schema.hasTable(tableName);
+	return tableExists;
+}
 
 // const secondHandle = (async ({ event, resolve }) => {
 // 	const response = await resolve(event);
