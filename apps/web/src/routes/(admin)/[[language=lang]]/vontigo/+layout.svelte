@@ -25,11 +25,11 @@
 	import IconContent from '$lib/icons/IconContent.svelte';
 	import Icon3BottomLeft from '$lib/icons/Icon3BottomLeft.svelte';
 	import IconTag from '$lib/icons/IconTag.svelte';
-	import IconUsers from '$lib/icons/IconUsers.svelte';
+	// import IconUsers from '$lib/icons/IconUsers.svelte';
 
 	import { computePosition, autoUpdate, flip, shift, offset, arrow } from '@floating-ui/dom';
 	import { storePopup, type PopupSettings } from '@skeletonlabs/skeleton';
-	import IconDatabase from '$lib/icons/IconDatabase.svelte';
+	// import IconDatabase from '$lib/icons/IconDatabase.svelte';
 	import CompGravatar from '$lib/core/core/frontend/components/shared/CompGravatar/CompGravatar.svelte';
 
 	import { fade } from 'svelte/transition';
