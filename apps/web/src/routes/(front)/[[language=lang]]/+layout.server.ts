@@ -9,6 +9,7 @@ export const load: LayoutServerLoad = async (event) => {
 
 	const response = await event.fetch(`/api/shared/settings/site`);
 	const settings = await response.json();
+
 	// console.log('_______________', await settings);
 	if (settings) {
 		for (const item of settings) {

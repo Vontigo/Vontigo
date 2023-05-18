@@ -11,41 +11,47 @@ import { AUTH_SECRET, GOOGLE_ID, GOOGLE_SECRET } from '$env/static/private';
 import fs from 'fs';
 import { redirect } from '@sveltejs/kit';
 import { dynamicDefault } from '$lib/core/core/server/helpers/settings/settings';
-import { knexInstance } from '$lib/core/core/server/data/db/connection.js';
+import { knexInstance } from '$lib/core/core/server/data/db/connection';
 import { ENUM_DATABASE_TABLE, ENUM_USER_ROLE } from '$lib/core/shared/enum';
 import { decode } from '@auth/core/jwt';
 // import { KnexAdapter } from '$lib/core/core/server/services/auth/authjs';
+import { globalConfig } from '$lib/core/shared/config/env/config';
 
 const setup = (async ({ event, resolve }) => {
-	// Do something
-	// console.log(event.url);
-	const dbFilePath = 'database/vontigo.db';
+	console.log(globalConfig);
 
-	let isDbExist = false;
-	if (fs.existsSync(dbFilePath)) {
-		// console.log('File exists!');
-		isDbExist = true;
+	console.log(process.env.NODE_ENV);
+
+	if (process.env.NODE_ENV === 'development') {
+		// Do something
+		const dbFilePath = 'database/vontigo.db';
+
+		let isDbExist = false;
+		if (fs.existsSync(dbFilePath)) {
+			// console.log('File exists!');
+			isDbExist = true;
+		} else {
+			// console.log('File does not exist.');
+			isDbExist = false;
+		}
+
+		if (isDbExist) {
+			if (event.url.pathname.indexOf('/setup') > -1) throw redirect(303, '/');
+		} else {
+			if (event.url.pathname.indexOf('/setup') < 0) throw redirect(303, '/setup');
+		}
 	} else {
-		// console.log('File does not exist.');
-		isDbExist = false;
-	}
-	// try {
-	// 	// Check if the file exists
-	// 	await fs.promises.access(dbFilePath);
-
-	// 	// File exists
-	// 	console.log('Database file exists!');
-	// 	isDbExist = true;
-	// } catch (error) {
-	// 	// File doesn't exist
-	// 	console.error('Database file does not exist!', error);
-	// 	isDbExist = false;
-	// }
-
-	if (isDbExist) {
-		if (event.url.pathname.indexOf('/setup') > -1) throw redirect(303, '/');
-	} else {
-		if (event.url.pathname.indexOf('/setup') < 0) throw redirect(303, '/setup');
+		await checkTableExists('settings')
+			.then((tableExists) => {
+				console.log(`Table exists: ${tableExists}`);
+				knexInstance.destroy();
+				if (event.url.pathname.indexOf('/setup') > -1) throw redirect(303, '/');
+			})
+			.catch((error) => {
+				console.error(`Error checking table existence: ${error}`);
+				knexInstance.destroy();
+				if (event.url.pathname.indexOf('/setup') < 0) throw redirect(303, '/setup');
+			});
 	}
 
 	return await resolve(event);
@@ -166,6 +172,11 @@ const api = (async ({ event, resolve }) => {
 }) satisfies Handle;
 
 export const handle = sequence(setup, auth, api);
+
+async function checkTableExists(tableName) {
+	const tableExists = await knexInstance.schema.hasTable(tableName);
+	return tableExists;
+}
 
 // const secondHandle = (async ({ event, resolve }) => {
 // 	const response = await resolve(event);

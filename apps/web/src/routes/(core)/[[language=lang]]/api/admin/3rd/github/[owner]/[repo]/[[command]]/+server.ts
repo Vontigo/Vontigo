@@ -19,7 +19,7 @@ export const GET = (async ({ url, params }) => {
 		}
 	);
 
-	// console.log(resRepo.data);
+	console.log(resRepo.data);
 	if (resRepo.data) {
 		return new Response(JSON.stringify({ data: resRepo.data }), { status: 200 });
 	}
