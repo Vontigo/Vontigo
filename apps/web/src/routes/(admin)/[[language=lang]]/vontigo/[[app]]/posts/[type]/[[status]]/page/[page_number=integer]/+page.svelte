@@ -9,7 +9,14 @@
 	import Icon3BottomLeft from '$lib/icons/Icon3BottomLeft.svelte';
 	import IconArrowDown from '$lib/icons/IconArrowDown.svelte';
 	import IconPlusSmall from '$lib/icons/IconPlusSmall.svelte';
-	import { AppBar, AppShell, ProgressRadial, modalStore, toastStore } from '@skeletonlabs/skeleton';
+	import {
+		AppBar,
+		AppShell,
+		Avatar,
+		ProgressRadial,
+		modalStore,
+		toastStore
+	} from '@skeletonlabs/skeleton';
 	import { Drawer, drawerStore } from '@skeletonlabs/skeleton';
 	import type { DrawerSettings } from '@skeletonlabs/skeleton';
 	import type { PageData } from './$types';
@@ -24,13 +31,14 @@
 	import RecordCreate from '$lib/core/core/frontend/components/admin/Database/RecordCreate.svelte';
 	import AutoResizableTextarea from '$lib/core/core/frontend/components/admin/Editor/components/AutoResizableTextarea.svelte';
 	import CompPostEditor from '$lib/core/core/frontend/components/admin/Editor/CompPostEditor.svelte';
-	import { ENUM_DATABASE_TABLE } from '$lib/core/shared/enum';
+	import { ENUM_DATABASE_TABLE, ENUM_IMAGE_SIZE } from '$lib/core/shared/enum';
 	import ObjectID from 'bson-objectid';
 	import { onMount } from 'svelte';
 	import CompTagsInput from '$lib/core/core/frontend/components/admin/TagsInput/CompTagsInput.svelte';
 	import CompAuthorsInput from '$lib/core/core/frontend/components/admin/TagsInput/CompAuthorsInput.svelte';
 	import { fade } from 'svelte/transition';
 	import Pagination from '$lib/core/core/frontend/helpers/components/Pagination.svelte';
+	import { img_url } from '$lib/core/core/frontend/helpers/img_url';
 
 	export let data: PageData;
 
@@ -137,7 +145,7 @@
 		<Icon3BottomLeft />
 	</svelte:fragment> -->
 	<ol class="breadcrumb">
-		<li class="crumb"><h2 class="text-xl font-bold py-1">Posts</h2></li>
+		<li class="crumb"><h2 class="text-xl font-bold py-1 capitalize">{$page.params.type}s</h2></li>
 		<li class="crumb-separator" aria-hidden>&rsaquo;</li>
 		<li class="crumb font-bold capitalize">{$page.params.status || 'all status'}</li>
 	</ol>
@@ -184,11 +192,12 @@
 			<ol class="posts-list v-list flex flex-col">
 				<li class="v-list-row header grid grid-cols-4 uppercase text-xs border-b">
 					<div class="v-list-header v-posts-title-header w-full p-2 ps-0 col-span-3">Title</div>
+					<!-- <div class="v-list-header v-posts-status-header p-2 text-end" /> -->
 					<div class="v-list-header v-posts-status-header p-2 text-end">Status</div>
 				</li>
 				{#each data.posts.items as row, i}
 					<li
-						class="v-list-row v-posts-list-item grid grid-cols-4 border-b hover:bg-secondary-500/20 {i ==
+						class="v-list-row v-posts-list-item grid grid-cols-5 border-b hover:bg-secondary-500/20 {i ==
 						data.posts.length - 1
 							? ' border-b'
 							: ''}"
@@ -216,7 +225,22 @@
 								</span>
 							</p>
 						</a>
-
+						<a
+							href="#"
+							class="ember-view permalink v-list-data v-post-list-title w-full m-auto w-full"
+							on:click={() => {
+								openDrawer(row.id);
+							}}
+						>
+							{#if row?.feature_image}
+								<Avatar
+									src={img_url(row?.feature_image, ENUM_IMAGE_SIZE.XS)}
+									width="w-12"
+									rounded="rounded"
+								/>
+								<!-- <img src={img_url(row?.feature_image, ENUM_IMAGE_SIZE.XS)} /> -->
+							{/if}
+						</a>
 						<a
 							href="#"
 							class="ember-view permalink v-list-data v-post-list-status px-2 py-6 my-auto"
