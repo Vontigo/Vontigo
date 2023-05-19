@@ -16,13 +16,13 @@
 </script>
 
 {#key $page.url}
-	{#if !$navigating}
+	{#if $navigating}
 		<!-- <div class="barloader" transition:fade>
 			<Jumper />
 		</div> -->
 
 		<div class="loading" transition:fade>
-			<div class="loading-bg" />
+			<div class="loading-bg" style="background-color:{$page.data.settings.site.accent_color};" />
 			<div class="m-auto">
 				<!-- <ProgressRadial ... stroke={180} meter="stroke-primary-500" track="stroke-primary-500/30" /> -->
 				<Jumper />
@@ -50,7 +50,7 @@
 			position: absolute;
 			height: 100%;
 			width: 100%;
-			background-color: #fff;
+			// background-color: #fff;
 
 			opacity: 75%;
 		}
