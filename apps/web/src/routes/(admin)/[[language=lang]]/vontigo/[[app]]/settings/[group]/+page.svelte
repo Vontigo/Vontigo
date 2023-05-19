@@ -15,7 +15,7 @@
 	import { Drawer, drawerStore } from '@skeletonlabs/skeleton';
 	import type { DrawerSettings } from '@skeletonlabs/skeleton';
 	import type { PageData } from './$types';
-	import { adminSiteUrl, isEditorOpen } from '$lib/core/shared/stores/site';
+	import { STORE_ADMIN_SITE_URL, isEditorOpen } from '$lib/core/shared/stores/site';
 	import type { Readable } from 'svelte/store';
 	import { onMount } from 'svelte';
 	export let data: PageData;
@@ -132,7 +132,7 @@
 	</svelte:fragment> -->
 	<!-- <h2 class="text-xl font-bold">Settings</h2>
 	<span class="uppercase text-sm font-semibold"
-		><a href={$adminSiteUrl + `/settings`}>All</a> > {$page.params.group || ''}</span
+		><a href={$STORE_ADMIN_SITE_URL + `/settings`}>All</a> > {$page.params.group || ''}</span
 	>
 	 -->
 	<ol class="breadcrumb">

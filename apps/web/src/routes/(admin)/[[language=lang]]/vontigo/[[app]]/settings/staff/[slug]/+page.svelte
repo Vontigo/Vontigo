@@ -9,7 +9,7 @@
 	import { Drawer, drawerStore } from '@skeletonlabs/skeleton';
 	import type { DrawerSettings } from '@skeletonlabs/skeleton';
 	import type { PageData } from './$types';
-	import { adminSiteUrl, recordUsersDataModal } from '$lib/core/shared/stores/site';
+	import { STORE_ADMIN_SITE_URL, recordUsersDataModal } from '$lib/core/shared/stores/site';
 	import type { ReferenceStructure, TableStructure } from '$lib/core/shared/types';
 	import { onMount } from 'svelte';
 	import RecordDetail from '$lib/core/core/frontend/components/admin/Database/RecordDetail.svelte';
@@ -33,7 +33,7 @@
 		<li class="crumb"><h2 class="text-xl font-bold mb-1">User</h2></li>
 		<li class="crumb-separator" aria-hidden>&rsaquo;</li>
 		<li class="crumb font-bold capitalize">
-			<a href={$adminSiteUrl + `/settings/staff/${$page.params.visibility}`}>All users</a>
+			<a href={$STORE_ADMIN_SITE_URL + `/settings/staff/${$page.params.visibility}`}>All users</a>
 		</li>
 		<li class="crumb-separator" aria-hidden>&rsaquo;</li>
 		<li class="crumb font-bold capitalize">{$page.params.slug || ''}</li>

@@ -9,7 +9,7 @@
 	import { Drawer, drawerStore } from '@skeletonlabs/skeleton';
 	import type { DrawerSettings } from '@skeletonlabs/skeleton';
 	import type { PageData } from './$types';
-	import { adminSiteUrl, isEditorOpen } from '$lib/core/shared/stores/site';
+	import { STORE_ADMIN_SITE_URL, isEditorOpen } from '$lib/core/shared/stores/site';
 	import type { ReferenceStructure, TableStructure } from '$lib/core/shared/types';
 	export let data: PageData;
 	let selectedPost: any;

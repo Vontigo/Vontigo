@@ -1,5 +1,5 @@
 <script>
-	import { adminSiteUrl } from '$lib/core/shared/stores/site';
+	import { STORE_ADMIN_SITE_URL } from '$lib/core/shared/stores/site';
 	import IconPlusSmall from '$lib/icons/IconPlusSmall.svelte';
 	import { AppBar } from '@skeletonlabs/skeleton';
 </script>
@@ -10,7 +10,7 @@
 	</svelte:fragment> -->
 	<h2 class="text-xl font-bold">Settings</h2>
 	<!-- <span class="uppercase text-sm font-semibold"
-		><a href={$adminSiteUrl + `/settings`}>All</a> > {$page.params.group || ''}</span
+		><a href={$STORE_ADMIN_SITE_URL + `/settings`}>All</a> > {$page.params.group || ''}</span
 	> -->
 	<svelte:fragment slot="trail">
 		<!-- <div class="w-full "> -->
@@ -73,7 +73,7 @@
 					</span>
 					<span class="flex-auto">
 						<dt class="font-semibold">
-							<a href={$adminSiteUrl + `/settings/site`} class="unstyled">General</a>
+							<a href={$STORE_ADMIN_SITE_URL + `/settings/site`} class="unstyled">General</a>
 						</dt>
 						<dd class="text-sm">Basic publication details and site metadata</dd>
 					</span>
@@ -100,7 +100,7 @@
 					</span>
 					<span class="flex-auto">
 						<dt class="font-semibold">
-							<a href={$adminSiteUrl + `/settings/staff`} class="unstyled">Staff</a>
+							<a href={$STORE_ADMIN_SITE_URL + `/settings/staff`} class="unstyled">Staff</a>
 						</dt>
 						<dd class="text-sm">Manage authors, editor and collaborators</dd>
 					</span>
@@ -119,7 +119,9 @@
 					</span>
 					<span class="flex-auto">
 						<dt class="font-semibold">
-							<a href={$adminSiteUrl + `/settings/brainiacminds`} class="unstyled">BrainiacMinds</a>
+							<a href={$STORE_ADMIN_SITE_URL + `/settings/brainiacminds`} class="unstyled"
+								>BrainiacMinds</a
+							>
 						</dt>
 						<dd class="text-sm">ChatGPT service for content auto generation</dd>
 					</span>
@@ -133,7 +135,7 @@
 					</span>
 					<span class="flex-auto">
 						<dt class="font-semibold">
-							<a href={$adminSiteUrl + `/settings/google`} class="unstyled">Google</a>
+							<a href={$STORE_ADMIN_SITE_URL + `/settings/google`} class="unstyled">Google</a>
 						</dt>
 						<dd class="text-sm">Google services for analytics and keys management</dd>
 					</span>

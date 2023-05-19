@@ -13,7 +13,7 @@
 	import { Drawer, drawerStore } from '@skeletonlabs/skeleton';
 	import type { DrawerSettings } from '@skeletonlabs/skeleton';
 	import type { PageData } from './$types';
-	import { adminSiteUrl, isEditorOpen } from '$lib/core/shared/stores/site';
+	import { STORE_ADMIN_SITE_URL, isEditorOpen } from '$lib/core/shared/stores/site';
 	import { goto } from '$app/navigation';
 	export let data: PageData;
 	let selectedPost: any;
@@ -116,7 +116,7 @@
 								<td
 									class="cursor-pointer"
 									on:click={() => {
-										goto($adminSiteUrl + `/members/${row.id}`);
+										goto($STORE_ADMIN_SITE_URL + `/members/${row.id}`);
 									}}
 								>
 									<div class="flex gap-4">
@@ -157,7 +157,7 @@
 		<div class="w-full justify-center">
 			<div class="flex flex-col w-2/4 m-auto">
 				<div class="w-full h-full m-auto text-center">No posts match the current filter</div>
-				<a href={$adminSiteUrl + '/posts/page/1'} class="btn">Show all posts</a>
+				<a href={$STORE_ADMIN_SITE_URL + '/posts/page/1'} class="btn">Show all posts</a>
 			</div>
 		</div>
 	{/if}
