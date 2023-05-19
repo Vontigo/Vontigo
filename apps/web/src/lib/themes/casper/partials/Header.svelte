@@ -38,9 +38,9 @@
 
 			{#if !$site.members_enabled}
 				{#if $theme.custom.navigation_layout.default == 'Stacked'}
-					<button class="gh-search gh-icon-btn" aria-label="Search this site" data-ghost-search
-						><IconSearch /></button
-					>
+					<button class="gh-search gh-icon-btn" aria-label="Search this site" data-ghost-search>
+						<IconSearch />
+					</button>
 				{/if}
 			{/if}
 		</nav>
@@ -54,8 +54,9 @@
 					</div> -->
 					<div
 						class="gh-user-avatar relative"
-						style="background-image: url({$page.data.session.user
-							.image}); width:40px; height:40px; background-size: 40px; border-radius: 9999px;"
+						style="background-image: url(
+							{$page.data.session.user.image}
+							); width:40px; height:40px; background-size: 40px; border-radius: 9999px;"
 					>
 						<span class="absolute dib ba b--white br-100 gh-whats-new-badge-account" />
 					</div>
