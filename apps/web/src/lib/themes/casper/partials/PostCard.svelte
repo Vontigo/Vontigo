@@ -113,14 +113,14 @@ which templates loop over to generate a list of posts. -->
 		</a>
 
 		<footer class="post-card-meta">
-			<time class="post-card-meta-date" datetime={post.published_at}
-				>{new Date(post.published_at).toLocaleDateString($language, {
+			<time class="post-card-meta-date" datetime={post.published_at}>
+				{new Date(post.published_at).toLocaleDateString($language, {
 					weekday: 'long',
 					year: 'numeric',
 					month: 'short',
 					day: 'numeric'
-				})}</time
-			>
+				})}
+			</time>
 			<!-- {#if post.reading_time} -->
 			<span class="post-card-meta-length">{readingTime(post?.html)}</span>
 			<!-- {/if} -->
