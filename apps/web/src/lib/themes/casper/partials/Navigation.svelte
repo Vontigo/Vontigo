@@ -15,6 +15,8 @@
 			<li class="nav-{item.label}">
 				{#if item.url == '/vontigo' || item.url == '/vontigo/'}
 					<a data-sveltekit-reload href={$siteUrl + item.url}>Portal</a>
+				{:else if item.url.indexOf('http') > -1}
+					<a href={item.url} target="_blank">{item.label}</a>
 				{:else}
 					<a href={$siteUrl + item.url}>{item.label}</a>
 				{/if}
