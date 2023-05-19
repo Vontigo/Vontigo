@@ -111,7 +111,7 @@ into the {body} tag of the default.hbs template -->
                     {img_url(post.feature_image, ENUM_IMAGE_SIZE.L)} 1000w,
                     {img_url(post.feature_image, ENUM_IMAGE_SIZE.XL)} 2000w"
 							sizes="(min-width: 1400px) 1400px, 92vw"
-							src={img_url(post.feature_image, ENUM_IMAGE_SIZE.XL)}
+							src={img_url(post.feature_image, ENUM_IMAGE_SIZE.S)}
 							loading="lazy"
 						/>
 						{#if post.feature_image_caption}
