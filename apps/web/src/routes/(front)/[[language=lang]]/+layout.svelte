@@ -16,7 +16,7 @@
 </script>
 
 {#key $page.url}
-	{#if $navigating}
+	{#if !$navigating}
 		<!-- <div class="barloader" transition:fade>
 			<Jumper />
 		</div> -->
@@ -50,9 +50,9 @@
 			position: absolute;
 			height: 100%;
 			width: 100%;
-			background-color: #000;
+			background-color: #fff;
 
-			opacity: 0.5;
+			opacity: 1;
 		}
 	}
 	.barloader {
