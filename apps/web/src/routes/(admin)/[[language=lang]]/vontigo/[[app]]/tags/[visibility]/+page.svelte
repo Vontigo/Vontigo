@@ -13,7 +13,7 @@
 	import { Drawer, drawerStore } from '@skeletonlabs/skeleton';
 	import type { DrawerSettings } from '@skeletonlabs/skeleton';
 	import type { PageData } from '../[type]/[slug]/$types';
-	import { adminSiteUrl, isEditorOpen } from '$lib/core/shared/stores/site';
+	import { STORE_ADMIN_SITE_URL, isEditorOpen } from '$lib/core/shared/stores/site';
 	import { goto } from '$app/navigation';
 	import ObjectID from 'bson-objectid';
 
@@ -109,7 +109,9 @@
 								const resJson = await response.json();
 								if (resJson.row) {
 									drawerStore.close();
-									goto($adminSiteUrl + `/tags/${$page.params.visibility}/${resJson.row.slug}`);
+									goto(
+										$STORE_ADMIN_SITE_URL + `/tags/${$page.params.visibility}/${resJson.row.slug}`
+									);
 								}
 							}}
 						>
@@ -163,7 +165,7 @@
 							: ''}"
 					>
 						<a
-							href={$adminSiteUrl + `/tags/${$page.params.visibility}/${row.slug}`}
+							href={$STORE_ADMIN_SITE_URL + `/tags/${$page.params.visibility}/${row.slug}`}
 							class="ember-view permalink v-list-data v-post-list-title w-full py-4 col-span-3 w-full"
 						>
 							<h3
@@ -173,14 +175,14 @@
 							</h3>
 						</a>
 						<a
-							href={$adminSiteUrl + `/tags/${$page.params.visibility}/${row.slug}`}
+							href={$STORE_ADMIN_SITE_URL + `/tags/${$page.params.visibility}/${row.slug}`}
 							class="ember-view permalink v-list-data v-post-list-title w-full py-4 w-full text-sm tracking-wide font-light"
 						>
 							{row.slug}
 						</a>
 
 						<a
-							href={$adminSiteUrl + `/tags/${$page.params.visibility}/${row.slug}`}
+							href={$STORE_ADMIN_SITE_URL + `/tags/${$page.params.visibility}/${row.slug}`}
 							class="ember-view permalink v-list-data v-post-list-status px-2 py-4"
 							on:click={() => {
 								selectedPost = row;

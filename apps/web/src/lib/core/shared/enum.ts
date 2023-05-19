@@ -48,5 +48,12 @@ export enum ENUM_POSTS_STATUS {
 }
 export enum ENUM_POST_TYPE {
 	post = 'post',
-	page = 'page'
+	page = 'page',
+	product = 'product'
+}
+
+export enum ENUM_APP_TYPE {
+	website = 'website',
+	base = 'base',
+	ecommerce = 'ecommerce'
 }

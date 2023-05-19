@@ -2,7 +2,7 @@
 	import { AppBar, AppShell, Avatar, ProgressBar, filter } from '@skeletonlabs/skeleton';
 	import { page } from '$app/stores';
 	import { onMount } from 'svelte';
-	import { adminSiteUrl } from '$lib/core/shared/stores/site';
+	import { STORE_ADMIN_SITE_URL } from '$lib/core/shared/stores/site';
 	import { format } from 'timeago.js';
 	import Chart from './Chart.svelte';
 	import { abbrNum } from '$lib/core/shared/utils/format/numberUtils';
@@ -132,7 +132,10 @@
 								/>
 							</svg>
 						</span>
-						<a href={$adminSiteUrl + `/settings/site`} class="flex-auto unstyled hover:underline">
+						<a
+							href={$STORE_ADMIN_SITE_URL + `/settings/site`}
+							class="flex-auto unstyled hover:underline"
+						>
 							Config your site
 						</a>
 					</li>
@@ -157,7 +160,7 @@
 							</svg>
 						</span>
 						<a
-							href={$adminSiteUrl + `/settings/brainiacminds`}
+							href={$STORE_ADMIN_SITE_URL + `/settings/brainiacminds`}
 							class="flex-auto unstyled hover:underline"
 						>
 							Add your OpenAI key
@@ -181,7 +184,7 @@
 							</svg>
 						</span>
 						<a
-							href={$adminSiteUrl + '/posts/post/page/1'}
+							href={$STORE_ADMIN_SITE_URL + '/posts/post/page/1'}
 							class="flex-auto unstyled hover:underline">Write your first post</a
 						>
 					</li>
@@ -235,7 +238,7 @@
 										</svg>
 									</span>
 									<a
-										href={$adminSiteUrl + `/posts/post/drafts/page/1`}
+										href={$STORE_ADMIN_SITE_URL + `/posts/post/drafts/page/1`}
 										class="flex-auto unstyled hover:underline"
 									>
 										{item.title}

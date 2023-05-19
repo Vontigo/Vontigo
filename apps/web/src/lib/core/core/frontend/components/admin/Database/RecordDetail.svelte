@@ -9,7 +9,7 @@
 	import { Drawer, drawerStore } from '@skeletonlabs/skeleton';
 	import type { DrawerSettings } from '@skeletonlabs/skeleton';
 	import type { PageData } from './$types';
-	import { adminSiteUrl, isEditorOpen } from '$lib/core/shared/stores/site';
+	import { STORE_ADMIN_SITE_URL, isEditorOpen } from '$lib/core/shared/stores/site';
 	import type { ReferenceStructure, TableStructure } from '$lib/core/shared/types';
 	import { onMount } from 'svelte';
 	import { tables } from '$lib/core/core/server/data/schema/schema';
@@ -190,7 +190,7 @@
 						</h3>
 					</div>
 					<div
-						href={$adminSiteUrl + `/tags/${$page.params.visibility}/${row.slug}`}
+						href={$STORE_ADMIN_SITE_URL + `/tags/${$page.params.visibility}/${row.slug}`}
 						class="ember-view permalink v-list-data v-post-list-title py-4 w-full tracking-wide col-span-3"
 					>
 						{#if row.reference}

@@ -21,7 +21,7 @@
 	import type { DrawerSettings } from '@skeletonlabs/skeleton';
 	import type { PageData } from './$types';
 	import {
-		adminSiteUrl,
+		STORE_ADMIN_SITE_URL,
 		autoSaveCountDown,
 		isEditorOpen,
 		recordPostsDataModal,
@@ -227,7 +227,7 @@
 						</a>
 						<a
 							href="#"
-							class="ember-view permalink v-list-data v-post-list-title w-full m-auto w-full"
+							class="ember-view permalink v-list-data v-post-list-title w-full m-auto grid justify-items-end w-full"
 							on:click={() => {
 								openDrawer(row.id);
 							}}
@@ -283,8 +283,9 @@
 		<div class="w-full flex my-60">
 			<div class="flex flex-col w-2/4 m-auto">
 				<div class="w-full h-full m-auto text-center">No posts match the current filter</div>
-				<a href={`${$adminSiteUrl}/posts/${$page.params.type}/page/1`} class="button text-center"
-					>Show all posts</a
+				<a
+					href={`${$STORE_ADMIN_SITE_URL}/posts/${$page.params.type}/page/1`}
+					class="button text-center">Show all posts</a
 				>
 			</div>
 		</div>

@@ -22,7 +22,7 @@
 		language,
 		origin,
 		siteUrl,
-		adminSiteUrl,
+		STORE_ADMIN_SITE_URL,
 		isSignedIn
 	} from '$lib/core/shared/stores/site';
 	import IconHome from '$lib/icons/IconHome.svelte';
@@ -44,7 +44,9 @@
 
 	if ($page.params) {
 		language.set($page.params.language ? $page.params.language : PUBLIC_DEFAULT_LANG);
-		adminSiteUrl.set($page.params.language ? '/' + $page.params.language + '/vontigo' : '/vontigo');
+		STORE_ADMIN_SITE_URL.set(
+			$page.params.language ? '/' + $page.params.language + '/vontigo' : '/vontigo'
+		);
 	}
 
 	$: classesActive = (href: string) =>

@@ -9,7 +9,7 @@
 	import { Drawer, drawerStore } from '@skeletonlabs/skeleton';
 	import type { DrawerSettings } from '@skeletonlabs/skeleton';
 	import type { PageData } from './$types';
-	import { adminSiteUrl, isEditorOpen } from '$lib/core/shared/stores/site';
+	import { STORE_ADMIN_SITE_URL, isEditorOpen } from '$lib/core/shared/stores/site';
 	import type { ReferenceStructure, TableStructure } from '$lib/core/shared/types';
 	import { onMount } from 'svelte';
 	import RecordDetail from '$lib/core/core/frontend/components/admin/Database/RecordDetail.svelte';
@@ -23,8 +23,8 @@
 		</svelte:fragment> -->
 		<h2 class="text-xl font-bold">Member</h2>
 		<span class="uppercase text-sm font-semibold"
-			><a href={$adminSiteUrl + `/tags/${$page.params.visibility}`}>All members</a> > {$page.params
-				.id || ''}</span
+			><a href={$STORE_ADMIN_SITE_URL + `/tags/${$page.params.visibility}`}>All members</a> > {$page
+				.params.id || ''}</span
 		>
 		<svelte:fragment slot="trail">
 			<!-- <div class="w-full "> -->

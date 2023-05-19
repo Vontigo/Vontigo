@@ -1,10 +1,13 @@
 import { writable } from 'svelte/store';
 import { CONST_AUTOSAVE_COUNTDOWN_MS } from '../const';
+import { ENUM_APP_TYPE } from '../enum';
 
 export const origin = writable('');
 export const language = writable('en-us'); //default on English
 export const siteUrl = writable('');
-export const adminSiteUrl = writable('');
+
+export const STORE_ADMIN_SITE_URL = writable('');
+export const STORE_ADMIN_APP_TYPE = writable(ENUM_APP_TYPE.website);
 
 export const isEditorOpen = writable(false);
 // Setting | site

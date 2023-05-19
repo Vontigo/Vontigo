@@ -14,7 +14,7 @@
 	import { Drawer, drawerStore } from '@skeletonlabs/skeleton';
 	import type { DrawerSettings } from '@skeletonlabs/skeleton';
 	import type { PageData } from '../$types';
-	import { adminSiteUrl, isEditorOpen } from '$lib/core/shared/stores/site';
+	import { STORE_ADMIN_SITE_URL, isEditorOpen } from '$lib/core/shared/stores/site';
 	export let data: PageData;
 	let selectedPost: any;
 	let keysJson: string[];
@@ -121,7 +121,7 @@
 							<td
 								class="cursor-pointer"
 								on:click={() => {
-									goto($adminSiteUrl + `/settings/${row.group}`);
+									goto($STORE_ADMIN_SITE_URL + `/settings/${row.group}`);
 								}}
 							>
 								<p class="unstyled text-sm font-medium antialiased tracking-wide uppercase">

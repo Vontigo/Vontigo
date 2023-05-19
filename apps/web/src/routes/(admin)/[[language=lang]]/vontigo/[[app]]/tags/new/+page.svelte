@@ -1,6 +1,6 @@
 <script>
 	import RecordCreate from '$lib/core/core/frontend/components/admin/Database/RecordCreate.svelte';
-	import { adminSiteUrl } from '$lib/core/shared/stores/site';
+	import { STORE_ADMIN_SITE_URL } from '$lib/core/shared/stores/site';
 	import IconPlusSmall from '$lib/icons/IconPlusSmall.svelte';
 
 	import { AppBar } from '@skeletonlabs/skeleton';
@@ -20,7 +20,7 @@
 					type="button"
 					class="btn btn-sm variant-filled rounded"
 					on:click={() => {
-						goto($adminSiteUrl + `/tags/new`);
+						goto($STORE_ADMIN_SITE_URL + `/tags/new`);
 					}}
 				>
 					<span><IconPlusSmall /></span>
