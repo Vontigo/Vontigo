@@ -40,8 +40,9 @@
 
 <style lang="scss" global>
 	.loading {
-		position: absolute;
-		height: 100%;
+		position: fixed;
+		// height: 100%;
+		height: 100vh;
 		width: 100%;
 		z-index: 9999;
 		display: flex;
@@ -52,7 +53,7 @@
 			width: 100%;
 			// background-color: #fff;
 
-			opacity: 75%;
+			opacity: 90%;
 		}
 	}
 	.barloader {
