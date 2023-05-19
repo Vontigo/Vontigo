@@ -1,13 +1,14 @@
 <script lang="ts">
 	import type { PageData } from './$types';
 	import { img_url } from '$lib/core/core/frontend/helpers/img_url';
-	import { templateType, site, access, theme } from '$lib/core/shared/stores/site';
+	import { templateType, site, access, theme, language } from '$lib/core/shared/stores/site';
 	import { ENUM_IMAGE_SIZE } from '$lib/core/shared/enum';
 	import IconFire from './partials/icons/IconFire.svelte';
 	import IconAvatar from './partials/icons/IconAvatar.svelte';
 	import { post_class } from '$lib/core/core/frontend/helpers/postClass';
 	import { MetaTags } from 'svelte-meta-tags';
 	import { page } from '$app/stores';
+	import { readingTime } from '$lib/core/core/frontend/helpers/readingTime';
 
 	$templateType = 'post';
 	export let data: PageData;
@@ -131,37 +132,48 @@
 
 				<div class="article-byline">
 					<section class="article-byline-content">
-						<ul class="author-list">
-							{#each authors as author}
-								<li class="author-list-item">
-									{#if author.profile_image}
-										<a href={`/author/` + author.slug} class="author-avatar">
-											<img
-												class="author-profile-image"
-												src={author.profile_image}
-												alt={author.name}
-											/>
-										</a>
-									{:else}
-										<a href={`url`} class="author-avatar author-profile-image">
-											<IconAvatar />
-										</a>
-									{/if}
-								</li>
-							{/each}
-						</ul>
+						<!-- {JSON.stringify(authors)} -->
 						{#if authors.length > 0}
-							<div class="article-byline-meta">
-								<h4 class="author-name">{authors[0].name}</h4>
-								<div class="byline-meta-content">
-									<time class="byline-meta-date" datetime={post.published_at}
-										>{post.published_at}</time
-									>
-									{#if post.reading_time}
-										<span class="byline-reading-time"
-											><span class="bull">&bull;</span> {post.reading_time}</span
-										>
+							<ul class="author-list">
+								{#each authors as author}
+									{#if author.id}
+										<li class="author-list-item">
+											{#if author.profile_image}
+												<a href={`/author/` + author.slug} class="author-avatar">
+													<img
+														class="author-profile-image"
+														src={author.profile_image}
+														alt={author.name}
+													/>
+												</a>
+											{:else}
+												<a href={`url`} class="author-avatar author-profile-image">
+													<IconAvatar />
+												</a>
+											{/if}
+										</li>
 									{/if}
+								{/each}
+							</ul>
+							<div class="article-byline-meta">
+								{#if authors[0].id}
+									<h4 class="author-name">{authors[0].name}</h4>
+								{/if}
+								<div class="byline-meta-content">
+									<time class="byline-meta-date" datetime={post.published_at}>
+										{new Date(post.published_at).toLocaleDateString($language, {
+											weekday: 'long',
+											year: 'numeric',
+											month: 'short',
+											day: 'numeric'
+										})}
+									</time>
+									<!-- {#if post.reading_time} -->
+									<span class="byline-reading-time">
+										<span class="bull">&bull;</span>
+										{readingTime(post?.html)}
+									</span>
+									<!-- {/if} -->
 								</div>
 							</div>
 						{/if}
@@ -180,7 +192,7 @@
                     {img_url(post.feature_image, ENUM_IMAGE_SIZE.L)} 1000w,
                     {img_url(post.feature_image, ENUM_IMAGE_SIZE.XL)} 2000w"
 								sizes="(min-width: 1400px) 1400px, 92vw"
-								src={img_url(post.feature_image, ENUM_IMAGE_SIZE.XL)}
+								src={img_url(post.feature_image, ENUM_IMAGE_SIZE.S)}
 								loading="lazy"
 							/>
 							{#if post.feature_image_caption}

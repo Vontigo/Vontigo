@@ -99,7 +99,7 @@ into the {body} tag of the default.hbs template -->
 	<main id="site-main" class="site-main">
 		<article class="article {`post_class`}">
 			<header class="article-header gh-canvas">
-				<h1 class="article-title">{post.title}</h1>
+				<h1 class="article-title">Product: {post.title}</h1>
 
 				{#if post.feature_image}
 					<figure class="article-image">

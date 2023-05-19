@@ -17,7 +17,7 @@
 	import type { DrawerSettings } from '@skeletonlabs/skeleton';
 	import type { PageData } from './$types';
 	import {
-		adminSiteUrl,
+		STORE_ADMIN_SITE_URL,
 		autoSaveCountDown,
 		isEditorOpen,
 		recordPostsDataModal
@@ -315,7 +315,7 @@
 						<!-- </div> -->
 					</div>
 					<div
-						href={$adminSiteUrl + `/tags/${$page.params.visibility}/${dataModal[key].slug}`}
+						href={$STORE_ADMIN_SITE_URL + `/tags/${$page.params.visibility}/${dataModal[key].slug}`}
 						class="ember-view permalink v-list-data v-post-list-title w-full tracking-wide col-span-3 pt-2 pb-4"
 					>
 						{#if dataModal[key].reference && dataModal[key].value}
