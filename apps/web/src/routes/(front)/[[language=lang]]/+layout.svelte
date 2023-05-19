@@ -14,6 +14,10 @@
 	$theme = $page.data.theme;
 </script>
 
+<svelte:head>
+	{@html $page.data.settings.site.codeinjection_head}
+</svelte:head>
+
 {#key $page.url}
 	{#if $navigating}
 		<div class="barloader">
@@ -24,6 +28,8 @@
 		<slot />
 	</Default>
 {/key}
+
+{@html $page.data.settings.site.codeinjection_foot}
 
 <!-- <CompAimChat /> -->
 
