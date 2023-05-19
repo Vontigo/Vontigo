@@ -80,9 +80,13 @@ git remote add origin git@github.com:<YourUsername>/Vontigo.git
 
 ### 4. Run setup & installation
 
-#### 4.1 Run with Turborepo.
+#### 4.1 Run with [Turborepo](https://turbo.build/repo/docs/installing).
+Turbo is an incremental bundler and build system optimized for JavaScript and TypeScript, written in Rust.
 
 ```bash
+# Only ever run this once
+pnpm install turbo --global
+
 # Only ever run this once
 pnpm i
 
