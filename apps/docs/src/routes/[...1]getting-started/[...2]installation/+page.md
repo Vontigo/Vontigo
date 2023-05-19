@@ -58,6 +58,8 @@ git remote add origin git@github.com:<YourUsername>/Vontigo.git
 
 Turbo is an incremental bundler and build system optimized for JavaScript and TypeScript, written in Rust.
 
+> ⚠️ Rename `.env.example` to `.env`.
+
 ```bash
 pnpm i turbo --global
 pnpm i
