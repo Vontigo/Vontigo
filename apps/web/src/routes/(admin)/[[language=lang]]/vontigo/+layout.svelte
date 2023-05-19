@@ -9,9 +9,17 @@
 
 	import { signOut } from '@auth/sveltekit/client';
 
-	import { AppShell, Avatar, ProgressRadial, Toast, filter, popup } from '@skeletonlabs/skeleton';
+	import {
+		AppShell,
+		Avatar,
+		ProgressBar,
+		ProgressRadial,
+		Toast,
+		filter,
+		popup
+	} from '@skeletonlabs/skeleton';
 	import { LightSwitch } from '@skeletonlabs/skeleton';
-	import { page } from '$app/stores';
+	import { page, navigating } from '$app/stores';
 	import { PUBLIC_DEFAULT_LANG } from '$env/static/public';
 	import {
 		language,
@@ -64,15 +72,6 @@
 		$page.url.pathname.indexOf(href) > -1 ? '!bg-primary-500 text-white' : '';
 </script>
 
-<!-- <div class="app">
-	<main>
-		<slot />
-	</main>
-
-	<footer>
-		<p>visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to learn SvelteKit</p>
-	</footer>
-</div> -->
 {#if visible}
 	<div transition:fade class="h-full w-full">
 		<AppShell regionPage="relative" slotPageHeader="sticky top-0 z-10 ">
@@ -344,7 +343,13 @@
 		<AppBar class="text-3xl font-bold">Dashboard</AppBar>
 	</svelte:fragment> -->
 			<!-- Router Slot -->
-			<slot />
+
+			{#if $navigating}
+				<ProgressBar height={'h-1'} class="absolute top-0 w-full z-20" />
+			{:else}
+				<slot />
+			{/if}
+
 			<!-- ---- / ---- -->
 			<!-- <svelte:fragment slot="pageFooter">Page Footer</svelte:fragment> -->
 			<!-- <svelte:fragment slot="footer">Footer</svelte:fragment> -->
