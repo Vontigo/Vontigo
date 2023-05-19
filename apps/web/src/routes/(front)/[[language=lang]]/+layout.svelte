@@ -16,7 +16,7 @@
 </script>
 
 {#key $page.url}
-	{#if !$navigating}
+	{#if $navigating}
 		<!-- <div class="barloader" transition:fade>
 			<Jumper />
 		</div> -->
