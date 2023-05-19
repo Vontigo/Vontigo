@@ -391,10 +391,10 @@
 		</AppShell>
 	</div>
 {:else}
-	<div class="w-full h-full flex">
+	<div class="loading w-full h-full flex">
 		<div class="m-auto">
 			<!-- <ProgressRadial ... stroke={180} meter="stroke-primary-500" track="stroke-primary-500/30" /> -->
-			<svg class="h-20" viewBox="0 0 579 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+			<svg class="logo h-20" viewBox="0 0 579 500" fill="none" xmlns="http://www.w3.org/2000/svg">
 				<path
 					d="M145.062 0H0L289.106 500L578.212 0H433.15L289.106 249.119L145.062 0Z"
 					fill="#FF0000"
@@ -404,3 +404,6 @@
 	</div>
 {/if}
 <Toast position={'tr'} width={'max-w-[350px]'} />
+
+<style lang="scss">
+</style>
