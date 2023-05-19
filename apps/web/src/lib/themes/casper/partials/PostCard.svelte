@@ -62,7 +62,7 @@ which templates loop over to generate a list of posts. -->
                     {img_url(post.feature_image, ENUM_IMAGE_SIZE.L)} 1000w,
                     {img_url(post.feature_image, ENUM_IMAGE_SIZE.XL)} 2000w"
 				sizes="(max-width: 1000px) 400px, 800px"
-				src={img_url(post.feature_image, ENUM_IMAGE_SIZE.M)}
+				src={img_url(post.feature_image, ENUM_IMAGE_SIZE.S)}
 				alt={post.title}
 				loading="lazy"
 			/>
