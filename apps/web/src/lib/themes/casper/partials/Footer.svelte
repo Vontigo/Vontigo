@@ -1,5 +1,6 @@
 <script lang="ts">
-	import { site } from '$lib/core/shared/stores/site';
+	// import { site } from '$lib/core/shared/stores/site';
+	import { page } from '$app/stores';
 	import Navigation from './Navigation.svelte';
 </script>
 
@@ -7,7 +8,7 @@
 <footer class="site-footer outer">
 	<div class="inner">
 		<section class="copyright">
-			<a href={$site.url}>{$site.title}</a> &copy; {new Date().getFullYear()}
+			<a href={$page.url.origin}>{$page.data.settings.site.title}</a> &copy; {new Date().getFullYear()}
 		</section>
 		<nav class="site-footer-nav">
 			<Navigation type={'secondary'} />
