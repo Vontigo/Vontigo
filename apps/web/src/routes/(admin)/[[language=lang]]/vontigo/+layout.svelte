@@ -44,6 +44,7 @@
 	import { fade } from 'svelte/transition';
 	import { onMount } from 'svelte';
 	import { ENUM_APP_TYPE, ENUM_POST_TYPE } from '$lib/core/shared/enum';
+	import IconPost from '$lib/icons/IconPost.svelte';
 
 	let visible = false;
 	$STORE_ADMIN_APP_TYPE = ENUM_APP_TYPE[$page.params.app || ENUM_APP_TYPE.website];
@@ -76,7 +77,9 @@
 	}
 
 	$: classesActive = (href: string) =>
-		$page.url.pathname.indexOf(href) > -1 ? '!bg-primary-500 text-white' : '';
+		$page.url.pathname.indexOf(href) > -1
+			? '!bg-primary-500/10 text-primary-500'
+			: 'hover:!bg-primary-500/20 hover:text-primary-500'; //'text-primary-500 font-bold' : ''; //'!bg-primary-500 text-white' : '';
 </script>
 
 {#if visible}
@@ -92,7 +95,7 @@
 						<nav class="list-nav space-y-4 h-full flex flex-col">
 							<!-- (optionally you can provde a label here) -->
 							<ul class="p-2 pl-10 px-6 pt-6">
-								<li class="w-auto py-2">
+								<li class="w-auto py-2 text-primary-500">
 									<!-- <span class="unstyled flex-auto font-bold antialiased"
 										><span class="font-black text-4xl text-primary-500">V</span>ontigo</span
 									> -->
@@ -104,7 +107,7 @@
 									>
 										<path
 											d="M51.9324 4.75H0L103.5 183.75L207 4.75H155.068L103.5 93.9346L51.9324 4.75Z"
-											fill="#FF0000"
+											fill="currentColor"
 										/>
 										<path
 											d="M244.25 96.25C244.25 125.385 264.22 149 293.75 149C323.019 149 343 125.017 343 96.25C343 67.7934 323.833 43.5 293.75 43.5C263.691 43.5 244.25 67.7652 244.25 96.25ZM199.5 96.25C199.5 71.4177 208.449 47.5935 226.5 30.25C244.372 13.0789 269.22 4.75 293.75 4.75C318.296 4.75 343.112 13.0637 361 30.25C378.955 47.501 387.75 71.59 387.75 96.25C387.75 120.921 379.053 145.546 361.25 163C343.354 180.896 318.769 189.25 293.75 189.25C268.508 189.25 243.959 180.852 225.75 163C208.008 145.258 199.5 121.101 199.5 96.25Z"
@@ -139,7 +142,7 @@
 										class={classesActive($STORE_ADMIN_SITE_URL + '/dashboard')}
 										href={$STORE_ADMIN_SITE_URL + '/dashboard'}
 									>
-										<IconHome />
+										<span class="text-base-500/50"> <IconHome /></span>
 										<span class="flex-auto text-base">Dashboard</span>
 									</a>
 								</li>
@@ -156,14 +159,14 @@
 											xmlns="http://www.w3.org/2000/svg"
 											fill="none"
 											viewBox="0 0 24 24"
-											stroke-width="2"
+											stroke-width="1"
 											stroke="currentColor"
-											class="w-6 h-5"
+											class="w-6 h-6"
 										>
 											<path
 												stroke-linecap="round"
 												stroke-linejoin="round"
-												d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"
+												d="M12.75 3.03v.568c0 .334.148.65.405.864l1.068.89c.442.369.535 1.01.216 1.49l-.51.766a2.25 2.25 0 01-1.161.886l-.143.048a1.107 1.107 0 00-.57 1.664c.369.555.169 1.307-.427 1.605L9 13.125l.423 1.059a.956.956 0 01-1.652.928l-.679-.906a1.125 1.125 0 00-1.906.172L4.5 15.75l-.612.153M12.75 3.031a9 9 0 00-8.862 12.872M12.75 3.031a9 9 0 016.69 14.036m0 0l-.177-.529A2.25 2.25 0 0017.128 15H16.5l-.324-.324a1.453 1.453 0 00-2.328.377l-.036.073a1.586 1.586 0 01-.982.816l-.99.282c-.55.157-.894.702-.8 1.267l.073.438c.08.474.49.821.97.821.846 0 1.598.542 1.865 1.345l.215.643m5.276-3.67a9.012 9.012 0 01-5.276 3.67m0 0a9 9 0 01-10.275-4.835M15.75 9c0 .896-.393 1.7-1.016 2.25"
 											/>
 										</svg>
 									</a>
@@ -179,7 +182,7 @@
 													class={classesActive(`${$STORE_ADMIN_SITE_URL}/posts/post/page`)}
 													href={`${$STORE_ADMIN_SITE_URL}/posts/post/page/1`}
 												>
-													<Icon3BottomLeft />
+													<IconPost />
 													<span class="flex-auto text-base">Posts</span>
 												</a>
 												<ul class="py-2">
@@ -190,7 +193,7 @@
 															)}
 															href={$STORE_ADMIN_SITE_URL + '/posts/post/drafts/page/1'}
 														>
-															<span class="pl-10 flex-auto text-sm">Drafts</span>
+															<span class="pl-10 flex-auto text-base">Drafts</span>
 														</a>
 													</li>
 													<li class="w-auto">
@@ -201,7 +204,7 @@
 															href={$STORE_ADMIN_SITE_URL + '/posts/post/scheduled/page/1'}
 														>
 															<!-- <span class="badge bg-primary-500 w-10 h-10 bg-none">LOGO</span> -->
-															<span class="pl-10 flex-auto text-sm">Scheduled</span>
+															<span class="pl-10 flex-auto text-base">Scheduled</span>
 														</a>
 													</li>
 													<li class="w-auto">
@@ -212,7 +215,7 @@
 															href={$STORE_ADMIN_SITE_URL + '/posts/post/published/page/1'}
 														>
 															<!-- <span class="badge bg-primary-500 w-10 h-10 bg-none">LOGO</span> -->
-															<span class="pl-10 flex-auto text-sm">Published</span>
+															<span class="pl-10 flex-auto text-base">Published</span>
 														</a>
 													</li>
 												</ul>
