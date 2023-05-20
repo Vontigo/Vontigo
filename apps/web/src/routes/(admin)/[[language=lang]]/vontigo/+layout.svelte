@@ -417,10 +417,14 @@
 			<!-- Router Slot -->
 
 			{#if $navigating}
-				<ProgressBar height={'h-1'} class="absolute top-0 w-full z-20" />
-			{:else}
-				<slot />
+				<ProgressBar
+					height={'h-1'}
+					class="absolute top-0 w-full z-20"
+					meter=" bg-primary-500"
+					rounded="rounded-0"
+				/>
 			{/if}
+			<slot />
 
 			<!-- ---- / ---- -->
 			<!-- <svelte:fragment slot="pageFooter">Page Footer</svelte:fragment> -->
