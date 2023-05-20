@@ -146,7 +146,7 @@
 		const resDataJson = await resData.json();
 		if (resDataJson.row) {
 			const t: ToastSettings = {
-				message: `New value for [ ${field.toUpperCase()} ] setting saved!`,
+				message: `New value for <strong>${field}</strong> setting saved!`,
 				timeout: 2000,
 				background: 'variant-filled-success'
 			};

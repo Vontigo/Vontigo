@@ -558,7 +558,7 @@
 							Open Collective
 						</a>
 					</li>
-					<li>
+					<!-- <li>
 						<span>
 							<Avatar src="/img/logo/thelinuxfoundation.jpg" width="w-8" rounded="rounded-full" />
 						</span>
@@ -569,7 +569,7 @@
 						>
 							The Linux Foundation
 						</a>
-					</li>
+					</li> -->
 					<li>
 						<span>
 							<Avatar src="/img/logo/patreon.png" width="w-8" rounded="rounded-full" />
