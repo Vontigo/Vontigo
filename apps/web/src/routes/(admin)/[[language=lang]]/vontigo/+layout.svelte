@@ -444,7 +444,7 @@
 		</div>
 	</div>
 {/if}
-<Toast position={'tr'} width={'max-w-[350px]'} />
+<Toast position={'tr'} width={'max-w-[350px]'} buttonDismiss="hidden" />
 
 <style lang="scss">
 </style>
