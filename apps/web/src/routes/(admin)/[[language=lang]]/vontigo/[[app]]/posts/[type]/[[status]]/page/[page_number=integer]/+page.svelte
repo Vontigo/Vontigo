@@ -56,18 +56,6 @@
 
 	onMount(async () => {});
 
-	// if (data && data.posts) keysJson = Object.keys(data.posts[0]);
-
-	const createPageDrawer: DrawerSettings = {
-		id: 'postEditorDrawer',
-		position: 'right',
-		width: 'w-full lg:w-[100%]',
-		height: 'h-full',
-		// padding: 'p-4',
-		// rounded: 'rounded',
-		shadow: 'shadow-md',
-		regionDrawer: 'overflow-y-hidden'
-	};
 	async function chatGPT() {
 		if ($recordPostsDataModal.title.value != `Your new post is here...`) {
 			//https://vontigo.services.brainiacminds.com/beta/sveltekit/js%20framworks/svelte
@@ -107,24 +95,42 @@
 			generatingContent = false;
 		}
 	}
+
+	let isDrawerDataReady: boolean = false;
+
+	const createPageDrawer: DrawerSettings = {
+		id: 'postEditorDrawer',
+		position: 'right',
+		width: 'w-full lg:w-[100%]',
+		height: 'h-full',
+		// padding: 'p-4',
+		// rounded: 'rounded',
+		shadow: 'shadow-md',
+		regionDrawer: 'overflow-y-hidden'
+	};
+
 	async function openDrawer(id: string = '') {
+		isDrawerDataReady = false;
+		drawerStore.open(createPageDrawer);
 		generatingContent = false;
 		const resPostsSchema = await fetch(`/api/admin/posts/${$page.params.type}/new/${id}`);
 		const dataPostsSchema = await resPostsSchema.json();
-		console.log(dataPostsSchema);
-
-		dataPostsSchema.forEach((value, key) => {
-			$recordPostsDataModal[value.key] = value;
-		});
-		// await getPostsTags($recordPostsDataModal.id.value);
-		drawerStore.open(createPageDrawer);
+		if (dataPostsSchema) {
+			dataPostsSchema.forEach((value, key) => {
+				$recordPostsDataModal[value.key] = value;
+			});
+			isDrawerDataReady = true;
+		}
+		// console.log(dataPostsSchema);
 	}
+
 	async function closeDrawer() {
 		// taglist = [];
 		$recordPostsDataModal = {};
 		drawerStore.close();
 		await updateList();
 	}
+
 	async function updateList() {
 		const response = await fetch(
 			`/api/admin/posts/${$page.params.type}/${
@@ -418,118 +424,126 @@
 				
 			</svelte:fragment> -->
 			<svelte:fragment slot="sidebarRight">
-				<div id="sidebar-right" class="hidden lg:{isDrawerSidebar ? 'block' : 'hidden'}">
-					<div class="card w-[350px] h-full p-4 px-2">
-						<header class="card-header text-lg font-medium">Post settings</header>
-						<section class="p-4 pb-20">
-							<RecordCreate
-								{data}
-								table={ENUM_DATABASE_TABLE.posts}
-								bind:dataModal={$recordPostsDataModal}
-							/>
+				{#if isDrawerDataReady}
+					<div id="sidebar-right" class="hidden lg:{isDrawerSidebar ? 'block' : 'hidden'}">
+						<div class="card w-[350px] h-full p-4 px-2">
+							<header class="card-header text-lg font-medium">Post settings</header>
+							<section class="p-4 pb-20">
+								<RecordCreate
+									{data}
+									table={ENUM_DATABASE_TABLE.posts}
+									bind:dataModal={$recordPostsDataModal}
+								/>
 
-							<div
-								class="ember-view permalink v-list-data v-post-list-title w-full py-4 w-full capitalize md:grid-cols-1 col-span-2 md:pb-0 flex flex-col gap-2 border-b"
-							>
-								<h3
-									class="v-content-entry-title unstyled text-sm font-medium antialiased tracking-wide flex gap-2"
+								<div
+									class="ember-view permalink v-list-data v-post-list-title w-full py-4 w-full capitalize md:grid-cols-1 col-span-2 md:pb-0 flex flex-col gap-2 border-b"
 								>
-									Tags
-								</h3>
-								<div class="pb-4">
-									<CompTagsInput postId={$recordPostsDataModal.id.value} />
+									<h3
+										class="v-content-entry-title unstyled text-sm font-medium antialiased tracking-wide flex gap-2"
+									>
+										Tags
+									</h3>
+									<div class="pb-4">
+										<CompTagsInput postId={$recordPostsDataModal.id.value} />
+									</div>
 								</div>
-							</div>
-							<div
-								class="ember-view permalink v-list-data v-post-list-title w-full py-4 w-full capitalize md:grid-cols-1 col-span-2 md:pb-0 flex flex-col gap-2 border-b"
-							>
-								<h3
-									class="v-content-entry-title unstyled text-sm font-medium antialiased tracking-wide flex gap-2"
+								<div
+									class="ember-view permalink v-list-data v-post-list-title w-full py-4 w-full capitalize md:grid-cols-1 col-span-2 md:pb-0 flex flex-col gap-2 border-b"
 								>
-									Authors
-								</h3>
-								<div class="pb-4">
-									<CompAuthorsInput postId={$recordPostsDataModal.id.value} />
+									<h3
+										class="v-content-entry-title unstyled text-sm font-medium antialiased tracking-wide flex gap-2"
+									>
+										Authors
+									</h3>
+									<div class="pb-4">
+										<CompAuthorsInput postId={$recordPostsDataModal.id.value} />
+									</div>
 								</div>
-							</div>
-							<div class="py-4 text-end">
-								<button
-									class="btn variant-filled-primary border-none"
-									on:click={async () => {
-										modalStore.trigger({
-											type: 'confirm',
-											// Data
-											title: 'Please Confirm',
-											body: 'Are you sure you wish to proceed?',
-											// TRUE if confirm pressed, FALSE if cancel pressed
-											response: async (r) => {
-												if (r) {
-													const requestOptions = {
-														method: 'PUT',
-														headers: { 'Content-Type': 'application/json' },
-														body: JSON.stringify({
-															body: $recordPostsDataModal.feature_image.value
-														})
-													};
+								<div class="py-4 text-end">
+									<button
+										class="btn variant-filled-primary border-none"
+										on:click={async () => {
+											modalStore.trigger({
+												type: 'confirm',
+												// Data
+												title: 'Please Confirm',
+												body: 'Are you sure you wish to proceed?',
+												// TRUE if confirm pressed, FALSE if cancel pressed
+												response: async (r) => {
+													if (r) {
+														const requestOptions = {
+															method: 'PUT',
+															headers: { 'Content-Type': 'application/json' },
+															body: JSON.stringify({
+																body: $recordPostsDataModal.feature_image.value
+															})
+														};
 
-													const resData = await fetch(`/api/admin/file/delete`, requestOptions);
+														const resData = await fetch(`/api/admin/file/delete`, requestOptions);
 
-													const delReq = await fetch(
-														`/api/database/posts/remove/${$recordPostsDataModal.id.value}`
-													);
-													closeDrawer();
-													// console.log(delReq);
+														const delReq = await fetch(
+															`/api/database/posts/remove/${$recordPostsDataModal.id.value}`
+														);
+														closeDrawer();
+														// console.log(delReq);
+													}
 												}
-											}
-										});
-									}}
-								>
-									<span
-										><svg
-											xmlns="http://www.w3.org/2000/svg"
-											fill="none"
-											viewBox="0 0 24 24"
-											stroke-width="1.5"
-											stroke="currentColor"
-											class="w-4 h-4"
-										>
-											<path
-												stroke-linecap="round"
-												stroke-linejoin="round"
-												d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"
-											/>
-										</svg>
-									</span>
-									<span>Delete {$page.params.type}</span>
-								</button>
-							</div>
-						</section>
+											});
+										}}
+									>
+										<span
+											><svg
+												xmlns="http://www.w3.org/2000/svg"
+												fill="none"
+												viewBox="0 0 24 24"
+												stroke-width="1.5"
+												stroke="currentColor"
+												class="w-4 h-4"
+											>
+												<path
+													stroke-linecap="round"
+													stroke-linejoin="round"
+													d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"
+												/>
+											</svg>
+										</span>
+										<span>Delete {$page.params.type}</span>
+									</button>
+								</div>
+							</section>
+						</div>
 					</div>
-				</div>
+				{/if}
 			</svelte:fragment>
 			<!-- Router Slot -->
 			<slot>
-				<div id="editorBodySection" class="relative">
-					<div class="max-w-screen-md m-auto flex flex-col gap-4 relative h-auto">
-						<div>
-							<img src={$recordPostsDataModal.feature_image.value} class="w-full rounded" alt="" />
-						</div>
-						<div class="parent font-light text-6xl">
-							<AutoResizableTextarea
-								bind:value={$recordPostsDataModal.title.value}
-								classes={'input p-0 bg-surface-50 font-light text-6xl border-none rounded-none focus:border-none active:border-none overflow-hidden resize-none dark:bg-transparent'}
-								placeholder={'Page title...'}
-							/>
-						</div>
-						<div class="mb-20 h-full">
-							<CompPostEditor
-								bind:this={_compPostEditor}
-								{data}
-								bind:dataModal={$recordPostsDataModal}
-							/>
+				{#if isDrawerDataReady}
+					<div id="editorBodySection" class="relative">
+						<div class="max-w-screen-md m-auto flex flex-col gap-4 relative h-auto">
+							<div>
+								<img
+									src={$recordPostsDataModal.feature_image.value}
+									class="w-full rounded"
+									alt=""
+								/>
+							</div>
+							<div class="parent font-light text-6xl">
+								<AutoResizableTextarea
+									bind:value={$recordPostsDataModal.title.value}
+									classes={'input p-0 bg-surface-50 font-light text-6xl border-none rounded-none focus:border-none active:border-none overflow-hidden resize-none dark:bg-transparent'}
+									placeholder={'Page title...'}
+								/>
+							</div>
+							<div class="mb-20 h-full">
+								<CompPostEditor
+									bind:this={_compPostEditor}
+									{data}
+									bind:dataModal={$recordPostsDataModal}
+								/>
+							</div>
 						</div>
 					</div>
-				</div>
+				{/if}
 			</slot>
 			<svelte:fragment slot="pageFooter">
 				<div class="pt-1 bottom-0 mr-3 mb-3 float-right w-fit flex flex-row-reverse gap-2">
