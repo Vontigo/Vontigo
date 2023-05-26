@@ -3,7 +3,7 @@ import { knexInstance } from '$lib/core/core/server/data/db/connection.js';
 import { generateHash } from '$lib/core/core/server/helpers/security/token.js';
 import { dynamicDefault } from '$lib/core/core/server/helpers/settings/settings.js';
 import { CONST_ONE_DAY_MS, CONST_ONE_HOUR_MS } from '$lib/core/shared/const.js';
-import { ENUM_DATABASE_TABLE } from '$lib/core/shared/enum.js';
+import { ENUM_DATABASE_TABLE, ENUM_DATABASE_TYPE } from '$lib/core/shared/enum.js';
 import fs from 'fs';
 
 let setupBody = {
@@ -37,7 +37,7 @@ export async function POST({ url, params, request }) {
 	return new Response(JSON.stringify({ message: 'Setup Done!', code: 2000 }), { status: 200 });
 }
 async function initDatabase() {
-	if (DATABASE_TYPE === 'postgres') {
+	if (DATABASE_TYPE === ENUM_DATABASE_TYPE.postgres) {
 		try {
 			const dbFilePath = 'database/vontigo.blank.db';
 			const destinationPath = 'database/vontigo.db';

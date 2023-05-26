@@ -12,7 +12,7 @@ import fs from 'fs';
 import { redirect } from '@sveltejs/kit';
 import { dynamicDefault } from '$lib/core/core/server/helpers/settings/settings';
 import { knexInstance } from '$lib/core/core/server/data/db/connection';
-import { ENUM_DATABASE_TABLE, ENUM_USER_ROLE } from '$lib/core/shared/enum';
+import { ENUM_DATABASE_TABLE, ENUM_DATABASE_TYPE, ENUM_USER_ROLE } from '$lib/core/shared/enum';
 import { decode } from '@auth/core/jwt';
 // import { KnexAdapter } from '$lib/core/core/server/services/auth/authjs';
 import { globalConfig } from '$lib/core/shared/config/env/config';
@@ -21,7 +21,7 @@ import knex, { Knex } from 'knex';
 const setup = (async ({ event, resolve }) => {
 	console.log(globalConfig.database[DATABASE_TYPE]);
 
-	if (DATABASE_TYPE === 'postgres') {
+	if (DATABASE_TYPE === ENUM_DATABASE_TYPE.sqlite) {
 		// Do something
 		const dbFilePath = 'database/vontigo.db';
 
