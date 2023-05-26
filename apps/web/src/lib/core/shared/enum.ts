@@ -19,6 +19,11 @@
 // 	}
 // }
 
+export enum ENUM_DATABASE_TYPE {
+	sqlite = 'sqlite',
+	postgres = 'postgres'
+}
+
 export enum ENUM_USER_ROLE {
 	Owner = 'Owner',
 	Administrator = 'Administrator'

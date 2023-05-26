@@ -1,6 +1,10 @@
 import { knexInstance } from '$lib/core/core/server/data/db/connection';
 import { typeMapping, valueMapping } from '$lib/core/core/server/helpers/database/dbHelper';
-import { ENUM_DATABASE_TABLE, ENUM_POSTS_STATUS } from '$lib/core/shared/enum.js';
+import {
+	ENUM_DATABASE_TABLE,
+	ENUM_DATABASE_TYPE,
+	ENUM_POSTS_STATUS
+} from '$lib/core/shared/enum.js';
 import type {
 	RreferenceStructure as ReferenceStructure,
 	TableStructure
@@ -41,7 +45,7 @@ async function getAllRows(params: any): Promise<any[] | null> {
 		let foreignKeyMap: any[];
 		// console.log(await knexInstance.raw('PRAGMA table_info(users);'));
 
-		if (DATABASE_TYPE === 'postgres') {
+		if (DATABASE_TYPE === ENUM_DATABASE_TYPE.postgres) {
 			await knexInstance.raw(`PRAGMA foreign_key_list(${table});`).then(function (info) {
 				// foreignKeyMap = info.map(mapForeignKey);
 				// console.log(foreignKeyMap.find(key => key.from === 'created_by'));
