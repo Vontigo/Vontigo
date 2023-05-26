@@ -7,7 +7,7 @@ import { CONST_DEFAULT_LANGUAGE } from '$lib/core/shared/const';
 import { SvelteKitAuth } from '@auth/sveltekit';
 import Google from '@auth/core/providers/google';
 import Credentials from '@auth/core/providers/credentials';
-import { AUTH_SECRET, GOOGLE_ID, GOOGLE_SECRET } from '$env/static/private';
+import { AUTH_SECRET, DATABASE_TYPE, GOOGLE_ID, GOOGLE_SECRET } from '$env/static/private';
 import fs from 'fs';
 import { redirect } from '@sveltejs/kit';
 import { dynamicDefault } from '$lib/core/core/server/helpers/settings/settings';
@@ -19,10 +19,9 @@ import { globalConfig } from '$lib/core/shared/config/env/config';
 import knex, { Knex } from 'knex';
 
 const setup = (async ({ event, resolve }) => {
-	console.log(globalConfig.database[process.env.NODE_ENV]);
+	console.log(globalConfig.database[DATABASE_TYPE]);
 
-
-	if (process.env.NODE_ENV === 'development') {
+	if (DATABASE_TYPE === 'postgres') {
 		// Do something
 		const dbFilePath = 'database/vontigo.db';
 
@@ -41,7 +40,7 @@ const setup = (async ({ event, resolve }) => {
 			if (event.url.pathname.indexOf('/setup') < 0) throw redirect(303, '/setup');
 		}
 	} else {
-		const _knexInstance: Knex = await knex(globalConfig.database[process.env.NODE_ENV]);
+		const _knexInstance: Knex = await knex(globalConfig.database[DATABASE_TYPE]);
 		const tableExists = await _knexInstance.schema.hasTable(ENUM_DATABASE_TABLE.settings);
 
 		if (tableExists) {
@@ -52,7 +51,7 @@ const setup = (async ({ event, resolve }) => {
 			console.error(`Table not exists: ${tableExists}`);
 			// knexInstance.destroy();
 			if (event.url.pathname.indexOf('/setup') < 0) throw redirect(303, '/setup');
-		};
+		}
 	}
 
 	return await resolve(event);
@@ -173,7 +172,6 @@ const api = (async ({ event, resolve }) => {
 }) satisfies Handle;
 
 export const handle = sequence(setup, auth, api);
-
 
 // const secondHandle = (async ({ event, resolve }) => {
 // 	const response = await resolve(event);
