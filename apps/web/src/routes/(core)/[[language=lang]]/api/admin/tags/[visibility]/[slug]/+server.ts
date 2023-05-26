@@ -41,7 +41,7 @@ async function getAllRows(params: any): Promise<any[] | null> {
 		let foreignKeyMap: any[];
 		// console.log(await knexInstance.raw('PRAGMA table_info(users);'));
 
-		if (process.env.NODE_ENV === 'development') {
+		if (DATABASE_TYPE === 'postgres') {
 			await knexInstance.raw(`PRAGMA foreign_key_list(${table});`).then(function (info) {
 				// foreignKeyMap = info.map(mapForeignKey);
 				// console.log(foreignKeyMap.find(key => key.from === 'created_by'));
@@ -52,8 +52,9 @@ async function getAllRows(params: any): Promise<any[] | null> {
 				// console.log(foreignKeyMap['created_by']);
 			});
 		} else {
-
-			await knexInstance.raw(`SELECT conname AS "constraint_name",
+			await knexInstance
+				.raw(
+					`SELECT conname AS "constraint_name",
 						   conrelid::regclass AS "table_name",
 						   conkey AS "column_indexes",
 						   confrelid::regclass AS "referenced_table_name",
@@ -61,7 +62,8 @@ async function getAllRows(params: any): Promise<any[] | null> {
 						   confdeltype AS "on_delete",
 						   confupdtype AS "on_update"
 					FROM pg_constraint
-					WHERE confrelid = '${table}'::regclass;`)
+					WHERE confrelid = '${table}'::regclass;`
+				)
 				.then(function (info) {
 					console.log(info);
 

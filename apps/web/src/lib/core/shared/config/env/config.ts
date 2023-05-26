@@ -7,14 +7,14 @@ import {
 
 export const globalConfig = {
 	database: {
-		development: {
+		sqlite: {
 			client: 'sqlite3',
 			connection: {
 				filename: './database/vontigo.db'
 			},
 			useNullAsDefault: true
 		},
-		production: {
+		postgres: {
 			client: 'pg',
 			connection: {
 				host: POSTGRES_HOST,

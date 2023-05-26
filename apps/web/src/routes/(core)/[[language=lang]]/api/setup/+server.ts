@@ -37,7 +37,7 @@ export async function POST({ url, params, request }) {
 	return new Response(JSON.stringify({ message: 'Setup Done!', code: 2000 }), { status: 200 });
 }
 async function initDatabase() {
-	if (process.env.NODE_ENV === 'development') {
+	if (DATABASE_TYPE === 'postgres') {
 		try {
 			const dbFilePath = 'database/vontigo.blank.db';
 			const destinationPath = 'database/vontigo.db';
@@ -53,7 +53,8 @@ async function initDatabase() {
 		}
 	} else {
 		const sqlFile = fs.readFileSync('database/migration/pg/1-create-tables.sql', 'utf8');
-		await knexInstance.raw(sqlFile)
+		await knexInstance
+			.raw(sqlFile)
 			.then(() => {
 				console.log('Migration complete');
 				knexInstance.destroy();
