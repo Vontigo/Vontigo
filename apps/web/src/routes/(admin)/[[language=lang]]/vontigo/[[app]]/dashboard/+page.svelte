@@ -4,7 +4,7 @@
 	import { onMount } from 'svelte';
 	import { STORE_ADMIN_SITE_URL } from '$lib/core/shared/stores/site';
 	import { format } from 'timeago.js';
-	import Chart from './Chart.svelte';
+	import Chart from './components/Chart.svelte';
 	import { abbrNum } from '$lib/core/shared/utils/format/numberUtils';
 
 	let repo: any;

@@ -44,7 +44,7 @@ async function getAllRows(params: any): Promise<any[] | null> {
 
 		let foreignKeyMap: any[];
 		// console.log(await knexInstance.raw('PRAGMA table_info(users);'));
-		if (DATABASE_TYPE === ENUM_DATABASE_TYPE.postgres) {
+		if (DATABASE_TYPE === ENUM_DATABASE_TYPE.sqlite) {
 			await knexInstance.raw('PRAGMA foreign_key_list(users);').then(function (info) {
 				// foreignKeyMap = info.map(mapForeignKey);
 				// console.log(foreignKeyMap.find(key => key.from === 'created_by'));

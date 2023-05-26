@@ -72,7 +72,7 @@ async function getAllRows(params: any, session: any): Promise<any[] | null> {
 
 		let foreignKeyMap: any[];
 
-		if (DATABASE_TYPE === ENUM_DATABASE_TYPE.postgres) {
+		if (DATABASE_TYPE === ENUM_DATABASE_TYPE.sqlite) {
 			// console.log('development');
 
 			await knexInstance.raw(`PRAGMA foreign_key_list(${table});`).then(function (info) {
