@@ -4,7 +4,7 @@
 	import { page, navigating } from '$app/stores';
 	import { Jumper } from 'svelte-loading-spinners';
 	import { language, origin, site, siteUrl, theme } from '$lib/core/shared/stores/site';
-	import CompAimChat from '$lib/core/core/frontend/components/shared/CompAIMChat/CompAIMChat.svelte';
+	// import CompAimChat from '$lib/core/core/frontend/components/shared/CompAIMChat/CompAIMChat.svelte';
 	import { fade } from 'svelte/transition';
 
 	if ($page.params) {
