@@ -1,7 +1,13 @@
 import { page } from '$app/stores';
+import { DATABASE_TYPE } from '$env/static/private';
 import { knexInstance } from '$lib/core/core/server/data/db/connection';
 import { typeMapping, valueMapping } from '$lib/core/core/server/helpers/database/dbHelper';
-import { ENUM_DATABASE_TABLE, ENUM_POSTS_STATUS, ENUM_POST_TYPE } from '$lib/core/shared/enum.js';
+import {
+	ENUM_DATABASE_TABLE,
+	ENUM_DATABASE_TYPE,
+	ENUM_POSTS_STATUS,
+	ENUM_POST_TYPE
+} from '$lib/core/shared/enum.js';
 import { language } from '$lib/core/shared/stores/site';
 import type {
 	RreferenceStructure as ReferenceStructure,
@@ -32,7 +38,6 @@ export async function GET({ url, params, locals }) {
 
 	return new Response(JSON.stringify(returnRows), { status: 200 });
 }
-
 
 async function getAllRows(params: any, session: any): Promise<any[] | null> {
 	const table = ENUM_DATABASE_TABLE.posts;
@@ -67,7 +72,7 @@ async function getAllRows(params: any, session: any): Promise<any[] | null> {
 
 		let foreignKeyMap: any[];
 
-		if (process.env.NODE_ENV === 'development') {
+		if (DATABASE_TYPE === ENUM_DATABASE_TYPE.sqlite) {
 			// console.log('development');
 
 			await knexInstance.raw(`PRAGMA foreign_key_list(${table});`).then(function (info) {
@@ -80,7 +85,9 @@ async function getAllRows(params: any, session: any): Promise<any[] | null> {
 		} else {
 			// console.log('production');
 
-			await knexInstance.raw(`SELECT conname AS "constraint_name",
+			await knexInstance
+				.raw(
+					`SELECT conname AS "constraint_name",
                                conrelid::regclass AS "table_name",
                                conkey AS "column_indexes",
                                confrelid::regclass AS "referenced_table_name",
@@ -88,7 +95,8 @@ async function getAllRows(params: any, session: any): Promise<any[] | null> {
                                confdeltype AS "on_delete",
                                confupdtype AS "on_update"
                         FROM pg_constraint
-                        WHERE confrelid = '${table}'::regclass;`)
+                        WHERE confrelid = '${table}'::regclass;`
+				)
 				.then(function (info) {
 					// console.log(info);
 
@@ -111,7 +119,10 @@ async function getAllRows(params: any, session: any): Promise<any[] | null> {
 					type: typeMapping(info[key].type),
 					maxLength: info[key].maxLength,
 					nullable: info[key].nullable,
-					defaultValue: info[key].defaultValue?.toString().replace('::character varying', '').replace('\'', ''),
+					defaultValue: info[key].defaultValue
+						?.toString()
+						.replace('::character varying', '')
+						.replace("'", ''),
 					reference: foreignKeyMap[key]
 				}));
 				// console.log(tableStructure);

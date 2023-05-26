@@ -1,9 +1,10 @@
+import { DATABASE_TYPE } from '$env/static/private';
 import { genSlug } from '$lib/core/core/frontend/helpers/slug.js';
 import { knexInstance } from '$lib/core/core/server/data/db/connection.js';
 import { generateHash } from '$lib/core/core/server/helpers/security/token.js';
 import { dynamicDefault } from '$lib/core/core/server/helpers/settings/settings.js';
 import { CONST_ONE_DAY_MS, CONST_ONE_HOUR_MS } from '$lib/core/shared/const.js';
-import { ENUM_DATABASE_TABLE } from '$lib/core/shared/enum.js';
+import { ENUM_DATABASE_TABLE, ENUM_DATABASE_TYPE } from '$lib/core/shared/enum.js';
 import fs from 'fs';
 
 let setupBody = {
@@ -37,7 +38,7 @@ export async function POST({ url, params, request }) {
 	return new Response(JSON.stringify({ message: 'Setup Done!', code: 2000 }), { status: 200 });
 }
 async function initDatabase() {
-	if (process.env.NODE_ENV === 'development') {
+	if (DATABASE_TYPE === ENUM_DATABASE_TYPE.postgres) {
 		try {
 			const dbFilePath = 'database/vontigo.blank.db';
 			const destinationPath = 'database/vontigo.db';
@@ -53,7 +54,8 @@ async function initDatabase() {
 		}
 	} else {
 		const sqlFile = fs.readFileSync('database/migration/pg/1-create-tables.sql', 'utf8');
-		await knexInstance.raw(sqlFile)
+		await knexInstance
+			.raw(sqlFile)
 			.then(() => {
 				console.log('Migration complete');
 				knexInstance.destroy();
