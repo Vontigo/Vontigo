@@ -46,7 +46,7 @@
 			"@type": "WebSite",
 			"publisher": {
 				"@type": "Organization",
-				"name": "${$page.data.settings.site.meta_title}"",
+				"name": "${$page.data.settings.site.meta_title}",
 				"url": "${$page.url.origin}",
 				"logo": {
 					"@type": "ImageObject",
