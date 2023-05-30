@@ -82,6 +82,23 @@
 			: 'hover:!bg-primary-500/20 hover:text-primary-500'; //'text-primary-500 font-bold' : ''; //'!bg-primary-500 text-white' : '';
 </script>
 
+<svelte:head>
+	<script type="text/javascript">
+		(function (c, l, a, r, i, t, y) {
+			c[a] =
+				c[a] ||
+				function () {
+					(c[a].q = c[a].q || []).push(arguments);
+				};
+			t = l.createElement(r);
+			t.async = 1;
+			t.src = 'https://www.clarity.ms/tag/' + i;
+			y = l.getElementsByTagName(r)[0];
+			y.parentNode.insertBefore(t, y);
+		})(window, document, 'clarity', 'script', 'hc6w3fug2r');
+	</script>
+</svelte:head>
+
 {#if visible}
 	<div transition:fade class="h-full w-full">
 		<AppShell regionPage="relative" slotPageHeader="sticky top-0 z-10 ">
