@@ -50,7 +50,7 @@
 				"url": "${$page.url.origin}",
 				"logo": {
 					"@type": "ImageObject",
-					"url": ${$page.url.origin + $page.data.settings.site.logo},
+					"url": "${$page.url.origin + $page.data.settings.site.logo}",
 					"width": 60,
 					"height": 60
 				}
