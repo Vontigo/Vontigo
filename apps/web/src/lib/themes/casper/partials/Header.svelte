@@ -63,7 +63,7 @@
 				{/if}
 				<span class="signedInText">
 					<small>Signed in as</small><br />
-					<a data-sveltekit-reload href="/vontigo">
+					<a class="gh-head-link" data-sveltekit-reload href="/vontigo">
 						<strong>{$page.data.session.user?.name ?? 'User'}</strong>
 					</a>
 				</span>
