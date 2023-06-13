@@ -60,8 +60,8 @@ importers:
         specifier: ^8.8.0
         version: 8.8.0(eslint@8.40.0)
       eslint-plugin-svelte:
-        specifier: ^2.28.0
-        version: 2.28.0(eslint@8.40.0)(svelte@3.59.1)
+        specifier: ^2.30.0
+        version: 2.30.0(eslint@8.40.0)(svelte@3.59.1)
       postcss:
         specifier: ^8.4.23
         version: 8.4.23
@@ -145,8 +145,8 @@ importers:
         specifier: ^8.8.0
         version: 8.8.0(eslint@8.40.0)
       eslint-plugin-svelte:
-        specifier: ^2.28.0
-        version: 2.28.0(eslint@8.40.0)(svelte@3.59.1)
+        specifier: ^2.30.0
+        version: 2.30.0(eslint@8.40.0)(svelte@3.59.1)
       postcss:
         specifier: ^8.4.23
         version: 8.4.23
@@ -4049,12 +4049,12 @@ packages:
       svelte: 4.0.0-next.0
     dev: true
 
-  /eslint-plugin-svelte@2.28.0(eslint@8.40.0)(svelte@3.59.1):
-    resolution: {integrity: sha512-bXPXKnjq5uKoVAQtC2E0L1Vp+mmJ3nlC9jyz8zwfZ99pQROL2h7Hes01QdYil1vxgh6tLXl5YVpZ2wwyAbBz5g==}
+  /eslint-plugin-svelte@2.30.0(eslint@8.40.0)(svelte@3.59.1):
+    resolution: {integrity: sha512-2/qj0BJsfM0U2j4EjGb7iC/0nbUvXx1Gn78CdtyuXpi/rSomLPCPwnsZsloXMzlt6Xwe8LBlpRvZObSKEHLP5A==}
     engines: {node: ^14.17.0 || >=16.0.0}
     peerDependencies:
       eslint: ^7.0.0 || ^8.0.0-0
-      svelte: ^3.37.0
+      svelte: ^3.37.0 || ^4.0.0-0
     peerDependenciesMeta:
       svelte:
         optional: true
@@ -4065,11 +4065,11 @@ packages:
       eslint: 8.40.0
       esutils: 2.0.3
       known-css-properties: 0.27.0
-      postcss: 8.4.23
-      postcss-load-config: 3.1.4(postcss@8.4.23)
-      postcss-safe-parser: 6.0.0(postcss@8.4.23)
+      postcss: 8.4.24
+      postcss-load-config: 3.1.4(postcss@8.4.24)
+      postcss-safe-parser: 6.0.0(postcss@8.4.24)
       svelte: 3.59.1
-      svelte-eslint-parser: 0.28.0(svelte@3.59.1)
+      svelte-eslint-parser: 0.30.0(svelte@3.59.1)
     transitivePeerDependencies:
       - supports-color
       - ts-node
@@ -5971,7 +5971,7 @@ packages:
       camelcase-css: 2.0.1
       postcss: 8.4.24
 
-  /postcss-load-config@3.1.4(postcss@8.4.23):
+  /postcss-load-config@3.1.4(postcss@8.4.24):
     resolution: {integrity: sha512-6DiM4E7v4coTE4uzA8U//WhtPwyhiim3eyjEMFCnUpzbrkK9wJHgKDT2mR+HbtSrd/NubVaYTOpSpjUl8NQeRg==}
     engines: {node: '>= 10'}
     peerDependencies:
@@ -5984,7 +5984,7 @@ packages:
         optional: true
     dependencies:
       lilconfig: 2.1.0
-      postcss: 8.4.23
+      postcss: 8.4.24
       yaml: 1.10.2
     dev: true
 
@@ -6051,13 +6051,13 @@ packages:
       postcss-selector-parser: 6.0.13
     dev: true
 
-  /postcss-safe-parser@6.0.0(postcss@8.4.23):
+  /postcss-safe-parser@6.0.0(postcss@8.4.24):
     resolution: {integrity: sha512-FARHN8pwH+WiS2OPCxJI8FuRJpTVnn6ZNFiqAM2aeW2LwTHWWmWgIyKC6cUo0L8aeKiF/14MNvnpls6R2PBeMQ==}
     engines: {node: '>=12.0'}
     peerDependencies:
       postcss: ^8.3.3
     dependencies:
-      postcss: 8.4.23
+      postcss: 8.4.24
     dev: true
 
   /postcss-selector-parser@6.0.10:
@@ -6984,11 +6984,11 @@ packages:
       svelte: 3.59.1
     dev: true
 
-  /svelte-eslint-parser@0.28.0(svelte@3.59.1):
-    resolution: {integrity: sha512-qWg5M3CIp7LkcdG5bpn44QEd48UxvgxG5L+Sbl701EG8Wujht7EqJuJhqgzvO3bbI9ENbWCXK49eCcwiNnpMzw==}
+  /svelte-eslint-parser@0.30.0(svelte@3.59.1):
+    resolution: {integrity: sha512-H0Cn2TKr70DU9p/Gb04CfwtS7eK28MYumrHYPaDNkIFbfwGDLADpbERBn7u8G1Rcm2RMr2/mL6mq0J2e8iKFlA==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     peerDependencies:
-      svelte: ^3.37.0
+      svelte: ^3.37.0 || ^4.0.0-0
     peerDependenciesMeta:
       svelte:
         optional: true
