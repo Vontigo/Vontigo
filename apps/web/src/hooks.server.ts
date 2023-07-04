@@ -59,7 +59,7 @@ const setup = (async ({ event, resolve }) => {
 
 // TODO: https://github.com/nextauthjs/next-auth/discussions/3038
 const auth = SvelteKitAuth({
-	// trustHost: true,
+	trustHost: true,
 	// adapter: KnexAdapter(knexInstance),
 	providers: [
 		// Google({
