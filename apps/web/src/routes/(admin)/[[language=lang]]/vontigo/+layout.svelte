@@ -45,6 +45,7 @@
 	import { onMount } from 'svelte';
 	import { ENUM_APP_TYPE, ENUM_POST_TYPE } from '$lib/core/shared/enum';
 	import IconPost from '$lib/icons/IconPost.svelte';
+	import IconRedo from "$lib/icons/IconRedo.svelte";
 
 	let visible = false;
 	$STORE_ADMIN_APP_TYPE = ENUM_APP_TYPE[$page.params.app || ENUM_APP_TYPE.website];
@@ -257,6 +258,15 @@
 										>
 											<IconTag />
 											<span class="flex-auto text-base">Tags</span>
+										</a>
+									</li>
+									<li class="w-auto">
+										<a
+												class={classesActive($STORE_ADMIN_SITE_URL + '/redirects')}
+												href={$STORE_ADMIN_SITE_URL + '/redirects'}
+										>
+											<IconRedo />
+											<span class="flex-auto text-base">redirects</span>
 										</a>
 									</li>
 									<!-- <li class="w-auto">
