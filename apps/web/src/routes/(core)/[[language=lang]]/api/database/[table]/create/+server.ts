@@ -12,6 +12,7 @@ export const POST = (async ({ request, url, params }) => {
 		return { status: 404, body: `Table ${table} not found` };
 	}
 
+	console.log(body);
 	const [id] = await knexInstance(table).insert(body);
 	const row = await knexInstance(table).where({ id: body.id }).first();
 

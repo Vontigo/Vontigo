@@ -43,7 +43,8 @@ export enum ENUM_DATABASE_TABLE {
 	users = 'users',
 	roles = 'roles',
 	roles_users = 'roles_users',
-	settings = 'settings'
+	settings = 'settings',
+	redirects = 'redirects',
 }
 export enum ENUM_POSTS_STATUS {
 	published = 'published',

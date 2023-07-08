@@ -1,4 +1,4 @@
-import type { Handle } from '@sveltejs/kit';
+import type {Handle, HandleServerError} from '@sveltejs/kit';
 import { config } from '$lib/themes/casper/config.json';
 import { language, site, origin, theme, custom } from '$lib/core/shared/stores/site';
 import { get } from 'svelte/store';
@@ -231,3 +231,20 @@ export const handle = sequence(setup, auth, api);
 // }) satisfies Handle;
 
 // export const handle = sequence(firstHandle, secondHandle);
+
+//Handle 404 errors with a lookup to see if we should redirect to a different page
+export const handleError = (async ({ error, event }) => {
+	if (error?.message) {
+		let pathname = new URL(event.request.url).pathname;
+		const redir = await knexInstance(ENUM_DATABASE_TABLE.redirects)
+			.select()
+			// .whereILike({ from: pathname.replace("/", "%")+ "%" })
+			.where({from: pathname.replace('/', '')})
+			.first();
+
+
+		if (redir) {
+			throw redirect(303, redir.to);
+		}
+	}
+}) satisfies HandleServerError;

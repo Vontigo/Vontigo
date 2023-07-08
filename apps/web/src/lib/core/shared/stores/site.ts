@@ -25,6 +25,9 @@ export const access = writable(false);
 export const autoSaveCountDown = writable(0);
 export const recordPostsDataModal = writable({});
 export const recordTagsDataModal = writable({});
+
+export const recordRedirectsDataModal = writable({});
+
 export const recordUsersDataModal = writable({});
 export const wordsCount = writable(0);
 

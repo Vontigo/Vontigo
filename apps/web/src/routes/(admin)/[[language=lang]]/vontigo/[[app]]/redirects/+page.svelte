@@ -27,16 +27,17 @@
     };
 
     let newRedirectBody = {
-        slug: '',
+        // slug: '',
+        id: '',
         from: '',
         to: '',
-        status: 301
+        // status: 301
     };
 
     const redirectTable: TableSource = {
         head: ['Slug', 'From', 'To', 'Status'],
-        body: tableMapperValues(data.redirects, ['slug', 'from', 'to', 'status']),
-        meta: tableMapperValues(data.redirects, ['slug'])
+        body: tableMapperValues(data.records, ['id', 'from', 'to', 'status']),
+        meta: tableMapperValues(data.records, ['id'])
     }
 </script>
 
@@ -87,17 +88,20 @@
                                 type="button"
                                 class="btn btn-sm variant-filled rounded"
                                 on:click={async () => {
+                                    newRedirectBody.created_at = new Date().toISOString();
+                                    //newRedirectBody.id = newRedirectBody.slug;
 								const requestOptions = {
 									method: 'POST',
 									headers: { 'Content-Type': 'application/json' },
 									body: JSON.stringify(newRedirectBody)
 								};
-								const response = await fetch(`/api/database/redirect/create`, requestOptions);
+								const response = await fetch(`/api/database/redirects/create`, requestOptions);
+                                console.log(response);
 								const resJson = await response.json();
 								if (resJson.row) {
 									drawerStore.close();
 									goto(
-										$STORE_ADMIN_SITE_URL + `/redirects}/${resJson.row.slug}`
+										$STORE_ADMIN_SITE_URL + `/redirects/${resJson.row.id}`
 									);
 								}
 							}}
@@ -113,7 +117,7 @@
                             <input
                                     type="text"
                                     class="input p-2"
-                                    bind:value={newRedirectBody.name}
+                                    bind:value={newRedirectBody.id}
                             />
                         </div>
                     </div>
@@ -129,8 +133,9 @@
                         <div>Status</div>
                         <div>
                             <RadioGroup active="variant-filled-primary" hover="hover:variant-soft-primary">
-                                <RadioItem bind:group={newRedirectBody.status} name="status" value={301}>Tempory</RadioItem>
-                                <RadioItem bind:group={newRedirectBody.status} name="status" value={302}>Perminent</RadioItem>
+<!--                                bind:group={newRedirectBody.status}-->
+                                <RadioItem  name="status" value={301}>Permanent</RadioItem>
+                                <RadioItem  name="status" value={302}>Temporary</RadioItem>
                             </RadioGroup>
                         </div>
                     </div>
@@ -138,7 +143,7 @@
             </div>
         {/if}
     </Drawer>
-    {#if data.redirects.length > 0}
+    {#if data.records.length > 0}
         <section class="table-container  ">
             <Table interactive on:selected={({detail}) => goto( $STORE_ADMIN_SITE_URL + "/redirects/" + detail[0])}  source={redirectTable} />
         </section>

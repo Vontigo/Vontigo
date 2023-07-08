@@ -1,20 +1,9 @@
 import type { PageLoad } from "./$types";
 
-export const load = (async () => {
+export const load = (async ({fetch}) => {
+    const response = await fetch(`/api/database/redirects/read`);
+    const data = await response.json();
     return {
-        redirects: [
-            {
-                slug: 'a',
-                from: '/a',
-                to: '/b',
-                status: 301,
-            },
-            {
-                slug: 'c',
-                from: '/c',
-                to: '/d',
-                status: 302,
-            },
-        ]
+        records: data.rows
     };
 }) satisfies PageLoad;
