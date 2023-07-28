@@ -1,8 +1,5 @@
-
 import { knexInstance } from '$lib/core/core/server/data/db/connection.js';
-export function generateToken() {
-
-}
+export function generateToken() {}
 
 // function generateToken(email, settingsAPI, transaction) {
 //     const options = { context: { internal: true }, transacting: transaction };
