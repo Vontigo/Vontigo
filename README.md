@@ -1,6 +1,8 @@
-### Revolutionize Content Creation with Vontigo:
+### Revolutionize Content Creation with Vontigo
 
 # The AI-Powered, Full-Stack CMS & Mobile App Built with SvelteKit
+
+[![Node.js CI](https://github.com/Vontigo/Vontigo/actions/workflows/node.js.yaml/badge.svg)](https://github.com/Vontigo/Vontigo/actions/workflows/node.js.yaml)
 
 ![feature-image](https://github.com/Vontigo/Vontigo/assets/3785721/04228bea-f654-44a1-ba16-fa3b22706ba7)
 
@@ -22,7 +24,7 @@ With Vontigo, you'll enjoy a range of powerful features, including automated con
 
 Our open-source platform is cost-effective, easy to use, and endlessly customizable, making it the ideal solution for businesses of all sizes. Whether you're looking to streamline your content strategy, boost engagement, or drive revenue growth, Vontigo has everything you need to succeed. Try it out today and see the difference for yourself!
 
-We warmly invite you to discover the exciting world of Vontigo with us and kindly ask for your support by visiting our Product Hunt page at https://www.producthunt.com/posts/vontigo and giving us an upvote - together, let's make Vontigo soar!
+We warmly invite you to discover the exciting world of Vontigo with us and kindly ask for your support by visiting our Product Hunt page at <https://www.producthunt.com/posts/vontigo> and giving us an upvote - together, let's make Vontigo soar!
 
 <a href="https://www.producthunt.com/posts/vontigo?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-vontigo" target="_blank"><img src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=394092&theme=light" alt="Vontigo - 🤖&#0032;The&#0032;AI&#0045;Powered&#0044;&#0032;Full&#0045;Stack&#0032;CMS&#0032;Built&#0032;with&#0032;SvelteKit | Product Hunt" style="width: 250px; height: 54px;" width="250" height="54" /></a>
 
@@ -31,7 +33,7 @@ We warmly invite you to discover the exciting world of Vontigo with us and kindl
 <picture>
   <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/Svelte_Logo.svg/640px-Svelte_Logo.svg.png" alt="sveltekit" height="50px"/></picture>
 <picture>
-  <img src="https://upload.wikimedia.org/wikipedia/commons/d/d5/Tailwind_CSS_Logo.svg" alt="tailwindcss" height="50px"/> 
+  <img src="https://upload.wikimedia.org/wikipedia/commons/d/d5/Tailwind_CSS_Logo.svg" alt="tailwindcss" height="50px"/>
 </picture>
 <picture>
  <img alt="skeletonui" src="https://github.com/skeletonlabs/skeleton/blob/f6ae5ae2e96940b6c53dec84fc358835a373194f/static/favicon.png" height="50px">
@@ -44,7 +46,7 @@ We warmly invite you to discover the exciting world of Vontigo with us and kindl
 </picture>
 
 <picture>
-  <img src="https://seeklogo.com/images/O/open-ai-logo-8B9BFEDC26-seeklogo.com.png" alt="openai" height="50px"/> 
+  <img src="https://seeklogo.com/images/O/open-ai-logo-8B9BFEDC26-seeklogo.com.png" alt="openai" height="50px"/>
 </picture>
 <picture>
   <img alt="AuthJS" src="https://authjs.dev/img/logo/logo-sm.webp" height="50px">
@@ -82,7 +84,8 @@ git remote add origin git@github.com:<YourUsername>/Vontigo.git
 
 > ⚠️ Rename `.env.example` to `.env`.
 
-#### 4.1 Run with [Turborepo](https://turbo.build/repo/docs/installing).
+#### 4.1 Run with [Turborepo](https://turbo.build/repo/docs/installing)
+
 Turbo is an incremental bundler and build system optimized for JavaScript and TypeScript, written in Rust.
 
 ```bash
@@ -103,7 +106,7 @@ pnpm dev
 > 🌐 Vontigo website is now running at `https://localhost:5173/` -
 > 📱 Vontigo mobile app is now running at `http://localhost:5174/`
 
-#### 4.2 Or, run as SvelteKit app.
+#### 4.2 Or, run as SvelteKit app
 
 ```bash
 cd .\apps\web\

@@ -21,9 +21,15 @@ export async function GET({ url, params }) {
 
 async function getAllRows(params: any): Promise<any[] | null> {
 	try {
-		const rows: any[] = await knexInstance.select('t.*').count('* as total_posts').from('tags as t').leftJoin('posts_tags as pt', 'pt.tag_id', 't.id').where({
-			't.visibility': params.visibility
-		}).groupBy('t.id');
+		const rows: any[] = await knexInstance
+			.select('t.*')
+			.count('* as total_posts')
+			.from('tags as t')
+			.leftJoin('posts_tags as pt', 'pt.tag_id', 't.id')
+			.where({
+				't.visibility': params.visibility
+			})
+			.groupBy('t.id');
 		return rows;
 	} catch (error) {
 		console.error(error);

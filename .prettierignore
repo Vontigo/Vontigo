@@ -13,3 +13,6 @@ pnpm-lock.yaml
 pnpm-workspace.yaml
 package-lock.json
 yarn.lock
+
+# Prettier bugs
+apps/web/src/routes/\(admin\)/\[\[language=lang\]\]/vontigo/\[\[app\]\]/setup/+page.svelte

@@ -1,4 +1,3 @@
-
 // /** @type {import('./$types').RequestHandler} */
 // export async function GET({ url, params }) {
 //     const res = await fetch(import.meta.env.VITE_BASE_ENDPOINT + '/posts/posts.json');
