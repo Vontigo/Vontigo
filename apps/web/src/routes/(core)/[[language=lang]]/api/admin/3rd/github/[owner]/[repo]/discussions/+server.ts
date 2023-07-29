@@ -10,7 +10,8 @@ export const GET = (async ({ url, params }) => {
 	});
 	const octokit = await app.getInstallationOctokit(37335916);
 
-	const resDiscussion = await octokit.graphql(`query($owner: String!, $repo: String!) {
+	const resDiscussion = await octokit.graphql(
+		`query($owner: String!, $repo: String!) {
 		repository(owner: $owner, name: $repo) {
 			discussions(first: 10) {
 				nodes {
@@ -23,14 +24,14 @@ export const GET = (async ({ url, params }) => {
 				}
 			}
 		}
-	}`, {
-
-		owner: params.owner,
-		repo: params.repo
-	});
+	}`,
+		{
+			owner: params.owner,
+			repo: params.repo
+		}
+	);
 
 	return new Response(JSON.stringify({ data: resDiscussion }), { status: 200 });
-
 
 	// const resRepo = await octokit.request(
 	// 	`GET /repos/${params.owner}/${params.repo}${params.command ? '/' + params.command : ''}`,

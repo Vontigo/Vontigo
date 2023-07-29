@@ -5,9 +5,10 @@
 
 	export let data: PageData;
 </script>
+
 {#await data}
 	Loading...
-{:then data} 
+{:then data}
 	<Index
 		site={data.settings.site}
 		posts={data.posts.items}
