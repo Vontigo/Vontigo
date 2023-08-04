@@ -2,8 +2,7 @@ import {
 	POSTGRES_HOST,
 	POSTGRES_DATABASE,
 	POSTGRES_PASSWORD,
-	POSTGRES_USER,
-	POSTGRES_SSL
+	POSTGRES_USER
 } from '$env/static/private';
 
 export const globalConfig = {
@@ -24,7 +23,8 @@ export const globalConfig = {
 				database: POSTGRES_DATABASE,
 				ssl: false,
 				sslmode: 'verify-full'
-			}
+			},
+			pool: { min: 0, max: 7 }
 			// "client": "mysql",
 			// "connection": {
 			// 	"host": "179.61.199.11",
