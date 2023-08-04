@@ -22,7 +22,7 @@ export const globalConfig = {
 				user: POSTGRES_USER,
 				password: POSTGRES_PASSWORD,
 				database: POSTGRES_DATABASE,
-				ssl: POSTGRES_SSL,
+				ssl: false,
 				sslmode: 'verify-full'
 			}
 			// "client": "mysql",
