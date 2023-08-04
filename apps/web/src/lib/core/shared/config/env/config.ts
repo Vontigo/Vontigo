@@ -2,7 +2,8 @@ import {
 	POSTGRES_HOST,
 	POSTGRES_DATABASE,
 	POSTGRES_PASSWORD,
-	POSTGRES_USER
+	POSTGRES_USER,
+	POSTGRES_SSL
 } from '$env/static/private';
 
 export const globalConfig = {
@@ -21,7 +22,7 @@ export const globalConfig = {
 				user: POSTGRES_USER,
 				password: POSTGRES_PASSWORD,
 				database: POSTGRES_DATABASE,
-				ssl: true,
+				ssl: POSTGRES_SSL,
 				sslmode: 'verify-full'
 			}
 			// "client": "mysql",
