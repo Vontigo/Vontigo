@@ -21,9 +21,10 @@ export const globalConfig = {
 				user: POSTGRES_USER,
 				password: POSTGRES_PASSWORD,
 				database: POSTGRES_DATABASE,
-				ssl: true,
+				ssl: false,
 				sslmode: 'verify-full'
-			}
+			},
+			pool: { min: 0, max: 7 }
 			// "client": "mysql",
 			// "connection": {
 			// 	"host": "179.61.199.11",
