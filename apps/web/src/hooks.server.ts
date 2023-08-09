@@ -19,7 +19,7 @@ import { globalConfig } from '$lib/core/shared/config/env/config';
 import knex, { Knex } from 'knex';
 
 const setup = (async ({ event, resolve }) => {
-	console.log(globalConfig.database[DATABASE_TYPE]);
+	// console.log(globalConfig.database[DATABASE_TYPE]);
 
 	if (DATABASE_TYPE === ENUM_DATABASE_TYPE.sqlite) {
 		// Do something

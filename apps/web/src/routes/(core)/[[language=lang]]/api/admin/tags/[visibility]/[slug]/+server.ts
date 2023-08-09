@@ -1,3 +1,4 @@
+import { DATABASE_TYPE } from '$env/static/private';
 import { knexInstance } from '$lib/core/core/server/data/db/connection';
 import { typeMapping, valueMapping } from '$lib/core/core/server/helpers/database/dbHelper';
 import {

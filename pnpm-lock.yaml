@@ -19,7 +19,7 @@ importers:
         version: 2.8.8
       prettier-plugin-svelte:
         specifier: ^2.10.1
-        version: 2.10.1(prettier@2.8.8)(svelte@4.1.2)
+        version: 2.10.1(prettier@2.8.8)(svelte@3.59.2)
       turbo:
         specifier: latest
         version: 1.10.12
@@ -199,6 +199,12 @@ importers:
       '@floating-ui/dom':
         specifier: ^1.4.4
         version: 1.4.4
+      '@revolist/revogrid':
+        specifier: 4.6.0-next.4
+        version: 4.6.0-next.4
+      '@revolist/svelte-datagrid':
+        specifier: ^3.2.16
+        version: 3.2.16
       '@sveltejs/adapter-node':
         specifier: ^1.3.1
         version: 1.3.1(@sveltejs/kit@1.22.1)
@@ -2072,6 +2078,26 @@ packages:
       type-fest: 2.19.0
     dev: false
 
+  /@revolist/revogrid@3.6.16:
+    resolution: {integrity: sha512-aGX5e2Lsxk/qAPPvnhAsvWtyDWpomIgIeREGg0iGVpRYYcqDOBWzr72jN0N+eHIydGjey8MyYc1l/C0rPXVSvg==}
+    dependencies:
+      lodash: 4.17.21
+    dev: false
+
+  /@revolist/revogrid@4.6.0-next.4:
+    resolution: {integrity: sha512-eolpHt+Wlm8Q0YghDK0VLwBnhMKF7aEBnITiAbDRaufSlmRHLXwsHN0zbv3krKnUZsJX5mSUR+cN5OV8sAbebA==}
+    dependencies:
+      '@stencil/core': 4.0.4
+      lodash: 4.17.21
+    dev: false
+
+  /@revolist/svelte-datagrid@3.2.16:
+    resolution: {integrity: sha512-zSLpHxg/2hAo85UFCUFYK3+T7TVwZI1hSNdYguPiUt0m4zygdLL8YpPYv3x4pEOM5G6JzyciDtxlzB5u9iA0GQ==}
+    dependencies:
+      '@revolist/revogrid': 3.6.16
+      '@stencil/core': 2.17.4
+    dev: false
+
   /@rollup/plugin-commonjs@25.0.2(rollup@3.26.2):
     resolution: {integrity: sha512-NGTwaJxIO0klMs+WSFFtBP7b9TdTJ3K76HZkewT8/+yHzMiUGVQgaPtLQxNVYIgT5F7lxkEyVID+yS3K7bhCow==}
     engines: {node: '>=14.0.0'}
@@ -2159,6 +2185,18 @@ packages:
       esm-env: 1.0.0
       svelte: 4.0.5
     dev: true
+
+  /@stencil/core@2.17.4:
+    resolution: {integrity: sha512-SGRlHpjV1RyFvzw6jFMVKpLNox9Eds3VvpbpD2SW9CuxdLonHDSFtQks5zmT4zs1Rse9I6kFc2mFK/dHNTalkg==}
+    engines: {node: '>=12.10.0', npm: '>=6.0.0'}
+    hasBin: true
+    dev: false
+
+  /@stencil/core@4.0.4:
+    resolution: {integrity: sha512-eE0BcjEH8JjS0XlgWGiQ0c3uxtJdLvnYRv8rK/WokhGdxht31UMhEM8r+pVHbLPD/y6cSApUfxTl1JVcFFs+Xw==}
+    engines: {node: '>=16.0.0', npm: '>=7.10.0'}
+    hasBin: true
+    dev: false
 
   /@sveltejs/adapter-auto@2.1.0(@sveltejs/kit@1.16.3):
     resolution: {integrity: sha512-o2pZCfATFtA/Gw/BB0Xm7k4EYaekXxaPGER3xGSY3FvzFJGTlJlZjBseaXwYSM94lZ0HniOjTokN3cWaLX6fow==}
@@ -5552,13 +5590,6 @@ packages:
     dependencies:
       '@jridgewell/sourcemap-codec': 1.4.15
 
-  /magic-string@0.30.2:
-    resolution: {integrity: sha512-lNZdu7pewtq/ZvWUp9Wpf/x7WzMTsR26TWV03BRZrXFsv+BI6dy8RAiKgm1uM/kyR0rCfUcqvOlXKG66KhIGug==}
-    engines: {node: '>=12'}
-    dependencies:
-      '@jridgewell/sourcemap-codec': 1.4.15
-    dev: true
-
   /make-dir@3.1.0:
     resolution: {integrity: sha512-g3FeP20LNwhALb/6Cz6Dd4F2ngze0jz7tbzrD2wAV+o9FeNHe4rL+yK2md0J/fiSf1sa1ADhXqi5+oVwOM/eGw==}
     engines: {node: '>=8'}
@@ -6441,6 +6472,16 @@ packages:
       svelte: 3.59.1
     dev: true
 
+  /prettier-plugin-svelte@2.10.1(prettier@2.8.8)(svelte@3.59.2):
+    resolution: {integrity: sha512-Wlq7Z5v2ueCubWo0TZzKc9XHcm7TDxqcuzRuGd0gcENfzfT4JZ9yDlCbEgxWgiPmLHkBjfOtpAWkcT28MCDpUQ==}
+    peerDependencies:
+      prettier: ^1.16.4 || ^2.0.0
+      svelte: ^3.2.0 || ^4.0.0-next.0
+    dependencies:
+      prettier: 2.8.8
+      svelte: 3.59.2
+    dev: true
+
   /prettier-plugin-svelte@2.10.1(prettier@2.8.8)(svelte@4.0.5):
     resolution: {integrity: sha512-Wlq7Z5v2ueCubWo0TZzKc9XHcm7TDxqcuzRuGd0gcENfzfT4JZ9yDlCbEgxWgiPmLHkBjfOtpAWkcT28MCDpUQ==}
     peerDependencies:
@@ -6449,16 +6490,6 @@ packages:
     dependencies:
       prettier: 2.8.8
       svelte: 4.0.5
-    dev: true
-
-  /prettier-plugin-svelte@2.10.1(prettier@2.8.8)(svelte@4.1.2):
-    resolution: {integrity: sha512-Wlq7Z5v2ueCubWo0TZzKc9XHcm7TDxqcuzRuGd0gcENfzfT4JZ9yDlCbEgxWgiPmLHkBjfOtpAWkcT28MCDpUQ==}
-    peerDependencies:
-      prettier: ^1.16.4 || ^2.0.0
-      svelte: ^3.2.0 || ^4.0.0-next.0
-    dependencies:
-      prettier: 2.8.8
-      svelte: 4.1.2
     dev: true
 
   /prettier@2.8.8:
@@ -7444,7 +7475,6 @@ packages:
   /svelte@3.59.2:
     resolution: {integrity: sha512-vzSyuGr3eEoAtT/A6bmajosJZIUWySzY2CzB3w2pgPvnkUjGqlDnsNnA0PMO+mMAhuyMul6C2uuZzY6ELSkzyA==}
     engines: {node: '>= 8'}
-    dev: false
 
   /svelte@4.0.5:
     resolution: {integrity: sha512-PHKPWP1wiWHBtsE57nCb8xiWB3Ht7/3Kvi3jac0XIxUM2rep8alO7YoAtgWeGD7++tFy46krilOrPW0mG3Dx+A==}
@@ -7463,25 +7493,6 @@ packages:
       locate-character: 3.0.0
       magic-string: 0.30.1
       periscopic: 3.1.0
-
-  /svelte@4.1.2:
-    resolution: {integrity: sha512-/evA8U6CgOHe5ZD1C1W3va9iJG7mWflcCdghBORJaAhD2JzrVERJty/2gl0pIPrJYBGZwZycH6onYf+64XXF9g==}
-    engines: {node: '>=16'}
-    dependencies:
-      '@ampproject/remapping': 2.2.1
-      '@jridgewell/sourcemap-codec': 1.4.15
-      '@jridgewell/trace-mapping': 0.3.18
-      acorn: 8.10.0
-      aria-query: 5.3.0
-      axobject-query: 3.2.1
-      code-red: 1.0.3
-      css-tree: 2.3.1
-      estree-walker: 3.0.3
-      is-reference: 3.0.1
-      locate-character: 3.0.0
-      magic-string: 0.30.2
-      periscopic: 3.1.0
-    dev: true
 
   /tailwindcss@3.3.2:
     resolution: {integrity: sha512-9jPkMiIBXvPc2KywkraqsUfbfj+dHDb+JPWtSJa9MLFdrPyazI7q6WX2sUrm7R9eVR7qqv3Pas7EvQFzxKnI6w==}
