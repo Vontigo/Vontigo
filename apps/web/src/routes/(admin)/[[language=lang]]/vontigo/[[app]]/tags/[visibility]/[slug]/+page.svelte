@@ -23,6 +23,7 @@
 
 	// Reset
 	$recordTagsDataModal = {};
+
 	data.record.forEach((value, key) => {
 		$recordTagsDataModal[value.key] = value;
 	});

@@ -1,3 +1,4 @@
+import { DATABASE_TYPE } from '$env/static/private';
 import { knexInstance } from '$lib/core/core/server/data/db/connection';
 import { typeMapping, valueMapping } from '$lib/core/core/server/helpers/database/dbHelper';
 import {
@@ -43,7 +44,7 @@ async function getAllRows(params: any): Promise<any[] | null> {
 			.first();
 
 		let foreignKeyMap: any[];
-		// console.log(await knexInstance.raw('PRAGMA table_info(users);'));
+		// console.log(await knexInstance.raw(`PRAGMA foreign_key_list(${table});`));
 
 		if (DATABASE_TYPE === ENUM_DATABASE_TYPE.sqlite) {
 			await knexInstance.raw(`PRAGMA foreign_key_list(${table});`).then(function (info) {
