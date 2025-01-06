@@ -10,7 +10,7 @@
 	import IconArrowDown from '$lib/icons/IconArrowDown.svelte';
 	import IconPlusSmall from '$lib/icons/IconPlusSmall.svelte';
 	import { AppBar, AppShell, Avatar, filter } from '@skeletonlabs/skeleton';
-	import { Drawer, drawerStore } from '@skeletonlabs/skeleton';
+	import { Drawer, getDrawerStore } from '@skeletonlabs/skeleton';
 	import type { DrawerSettings } from '@skeletonlabs/skeleton';
 	import type { PageData } from './$types';
 	import { STORE_ADMIN_SITE_URL, isEditorOpen } from '$lib/core/shared/stores/site';
@@ -21,6 +21,7 @@
 	let keysJson: string[];
 
 	// if (data && data.posts) keysJson = Object.keys(data.posts[0]);
+	const drawerStore = getDrawerStore();
 
 	const settings: DrawerSettings = {
 		id: 'postEditorDrawer',

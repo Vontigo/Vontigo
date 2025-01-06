@@ -1,6 +1,6 @@
 <script lang="ts">
 	// SKELETON
-	import { popup, storePopup, toastStore, type ToastSettings, Toast } from '@skeletonlabs/skeleton';
+	import { popup, storePopup, getToastStore, type ToastSettings, Toast } from '@skeletonlabs/skeleton';
 	import type { PopupSettings } from '@skeletonlabs/skeleton';
 	import { computePosition } from '@floating-ui/dom';
 	import { Modal, modalStore } from '@skeletonlabs/skeleton';
@@ -54,6 +54,7 @@
 
 	// console.log(data);
 
+	const toastStore = getToastStore();
 	let element: HTMLDivElement;
 	let floatingMenuHTML: HTMLDivElement;
 	let bubbleMenu: HTMLDivElement;

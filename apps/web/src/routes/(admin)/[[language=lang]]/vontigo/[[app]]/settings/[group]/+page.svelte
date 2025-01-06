@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import {
-		toastStore,
+		getToastStore,
 		type ToastSettings,
 		Toast,
 		clipboard,
@@ -12,7 +12,7 @@
 	import IconArrowDown from '$lib/icons/IconArrowDown.svelte';
 	import IconPlusSmall from '$lib/icons/IconPlusSmall.svelte';
 	import { AppBar, AppShell, RadioGroup, RadioItem } from '@skeletonlabs/skeleton';
-	import { Drawer, drawerStore } from '@skeletonlabs/skeleton';
+	import { Drawer, getDrawerStore } from '@skeletonlabs/skeleton';
 	import type { DrawerSettings } from '@skeletonlabs/skeleton';
 	import type { PageData } from './$types';
 	import { STORE_ADMIN_SITE_URL, isEditorOpen } from '$lib/core/shared/stores/site';
@@ -24,6 +24,9 @@
 	let colorValue;
 	const initialFileValues: { [key: string]: string } = {};
 	// let recordId = data.records.find((obj) => obj.key === 'id').value;
+
+	const toastStore = getToastStore();
+	const drawerStore = getDrawerStore();
 
 	onMount(async () => {
 		// Backup all of previous files to delete incase upload new files

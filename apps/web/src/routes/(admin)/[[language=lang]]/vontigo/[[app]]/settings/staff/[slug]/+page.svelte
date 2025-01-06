@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { page } from '$app/stores';
-	import { toastStore, type ToastSettings, Toast, ProgressRadial } from '@skeletonlabs/skeleton';
+	import { getToastStore, type ToastSettings, Toast, ProgressRadial } from '@skeletonlabs/skeleton';
 	import CompEditor from '$lib/core/core/frontend/components/admin/Editor/CompEditor.svelte';
 	import Icon3BottomLeft from '$lib/icons/Icon3BottomLeft.svelte';
 	import IconArrowDown from '$lib/icons/IconArrowDown.svelte';
@@ -15,6 +15,8 @@
 	import RecordDetail from '$lib/core/core/frontend/components/admin/Database/RecordDetail.svelte';
 	import { ENUM_DATABASE_TABLE } from '$lib/core/shared/enum';
 	import RecordCreate from '$lib/core/core/frontend/components/admin/Database/RecordCreate.svelte';
+
+	const toastStore = getToastStore();
 	export let data: PageData;
 
 	// Reset

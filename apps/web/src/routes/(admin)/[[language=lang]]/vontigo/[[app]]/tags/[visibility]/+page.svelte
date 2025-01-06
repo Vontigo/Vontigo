@@ -10,12 +10,13 @@
 	import IconArrowDown from '$lib/icons/IconArrowDown.svelte';
 	import IconPlusSmall from '$lib/icons/IconPlusSmall.svelte';
 	import { AppBar, AppShell } from '@skeletonlabs/skeleton';
-	import { Drawer, drawerStore } from '@skeletonlabs/skeleton';
+	import { Drawer, getDrawerStore } from '@skeletonlabs/skeleton';
 	import type { DrawerSettings } from '@skeletonlabs/skeleton';
 	import type { PageData } from './[slug]/$types';
 	import { STORE_ADMIN_SITE_URL, isEditorOpen } from '$lib/core/shared/stores/site';
 	import { goto } from '$app/navigation';
 	import ObjectID from 'bson-objectid';
+	const drawerStore = getDrawerStore();
 
 	export let data: PageData;
 	let selectedPost: any;

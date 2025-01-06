@@ -1,12 +1,12 @@
 <script lang="ts">
 	import { page } from '$app/stores';
-	import { toastStore, type ToastSettings, Toast, ProgressRadial } from '@skeletonlabs/skeleton';
+	import { getToastStore, type ToastSettings, Toast, ProgressRadial } from '@skeletonlabs/skeleton';
 	import CompEditor from '$lib/core/core/frontend/components/admin/Editor/CompEditor.svelte';
 	import Icon3BottomLeft from '$lib/icons/Icon3BottomLeft.svelte';
 	import IconArrowDown from '$lib/icons/IconArrowDown.svelte';
 	import IconPlusSmall from '$lib/icons/IconPlusSmall.svelte';
 	import { AppBar, AppShell, RadioGroup, RadioItem } from '@skeletonlabs/skeleton';
-	import { Drawer, drawerStore } from '@skeletonlabs/skeleton';
+	import { Drawer, getDrawerStore } from '@skeletonlabs/skeleton';
 	import type { DrawerSettings } from '@skeletonlabs/skeleton';
 	import type { PageData } from './$types';
 	import { STORE_ADMIN_SITE_URL, isEditorOpen } from '$lib/core/shared/stores/site';
@@ -15,6 +15,9 @@
 	let selectedPost: any;
 	let keysJson: string[];
 	let colorValue;
+
+	const toastStore = getToastStore();
+	const drawerStore = getDrawerStore();
 	// let previousSubGroup = '';
 
 	// if (data && data.posts) keysJson = Object.keys(data.posts[0]);

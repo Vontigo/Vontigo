@@ -1,9 +1,9 @@
 <script lang="ts">
 	// SKELETON
-	import { popup, storePopup, toastStore, type ToastSettings, Toast } from '@skeletonlabs/skeleton';
+	import { popup, storePopup, getToastStore, type ToastSettings, Toast } from '@skeletonlabs/skeleton';
 	import type { PopupSettings } from '@skeletonlabs/skeleton';
 	import { computePosition } from '@floating-ui/dom';
-	import { Modal, modalStore } from '@skeletonlabs/skeleton';
+	import { Modal, getModalStore } from '@skeletonlabs/skeleton';
 	import type { ModalSettings, ModalComponent } from '@skeletonlabs/skeleton';
 	import { FileDropzone } from '@skeletonlabs/skeleton';
 	// SVELTE
@@ -51,7 +51,8 @@
 	import IconPlusSmall from '$lib/icons/IconPlusSmall.svelte';
 	import { slugify } from 'transliteration';
 	import { ENUM_POSTS_STATUS } from '$lib/core/shared/enum';
-
+	const toastStore = getToastStore();
+	const modalStore = getModalStore();
 	// VARIABLE DEFINE
 	export let postData: any;
 	let element: HTMLDivElement;

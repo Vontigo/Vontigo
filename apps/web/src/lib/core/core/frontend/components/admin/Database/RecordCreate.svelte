@@ -1,19 +1,19 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import {
-		toastStore,
+		getToastStore,
 		type ToastSettings,
 		Toast,
 		ProgressRadial,
 		clipboard,
-		modalStore
+		getModalStore
 	} from '@skeletonlabs/skeleton';
 	import CompEditor from '$lib/core/core/frontend/components/admin/Editor/CompEditor.svelte';
 	import Icon3BottomLeft from '$lib/icons/Icon3BottomLeft.svelte';
 	import IconArrowDown from '$lib/icons/IconArrowDown.svelte';
 	import IconPlusSmall from '$lib/icons/IconPlusSmall.svelte';
 	import { AppBar, AppShell, RadioGroup, RadioItem } from '@skeletonlabs/skeleton';
-	import { Drawer, drawerStore } from '@skeletonlabs/skeleton';
+	import { Drawer, getDrawerStore } from '@skeletonlabs/skeleton';
 	import type { DrawerSettings } from '@skeletonlabs/skeleton';
 	import type { PageData } from './$types';
 	import {
@@ -33,6 +33,10 @@
 	export let dataModal: any;
 	export let table: string;
 	let isInitDone: boolean = false;
+
+	const toastStore = getToastStore();
+	const drawerStore = getDrawerStore();
+	const modalStore = getModalStore();
 
 	// let selectedPost: any;
 	// let keysJson: string[];

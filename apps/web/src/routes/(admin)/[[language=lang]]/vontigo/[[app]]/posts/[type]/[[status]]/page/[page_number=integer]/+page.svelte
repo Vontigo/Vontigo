@@ -14,10 +14,10 @@
 		AppShell,
 		Avatar,
 		ProgressRadial,
-		modalStore,
-		toastStore
+		getModalStore,
+		getToastStore
 	} from '@skeletonlabs/skeleton';
-	import { Drawer, drawerStore } from '@skeletonlabs/skeleton';
+	import { Drawer, getDrawerStore } from '@skeletonlabs/skeleton';
 	import type { DrawerSettings } from '@skeletonlabs/skeleton';
 	import type { PageData } from './$types';
 	import {
@@ -43,6 +43,9 @@
 	export let data: PageData;
 
 	// console.log(data.brainiacminds);
+
+	const toastStore = getToastStore();
+	const drawerStore = getDrawerStore();
 
 	// let selectedPost: any;
 	// let keysJson: string[];
