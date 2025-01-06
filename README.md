@@ -137,6 +137,10 @@ Thank you to all the people who already contributed to Vontigo!
 
 ![Alt](https://repobeats.axiom.co/api/embed/3b17802e07552dafda67897334dfa36a15af04f2.svg 'Repobeats analytics image')
 
+## Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=Vontigo/Vontigo&type=Date)](https://star-history.com/#Vontigo/Vontigo&Date)
+
 ## Copyright & license
 
 Copyright (c) 2023-2023 Vontigo Foundation - Released under the MIT license. Vontigo and the Vontigo Logo are trademarks of Vontigo Foundation Ltd. Please see our trademark policy for info on acceptable usage.
