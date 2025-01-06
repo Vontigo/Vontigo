@@ -12,7 +12,7 @@
 	import { AppBar, AppShell } from '@skeletonlabs/skeleton';
 	import { Drawer, drawerStore } from '@skeletonlabs/skeleton';
 	import type { DrawerSettings } from '@skeletonlabs/skeleton';
-	import type { PageData } from '../[type]/[slug]/$types';
+	import type { PageData } from './[slug]/$types';
 	import { STORE_ADMIN_SITE_URL, isEditorOpen } from '$lib/core/shared/stores/site';
 	import { goto } from '$app/navigation';
 	import ObjectID from 'bson-objectid';

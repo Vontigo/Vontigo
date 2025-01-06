@@ -15,7 +15,7 @@
 		Avatar,
 		filter
 	} from '@skeletonlabs/skeleton';
-	import { LightSwitch } from '@skeletonlabs/skeleton';
+	// import { LightSwitch } from '@skeletonlabs/skeleton';
 	import { page } from '$app/stores';
 	import { PUBLIC_DEFAULT_LANG } from '$env/static/public';
 	import {
