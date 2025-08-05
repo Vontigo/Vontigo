@@ -6,7 +6,7 @@
 	import { afterUpdate, onMount } from 'svelte';
 	import type { PageData } from './$types';
 	import PostCard from './partials/PostCard.svelte';
-	import { MetaTags } from 'svelte-meta-tags';
+
 	import { page } from '$app/stores';
 
 	export let site: any;
