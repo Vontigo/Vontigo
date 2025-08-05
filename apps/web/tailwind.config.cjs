@@ -24,8 +24,7 @@ module.exports = {
 	},
 	plugins: [
 		require('@tailwindcss/container-queries'),
-		require('@tailwindcss/forms'),
-		// 3. Append the Skeleton plugin to the end of this list
-		...require('@skeletonlabs/skeleton/tailwind/skeleton.cjs')()
+		require('@tailwindcss/forms')
+		// Skeleton UI 2 doesn't have a plugin - it's just CSS
 	]
 };
