@@ -2,7 +2,7 @@
 	import { InputChip } from '@skeletonlabs/skeleton';
 	import ObjectID from 'bson-objectid';
 	import { onMount } from 'svelte';
-	import Tags from 'svelte-tags-input';
+	// import Tags from 'svelte-tags-input';
 	import { Autocomplete } from '@skeletonlabs/skeleton';
 	import type { AutocompleteOption } from '@skeletonlabs/skeleton';
 

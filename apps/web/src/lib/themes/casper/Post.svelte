@@ -6,7 +6,7 @@
 	import IconFire from './partials/icons/IconFire.svelte';
 	import IconAvatar from './partials/icons/IconAvatar.svelte';
 	import { post_class } from '$lib/core/core/frontend/helpers/postClass';
-	import { MetaTags } from 'svelte-meta-tags';
+
 	import { page } from '$app/stores';
 	import { readingTime } from '$lib/core/core/frontend/helpers/readingTime';
 
