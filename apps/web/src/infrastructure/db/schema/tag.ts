@@ -86,8 +86,8 @@ export const insertPostTagSchema = createInsertSchema(postsTags);
 export const selectPostTagSchema = createSelectSchema(postsTags);
 
 // Domain value objects
-export const TagSlugSchema = z.string().min(1).max(191);
-export const TagNameSchema = z.string().min(1).max(191);
+export const TagSlugSchema = z.string().min(1, 'Slug cannot be empty').max(191, 'Slug too long');
+export const TagNameSchema = z.string().min(1, 'Name cannot be empty').max(191, 'Name too long');
 
 export type TagSlug = z.infer<typeof TagSlugSchema>;
 export type TagName = z.infer<typeof TagNameSchema>;

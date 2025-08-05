@@ -24,7 +24,7 @@ export class Member {
 	) {
 		// Validate domain invariants
 		this.validateEmail(email);
-		if (name) {
+		if (name !== null) {
 			this.validateName(name);
 		}
 	}
@@ -95,8 +95,8 @@ export class Member {
 		const name = data.name !== undefined ? data.name : this.name;
 		
 		// Validate if changed
-		if (data.name && data.name !== this.name) {
-			this.validateName(name!);
+		if (data.name !== undefined && data.name !== this.name && data.name !== null) {
+			this.validateName(data.name);
 		}
 
 		return new Member(

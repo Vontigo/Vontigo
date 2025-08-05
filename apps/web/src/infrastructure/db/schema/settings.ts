@@ -59,8 +59,8 @@ export const insertSettingsSchema = createInsertSchema(settings);
 export const selectSettingsSchema = createSelectSchema(settings);
 
 // Domain value objects
-export const SettingsKeySchema = z.string().min(1).max(50);
-export const SettingsGroupSchema = z.string().min(1).max(50);
+export const SettingsKeySchema = z.string().min(1, 'Key cannot be empty').max(50, 'Key too long');
+export const SettingsGroupSchema = z.string().min(1, 'Group cannot be empty').max(50, 'Group too long');
 
 export type SettingsKey = z.infer<typeof SettingsKeySchema>;
 export type SettingsGroup = z.infer<typeof SettingsGroupSchema>;

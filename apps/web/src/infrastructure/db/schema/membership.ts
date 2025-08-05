@@ -60,7 +60,7 @@ export const selectMemberSchema = createSelectSchema(members);
 
 // Domain value objects
 export const MemberEmailSchema = z.string().email().max(191);
-export const MemberNameSchema = z.string().min(1).max(191);
+export const MemberNameSchema = z.string().min(1, 'Name cannot be empty').max(191, 'Name too long');
 
 export type MemberEmail = z.infer<typeof MemberEmailSchema>;
 export type MemberName = z.infer<typeof MemberNameSchema>;
