@@ -11,3 +11,11 @@ node_modules
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 pnpm-lock.yaml
+
+# Drizzle
+/src/infrastructure/db/migrations/*.sql.meta
+MIGRATION_REPORT.md
+
+# Better SQLite3 database files
+*.db
+*.db-journal

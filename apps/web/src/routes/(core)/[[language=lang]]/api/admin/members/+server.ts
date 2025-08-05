@@ -1,8 +1,5 @@
-import { knexInstance } from '$lib/core/core/server/data/db/connection';
-import { ENUM_DATABASE_TABLE, ENUM_POSTS_STATUS } from '$lib/core/shared/enum.js';
+import { Container } from '../../../../../../application/Container';
 import type { RequestHandler } from './$types';
-import ObjectID from 'bson-objectid';
-import { v4 as uuidv4 } from 'uuid';
 
 /** @type {import('./$types').RequestHandler} */
 export async function GET({ url, params }) {
@@ -21,8 +18,11 @@ export async function GET({ url, params }) {
 
 async function getAllRows(params: any): Promise<any[] | null> {
 	try {
-		const rows: any[] = await knexInstance.select('m.*').from('members as m');
-		return rows;
+		const container = Container.getInstance();
+		const memberService = container.getMemberService();
+		
+		const members = await memberService.getAllMembers();
+		return members;
 	} catch (error) {
 		console.error(error);
 		return null;

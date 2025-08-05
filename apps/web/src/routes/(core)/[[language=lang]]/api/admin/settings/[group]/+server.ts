@@ -1,8 +1,5 @@
-import { knexInstance } from '$lib/core/core/server/data/db/connection';
-import { ENUM_DATABASE_TABLE, ENUM_POSTS_STATUS } from '$lib/core/shared/enum.js';
+import { Container } from '../../../../../../../application/Container';
 import type { RequestHandler } from './$types';
-import ObjectID from 'bson-objectid';
-import { v4 as uuidv4 } from 'uuid';
 
 /** @type {import('./$types').RequestHandler} */
 export async function GET({ url, params }) {
@@ -20,10 +17,12 @@ export async function GET({ url, params }) {
 }
 
 async function getAllRows(params: any): Promise<any[] | null> {
-	let group = params.group;
 	try {
-		const rows: any[] = await knexInstance.select('s.*').from('settings as s').where({ group });
-		return rows;
+		const container = Container.getInstance();
+		const settingsService = container.getSettingsService();
+		
+		const settings = await settingsService.getByGroup(params.group);
+		return settings;
 	} catch (error) {
 		console.error(error);
 		return null;
