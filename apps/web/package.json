@@ -24,7 +24,6 @@
 		"@fontsource/fira-mono": "^5.1.1",
 		"@neoconfetti/svelte": "^2.2.1",
 		"@playwright/test": "^1.49.1",
-		"@skeletonlabs/skeleton": "^3.1.7",
 		"@sveltejs/adapter-auto": "^3.3.1",
 		"@sveltejs/kit": "^2.27.0",
 		"@types/cookie": "^1.0.0",
