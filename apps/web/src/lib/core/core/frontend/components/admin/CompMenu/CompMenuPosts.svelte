@@ -1,35 +1,25 @@
 <script lang="ts">
 	import IconArrowDown from '$lib/icons/IconArrowDown.svelte';
-	import { ListBox, ListBoxItem } from '@skeletonlabs/skeleton';
-	import { popup } from '@skeletonlabs/skeleton';
-	import type { PopupSettings } from '@skeletonlabs/skeleton';
 
-	let menuPostsValue: string;
-	let menuPosts: PopupSettings = {
-		event: 'focus-click',
-		target: 'menuPosts',
-		placement: 'bottom',
-		// Close the popup when the item is clicked
-		closeQuery: '.listbox-item'
-	};
+	let menuPostsValue: string = 'All posts';
+	
+	function selectOption(value: string, label: string) {
+		menuPostsValue = label;
+		// Close dropdown by removing focus
+		const dropdown = document.activeElement as HTMLElement;
+		dropdown?.blur();
+	}
 </script>
 
-<button type="button" class="btn btn-sm variant-soft" use:popup={menuPosts}>
-	<span>{menuPostsValue ?? 'All posts'}</span>
-	<span><IconArrowDown /></span>
-</button>
-<div class="card w-48 shadow-sm py-2" data-popup="menuPosts">
-	<!-- Listbox -->
-	<ListBox rounded="rounded-none">
-		<ListBoxItem bind:group={menuPostsValue} name="medium" value="All">All posts</ListBoxItem>
-		<ListBoxItem bind:group={menuPostsValue} name="medium" value="Draft">Draft posts</ListBoxItem>
-		<ListBoxItem bind:group={menuPostsValue} name="medium" value="Published">
-			Published posts
-		</ListBoxItem>
-		<ListBoxItem bind:group={menuPostsValue} name="medium" value="Scheduled">
-			Scheduled posts
-		</ListBoxItem>
-	</ListBox>
-	<!-- Arrow -->
-	<div class="arrow bg-surface-100-800-token" />
+<div class="dropdown">
+	<div tabindex="0" role="button" class="btn btn-sm btn-outline">
+		<span>{menuPostsValue}</span>
+		<span><IconArrowDown /></span>
+	</div>
+	<ul tabindex="0" class="dropdown-content menu bg-base-100 rounded-box z-[1] w-48 p-2 shadow">
+		<li><a href="#" on:click|preventDefault={() => selectOption('All', 'All posts')}>All posts</a></li>
+		<li><a href="#" on:click|preventDefault={() => selectOption('Draft', 'Draft posts')}>Draft posts</a></li>
+		<li><a href="#" on:click|preventDefault={() => selectOption('Published', 'Published posts')}>Published posts</a></li>
+		<li><a href="#" on:click|preventDefault={() => selectOption('Scheduled', 'Scheduled posts')}>Scheduled posts</a></li>
+	</ul>
 </div>
