@@ -1,28 +1,22 @@
 <script lang="ts">
 	import IconArrowDown from '$lib/icons/IconArrowDown.svelte';
-	import { ListBox, ListBoxItem } from '@skeletonlabs/skeleton';
-	import { popup } from '@skeletonlabs/skeleton';
-	import type { PopupSettings } from '@skeletonlabs/skeleton';
 
-	let menuTagsValue: string;
-	let menuTags: PopupSettings = {
-		event: 'focus-click',
-		target: 'menuTags',
-		placement: 'bottom',
-		// Close the popup when the item is clicked
-		closeQuery: '.listbox-item'
-	};
+	let menuTagsValue: string = 'All tags';
+	
+	function selectOption(value: string, label: string) {
+		menuTagsValue = label;
+		// Close dropdown by removing focus
+		const dropdown = document.activeElement as HTMLElement;
+		dropdown?.blur();
+	}
 </script>
 
-<button type="button" class="btn btn-sm variant-soft" use:popup={menuTags}>
-	<span>{menuTagsValue ?? 'All tags'}</span>
-	<span><IconArrowDown /></span>
-</button>
-<div class="card w-48 shadow-sm py-2" data-popup="menuTags">
-	<!-- Listbox -->
-	<ListBox rounded="rounded-none">
-		<ListBoxItem bind:group={menuTagsValue} name="medium" value="All">All tags</ListBoxItem>
-	</ListBox>
-	<!-- Arrow -->
-	<div class="arrow bg-surface-100-800-token" />
+<div class="dropdown">
+	<div tabindex="0" role="button" class="btn btn-sm btn-outline">
+		<span>{menuTagsValue}</span>
+		<span><IconArrowDown /></span>
+	</div>
+	<ul tabindex="0" class="dropdown-content menu bg-base-100 rounded-box z-[1] w-48 p-2 shadow">
+		<li><a href="#" on:click|preventDefault={() => selectOption('All', 'All tags')}>All tags</a></li>
+	</ul>
 </div>
