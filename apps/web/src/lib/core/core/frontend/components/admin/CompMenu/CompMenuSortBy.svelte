@@ -1,35 +1,25 @@
 <script lang="ts">
 	import IconArrowDown from '$lib/icons/IconArrowDown.svelte';
-	import { ListBox, ListBoxItem } from '@skeletonlabs/skeleton';
-	import { popup } from '@skeletonlabs/skeleton';
-	import type { PopupSettings } from '@skeletonlabs/skeleton';
 
-	let menuSortByValue: string;
-	let menuSortBy: PopupSettings = {
-		event: 'focus-click',
-		target: 'menuSortBy',
-		placement: 'bottom',
-		// Close the popup when the item is clicked
-		closeQuery: '.listbox-item'
-	};
+	let menuSortByValue: string = 'Newest';
+	
+	function selectOption(value: string, label: string) {
+		menuSortByValue = label;
+		// Close dropdown by removing focus
+		const dropdown = document.activeElement as HTMLElement;
+		dropdown?.blur();
+	}
 </script>
 
-<button type="button" class="btn btn-sm variant-soft" use:popup={menuSortBy}>
-	<span>Sort by: {menuSortByValue ?? 'None'}</span>
-	<span><IconArrowDown /></span>
-</button>
-<div class="card w-48 shadow-sm py-2" data-popup="menuSortBy">
-	<!-- Listbox -->
-	<ListBox rounded="rounded-none">
-		<ListBoxItem bind:group={menuSortByValue} name="medium" value="All">Newest</ListBoxItem>
-		<ListBoxItem bind:group={menuSortByValue} name="medium" value="Draft">Oldest</ListBoxItem>
-		<ListBoxItem bind:group={menuSortByValue} name="medium" value="Published">
-			Recently updated
-		</ListBoxItem>
-		<ListBoxItem bind:group={menuSortByValue} name="medium" value="Scheduled">
-			Open rate
-		</ListBoxItem>
-	</ListBox>
-	<!-- Arrow -->
-	<div class="arrow bg-surface-100-800-token" />
+<div class="dropdown">
+	<div tabindex="0" role="button" class="btn btn-sm btn-outline">
+		<span>Sort by: {menuSortByValue}</span>
+		<span><IconArrowDown /></span>
+	</div>
+	<ul tabindex="0" class="dropdown-content menu bg-base-100 rounded-box z-[1] w-48 p-2 shadow">
+		<li><a href="#" on:click|preventDefault={() => selectOption('Newest', 'Newest')}>Newest</a></li>
+		<li><a href="#" on:click|preventDefault={() => selectOption('Oldest', 'Oldest')}>Oldest</a></li>
+		<li><a href="#" on:click|preventDefault={() => selectOption('Recently updated', 'Recently updated')}>Recently updated</a></li>
+		<li><a href="#" on:click|preventDefault={() => selectOption('Open rate', 'Open rate')}>Open rate</a></li>
+	</ul>
 </div>
