@@ -1,5 +1,5 @@
 import type { RequestHandler } from './$types';
-import { Container } from '../../../../../../application/Container';
+import { Container } from '@application/Container';
 import { json, error } from '@sveltejs/kit';
 
 export const GET = (async ({ params }) => {

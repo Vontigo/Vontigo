@@ -1,4 +1,4 @@
-import { Container } from '../../../../../../application/Container';
+import { Container } from '@application/Container';
 import type { RequestHandler } from './$types';
 
 /** @type {import('./$types').RequestHandler} */

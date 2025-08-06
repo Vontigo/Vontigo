@@ -1,4 +1,4 @@
-import { Container } from '../../../../../application/Container';
+import { Container } from '@application/Container';
 
 /** @type {import('./$types').RequestHandler} */
 export async function GET({ url, params }) {

@@ -101,6 +101,7 @@
 		"pg": "^8.13.1",
 		"pnpm": "^9.15.3",
 		"postcss-import": "^16.1.1",
+		"postgres": "^3.4.4",
 		"sharp": "^0.33.5",
 		"sqlite3": "^5.1.7",
 		"timeago.js": "^4.0.2",

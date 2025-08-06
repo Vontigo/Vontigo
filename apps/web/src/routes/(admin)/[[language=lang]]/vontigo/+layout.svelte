@@ -5,15 +5,13 @@
 
 	import { signOut } from '@auth/sveltekit/client';
 
-	import {
-		AppShell,
-		Avatar,
-		ProgressBar,
-		ProgressRadial,
-		Toast,
-		filter,
-		popup
-	} from '@skeletonlabs/skeleton';
+import {
+	Popover,
+	Avatar,
+	ProgressBar,
+	ProgressRadial,
+	Toast
+} from '@skeletonlabs/skeleton';
 	import { LightSwitch } from '@skeletonlabs/skeleton';
 	import { page, navigating } from '$app/stores';
 	import { PUBLIC_DEFAULT_LANG } from '$env/static/public';
@@ -33,7 +31,7 @@
 	// import IconUsers from '$lib/icons/IconUsers.svelte';
 
 	import { computePosition, autoUpdate, flip, shift, offset, arrow } from '@floating-ui/dom';
-	import { storePopup, type PopupSettings } from '@skeletonlabs/skeleton';
+// storePopup and PopupSettings are no longer exported by Skeleton v3. Use Popover/Modal components instead. See https://www.skeleton.dev/docs/integrations/popover/svelte
 	// import IconDatabase from '$lib/icons/IconDatabase.svelte';
 	import CompGravatar from '$lib/core/core/frontend/components/shared/CompGravatar/CompGravatar.svelte';
 
@@ -51,19 +49,15 @@
 		visible = true;
 	});
 
-	storePopup.set({ computePosition, autoUpdate, flip, shift, offset, arrow });
+
 	origin.set($page.url.host);
 
 	let href: string;
 
 	origin.set($page.url.host);
 
-	let popupSettings: PopupSettings = {
-		// Set the event as: click | hover | hover-click | focus | focus-click
-		event: 'click',
-		// Provide a matching 'data-popup' value.
-		target: 'examplePopup'
-	};
+
+// storePopup, PopupSettings, filter, and popup are no longer exported by Skeleton v3. Use <Popover> or <Modal> components for popups/modals. See https://www.skeleton.dev/docs/components/popover/svelte and https://www.skeleton.dev/docs/components/modal/svelte
 
 	if ($page.params) {
 		language.set($page.params.language ? $page.params.language : PUBLIC_DEFAULT_LANG);
@@ -97,9 +91,9 @@
 
 {#if visible}
 	<div transition:fade class="h-full w-full">
-		<AppShell regionPage="relative" slotPageHeader="sticky top-0 z-10 ">
-			<!-- <svelte:fragment slot="header">Header</svelte:fragment> -->
-			<svelte:fragment slot="sidebarLeft">
+		<!-- AppShell removed. Use a div as the main layout wrapper. -->
+		<div class="flex h-full w-full">
+			<!-- Sidebar Left -->
 				{#if $isSignedIn}
 					<div
 						id=""
@@ -286,29 +280,52 @@
 							<ul class="h-full" />
 							<ul class="sidebar-left__bottom p-8 flex flex-row">
 								<li class="w-full mt-1 flex">
-									<div
-										class=" relative inline-block my-auto cursor-pointer"
-										use:popup={popupSettings}
-									>
-										<span
-											class="badge-icon bg-green-400 absolute -top-0 -right-0 z-10 w-2 h-2 border"
-										/>
-										{#if $page?.data?.session?.user?.profile_image}
-											<Avatar
-												src={$page?.data?.session?.user?.profile_image}
-												action={filter}
-												actionParams="#Apollo"
-												width="w-8"
-											/>
-										{:else}
-											<CompGravatar
-												email={$page?.data?.session?.user?.email}
-												size={32}
-												default="robohash"
-												class="rounded-full"
-											/>
-										{/if}
-									</div>
+									<!-- Popover for user avatar menu -->
+									<Popover placement="right">
+										<button slot="trigger" class="relative inline-block my-auto cursor-pointer focus:outline-none">
+											<span class="badge-icon bg-green-400 absolute -top-0 -right-0 z-10 w-2 h-2 border" />
+											{#if $page?.data?.session?.user?.profile_image}
+												<Avatar
+													src={$page?.data?.session?.user?.profile_image}
+													width="w-8"
+												/>
+											{:else}
+												<CompGravatar
+													email={$page?.data?.session?.user?.email}
+													size={32}
+													default="robohash"
+													class="rounded-full"
+												/>
+											{/if}
+										</button>
+										<div slot="content" class="card p-2 shadow text-base min-w-[180px]">
+											<nav class="list-nav">
+												<ul>
+													<li>
+														<a
+															class={classesActive($STORE_ADMIN_SITE_URL + '/settings/staff')}
+															href={$STORE_ADMIN_SITE_URL + '/settings/staff/' + $page?.data?.session?.user?.slug}
+														>
+															<span class="flex-auto">My profile</span>
+														</a>
+													</li>
+													<li>
+														<a
+															class={classesActive($STORE_ADMIN_SITE_URL + '/docs')}
+															href={$STORE_ADMIN_SITE_URL + '/docs'}
+														>
+															<span class="flex-auto">Developer docs</span>
+														</a>
+													</li>
+													<li>
+														<a href="#" on:click={() => signOut()} class="p-1">
+															<span class="flex-auto">Signout</span>
+														</a>
+													</li>
+												</ul>
+											</nav>
+										</div>
+									</Popover>
 								</li>
 								<li class="w-full" />
 								<li class="w-auto text-end content-end settings">
@@ -425,13 +442,7 @@
 						</nav>
 					</div>
 				{/if}
-			</svelte:fragment>
-			<!-- <svelte:fragment slot="sidebarRight">Sidebar Right</svelte:fragment> -->
-			<!-- <svelte:fragment slot="pageHeader">
-		<AppBar class="text-3xl font-bold">Dashboard</AppBar>
-	</svelte:fragment> -->
-			<!-- Router Slot -->
-
+			<!-- End sidebar left. Main content below. -->
 			{#if $navigating}
 				<ProgressBar
 					height={'h-1'}
@@ -441,11 +452,7 @@
 				/>
 			{/if}
 			<slot />
-
-			<!-- ---- / ---- -->
-			<!-- <svelte:fragment slot="pageFooter">Page Footer</svelte:fragment> -->
-			<!-- <svelte:fragment slot="footer">Footer</svelte:fragment> -->
-		</AppShell>
+		</div>
 	</div>
 {:else}
 	<div class="loading w-full h-full flex">
