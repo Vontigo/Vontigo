@@ -5,14 +5,6 @@
 
 	import { signOut } from '@auth/sveltekit/client';
 
-import {
-	Popover,
-	Avatar,
-	ProgressBar,
-	ProgressRadial,
-	Toast
-} from '@skeletonlabs/skeleton';
-	import { LightSwitch } from '@skeletonlabs/skeleton';
 	import { page, navigating } from '$app/stores';
 	import { PUBLIC_DEFAULT_LANG } from '$env/static/public';
 	import {
@@ -30,9 +22,6 @@ import {
 	import IconTag from '$lib/icons/IconTag.svelte';
 	// import IconUsers from '$lib/icons/IconUsers.svelte';
 
-	import { computePosition, autoUpdate, flip, shift, offset, arrow } from '@floating-ui/dom';
-// storePopup and PopupSettings are no longer exported by Skeleton v3. Use Popover/Modal components instead. See https://www.skeleton.dev/docs/integrations/popover/svelte
-	// import IconDatabase from '$lib/icons/IconDatabase.svelte';
 	import CompGravatar from '$lib/core/core/frontend/components/shared/CompGravatar/CompGravatar.svelte';
 
 	import { fade } from 'svelte/transition';
@@ -41,6 +30,7 @@ import {
 	import IconPost from '$lib/icons/IconPost.svelte';
 
 	let visible = false;
+	let avatarDropdownOpen = false;
 	$STORE_ADMIN_APP_TYPE = ENUM_APP_TYPE[$page.params.app || ENUM_APP_TYPE.website];
 
 	// alert($STORE_ADMIN_APP_TYPE);
@@ -49,15 +39,11 @@ import {
 		visible = true;
 	});
 
-
 	origin.set($page.url.host);
 
 	let href: string;
 
 	origin.set($page.url.host);
-
-
-// storePopup, PopupSettings, filter, and popup are no longer exported by Skeleton v3. Use <Popover> or <Modal> components for popups/modals. See https://www.skeleton.dev/docs/components/popover/svelte and https://www.skeleton.dev/docs/components/modal/svelte
 
 	if ($page.params) {
 		language.set($page.params.language ? $page.params.language : PUBLIC_DEFAULT_LANG);
@@ -68,8 +54,19 @@ import {
 
 	$: classesActive = (href: string) =>
 		$page.url.pathname.indexOf(href) > -1
-			? '!bg-primary-500/10 text-primary-500'
-			: 'hover:!bg-primary-500/20 hover:text-primary-500'; //'text-primary-500 font-bold' : ''; //'!bg-primary-500 text-white' : '';
+			? '!bg-primary/10 text-primary'
+			: 'hover:!bg-primary/20 hover:text-primary';
+
+	function toggleTheme() {
+		const html = document.documentElement;
+		if (html.classList.contains('dark')) {
+			html.classList.remove('dark');
+			localStorage.setItem('theme', 'light');
+		} else {
+			html.classList.add('dark');
+			localStorage.setItem('theme', 'dark');
+		}
+	}
 </script>
 
 <svelte:head>
@@ -102,7 +99,7 @@ import {
 						<nav class="list-nav space-y-4 h-full flex flex-col">
 							<!-- (optionally you can provde a label here) -->
 							<ul class="p-2 pl-10 px-6 pt-6">
-								<li class="w-auto py-2 text-primary-500">
+								<li class="w-auto py-2 text-primary">
 									<!-- <span class="unstyled flex-auto font-bold antialiased"
 										><span class="font-black text-4xl text-primary-500">V</span>ontigo</span
 									> -->
@@ -280,15 +277,16 @@ import {
 							<ul class="h-full" />
 							<ul class="sidebar-left__bottom p-8 flex flex-row">
 								<li class="w-full mt-1 flex">
-									<!-- Popover for user avatar menu -->
-									<Popover placement="right">
-										<button slot="trigger" class="relative inline-block my-auto cursor-pointer focus:outline-none">
-											<span class="badge-icon bg-green-400 absolute -top-0 -right-0 z-10 w-2 h-2 border" />
+									<!-- DaisyUI Dropdown for user avatar menu -->
+									<div class="dropdown dropdown-top dropdown-end">
+										<div tabindex="0" role="button" class="relative inline-block my-auto cursor-pointer">
+											<span class="badge badge-success absolute -top-0 -right-0 z-10 w-2 h-2 rounded-full" />
 											{#if $page?.data?.session?.user?.profile_image}
-												<Avatar
-													src={$page?.data?.session?.user?.profile_image}
-													width="w-8"
-												/>
+												<div class="avatar">
+													<div class="w-8 rounded-full">
+														<img src={$page?.data?.session?.user?.profile_image} alt="User Avatar" />
+													</div>
+												</div>
 											{:else}
 												<CompGravatar
 													email={$page?.data?.session?.user?.email}
@@ -297,35 +295,31 @@ import {
 													class="rounded-full"
 												/>
 											{/if}
-										</button>
-										<div slot="content" class="card p-2 shadow text-base min-w-[180px]">
-											<nav class="list-nav">
-												<ul>
-													<li>
-														<a
-															class={classesActive($STORE_ADMIN_SITE_URL + '/settings/staff')}
-															href={$STORE_ADMIN_SITE_URL + '/settings/staff/' + $page?.data?.session?.user?.slug}
-														>
-															<span class="flex-auto">My profile</span>
-														</a>
-													</li>
-													<li>
-														<a
-															class={classesActive($STORE_ADMIN_SITE_URL + '/docs')}
-															href={$STORE_ADMIN_SITE_URL + '/docs'}
-														>
-															<span class="flex-auto">Developer docs</span>
-														</a>
-													</li>
-													<li>
-														<a href="#" on:click={() => signOut()} class="p-1">
-															<span class="flex-auto">Signout</span>
-														</a>
-													</li>
-												</ul>
-											</nav>
 										</div>
-									</Popover>
+										<ul tabindex="0" class="dropdown-content menu bg-base-100 rounded-box z-[1] min-w-[180px] p-2 shadow">
+											<li>
+												<a
+													class={classesActive($STORE_ADMIN_SITE_URL + '/settings/staff')}
+													href={$STORE_ADMIN_SITE_URL + '/settings/staff/' + $page?.data?.session?.user?.slug}
+												>
+													<span class="flex-auto">My profile</span>
+												</a>
+											</li>
+											<li>
+												<a
+													class={classesActive($STORE_ADMIN_SITE_URL + '/docs')}
+													href={$STORE_ADMIN_SITE_URL + '/docs'}
+												>
+													<span class="flex-auto">Developer docs</span>
+												</a>
+											</li>
+											<li>
+												<a href="#" on:click={() => signOut()}>
+													<span class="flex-auto">Signout</span>
+												</a>
+											</li>
+										</ul>
+									</div>
 								</li>
 								<li class="w-full" />
 								<li class="w-auto text-end content-end settings">
@@ -355,101 +349,19 @@ import {
 									</a>
 								</li>
 								<li class="w-auto text-end content-end py-2">
-									<span class="flex-auto text-base">
-										<LightSwitch height="h-5" width="w-10" rounded="rounded-full" />
-									</span>
+									<label class="swap swap-rotate">
+										<input type="checkbox" on:change={toggleTheme} />
+										<svg class="swap-off fill-current w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M5.64,17l-.71.71a1,1,0,0,0,0,1.41,1,1,0,0,0,1.41,0l.71-.71A1,1,0,0,0,5.64,17ZM5,12a1,1,0,0,0-1-1H3a1,1,0,0,0,0,2H4A1,1,0,0,0,5,12Zm7-7a1,1,0,0,0,1-1V3a1,1,0,0,0-2,0V4A1,1,0,0,0,12,5ZM5.64,7.05a1,1,0,0,0,.7.29,1,1,0,0,0,.71-.29,1,1,0,0,0,0-1.41l-.71-.71A1,1,0,0,0,4.93,6.34Zm12,.29a1,1,0,0,0,.7-.29l.71-.71a1,1,0,1,0-1.41-1.41L17,5.64a1,1,0,0,0,0,1.41A1,1,0,0,0,17.66,7.34ZM21,11H20a1,1,0,0,0,0,2h1a1,1,0,0,0,0-2Zm-9,8a1,1,0,0,0-1,1v1a1,1,0,0,0,2,0V20A1,1,0,0,0,12,19ZM18.36,17A1,1,0,0,0,17,18.36l.71.71a1,1,0,0,0,1.41,0,1,1,0,0,0,0-1.41ZM12,6.5A5.5,5.5,0,1,0,17.5,12,5.51,5.51,0,0,0,12,6.5Zm0,9A3.5,3.5,0,1,1,15.5,12,3.5,3.5,0,0,1,12,15.5Z"/></svg>
+										<svg class="swap-on fill-current w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21.64,13a1,1,0,0,0-1.05-.14,8.05,8.05,0,0,1-3.37.73A8.15,8.15,0,0,1,9.08,5.49a8.59,8.59,0,0,1,.25-2A1,1,0,0,0,8,2.36,10.14,10.14,0,1,0,22,14.05,1,1,0,0,0,21.64,13Zm-9.5,6.69A8.14,8.14,0,0,1,7.08,5.22v.27A10.15,10.15,0,0,0,17.22,15.63a9.79,9.79,0,0,0,2.1-.22A8.11,8.11,0,0,1,12.14,19.73Z"/></svg>
+									</label>
 								</li>
-							</ul>
-						</nav>
-					</div>
-
-					<div class="card p-2 shadow text-base" data-popup="examplePopup">
-						<nav class="list-nav">
-							<!-- (optionally you can provide a label here) -->
-							<ul>
-								<li>
-									<a
-										class={classesActive($STORE_ADMIN_SITE_URL + '/settings/staff')}
-										href={$STORE_ADMIN_SITE_URL +
-											'/settings/staff/' +
-											$page?.data?.session?.user?.slug}
-									>
-										<svg
-											xmlns="http://www.w3.org/2000/svg"
-											fill="none"
-											viewBox="0 0 24 24"
-											stroke-width="1.5"
-											stroke="currentColor"
-											class="w-5 h-5"
-										>
-											<path
-												stroke-linecap="round"
-												stroke-linejoin="round"
-												d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z"
-											/>
-										</svg>
-
-										<span class="flex-auto">My profile</span>
-									</a>
-								</li>
-								<li>
-									<a
-										class={classesActive($STORE_ADMIN_SITE_URL + '/docs')}
-										href={$STORE_ADMIN_SITE_URL + '/docs'}
-									>
-										<span class="">
-											<svg
-												xmlns="http://www.w3.org/2000/svg"
-												fill="none"
-												viewBox="0 0 24 24"
-												stroke-width="1.5"
-												stroke="currentColor"
-												class="w-5 h-5"
-											>
-												<path
-													stroke-linecap="round"
-													stroke-linejoin="round"
-													d="M4.26 10.147a60.436 60.436 0 00-.491 6.347A48.627 48.627 0 0112 20.904a48.627 48.627 0 018.232-4.41 60.46 60.46 0 00-.491-6.347m-15.482 0a50.57 50.57 0 00-2.658-.813A59.905 59.905 0 0112 3.493a59.902 59.902 0 0110.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.697 50.697 0 0112 13.489a50.702 50.702 0 017.74-3.342M6.75 15a.75.75 0 100-1.5.75.75 0 000 1.5zm0 0v-3.675A55.378 55.378 0 0112 8.443m-7.007 11.55A5.981 5.981 0 006.75 15.75v-1.5"
-												/>
-											</svg>
-										</span>
-										<span class="flex-auto">Developer docs</span>
-									</a>
-								</li>
-								<li>
-									<a href="#" on:click={() => signOut()} class="p-1">
-										<span class=""
-											><svg
-												xmlns="http://www.w3.org/2000/svg"
-												fill="none"
-												viewBox="0 0 24 24"
-												stroke-width="1.5"
-												stroke="currentColor"
-												class="w-5 h-5"
-											>
-												<path
-													stroke-linecap="round"
-													stroke-linejoin="round"
-													d="M5.636 5.636a9 9 0 1012.728 0M12 3v9"
-												/>
-											</svg>
-										</span>
-										<span class="flex-auto">Signout</span>
-									</a>
-								</li>
-								<!-- ... -->
 							</ul>
 						</nav>
 					</div>
 				{/if}
 			<!-- End sidebar left. Main content below. -->
 			{#if $navigating}
-				<ProgressBar
-					height={'h-1'}
-					class="absolute top-0 w-full z-20"
-					meter=" bg-primary-500"
-					rounded="rounded-0"
-				/>
+				<progress class="progress progress-primary absolute top-0 w-full z-20 h-1"></progress>
 			{/if}
 			<slot />
 		</div>
@@ -467,7 +379,11 @@ import {
 		</div>
 	</div>
 {/if}
-<Toast position={'tr'} width={'max-w-[350px]'} buttonDismiss="hidden" />
+
+<!-- DaisyUI Toast replacement -->
+<div class="toast toast-top toast-end max-w-sm">
+	<!-- Toast messages would go here -->
+</div>
 
 <style lang="scss">
 </style>
