@@ -3,15 +3,6 @@
 	import '../../app.postcss';
 	import './vontigo.css';
 
-	import {
-		Accordion,
-		AccordionItem,
-		AppBar,
-		AppShell,
-		Avatar,
-		filter
-	} from '@skeletonlabs/skeleton';
-	import { LightSwitch } from '@skeletonlabs/skeleton';
 	import { page } from '$app/stores';
 	import { PUBLIC_DEFAULT_LANG } from '$env/static/public';
 	import {
@@ -27,11 +18,8 @@
 	import Icon3BottomLeft from '$lib/icons/Icon3BottomLeft.svelte';
 	import IconTag from '$lib/icons/IconTag.svelte';
 	import IconUsers from '$lib/icons/IconUsers.svelte';
-
-	import { computePosition, autoUpdate, flip, shift, offset, arrow } from '@floating-ui/dom';
-	import { storePopup, type PopupSettings } from '@skeletonlabs/skeleton';
 	import IconDatabase from '$lib/icons/IconDatabase.svelte';
-	storePopup.set({ computePosition, autoUpdate, flip, shift, offset, arrow });
+
 	origin.set($page.url.host);
 
 	let href: string;
@@ -46,21 +34,12 @@
 	}
 
 	$: classesActive = (href: string) =>
-		href === $page.url.pathname ? '!bg-primary-500 text-white' : '';
+		href === $page.url.pathname ? '!bg-primary text-white' : '';
 </script>
 
-<AppShell regionPage="relative" slotPageHeader="sticky top-0 z-10 h-full">
-	<!-- <svelte:fragment slot="header">Header</svelte:fragment> -->
-	<!-- <svelte:fragment slot="sidebarRight">Sidebar Right</svelte:fragment> -->
-	<!-- <svelte:fragment slot="pageHeader">
-		<AppBar class="text-3xl font-bold">Dashboard</AppBar>
-	</svelte:fragment> -->
-	<!-- Router Slot -->
+<div class="min-h-screen relative">
 	<slot />
-	<!-- ---- / ---- -->
-	<!-- <svelte:fragment slot="pageFooter">Page Footer</svelte:fragment> -->
-	<!-- <svelte:fragment slot="footer">Footer</svelte:fragment> -->
-</AppShell>
+</div>
 
 <style>
 	html {

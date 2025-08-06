@@ -1,10 +1,6 @@
 <script lang="ts">
-	import { InputChip, popup, type PopupSettings } from '@skeletonlabs/skeleton';
 	import ObjectID from 'bson-objectid';
 	import { onMount } from 'svelte';
-	// import Tags from 'svelte-tags-input';
-	import { Autocomplete } from '@skeletonlabs/skeleton';
-	import type { AutocompleteOption } from '@skeletonlabs/skeleton';
 
 	const table: string = 'posts_tags';
 	export let postId: string;
@@ -12,9 +8,9 @@
 	let data: any;
 	let oldTaglist: string[] = [];
 	let taglist: string[] = [];
-	let tagWhitelist: AutocompleteOption[] = [];
-	let inputChip = '';
-
+	let tagWhitelist: any[] = [];
+	let inputValue = '';
+	let filteredOptions: any[] = [];
 	let showAutocomplete = false;
 
 	onMount(async () => {
@@ -26,7 +22,7 @@
 		const tagsResponse = await fetch(`/api/admin/tags/public`);
 		const tagsData = await tagsResponse.json();
 		data = tagsData;
-		tagWhitelist = tagsData.map((tag: string) => {
+		tagWhitelist = tagsData.map((tag: any) => {
 			return { label: tag.name, value: tag.name, keywords: tag.slug, meta: { healthy: true } };
 		});
 	}
@@ -34,34 +30,27 @@
 	async function getPostsTags(post_id: string) {
 		const resPostsTags = await fetch(`/api/admin/${table}/${post_id}`);
 		const resPostsTagsData = await resPostsTags.json();
-		// console.log('resPostsTagsData', resPostsTagsData);
 
-		oldTaglist = resPostsTagsData.rows.map((tag: string) => {
+		oldTaglist = resPostsTagsData.rows.map((tag: any) => {
 			return tag.name;
 		});
-		taglist = resPostsTagsData.rows.map((tag: string) => {
+		taglist = resPostsTagsData.rows.map((tag: any) => {
 			return tag.name;
 		});
 	}
 
-	let timeoutId;
+	let timeoutId: any;
 	$: if (taglist) {
-		// console.log('taglist', taglist);
-		// console.log('oldTaglist', oldTaglist);
-		// console.log(taglist == oldTaglist);
-
 		clearTimeout(timeoutId);
 		timeoutId = setTimeout(async () => {
 			if (postId && JSON.stringify(taglist) != JSON.stringify(oldTaglist)) {
-				// const filteredItems = data.filter((item) => taglist.includes(item.name));
-
 				const filteredItems = data
-					.map((item, index) => ({ item, index })) // Add an index property to each item
-					.filter(({ item }) => taglist.includes(item.name)) // Filter by name
-					.sort((a, b) => taglist.indexOf(a.item.name) - taglist.indexOf(b.item.name)) // Sort by original order
-					.map(({ item }) => item); // Remove the index property from each item
+					.map((item: any, index: number) => ({ item, index }))
+					.filter(({ item }: any) => taglist.includes(item.name))
+					.sort((a: any, b: any) => taglist.indexOf(a.item.name) - taglist.indexOf(b.item.name))
+					.map(({ item }: any) => item);
 
-				const tagsJson = filteredItems.map((item, index) => {
+				const tagsJson = filteredItems.map((item: any, index: number) => {
 					return {
 						id: new ObjectID().toHexString(),
 						post_id: postId,
@@ -77,69 +66,88 @@
 					};
 					const response = await fetch(`/api/admin/${table}/${postId}`, requestOptions);
 					const responseData = await response.json();
-
-					// console.log('response', response);
 				}
 			}
 		}, 2500);
 	}
-	function onInputChipSelect(event: any): void {
-		console.log('onInputChipSelect', event.detail);
-		if (taglist.includes(event.detail.value) === false) {
-			taglist = [...taglist, event.detail.value];
-			inputChip = '';
-		}
-		showAutocomplete = false;
-	}
-</script>
 
-<!-- {JSON.stringify(taglist)} -->
-<!-- <Tags
-	bind:tags={taglist}
-	autoComplete={tagWhitelist}
-	onlyAutocomplete={true}
-	onlyUnique={true}
-	placeholder={'Type to add...'}
-	class="text-black dark:text-white"
-/> -->
-
-<InputChip
-	bind:input={inputChip}
-	bind:value={taglist}
-	name="chips"
-	class="text-sm"
-	on:input={(e) => {
-		if (e.target.value.length > 0) {
-			showAutocomplete = true;
+	function onInput() {
+		if (inputValue.length > 0) {
+			filteredOptions = tagWhitelist.filter(option => 
+				!taglist.includes(option.value) && 
+				option.label.toLowerCase().includes(inputValue.toLowerCase())
+			);
+			showAutocomplete = filteredOptions.length > 0;
 		} else {
 			showAutocomplete = false;
 		}
-	}}
-/>
+	}
 
-<!-- <div data-popup="popupAutocomplete">
-	<Autocomplete
-		class="text-sm"
-		bind:input={inputChip}
-		options={flavorOptions}
-		denylist={taglist}
-		on:selection={onInputChipSelect}
-	/>
-</div> -->
+	function addTag(tag: string) {
+		if (!taglist.includes(tag)) {
+			taglist = [...taglist, tag];
+		}
+		inputValue = '';
+		showAutocomplete = false;
+	}
 
-<div class="w-full max-w-sm max-h-48 px-2 mt-2 overflow-y-auto {showAutocomplete ? '' : 'hidden'}">
-	<Autocomplete
-		emptyState="No tags found."
-		class="text-sm border-none "
-		bind:input={inputChip}
-		options={tagWhitelist}
-		denylist={taglist}
-		on:selection={onInputChipSelect}
-	/>
+	function removeTag(index: number) {
+		taglist = taglist.filter((_, i) => i !== index);
+	}
+
+	function onKeydown(event: KeyboardEvent) {
+		if (event.key === 'Enter' && inputValue.trim()) {
+			event.preventDefault();
+			if (filteredOptions.length > 0) {
+				addTag(filteredOptions[0].value);
+			} else {
+				addTag(inputValue.trim());
+			}
+		}
+	}
+</script>
+
+<div class="w-full">
+	<!-- Tags Display -->
+	<div class="flex flex-wrap gap-2 mb-2">
+		{#each taglist as tag, index}
+			<div class="badge badge-primary gap-2">
+				{tag}
+				<button class="btn btn-ghost btn-xs" on:click={() => removeTag(index)}>✕</button>
+			</div>
+		{/each}
+	</div>
+
+	<!-- Input Field -->
+	<div class="relative">
+		<input
+			type="text"
+			bind:value={inputValue}
+			on:input={onInput}
+			on:keydown={onKeydown}
+			placeholder="Type to add tags..."
+			class="input input-bordered w-full text-sm"
+		/>
+
+		<!-- Autocomplete Dropdown -->
+		{#if showAutocomplete}
+			<div class="absolute z-10 w-full bg-base-100 border border-base-300 rounded-box shadow-lg max-h-48 overflow-y-auto mt-1">
+				{#if filteredOptions.length > 0}
+					{#each filteredOptions as option}
+						<button
+							class="block w-full text-left px-4 py-2 hover:bg-base-200 text-sm"
+							on:click={() => addTag(option.value)}
+						>
+							{option.label}
+						</button>
+					{/each}
+				{:else}
+					<div class="px-4 py-2 text-sm text-base-content/60">No tags found.</div>
+				{/if}
+			</div>
+		{/if}
+	</div>
 </div>
 
 <style lang="postcss">
-	input {
-		@apply text-sm;
-	}
 </style>
