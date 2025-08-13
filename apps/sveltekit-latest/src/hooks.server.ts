@@ -1,5 +1,5 @@
-import { sequence } from "@sveltejs/kit/hooks";
-import { i18n } from "$lib/i18n";
+import { sequence } from '@sveltejs/kit/hooks';
+import { i18n } from '$lib/i18n';
 import type { Handle } from '@sveltejs/kit';
 import * as auth from '$lib/server/auth.js';
 

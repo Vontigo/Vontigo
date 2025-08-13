@@ -4,6 +4,7 @@
     "build": "turbo run build",
     "dev": "turbo run dev",
     "web": "turbo run dev --filter=web",
+    "v2": "turbo run dev --filter=sveltekit-latest",
     "lint": "turbo run lint",
     "format": "prettier --write ."
   },
@@ -17,7 +18,7 @@
   "browser": {
     "crypto": false
   },
-  "packageManager": "pnpm@7.33.7+sha512.7afe2410642b39c698df46da4ce5c7231a5cce360698d69f8cf8f42257d40b3e43f231053b07b8de849fd4ffbf4a71ff57b835137777a352388f3d3da747200e",
+  "packageManager": "pnpm@10.14.0",
   "dependencies": {
     "better-sqlite3": "^12.2.0"
   }
